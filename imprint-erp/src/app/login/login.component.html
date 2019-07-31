@@ -1,25 +1,41 @@
-<div class="container">
-  <div class="account_wall">
-    <form  class="form-signin">
-      <h2>Login</h2>
-      <div class="form-group">
-
-        <label>Username</label>
-        <input type="text" formControlName="username" class="form-control"/>
-        <div class="invalid-feedback">
-          <div >Username is required</div>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Password</label>
-        <input type="password" formControlName="password" class="form-control"/>
-        <div class="invalid-feedback">
-          <div>Password is required</div>
-        </div>
-      </div>
-      <div class="form-group">
-        <button class="btn btn-submit">Login</button>
-      </div>
-    </form>
+<div class="container-flex">
+  <div class="login-overlay">
   </div>
+  <!-- <div class="account_wall"> -->
+
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="form-signin">
+    <div class="image-card">
+    </div>
+
+    <div class="alert alert-danger" role="alert" *ngIf="loginError">
+      {{loginError}}
+    </div>
+
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+      </div>
+      <div class="panel-body">
+        <div class="form-group">
+          <label for="username"></label>
+          <input type="text" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && form.username.errors }" placeholder="Username"/>
+          <div *ngIf="submitted && form.username.errors" class="invalid-feedback">
+            <div *ngIf="form.username.errors.required">Username is required</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password"></label>
+          <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && form.password.errors }" placeholder="Password"/>
+          <div *ngIf="submitted && form.password.errors" class="invalid-feedback">
+            <div *ngIf="form.password.errors.required">Password is required</div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="form-group">
+          <button [disabled]="loading" class="btn btn-primary">Login</button>
+        </div>
+      </div>
+    </div>
+  </form>
+  <!-- </div> -->
 </div>

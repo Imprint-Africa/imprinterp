@@ -1,0 +1,32 @@
+<app-sidebar></app-sidebar>
+<div class="container-intro">
+        <div class="row m-0">
+          <div class="col-sm-12">
+            <div class="page-header float-left">
+              <div class="page-title">
+                <h1 class="title-1">Sales Pipeline</h1>
+                <h4 class="title-1">Manage your sales pipeline here</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<div class="container-kanban" style="max-width:inherit;width:auto;height:100%;">
+  <div class="row">
+    <div class="col-11"></div>
+    <div class="col"><button (click)="saveBoard()" class="btn-save-kanban">Save</button></div>
+  </div>
+  <div class="row" style="height:inherit;">
+    <app-list *ngFor="let list of lists;let i = index" [list]="list" [listIndex]="i"
+              (moveCardAcrossList)="moveCardAcrossList($event)"
+              (deleteList)="deleteList($event)"
+              attr.listIndex="{{i}}"
+    ></app-list>
+    <div class="col custom-col"
+         style="margin:10px; padding:15px; padding-top:15px; padding-bottom:15px;">
+      <h6 class="text-center add-new-list" (click)="addList()">Add new item...</h6>
+    </div>
+  </div>
+</div>
+

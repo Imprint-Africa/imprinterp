@@ -20,11 +20,12 @@ export class SidebarComponent {
   private _autoCollapseHeight: number = null;
   private _autoCollapseWidth: number = null;
 
-  private _MODES: Array<string> = ['push','over', 'slide'];
+  private _MODES: Array<string> = ['push','over', 'slide']; //['push','over', 'slide']
   private _POSITIONS: Array<string> = ['left', 'right', 'top', 'bottom'];
 
   private _toggleOpened(): void {
     this._opened = !this._opened;
+
   }
 
   private _toggleMode(): void {

@@ -10,8 +10,20 @@ import { ProjectTasksComponent } from './projects/project-tasks/project-tasks.co
 import { SidebarComponent } from './sidebar/sidebar.component';
 import {SidebarModule} from "ng-sidebar";
 import { DevTeamComponent } from './teams/dev-team/dev-team.component';
-import { SocialmediaTeamComponent } from './teams/socialmedia-team/socialmedia-team.component';
 import { BusinessdevelopmentTeamComponent } from './teams/businessdevelopment-team/businessdevelopment-team.component';
+import {ReactiveFormsModule} from "@angular/forms";
+import { FormsModule } from '@angular/forms';
+import {HttpClient, HttpClientModule, HttpHeaders} from "@angular/common/http";
+import { MessagesComponent } from './messages/messages.component';
+import { CommunicationsAndPrTeamComponent } from './teams/communications-and-pr-team/communications-and-pr-team.component';
+import { BoardComponent } from './sales/kanban/board/board.component';
+import { ListComponent } from './sales/kanban/list/list.component';
+import { DetailsComponent } from './sales/kanban/card/details/details.component';
+import { SummaryComponent } from './sales/kanban/card/summary/summary.component';
+import {ContentEditDirective} from "./shared/directives/content-edit.directive";
+import { ContextMenuComponent } from './sales/kanban/context-menu/context-menu.component';
+import { UxTeamTasksComponent } from './teams/dev-team/ux-team-tasks/ux-team-tasks.component';
+
 
 @NgModule({
   declarations: [
@@ -22,13 +34,24 @@ import { BusinessdevelopmentTeamComponent } from './teams/businessdevelopment-te
     ProjectTasksComponent,
     SidebarComponent,
     DevTeamComponent,
-    SocialmediaTeamComponent,
-    BusinessdevelopmentTeamComponent
+    BusinessdevelopmentTeamComponent,
+    MessagesComponent,
+    CommunicationsAndPrTeamComponent,
+    ContentEditDirective,
+    BoardComponent,
+    ListComponent,
+    DetailsComponent,
+    SummaryComponent,
+    ContextMenuComponent,
+    UxTeamTasksComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    SidebarModule
+    SidebarModule,
+    ReactiveFormsModule,
+    FormsModule,
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
