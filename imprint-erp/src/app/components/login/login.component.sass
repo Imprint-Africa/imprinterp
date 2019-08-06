@@ -1,0 +1,121 @@
+// Global Color Themes
+$colors: ( nevyBlueTheme: #030451, orangeTheme: #F28500, gray: #6c757d, gray-dark: #343a40, secondary: #6c757d, success: #28a745, info: #17a2b8, warning: #ffc107, danger: #dc3545, dark: #35424a, silk:#7D7D7D )
+
+// Color function
+@function color($color-name) 
+    @return map-get($colors , $color-name)
+
+
+// Page Sizes
+$desktop: 768px
+$opacity: .9
+
+// Responsiveness
+@mixin desktop
+    @media (min-width: #{$desktop}) 
+        @content
+    
+
+// ------------------------------------------------
+
+
+
+// Header
+header
+    background-color: color(nevyBlueTheme)
+    box-shadow: 0 5px 5px rgba(0, 0, 0, .3)
+    
+        // Title
+    #header_title
+
+        text-align: center
+        border-bottom: solid 3px color(orangeTheme)
+        height: 50px
+        padding: 10px 0 0 0
+            
+        h4
+            margin: 0
+            font-family: Georgia
+            font-size: 18px
+            font-weight: bold
+            text-transform: uppercase
+            color: color(silk)
+            text-shadow: 5px 5px 3px rgba(0, 0, 0, .3)
+    
+            span 
+                font-size: 18px
+                color: color(orangeTheme)
+                margin: 0 .4em 0 .4em
+                text-shadow: 5px 5px 3px rgba(0, 0, 0, .3)
+
+
+.section
+
+    border-top: solid 2px color(orangeTheme)
+    border-radius: 10px
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .3)
+    max-width: 420px
+    // max-height: 620px
+    padding: 35px 30px
+    position: absolute
+    margin: auto
+    height: fit-content
+    top: 60px
+    left: 0%
+    right: 0%
+
+
+.image-card img
+    border: 1px solid #ffffff
+    width: 200px
+    position: relative
+    top: 0%
+    left: 20%
+    margin-bottom: 20px
+    border-radius: 10px
+    box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1)
+
+.title
+    h4
+        color: color(info)
+        font-weight: bold
+
+
+.form
+
+    .input-group-text
+        width: 2em
+        color: color(info)
+
+    input
+        color: color(info)
+        
+        &::placeholder
+            color: color(secondary)
+
+    
+.form-control
+        background: #f2f2f5
+
+.btn-button-theme
+    font-family: Montserrat
+    color: color(nevyBlueTheme)
+    margin-top: 30px
+    border: none
+    padding: 10px
+    background-color: transparent
+    font-weight: bold
+    border: solid 2px color(info)
+    border-radius: 5px
+    width: 100%
+    text-align: center
+    text-transform: uppercase
+
+    &:hover
+        background-color: color(info)
+        color: color(orangeTheme)
+
+
+
+    // ------------------------------
+

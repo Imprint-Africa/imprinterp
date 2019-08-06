@@ -1,0 +1,105 @@
+
+<header class="sticky-top">
+
+  <div id="header_title">
+    <h4><span class="highlight">Imprint</span>Africa</h4> 
+  </div>
+
+  <nav id="navbar" class="navbar navbar-expand-md navbar-light">
+
+      <a class="navbar-brand">
+        <span id="sideBarToggler" class="navbar-toggler-icon"></span>
+        <img src="../../../assets/images/logo.png">
+      </a>
+
+      <button class="navbar-toggler btn-outline-info" type="button" data-toggle="collapse" data-target="#navbarResponsive">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+
+      <div class="collapse navbar-collapse" id="navbarResponsive">
+
+          <ul class="navbar-nav nav-pills ml-auto">
+
+              <li class="nav-item"><a href="#" data-target="#" class="nav-link">News</a></li>
+              <li class="nav-item"><a href="#" data-target="#" class="nav-link">Chats</a></li>
+              <li id="programme_dropdown" class="nav-item dropdown">
+                  <a href="/program/" class="nav-link dropdown-toggle" data-toggle="dropdown">Programmes</a>
+
+                  <div id="programme_dropdown_menu" class="dropdown-menu ">
+                    <a href="/program/#" data-target="#" class="dropdown-item">Program 1</a>
+                    <a href="/program/#" data-target="#" class="dropdown-item">Program 2</a>
+                    <a href="/program/#" data-target="#" class="dropdown-item">Program 3</a>
+                  
+                  </div>
+              </li>
+
+              <li id="user_dropdown" class="nav-item dropdown">
+
+                  <a href="#" class="nav-link " data-toggle="dropdown">
+                      <fa name="user"></fa>
+                  </a>
+
+                  <div class="dropdown-menu">
+                        <h4 id="loggedUser" class="dropdown-item">{{loggedUserName}}</h4>
+                        <hr>
+                        <a id="editProfile" class="dropdown-item">Edit Profile</a>
+                        <hr>
+                        <a id="logout" class="dropdown-item" (click)="logout()" >LogOut</a>
+                  </div>
+
+              </li>
+
+          </ul>
+
+        </div>
+
+
+
+  </nav>
+
+</header>
+
+
+
+
+
+<!-- Sidebar -->
+<nav id="sidebar" class="">
+
+    <div class="sidebar-header">
+        <h4>Navigation Bar</h4>
+    </div>
+
+    <hr>
+
+    <ul class="navbar-nav nav-pills">
+
+        <li class="nav-item"><a href="/projects" data-target="#" class="nav-link">Projects</a></li>
+        <li class="nav-item"><a href="/sales" data-target="#" class="nav-link">Sales</a></li>
+        <li class="nav-item"><a href="#" data-target="#" class="nav-link">Monitoring</a></li>
+        <li class="nav-item"><a href="#" data-target="#" class="nav-link">Scorecard</a></li>
+        <li class="nav-item"><a href="#" data-target="#" class="nav-link">Calender</a></li>
+        <li class="nav-item"><a href="/register" data-target="#" class="nav-link">Register</a></li>
+    
+    
+    </ul>
+
+</nav>
+
+
+
+<!--  Main Section -->
+
+<main id="main" class="">
+
+    <router-outlet></router-outlet>
+
+</main>
+
+
+
+
+
+
+

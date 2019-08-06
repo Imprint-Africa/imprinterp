@@ -1,0 +1,60 @@
+// Global Color Themes
+$colors: ( nevyBlueTheme: #030451, orangeTheme: #F28500, gray: #6c757d, gray-dark: #343a40, secondary: #6c757d, success: #28a745, info: #17a2b8, warning: #ffc107, danger: #dc3545, dark: #35424a, silk:#7D7D7D )
+
+// Color function
+@function color($color-name) 
+    @return map-get($colors , $color-name)
+
+
+// Page Sizes
+$desktop: 768px
+$opacity: .9
+
+// Responsiveness
+@mixin desktop
+    @media (min-width: #{$desktop}) 
+        @content
+    
+// Title Section
+#title_section
+    border-top: solid 2px gray
+    background-color: transparent
+    text-align: center
+    border-radius: 5px
+    // box-shadow: 0 5px 5px rgba(0, 0, 0, .3)
+
+// Search Section
+#search_section
+    display: flex
+    flex-direction: row
+    background-color: transparent
+    text-align: center
+    border-radius: 5px
+    padding: 
+
+// Search line
+#search_line
+    background-color: gray
+
+// Card Group
+
+#card_section
+
+    .card
+        border: none
+        background-color: white
+        border-radius: 10px
+        max-width: 20em
+        min-width: 20em
+        margin: 0 1em 1em 0 
+        cursor: pointer
+        .card-body
+
+            .card-img
+                box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1)
+                width: fit-content
+                img
+                    width: 5rem
+
+        &:hover
+            box-shadow: 0 5px 5px rgba(0, 0, 0, .3)

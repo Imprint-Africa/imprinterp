@@ -1,177 +1,36 @@
-/* You can add global styles to this file, and also import other style files */
-@import "~bootstrap/dist/css/bootstrap.css"
-body
-  width: max-content
-
-h1
+#mainBody
+  // width: max-content
+  background-color: whitesmoke
   font-family: Montserrat
-  font-style: normal
-  font-weight: bold
-  font-size: 20px
-  line-height: 35px
-  display: flex
-  align-items: center
-  color: #1D1E56
+// ===========================================
 
-h2
-  font-family: Montserrat
-  font-style: normal
-  font-size: 15px
-  line-height: 32px
-  display: flex
-  align-items: center
-  color: #1D1E56
+/* TOASTR BUG FIX */
 
-h3
-  font-family: Montserrat
-  font-style: normal
-  font-size: 15px
-  line-height: 25px
-  display: flex
-  align-items: center
-  color: #7D7D7D
+.toast-custom-one
+    top: 25%
+    left: 50%
+    transform: translate(-50%, -50%)
 
-h4
-  font-family: Montserrat
-  font-style: normal
-  font-weight: normal
-  font-size: 15px
-  line-height: 25px
-  display: flex
-  align-items: center
-  color: #7D7D7D
+#toast-container > div 
+    opacity: 1
 
-.au-card
-  -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1)
-  -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1)
-  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1)
-  padding-right: 20px
-  margin-top: 10px
-  height: fit-content
-  -webkit-border-radius: 10px
-  -moz-border-radius: 10px
-  border-radius: 10px
-  background: #fff
-  overflow: hidden
-  font-family: Montserrat
-  font-size: 9px
+.toast 
+    font-size: initial !important
+    border: initial !important
+    backdrop-filter: blur(0) !important
 
-.au-card:hover
-  box-shadow: rgba(0, 0, 0, 0.22) 0px 19px 43px
-  transform: translate3d(0px, -1px, 0px)
+.toast-success 
+    background-color: #51A351 !important
 
 
-.au-card--border
-  -webkit-border-radius: 3px
-  -moz-border-radius: 3px
-  border-radius: 3px
+.toast-error 
+    background-color: #BD362F !important
+
+.toast-info 
+    background-color: #2F96B4 !important
+
+.toast-warning 
+    background-color: #F89406 !important
 
 
-.au-card--border .au-card-title
-  -webkit-border-top-left-radius: 3px
-  -moz-border-radius-topleft: 3px
-  border-top-left-radius: 3px
-  -webkit-border-top-right-radius: 3px
-  -moz-border-radius-topright: 3px
-  border-top-right-radius: 3px
 
-
-.au-card--border .au-card-title .bg-overlay
-  -webkit-border-top-left-radius: 3px
-  -moz-border-radius-topleft: 3px
-  border-top-left-radius: 3px
-  -webkit-border-top-right-radius: 3px
-  -moz-border-radius-topright: 3px
-  border-top-right-radius: 3px
-
-
-.au-card-bordered
-  border: 1px solid #e5e5e5
-  background: #fff
-  padding: 40px
-  padding-top: 42px
-  padding-right: 10px
-  margin-bottom: 40px
-
-.au-card-inner
-  padding: 10px
-  padding-right: 5px
-  padding-bottom: 15px
-
-.au-card-inner .progress
-  width: auto
-  height: 7px
-
-.main-content
-  position: absolute
-  padding-left: 0px
-  padding-top: 60px
-  min-height: 100vh
-  margin-top: 30px
-  width: 100%
-
-@media (max-width: 991px)
-  main-content
-    padding-top: 20px
-
-.form-header
-  font-family: Montserrat
-  font-size: 10px
-
-.form-header input
-  width: 400px
-  height: 30px
-  padding: 10px
-  border-radius: 5px
-  border-top-color: #e5e5e5
-  font-size: 12px
-
-.search-trigger
-  border: none
-  background: none
-
-.page-add
-  display: inline-flex
-.page-add .btn
-  margin-left: 260px
-  width: 140px
-  height: 30px
-  background: #E55D26
-  border-color: #E55D26
-  font-family: Montserrat
-  font-size: 13px
-  color: #ffffff
-  line-height: 17px
-  display: flex
-  align-items: center
-  justify-content: center
-
-.page-container
-  background: #7D7D7D
-
-.nav-tabs li a
-  font-family: Montserrat
-  font-size: 12px
-  margin: 0px 30px 0px 0px
-  font-weight: bold
-  color: #1D1E56
-
-
-.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover
-  border-top: none
-  border-left: none
-  border-right: none
-  border-bottom: 3px solid #E55D26
-
-
-.nav-tabs>li>a:hover
-  border: 1px solid transparent
-
-.nav>li>a:focus, .nav>li>a:hover
-  background-color: transparent
-
-a
-  text-decoration: none
-
-.header-logo
-  width: 50px

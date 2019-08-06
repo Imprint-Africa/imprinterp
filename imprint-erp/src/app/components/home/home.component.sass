@@ -1,0 +1,257 @@
+// Global Color Themes
+$colors: ( nevyBlueTheme: #030451, orangeTheme: #F28500, gray: #6c757d, gray-dark: #343a40, secondary: #6c757d, success: #28a745, info: #17a2b8, warning: #ffc107, danger: #dc3545, dark: #35424a, silk:#7D7D7D )
+
+// Color function
+@function color($color-name) 
+    @return map-get($colors , $color-name)
+
+
+// Page Sizes
+$desktop: 768px
+$opacity: .9
+
+// Responsiveness
+@mixin desktop
+    @media (min-width: #{$desktop}) 
+        @content
+    
+
+// Header
+header
+    background-color: color(nevyBlueTheme)
+    box-shadow: 0 5px 5px rgba(0, 0, 0, .3)
+        // Title
+    #header_title
+
+        text-align: center
+        border-bottom: solid 3px color(orangeTheme)
+        height: 2em
+        padding: 0 0 0 0
+            
+        h4
+            margin: 0
+            font-family: Georgia
+            font-size: 18px
+            font-weight: bold
+            text-transform: uppercase
+            color: color(silk)
+            text-shadow: 5px 5px 3px rgba(0, 0, 0, .3)
+    
+            span 
+                font-size: 18px
+                color: color(orangeTheme)
+                margin: 0 .4em 0 .4em
+                text-shadow: 5px 5px 3px rgba(0, 0, 0, .3)
+
+
+        // Navbar
+    #navbar
+        background-color: whitesmoke
+        padding: 0 4em 0 4em
+            
+        .navbar-brand
+            padding: 0
+            cursor: default
+
+            .navbar-toggler-icon
+                cursor: pointer
+            
+            img
+                width: 5rem
+                
+        .nav-pills
+            padding: 0
+
+            li
+                font-size: 13px
+                a
+                    color: black
+
+                    &.active
+                        background-color: color(info) !important
+                        color: #000000 !important
+
+                    &:hover
+                        color: color(orangeTheme) !important
+                        font-weight: bold !important
+                        text-decoration: underline !important
+
+            //    Programme dropdown
+            #programme_dropdown
+                    
+                a
+                    &:hover
+                        text-decoration: none !important
+                        font-weight: bold
+                        color: color(orangeTheme)!important
+                        text-decoration: underline !important
+            
+                    &.active
+                        background-color: color(orangeTheme) !important
+                        color: white !important
+
+                .dropdown-menu:hover, a:hover + .dropdown-menu
+                    display: block
+                                                    
+                .dropdown-menu
+                    background-color: color(info)
+                    display: none
+
+                    @include desktop
+                        background-color: color(info)
+                        top: 5.5em
+                        transform: translate(-50%, -50%)
+                        display: none
+        
+                
+
+                // User Dropdown
+            #user_dropdown
+
+                a
+                    color: black
+                    text-transform: lowercase
+                    text-transform: capitalize
+                    text-align: center
+                    font-weight: bolder
+                    font-size: 14px
+                    text-shadow: 5px 5px 3px rgba(0, 0, 0, .1)
+
+                    &:hover
+                        cursor: pointer
+                        color: color(orangeTheme)!important
+                
+                .dropdown-menu:hover, a:hover + .dropdown-menu
+                    display: block
+                                                        
+                .dropdown-menu
+                    background-color: color(info)
+                    display: none
+
+                    @include desktop
+                        background-color: color(info)
+                        top: 5.5em
+                        transform: translate(-50%, -50%)
+                        display: none
+                
+                    #loggedUser
+                        cursor: default
+                        color: color(orangeTheme)
+                        text-align: center
+                        font-size: 16px
+                        font-weight: bolder
+                        text-transform: capitalize
+                        text-shadow: 5px 5px 3px rgba(0, 0, 0, .3)
+                    
+                        &:hover
+                            background-color: color(info) !important
+
+                    a
+                        color: black
+                        text-transform: lowercase
+                        text-transform: capitalize
+                        text-align: center
+                        font-weight: bolder
+                        font-size: 14px
+                        text-shadow: 5px 5px 3px rgba(0, 0, 0, .1)
+
+                        &:hover
+                            cursor: pointer
+                            background-color: color(orangeTheme) !important
+                            color: white!important
+                        
+                    hr
+                        margin: 0
+                    
+                        
+
+// Side Bar Active
+#sidebar.active
+    margin-left: -200px
+    transform: rotateY(100deg)
+// Side Bar
+#sidebar
+    width: 200px
+    position: fixed
+    top: 73px
+    left: 0
+    height: 100%
+    z-index: 0
+    background: color(nevyBlueTheme)
+    color: #fff
+    transition: all 0.6s
+
+    .sidebar-header
+        padding: .5em .5em 0 2em
+        
+        h4
+            font-family: Montserrat
+            font-style: normal
+            font-size: 20px
+            line-height: 25px
+            display: flex
+            align-items: center
+            color: color(silk)
+
+    hr
+        margin: 0
+        background-color: color(silk)
+
+    .nav-pills
+        margin: 0 1em 0 1em !important
+        padding: 0
+
+        li
+            font-size: 13px
+            a
+                color: white
+
+                &.active
+                    background-color: color(info) !important
+                    color: #000000 !important
+
+                &:hover
+                    color: white !important
+                    font-weight: bold !important
+                    text-decoration: underline !important
+
+        //    Projects dropdown
+        #projects_dropdown
+                
+            a
+                &:hover
+                    text-decoration: none !important
+                    font-weight: bold
+                    color: color(nevyBlueTheme)!important
+                    background-color: color(info) !important
+        
+                &.active
+                    background-color: color(orangeTheme) !important
+                    color: white !important
+
+            .dropdown-menu:hover, a:hover + .dropdown-menu
+                display: block
+                                                
+            .dropdown-menu
+                background-color: color(info)
+                display: none
+
+
+
+// Main
+main
+    max-width: 100%
+    margin: 0px 0px 0px 200px
+    padding: .2em .5em .2em .5em
+    transition: all 0.6s
+    overflow: hidden
+
+// main Toggle Class    
+main.expand
+    margin: 0
+    padding: .2em .5em .2em .5em
+
+
+
+
+
