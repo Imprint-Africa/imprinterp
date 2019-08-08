@@ -5,23 +5,62 @@ $colors: ( nevyBlueTheme: #030451, orangeTheme: #F28500, gray: #6c757d, gray-dar
 @function color($color-name) 
     @return map-get($colors , $color-name)
 
-
 // Page Sizes
-$desktop: 768px
-$opacity: .9
 
-// Responsiveness
+// Breakpoints: xs: 0,  sm: 576px; md: 768px; lg: 992px; xl: 1200px; 
+
+// Extra small    
+$desktop_xm: 576px
+
+@mixin desktop_xm
+    @media (min-width: #{$desktop_xm}) 
+        @content
+    
+// Small
+$desktop_sm: 576px
+
+@mixin desktop_sm
+    @media (min-width: #{$desktop_sm}) 
+        @content
+    
+// Medium
+$desktop: 768px
+
 @mixin desktop
     @media (min-width: #{$desktop}) 
         @content
     
+// Large
+$desktop_lg: 576px
+
+@mixin desktop_lg
+    @media (min-width: #{$desktop_lg}) 
+        @content
+    
+// Extra large
+$desktop_xl: 576px
+
+@mixin desktop_xl
+    @media (min-width: #{$desktop_xl}) 
+        @content
+    
 // Title Section
 #title_section
-    border-top: solid 2px gray
     background-color: transparent
-    text-align: center
+    text-align: left
     border-radius: 5px
-    // box-shadow: 0 5px 5px rgba(0, 0, 0, .3)
+    font-family: Montserrat
+
+    h4
+        color: color(nevyBlueTheme)
+        font-size: 14px
+        font-weight: bold
+        text-transform: uppercase
+    
+    p
+        color: color(silk)
+        font-family: Montserrat
+        font-size: 10px
 
 // Search Section
 #search_section
@@ -31,10 +70,21 @@ $opacity: .9
     text-align: center
     border-radius: 5px
     padding: 
+    font-family: Montserrat
+
+    input
+        font-size: 10px
+        color: color(info)
+        font-family: Montserrat
+    
+    button
+        font-size: 10px
+        font-family: Montserrat
 
 // Search line
 #search_line
     background-color: gray
+    font-family: Montserrat
 
 // Card Group
 
@@ -43,18 +93,32 @@ $opacity: .9
     .card
         border: none
         background-color: white
+        font-family: Montserrat
         border-radius: 10px
         max-width: 20em
         min-width: 20em
         margin: 0 1em 1em 0 
         cursor: pointer
         .card-body
+            font-family: Montserrat
+            font-size: 12px
 
             .card-img
                 box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1)
                 width: fit-content
+                font-family: Montserrat
                 img
                     width: 5rem
+            .card-text
+                font-size: 12px
+            .progress
+                font-size: 12px
+                height: 2px
+
+                .progress-bar            
+                    font-size: 12px
+                    
+                
 
         &:hover
             box-shadow: 0 5px 5px rgba(0, 0, 0, .3)

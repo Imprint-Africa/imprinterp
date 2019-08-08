@@ -1,6 +1,6 @@
 // Global Color Themes
 
-/* Breakpoints: xs: 0,  sm: 576px; md: 768px; lg: 992px; xl: 1200px; */
+
 $colors: ( nevyBlueTheme: #030451, orangeTheme: #F28500, gray: #6c757d, gray-dark: #343a40, secondary: #6c757d, success: #28a745, info: #17a2b8, warning: #ffc107, danger: #dc3545, dark: #35424a, silk:#7D7D7D )
 
 // Color function
@@ -9,13 +9,44 @@ $colors: ( nevyBlueTheme: #030451, orangeTheme: #F28500, gray: #6c757d, gray-dar
 
 
 // Page Sizes
-$desktop: 768px
-$opacity: .9
+    
+// Breakpoints: xs: 0,  sm: 576px; md: 768px; lg: 992px; xl: 1200px; 
 
-// Responsiveness
+// Extra small    
+$desktop_xm: 576px
+
+@mixin desktop_xm
+    @media (min-width: #{$desktop_xm}) 
+        @content
+    
+// Small
+$desktop_sm: 576px
+
+@mixin desktop_sm
+    @media (min-width: #{$desktop_sm}) 
+        @content
+    
+// Medium
+$desktop: 768px
+
 @mixin desktop
     @media (min-width: #{$desktop}) 
         @content
+    
+// Large
+$desktop_lg: 576px
+
+@mixin desktop_lg
+    @media (min-width: #{$desktop_lg}) 
+        @content
+    
+// Extra large
+$desktop_xl: 576px
+
+@mixin desktop_xl
+    @media (min-width: #{$desktop_xl}) 
+        @content
+    
     
 
 

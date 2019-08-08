@@ -1,8 +1,11 @@
 <!-- Title -->
 <section id="title_section">
   <h4>Sales</h4>
+  <p>Creates and lists Incoming Projects </p>
 </section>
 
+<!-- ------ -->
+<hr id="header_line">
 
 <!-- List Section -->
 <section id="list_section" class="card-group">
@@ -11,17 +14,19 @@
   <!-- Clients Target -->
   <div id="target_clients" class="card">
     
+    <!-- Head Title -->
     <div id="head" class="clearfix pl-2 pr-4">
         <h4 class="float-left">Target Clients</h4>
-        <fa name="plus" class="float-right"></fa>
+        <fa id="addClientTargetToggler"name="plus" class="float-right" (click)="toggleTargetClient()"></fa>
    </div>
   
    <hr>
 
+   <!-- Input Form -->
 
+   <form id="myAddClientForm" #myAddClientForm='ngForm' [formGroup]="targetClientForm" class="form" [ngClass]="targetClientFormStatus ? 'hide' : ''">
 
-   <form #myClientForm='ngForm' [formGroup]="targetClientForm" class="form">
-
+      <!-- Client Name -->
       <div class="form-group">
           <div class="input-group input-group-sm mb-3">
 
@@ -30,13 +35,13 @@
               </div>
 
               <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-              formControlName="clientName" >
+              formControlName="clientName" [class.is-invalid]="formClientTarget.clientName.invalid && formClientTarget.clientName.touched" required>
 
         </div>
 
       </div>
 
-
+      <!-- Projects Type -->
       <div class="form-group">
           <div class="input-group input-group-sm mb-3">
 
@@ -44,38 +49,56 @@
                 <span class="input-group-text" id="inputGroup-sizing-sm">Project Type</span>
               </div>
 
-              <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-              formControlName="projectType">
+
+              <select type="" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+              formControlName="projectType" class="form-control" [class.is-invalid]="formClientTarget.projectType.invalid && formClientTarget.projectType.touched" required>
+
+                <option value='branding'>Branding</option>
+                <option value='business development'>Busines Dev</option>
+                <option value='digital training'>Digital Training</option>
+                <option value='ERP'>ERP</option>
+                <option value='SEO task'>SEO Task</option>
+                <option value="social media">Social Media</option>
+                <option value="website">Website</option>
+                  
+              </select> 
 
         </div>
       </div>
 
+      <!-- Buttons -->
       <div class="clearfix pl-2 pr-4">
-          <button class="btn btn-sm btn-success float-left">Save</button>
-          <button class="btn btn-sm btn-secondary float-right">Cancel</button>
+          <button [disabled]="!myAddClientForm.valid" class="btn btn-sm btn-success float-left" (click)="submitNewTargetClient()">Save</button>
+          <button class="btn btn-sm btn-secondary float-right" (click)="clearNewTargetForm()">Cancel</button>
      </div>
 
 
    </form>
 
 
+   <!-- List Of Added Clients Targets -->
 
+   <div id="targetClientCardGroup">
 
-   <div class="card">
-        <div class="card-body">
-          <h4>Projects One</h4>
+    <!-- Cards -->
+
+        <div id="targetClientCard" (click)="toSalesEdit()" *ngFor="let targetClient of targetClients">
+
+              <h4 id="projectT">{{ targetClient.projectType}}</h4>
+              <h4 id="clientN">{{ targetClient.clientName}}</h4>
+
+              <div id="rateWarp" class="clearfix">
+                  <fa id="rate1" name="star" class="rateColor"></fa>
+                  <fa id="rate2" name="star" class=""></fa>
+                  <fa id="rate3" name="star" class=""></fa>
+                  <!-- <fa id="edit" name="pencil" class="float-right text-warning" ></fa> -->
+              </div>
+
         </div>
-   </div>
 
-   <div class="card">
-      <div class="card-body">
-        <h4>Projects Two</h4>
-      </div>
- </div>
+    </div>
 
-
-
-  </div>
+</div>
 
 
 
@@ -126,3 +149,4 @@
 
 
 </section>
+

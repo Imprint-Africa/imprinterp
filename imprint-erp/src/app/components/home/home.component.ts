@@ -8,18 +8,43 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
+  // constructor
   constructor(
     private router : Router
   ) { }
 
   public loggedUserName: string;
+  public sideBarStatus: boolean;
 
+  // Initialise
   ngOnInit() {
-
+    this.sideBarStatus = false;
     this.loggedUserName = window.localStorage.getItem("loggedUserName");
 
   }
 
+  // Toggle Sidebar
+  toggleSideBar() {
+    this.sideBarStatus = !this.sideBarStatus;
+ }
+
+ //Navigate
+ navToProjects(){
+  this.router.navigate(['/projects']);
+ }
+ navToSales(){
+  this.router.navigate(['/sales']);
+ }
+ navToRegister(){
+  this.router.navigate(['/register']);
+ }
+
+ navToProjTaskTeam(){
+  this.router.navigate(['/proj_task_team']);
+ }
+
+
+// Log out
   logout(){
     window.localStorage.removeItem("loggedUserToken");
     window.localStorage.removeItem("loggedUserName");

@@ -1,0 +1,252 @@
+<!-- Title -->
+<section id="title_section">
+  <h4>Edit</h4>
+  <p>Set up the project's steps before commencement</p>
+</section>
+
+<!-- ------ -->
+<hr id="header_line">
+
+<!-- Edit Form -->
+<form id="mySalesEditForm" #mySalesEditForm='ngForm' [formGroup]="salesEditForm" class="form">
+
+  <!-- ------ ------- -->
+  <section id="projectClientSection" class="d-flex">
+    <!-- Project Type -->
+    <div class="form-group col-6 p-0">
+
+      <div class="input-group input-group-sm">
+
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm"><fa name="dashboard"></fa></span>
+              </div>
+
+              <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+              formControlName="projectType"  [class.is-invalid]="form.projectType.invalid && form.projectType.touched" readonly>
+
+      </div>
+
+    </div>
+
+
+
+     <!-- Client Name -->
+     <div class="form-group col-6 p-0">
+
+      <div class="input-group input-group-sm">
+
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-sm"><fa name="building"></fa></span>
+              </div>
+
+              <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+              formControlName="clientName"  [class.is-invalid]="form.clientName.invalid && form.clientName.touched" value="Airtel" readonly>
+
+      </div>
+
+    </div>   
+
+
+  </section>
+  <!-- ---------------- -->
+
+  <!-- Task Section -->
+
+  <section id="task_section" class="">
+
+    <!-- Task Title -->
+      <div id="task_titles" class="d-flex">
+        <div class="col-4 div_wrap">
+            <h4 class=""><fa name="tasks"></fa>Tasks</h4>
+        </div>
+        
+        <div  class="col-4 div_wrap">
+            <h4 class=""><fa name="users"></fa>Teams</h4>
+        </div>
+        
+        <div class="col-4 div_wrap">
+            <h4 class=""><fa name="credit-card"></fa>Cash</h4>
+        </div>
+        
+      </div>
+
+      <!-- Listing of the Tasks -->
+      <ul class="list-group">
+
+
+        <!-- List of Task -->
+        <li class="list-group-item d-flex p-0">
+          
+          <div class="d-flex col-4 div_wrap">
+              <input type="checkbox" name="task1" id="" class="">
+              <h4 class="">Task 1</h4>
+          </div>
+
+          <div class="d-flex col-4 div_wrap">
+              <h4>Communication & PR</h4>
+          </div>
+
+          <div class="d-flex col-4 div_wrap">
+              <span class="badge badge-success">100</span>
+          </div>     
+        
+        </li>
+
+
+
+
+
+
+
+
+        <!-- List of Task -->
+        <li class="list-group-item d-flex p-0">
+          
+            <div class="d-flex col-4 div_wrap">
+                <input type="checkbox" name="task1" id="" class="">
+                <h4 class="">Task 1</h4>
+            </div>
+  
+            <div class="d-flex col-4 div_wrap">
+                <h4>Communication & PR</h4>
+            </div>
+  
+            <div class="d-flex col-4 div_wrap">
+                <span class="badge badge-success">100</span>
+            </div>     
+          
+          </li>
+
+
+
+
+
+
+        <!-- List of Task -->
+        <li class="list-group-item d-flex p-0">
+          
+            <div class="d-flex col-4 div_wrap">
+                <input type="checkbox" name="task1" id="" class="">
+                <h4 class="">Task 1</h4>
+            </div>
+  
+            <div class="d-flex col-4 div_wrap">
+                <h4>Communication & PR</h4>
+            </div>
+  
+            <div class="d-flex col-4 div_wrap">
+                <span class="badge badge-success">100</span>
+            </div>     
+          
+          </li>
+
+
+        <!-- List of Task -->
+        <li class="list-group-item d-flex p-0">
+          
+            <div class="d-flex col-4 div_wrap">
+                <input type="checkbox" name="task1" id="" class="">
+                <h4 class="">Task 1</h4>
+            </div>
+  
+            <div class="d-flex col-4 div_wrap">
+                <h4>Communication & PR</h4>
+            </div>
+  
+            <div class="d-flex col-4 div_wrap">
+                <span class="badge badge-success">100</span>
+            </div>     
+          
+          </li>
+
+
+        <!-- List of Task -->
+        <li class="list-group-item d-flex p-0">
+          
+            <div class="d-flex col-4 div_wrap">
+                <input type="checkbox" name="task1" id="" class="">
+                <h4 class="">Task 1</h4>
+            </div>
+  
+            <div class="d-flex col-4 div_wrap">
+                <h4>Communication & PR</h4>
+            </div>
+  
+            <div class="d-flex col-4 div_wrap">
+                <span class="badge badge-success">100</span>
+            </div>     
+          
+          </li>
+
+
+        <!-- List of Task -->
+        <li class="list-group-item d-flex p-0">
+          
+            <div class="d-flex col-4 div_wrap">
+                <input type="checkbox" name="task1" id="" class="">
+                <h4 class="">Task 1</h4>
+            </div>
+  
+            <div class="d-flex col-4 div_wrap">
+                <h4>Communication & PR</h4>
+            </div>
+  
+            <div class="d-flex col-4 div_wrap">
+                <span class="badge badge-success">100</span>
+            </div>     
+          
+          </li>
+      
+
+      </ul>
+
+    </section>
+
+
+<!-- Total Section -->
+    <section id="total_section">
+
+        <!-- Total gruop-->
+        <div id="total_group" class="d-flex">
+            <div class="col-4 div_wrap">
+                <span class="badge badge-secondary">7</span>
+            </div>
+            
+            <div class="col-4 div_wrap">
+                <span class="badge badge-secondary">3</span>
+            </div>
+            
+            <div class="col-4 div_wrap">
+                <span class="badge badge-secondary">115 000 000</span>
+            </div>
+            
+          </div>
+
+  </section>
+
+
+
+    <!-- Button Section -->
+
+    <section id="button_section">
+
+          <!-- Button group -->
+          <div id="button_group" class="d-flex">
+              <div class="col-4 div_wrap">
+                  <button class="btn btn-sm btn-success">Save Changes</button>
+              </div>
+              
+              <div class="col-4 div_wrap">
+                  <button class="btn btn-sm btn-warning">Discard Changes</button>
+              </div>
+              
+              <div class="col-4 div_wrap">
+                  <button class="btn btn-sm btn-danger">Delete Project</button>
+              </div>
+              
+            </div>
+
+    </section>
+
+
+</form>

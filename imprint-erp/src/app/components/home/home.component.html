@@ -1,14 +1,10 @@
 
 <header class="sticky-top">
 
-  <div id="header_title">
-    <h4><span class="highlight">Imprint</span>Africa</h4> 
-  </div>
-
   <nav id="navbar" class="navbar navbar-expand-md navbar-light">
 
       <a class="navbar-brand">
-        <span id="sideBarToggler" class="navbar-toggler-icon"></span>
+        <fa id="sideBarToggler" class="" (click)="toggleSideBar()" name="{{sideBarStatus ? 'bars' : 'angle-double-left'}}"></fa>
         <img src="../../../assets/images/logo.png">
       </a>
 
@@ -65,22 +61,14 @@
 
 
 <!-- Sidebar -->
-<nav id="sidebar" class="">
-
-    <div class="sidebar-header">
-        <h4>Navigation Bar</h4>
-    </div>
-
-    <hr>
+<nav id="sidebar" class="" [ngClass]="sideBarStatus ? 'active' : ''">
 
     <ul class="navbar-nav nav-pills">
 
-        <li class="nav-item"><a href="/projects" data-target="#" class="nav-link">Projects</a></li>
-        <li class="nav-item"><a href="/sales" data-target="#" class="nav-link">Sales</a></li>
-        <li class="nav-item"><a href="#" data-target="#" class="nav-link">Monitoring</a></li>
-        <li class="nav-item"><a href="#" data-target="#" class="nav-link">Scorecard</a></li>
-        <li class="nav-item"><a href="#" data-target="#" class="nav-link">Calender</a></li>
-        <li class="nav-item"><a href="/register" data-target="#" class="nav-link">Register</a></li>
+        <li class="nav-item"><a (click)="navToProjects()" data-target="#" class="nav-link">Projects</a></li>
+        <li class="nav-item"><a (click)="navToSales()" data-target="#" class="nav-link">Sales</a></li>
+        <li class="nav-item"><a (click)="navToProjTaskTeam()" data-target="#" class="nav-link">Editorial</a></li>
+        <li class="nav-item"><a (click)="navToRegister()" data-target="#" class="nav-link">Register</a></li>
     
     
     </ul>
@@ -91,7 +79,7 @@
 
 <!--  Main Section -->
 
-<main id="main" class="">
+<main id="main" class="" [ngClass]="sideBarStatus ? 'expand' : ''">
 
     <router-outlet></router-outlet>
 
@@ -99,7 +87,7 @@
 
 
 
-
+<script src="../../../assets/functions/sidebarToggle.js"></script>
 
 
 

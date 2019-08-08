@@ -1,0 +1,229 @@
+// Global Color Themes
+
+$colors: ( nevyBlueTheme: #030451, orangeTheme: #F28500, gray: #6c757d, gray-dark: #343a40, secondary: #6c757d, success: #28a745, info: #17a2b8, warning: #ffc107, danger: #dc3545, dark: #35424a, silk: #7D7D7D, accent: #FFF6BB, )
+
+// Color function
+@function color($color-name) 
+    @return map-get($colors , $color-name)
+
+// Page Sizes
+
+// Breakpoints: xs: 0,  sm: 576px; md: 768px; lg: 992px; xl: 1200px; 
+
+// Extra small    
+$desktop_xm: 576px
+
+@mixin desktop_xm
+    @media (min-width: #{$desktop_xm}) 
+        @content
+    
+// Small
+$desktop_sm: 576px
+
+@mixin desktop_sm
+    @media (min-width: #{$desktop_sm}) 
+        @content
+    
+// Medium
+$desktop: 768px
+
+@mixin desktop
+    @media (min-width: #{$desktop}) 
+        @content
+    
+// Large
+$desktop_lg: 576px
+
+@mixin desktop_lg
+    @media (min-width: #{$desktop_lg}) 
+        @content
+    
+// Extra large
+$desktop_xl: 576px
+
+@mixin desktop_xl
+    @media (min-width: #{$desktop_xl}) 
+        @content
+    
+
+
+// ------------------------------------------------
+
+// Title Section
+#title_section
+    font-size: 13px
+    background-color: transparent
+    border-radius: 10px
+    padding: 0
+    
+    h4
+        color: color(nevyBlueTheme)
+        font-size: 14px
+        font-weight: bold
+        text-transform: uppercase
+    
+    p
+        color: color(silk)
+        font-family: Montserrat
+        font-size: 10px
+        margin: 0
+// Header line
+#header_line
+    color: color(silk)
+    margin: .5em 0 .5em 0
+
+// Add Section
+
+#add_section
+    
+    #add_section_row
+        
+        .div_wrap
+            
+            .btn
+                font-family: Montserrat
+                font-size: 10px
+
+
+// Preview section
+
+#preview_section
+
+    .list-group
+        box-shadow: 0 0 5px rgba(0,0,0,.3)
+        border-radius: 2px
+        width: 100%
+
+        h4
+            margin: .5em
+            color: color(silk)
+            font-size: 12px
+            font-family: Montserrat
+
+        .list-group-item
+            border: none
+            background-color: color(accent)
+
+            .div_wrap
+                padding: 5px    
+                
+                h4
+                    margin: auto 0 auto 0
+                    font-size: 10px
+                    font-family: Montserrat
+
+                span
+                    margin: auto 0 auto 0
+                    font-size: 10px
+                    font-family: Montserrat
+
+
+
+// Form section
+
+#form_section
+
+    #myDefineProjectForm
+        border-radius: 2px
+        box-shadow: 0 0 5px rgba(0,0,0,.3)
+        padding: 1em
+        width: 30%
+        
+        .form-group
+            margin: auto 0 auto 0
+
+            input
+
+                font-size: 10px
+                font-family: Montserrat
+
+            .btn
+                font-size: 10px
+                font-family: Montserrat
+
+    #defineTaskForm
+        border-radius: 2px
+        box-shadow: 0 0 5px rgba(0,0,0,.3)
+        padding: 1em
+        width: 30%
+
+        #head
+
+            h4
+                font-size: 11px
+                font-family: Montserrat
+
+                span
+                    color: color(orangeTheme)
+
+        input, select
+            font-size: 10px
+            font-family: Montserrat
+
+        .btn
+            font-size: 10px
+            font-family: Montserrat
+
+
+// List Add Teams
+#listAddTeams
+
+    #myAddTeamForm
+        border-radius: 2px
+        box-shadow: 0 0 5px rgba(0,0,0,.3)
+        padding: 1em
+        width: 30%
+
+        .input-group-text
+            font-size: 10px
+            font-family: Montserrat
+
+        input
+            font-size: 10px
+            font-family: Montserrat      
+
+    .list-group
+        box-shadow: 0 0 5px rgba(0,0,0,.3)
+        border-radius: 2px
+        width: 30%
+
+        .list-group-item
+            padding: 5px
+            border: none
+            background-color: color(accent)
+            margin: auto 0 auto 0
+            font-size: 10px
+            font-family: Montserrat
+
+
+// List section
+
+#list_section
+
+    .list-group
+        box-shadow: 0 0 5px rgba(0,0,0,.3)
+        border-radius: 2px
+        width: 100%
+
+        h4
+            margin: .5em
+            color: color(silk)
+            font-size: 12px
+            font-family: Montserrat
+
+        .list-group-item
+            border: none
+            background-color: color(accent)
+
+            .div_wrap
+                padding: 5px    
+                
+                h4
+                    margin: auto 0 auto 0
+                    font-size: 10px
+                    font-family: Montserrat
+
+                span
+                    margin: auto 0 auto 0
+                    font-size: 10px
+                    font-family: Montserrat

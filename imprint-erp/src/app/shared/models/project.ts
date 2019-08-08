@@ -5,3 +5,14 @@ export class Project {
   'to': string;
   'status': string;
 }
+
+export class RawProject {
+
+  clientName: String;
+  projectType: String;
+  revenue: String;
+  priority:String;
+  status: String
+
+}
+

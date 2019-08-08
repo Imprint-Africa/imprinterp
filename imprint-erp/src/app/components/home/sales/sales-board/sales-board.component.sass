@@ -1,42 +1,85 @@
 // Global Color Themes
 
-/* Breakpoints: xs: 0,  sm: 576px; md: 768px; lg: 992px; xl: 1200px; */
 $colors: ( nevyBlueTheme: #030451, orangeTheme: #F28500, gray: #6c757d, gray-dark: #343a40, secondary: #6c757d, success: #28a745, info: #17a2b8, warning: #ffc107, danger: #dc3545, dark: #35424a, silk: #7D7D7D )
 
 // Color function
 @function color($color-name) 
     @return map-get($colors , $color-name)
 
-
 // Page Sizes
-$desktop: 768px
-$opacity: .9
 
-// Responsiveness
+// Breakpoints: xs: 0,  sm: 576px; md: 768px; lg: 992px; xl: 1200px; 
+
+// Extra small    
+$desktop_xm: 576px
+
+@mixin desktop_xm
+    @media (min-width: #{$desktop_xm}) 
+        @content
+    
+// Small
+$desktop_sm: 576px
+
+@mixin desktop_sm
+    @media (min-width: #{$desktop_sm}) 
+        @content
+    
+// Medium
+$desktop: 768px
+
 @mixin desktop
     @media (min-width: #{$desktop}) 
+        @content
+    
+// Large
+$desktop_lg: 576px
+
+@mixin desktop_lg
+    @media (min-width: #{$desktop_lg}) 
+        @content
+    
+// Extra large
+$desktop_xl: 576px
+
+@mixin desktop_xl
+    @media (min-width: #{$desktop_xl}) 
         @content
     
 
 
 // ------------------------------------------------
 
-
-
-
+// Title Section
 #title_section
     font-size: 13px
     background-color: transparent
     border-radius: 10px
-    border-top: solid 2px color(nevyBlueTheme)
+    padding: 0
     
+    h4
+        color: color(nevyBlueTheme)
+        font-size: 14px
+        font-weight: bold
+        text-transform: uppercase
+    
+    p
+        color: color(silk)
+        font-family: Montserrat
+        font-size: 10px
+        margin: 0
+// Header line
+#header_line
+    color: color(silk)
+    margin: .5em 0 .5em 0
 
 #list_section    
     font-size 11px
     background-color: transparent
+    
 
     #target_clients
         background-color: transparent
+        height: fit-content
         
         #head
             
@@ -44,21 +87,80 @@ $opacity: .9
                 color: black
                 font-size: 11px
                 font-family: Montserrat
-            fa
+            #addClientTargetToggler
                 font-size: 11px
-                color: red
+                color: blue
+                cursor: pointer
+
+        form.hide
+            background-color: transparent
+            margin-bottom: -120px
+            -webkit-transition: all 2s // For Safari 3.1 to 6.0 
+            transition: all 2s
+            opacity: 0
 
         form
+            height: 120px
+            -webkit-transition: all 2s // For Safari 3.1 to 6.0 
+            transition: all 2s
             background-color: white
             border-radius: 10px
             padding: 3px
             margin: 0 0 .5em 0
             box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1)
             
-            input
+            
+            .input-group-text
+                font-size: 10px
+
+            input, select
                 background-color: whitesmoke
+                font-family: Montserrat
+                font-size: 10px
+                color: color(info)
+
+            button
+                font-size: 10px
+        #targetClientCardGroup
+            height: fit-content
+            z-index: 1
+            display: flex
+            flex-direction: column
+            background-color: transparent
+
+            #targetClientCard
+                background-color: white
+                padding: .3em
+                border-radius: 10px
+                margin: 0 0 0.5em 0em
+                box-shadow: 0px 0px 3px color(info)
+                cursor: pointer
+
+                #projectT
+                    font-family: Montserrat
+                    font-size: 10px
+                    color: black
+                    text-transform: uppercase
+                
+                #clientN
+                    font-family: Montserrat
+                    font-size: 10px
+                    color: color(silk)
+                
+                #rateWarp
+                    font-size: 10px
+                    .rateColor
+                        color: yellow
+                    
+                    #edit
+                        cursor: pointer
+                        
+                        
+                        
 
     #proposed_leads
+        background-color: white
+        height: fit-content
     
         h4
             font-size: 11px
@@ -68,6 +170,8 @@ $opacity: .9
             color: blue
     
     #qualified_leads
+        background-color: white
+        height: fit-content
         
         h4
             font-size: 11px
@@ -77,6 +181,8 @@ $opacity: .9
             color: blue
 
     #closed_leads
+        background-color: white
+        height: fit-content
         
         h4
             font-size: 11px

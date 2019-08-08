@@ -8,7 +8,7 @@ import {ReactiveFormsModule} from "@angular/forms";
 import { FormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from "ngx-toastr";
-import {HttpClient, HttpClientModule, HttpHeaders} from "@angular/common/http";
+import { HttpClientModule } from "@angular/common/http";
 
 // Components
 import { AppComponent } from './app.component';
@@ -26,6 +26,9 @@ import { NotificationService } from './shared/services/notification.service';
 import { AuthGuard } from './shared/guards/auth.guard';
 import { ProjectBoardsComponent } from './components/home/projects/project-boards/project-boards.component';
 import { SalesBoardComponent } from './components/home/sales/sales-board/sales-board.component';
+import { SalesService } from './shared/services/sales.service';
+import { SalesEditComponent } from './components/home/sales/sales-edit/sales-edit.component';
+import { ProjTaskTeamComponent } from './components/home/editorial/proj-task-team/proj-task-team.component';
 
 
 @NgModule({
@@ -35,7 +38,9 @@ import { SalesBoardComponent } from './components/home/sales/sales-board/sales-b
     HomeComponent,
     RegisterComponent,
     ProjectBoardsComponent,
-    SalesBoardComponent
+    SalesBoardComponent,
+    SalesEditComponent,
+    ProjTaskTeamComponent
     
   ],
   imports: [
@@ -51,9 +56,9 @@ import { SalesBoardComponent } from './components/home/sales/sales-board/sales-b
       timeOut: 7000,
       positionClass: 'toast-bottom-right',
       preventDuplicates: false,
-    }),
+    })
   ],
-  providers: [ UserService, NotificationService, AuthGuard ],
+  providers: [NotificationService, AuthGuard, UserService, SalesService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
