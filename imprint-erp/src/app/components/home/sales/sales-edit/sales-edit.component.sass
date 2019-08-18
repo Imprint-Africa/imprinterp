@@ -11,7 +11,7 @@ $colors: ( nevyBlueTheme: #030451, orangeTheme: #F28500, gray: #6c757d, gray-dar
 // Breakpoints: xs: 0,  sm: 576px; md: 768px; lg: 992px; xl: 1200px; 
 
 // Extra small    
-$desktop_xm: 576px
+$desktop_xm: 0px
 
 @mixin desktop_xm
     @media (min-width: #{$desktop_xm}) 
@@ -32,14 +32,14 @@ $desktop: 768px
         @content
     
 // Large
-$desktop_lg: 576px
+$desktop_lg: 992px
 
 @mixin desktop_lg
     @media (min-width: #{$desktop_lg}) 
         @content
     
 // Extra large
-$desktop_xl: 576px
+$desktop_xl: 1200px
 
 @mixin desktop_xl
     @media (min-width: #{$desktop_xl}) 
@@ -72,10 +72,16 @@ $desktop_xl: 576px
     color: color(silk)
     margin: .5em 0 .5em 0
 
-// Form
-form
-    // border: solid 1px red
-    background-color: whitesmoke
+
+
+
+
+
+
+
+article
+    background-color: white
+    box-shadow: 0 0 5px rgba(0,0,0,.3)
 
     #projectClientSection
 
@@ -83,25 +89,125 @@ form
             width: 95%
 
             .input-group-text
+                border: none
+                border-right: solid 1px gray
                 background-color: white
                 font-size: 10px
                 font-family: Montserrat
             
             input
+                border: transparent
                 background-color: white
+                font-size: 10px
+                font-family: Montserrat
+                text-transform: uppercase
+
+    
+
+    #project_date_section
+        margin: 1em 0 0 0
+        box-shadow: 0 0 3px rgba(0,0,0,.3)
+        height: 460px
+        -webkit-transition: all 0.5s // For Safari 3.1 to 6.0 
+        transition: all 0.5s
+        width: fit-content
+        // border: solid blue 2px
+
+
+        #duration_wrap
+
+            .input-group-prepend
+                span
+                    font-size: 10px
+                    font-family: Montserrat
+                    color: color(info)
+
+            input
+                font-size: 10px
+                font-family: Montserrat
+                padding: .5em
+                color: color(success)
+
+
+            .input-group-prepend
+                span
+                    font-size: 10px
+                    font-family: Montserrat
+                    color: color(info)
+
+        #calender_wrapper
+
+            div
+
+                h4
+                    font-size: 10px
+                    font-family: Montserrat
+                    padding: .5em
+                    color: color(success)
+
+                    span
+                        font-size: 10px
+                        font-family: Montserrat
+                        color: color(info)
+
+            ngb-datepicker
+                font-size: 10px
+                font-family: Montserrat
+
+                .custom-day 
+                    text-align: center
+                    padding: 0.185rem 0.25rem
+                    display: inline-block
+                    height: 2rem
+                    width: 2rem
+                
+                .custom-day.focused 
+                    background-color: #e6e6e6
+                
+                .custom-day.range, .custom-day:hover
+                    background-color: rgb(2, 117, 216)
+                    color: white
+                
+                .custom-day.faded
+                    background-color: rgba(2, 117, 216, 0.5)
+
+                .custom-day.disabled
+                    color: gray
+                    opacity: .3
+                    
+                .custom-day.disabled:hover
+                    color: gray
+                    opacity: .3
+                    background-color: white!important
+
+
+        .btn_wrapper
+            text-align: center
+            padding: 2px
+            .btn
                 font-size: 10px
                 font-family: Montserrat
 
 
 
+
+
+
+
+
     // Tasks Section
     #task_section
+        margin: 0 0 0 0
+        background-color: whitesmoke
+        // padding: 0
+        width: 100%
         
         #task_titles
-            box-shadow: 0 0 5px rgba(0,0,0,.3)
+            // box-shadow: 0 0 5px rgba(0,0,0,.3)
             padding: 0
-            width: 97.5%
-
+            background-color: transparent
+            
+        
             .div_wrap
                 padding: 5px
 
@@ -115,31 +221,142 @@ form
 
         // List tasks
         .list-group
-            width: 97.5%
+            margin: 0
+
+            
+
 
             .list-group-item
+                background-color: white
+                border: none
+                padding: .5em 0 .5em 0
+                cursor: pointer
+                margin: 0 .5em .5em .5em
+
+                &:hover
+                    box-shadow: 0 5px 5px rgba(0, 0, 0, .3)
 
                 .div_wrap
                     padding: 5px
+                    
 
                     input
-                        margin: auto .5em auto 0        
+                        margin: auto .5em auto 0  
+                        
                     
                     h4
                         margin: auto 0 auto 0
                         font-size: 10px
                         font-family: Montserrat
+    
+                        &:first-letter
+                            text-transform: capitalize  
+
+
+
+
+    #task_ditail_setting.hide
+        margin-right: -330px
+
+    #task_ditail_setting
+        margin: 0 0 10px 10px
+        box-shadow: 0 0 3px rgba(0,0,0,.3)
+        -webkit-transition: all 0.5s // For Safari 3.1 to 6.0 
+        transition: all 0.5s
+        padding: 3px
+        width: 320px
+
+
+        #duration_wrap
+
+            .input-group-prepend
+                span
+                    font-size: 10px
+                    font-family: Montserrat
+                    color: color(info)
+
+            input
+                font-size: 10px
+                font-family: Montserrat
+                padding: .5em
+                color: color(success)
+
+
+            .input-group-prepend
+                span
+                    font-size: 10px
+                    font-family: Montserrat
+                    color: color(info)
+
+
+        #calender_wrapper
+
+            #callender_date
+
+                h4
+                    font-size: 10px
+                    font-family: Montserrat
+                    padding: .5em
+                    color: color(success)
 
                     span
-                        margin: auto 0 auto 0
                         font-size: 10px
                         font-family: Montserrat
+                        color: color(info)
+
+            ngb-datepicker
+                font-size: 10px
+                font-family: Montserrat
+
+                .custom-day 
+                    text-align: center
+                    padding: 0.185rem 0.25rem
+                    display: inline-block
+                    height: 2rem
+                    width: 2rem
+                
+                .custom-day.focused 
+                    background-color: #e6e6e6
+                
+                .custom-day.range, .custom-day:hover
+                    background-color: rgb(2, 117, 216)
+                    color: white
+                
+                .custom-day.faded
+                    background-color: rgba(2, 117, 216, 0.5)
+
+                .custom-day.disabled
+                    color: gray
+                    opacity: .3
+                .custom-day.disabled:hover
+                    color: gray
+                    opacity: .3
+                    background-color: white!important
+              
+                
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
     // Total Section
     #total_section
-        margin: 1em 0 0 0
+        margin: 0 0 1em 0
 
 
         #total_group
@@ -155,21 +372,160 @@ form
 
 
 
-    // Buton Section
-    #button_section
-        margin: 1em 0 0 0
 
 
-        #button_group
-            width: 97.5%
-            
 
-            .div_wrap
-                padding: 0
+    #costPrioritySection
+        margin: 0 0 1em 0
+        width: 200px
 
-                .btn
+        #costFormGroup
+            width: 200px
+
+            .input-group-text
+                background-color: white
+                font-size: 10px
+                font-family: Montserrat
+
+            input
+                background-color: white
+                font-size: 10px
+                font-family: Montserrat
+
+        #priorityFormGroup
+            width: 500px
+
+            .input-group-text
+                background-color: white
+                font-size: 10px
+                font-family: Montserrat
+
+            #radio_wrap
+                padding: auto
+                margin: 0 2em 0 0
+
+                label
+                    margin: 0 .5em 0 0
+                    font-size: 12px
+                    font-family: Montserrat
+                
+                input
                     font-size: 10px
                     font-family: Montserrat
+                fa
+                    font-size: 15px
+                    font-family: Montserrat
+                    cursor: pointer
+
+
+
+
+
+// Calender
+#date_Section.hide
+    background-color: transparent
+    margin-bottom: -400px
+    -webkit-transition: all 0.5s // For Safari 3.1 to 6.0 
+    transition: all 0.5s
+    opacity: 0
+    z-index: -1
+
+#date_Section
+    margin: 1em 0 0 0
+    box-shadow: 0 0 3px rgba(0,0,0,.3)
+    height: 400px
+    -webkit-transition: all 0.5s // For Safari 3.1 to 6.0 
+    transition: all 0.5s
+    width: fit-content
+    // border: solid blue 2px
+
+    div
+
+        h4
+            font-size: 10px
+            font-family: Montserrat
+            padding: .5em
+            color: color(success)
+
+            span
+                font-size: 10px
+                font-family: Montserrat
+                color: color(info)
+
+    ngb-datepicker
+        font-size: 10px
+        font-family: Montserrat
+
+        .custom-day 
+            text-align: center
+            padding: 0.185rem 0.25rem
+            display: inline-block
+            height: 2rem
+            width: 2rem
+        
+        .custom-day.focused 
+            background-color: #e6e6e6
+        
+        .custom-day.range, .custom-day:hover
+            background-color: rgb(2, 117, 216)
+            color: white
+        
+        .custom-day.faded
+            background-color: rgba(2, 117, 216, 0.5)
+        
+
+    #sendProj_div
+        margin: .5em 0 0 0
+        padding: 1em
+        width: 70%
+        text-align: left
+
+        .btn 
+            margin: 0 auto 0 auto
+            font-size: 10px
+            font-family: Montserrat
+
+
+
+
+
+
+
+
+
+
+
+// Buton Section
+#button_section
+    margin: 1em 0 0 0
+    padding: 1em
+    box-shadow: 0 0 3px rgba(0,0,0,.3)
+
+
+    #button_group
+        width: 97.5%
+        
+
+        .div_wrap
+            padding: 0
+
+            .btn
+                font-size: 10px
+                font-family: Montserrat
+    
+    #launch_div
+        margin: .5em 0 0 0
+        padding: .5em .5em .5em 0
+        width: 70%
+        text-align: left
+
+        .btn 
+            margin: 0 auto 0 auto
+            font-size: 10px
+            font-family: Montserrat
+
+        
+
 
 
 

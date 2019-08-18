@@ -75,26 +75,23 @@
         <!-- Department -->
         <div class="form-group">
     
-            <div class="input-group input-group-sm mb-3">
+                <div class="input-group input-group-sm mb-3">
     
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="inputGroup-sizing-sm"><fa name="address-card-o"></fa></span>
-                    </div>
-    
-                    <select aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-                    formControlName="department" class="form-control" [class.is-invalid]="form.department.invalid && form.department.touched" required>
-    
-                    <option disabled selected hidden value="">Department</option>
-                    <option value="business">Business-Dev Team</option>
-                    <option value="communication">Communication Team</option>
-                    <option value="development">Dev-Team</option>
-                    
-                    </select>   
+                        <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm"><fa name="address-card-o"></fa></span>
+                        </div>
+
+                        <select aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                        formControlName="department" class="form-control" [class.is-invalid]="form.department.invalid && form.department.touched" required>
+                        <option value="0" disabled selected hidden >Choose Project</option>
+                        <option *ngFor="let Team of Teams" value='{{Team.name}}'>{{Team.name}}</option>
                         
-                    <div *ngIf="submitted && form.department.errors" class="invalid-feedback">
-                            <div *ngIf="form.department.errors.required">Confirm Password is required</div>
-                    </div>
-            </div>
+                        </select>   
+                        
+                        <div *ngIf="submitted && form.department.errors" class="invalid-feedback">
+                                <div *ngIf="form.department.errors.required">Department Required</div>
+                        </div>
+                </div>
     
     
     

@@ -1,18 +1,20 @@
 export class Project {
-  'id': number;
-  'name': string;
-  'from': string;
-  'to': string;
-  'status': string;
-}
-
-export class RawProject {
-
+  projectName : String;
   clientName: String;
-  projectType: String;
-  revenue: String;
-  priority:String;
-  status: String
-
+  task : [{
+      taskName: String;
+      asignedTeam: String;
+      taskStatus: String;
+      taskDuration: Number;
+      taskStartDate: Date;
+      taskEndDate: Date;
+  }];
+  cost: Number;
+  priority: Number;
+  projectStatus: String;
+  projectDuration: Number;
+  projectStartDate: Date;
+  projectEndDate: Date;
+  progress: Number;
 }
 

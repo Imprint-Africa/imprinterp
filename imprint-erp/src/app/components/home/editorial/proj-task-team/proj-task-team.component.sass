@@ -1,6 +1,6 @@
 // Global Color Themes
 
-$colors: ( nevyBlueTheme: #030451, orangeTheme: #F28500, gray: #6c757d, gray-dark: #343a40, secondary: #6c757d, success: #28a745, info: #17a2b8, warning: #ffc107, danger: #dc3545, dark: #35424a, silk: #7D7D7D, accent: #FFF6BB, )
+$colors: ( nevyBlueTheme: #030451, orangeTheme: #F28500, gray: #6c757d, gray-dark: #343a40, primary: #007bff, secondary: #6c757d, success: #28a745, info: #17a2b8, warning: #ffc107, danger: #dc3545, dark: #35424a, silk: #7D7D7D, accent: #FFF6BB, )
 
 // Color function
 @function color($color-name) 
@@ -67,42 +67,93 @@ $desktop_xl: 576px
         font-family: Montserrat
         font-size: 10px
         margin: 0
+
+
+
+
+
+
 // Header line
 #header_line
     color: color(silk)
     margin: .5em 0 .5em 0
 
-// Add Section
 
+
+
+
+
+
+// Add Section
 #add_section
+    margin: 0 auto 1em auto
+    width: 100%
+
+    @include desktop
+        margin: 0 0 1em 0
+        width: 100%
+
+
     
     #add_section_row
         
         .div_wrap
+            text-align: center
+
+            @include desktop
+                text-align: start
+                width: 100%
             
             .btn
                 font-family: Montserrat
                 font-size: 10px
+                width: 100%
+                height: 100%
+
+
+
+
 
 
 // Preview section
+#preview_section.hide
+    background-color: transparent
+    height: 0
+    -webkit-transition: all 2s // For Safari 3.1 to 6.0 
+    transition: all 2s
+    opacity: 0
+
 
 #preview_section
+    -webkit-transition: all 2s // For Safari 3.1 to 6.0 
+    transition: all 2s
+    height: fit-content
+    margin: 0 auto .5em auto
+    width: 95%
+
+    @include desktop
+        width: 100%
+        margin: 0 0 .5em 0
 
     .list-group
+        background-color: whitesmoke
         box-shadow: 0 0 5px rgba(0,0,0,.3)
         border-radius: 2px
         width: 100%
 
-        h4
-            margin: .5em
-            color: color(silk)
-            font-size: 12px
-            font-family: Montserrat
+        #service_name
+
+            h4
+                margin: .5em
+                color: color(silk)
+                font-weight: bold
+                text-transform: uppercase
+                font-size: 12px
+                font-family: Montserrat
 
         .list-group-item
             border: none
-            background-color: color(accent)
+            background-color: white
 
             .div_wrap
                 padding: 5px    
@@ -111,24 +162,60 @@ $desktop_xl: 576px
                     margin: auto 0 auto 0
                     font-size: 10px
                     font-family: Montserrat
+                    text-transform: capitalize
 
-                span
-                    margin: auto 0 auto 0
-                    font-size: 10px
-                    font-family: Montserrat
+
+
 
 
 
 // Form section
+#customServiceSection.hide
+    background-color: transparent
+    height: 0
+    -webkit-transition: all 2s // For Safari 3.1 to 6.0 
+    transition: all 2s
+    opacity: 0
 
-#form_section
+#customServiceSection
+    -webkit-transition: all 2s // For Safari 3.1 to 6.0 
+    transition: all 2s
+    height: fit-content
+    margin: 0 auto 0 auto
+    width: 95%
 
-    #myDefineProjectForm
+    @include desktop
+        margin: 0
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        width: 100%
+
+    #myCustomServiceForm.hide
+        background-color: transparent
+        height: 0
+        -webkit-transition: all 2s // For Safari 3.1 to 6.0 
+        transition: all 2s
+        opacity: 0
+
+    #myCustomServiceForm
+        background-color: white
+        -webkit-transition: all 2s // For Safari 3.1 to 6.0 
+        transition: all 2s
         border-radius: 2px
         box-shadow: 0 0 5px rgba(0,0,0,.3)
         padding: 1em
-        width: 30%
-        
+        width: 100%
+
+        @include desktop
+            width: 70%
+
+        #form_header
+            h4
+                font-weight: bold
+                font-size: 12px
+                font-family: Montserrat
+ 
         .form-group
             margin: auto 0 auto 0
 
@@ -141,11 +228,51 @@ $desktop_xl: 576px
                 font-size: 10px
                 font-family: Montserrat
 
-    #defineTaskForm
+
+
+
+
+
+// Add Task Section
+#addTaskSection.hide
+    background-color: transparent
+    height: 0
+    -webkit-transition: all 2s // For Safari 3.1 to 6.0 
+    transition: all 2s
+    opacity: 0
+
+#addTaskSection
+    -webkit-transition: all 2s // For Safari 3.1 to 6.0 
+    transition: all 2s
+    height: fit-content
+    margin: 0 auto 0 auto
+    width: 95%
+
+    @include desktop
+        margin: 0
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        width: 100%
+
+    #defineTaskForm.hide
+        background-color: transparent
+        height: 0
+        -webkit-transition: all 2s // For Safari 3.1 to 6.0 
+        transition: all 2s
+        opacity: 0
+
+    #mydefineTaskForm
+        background-color: white
+        -webkit-transition: all 2s // For Safari 3.1 to 6.0 
+        transition: all 2s
         border-radius: 2px
         box-shadow: 0 0 5px rgba(0,0,0,.3)
         padding: 1em
-        width: 30%
+        width: 100%
+
+        @include desktop
+            width: 70%
 
         #head
 
@@ -154,9 +281,15 @@ $desktop_xl: 576px
                 font-family: Montserrat
 
                 span
+                    text-transform: capitalize
                     color: color(orangeTheme)
 
-        input, select
+        input
+            font-size: 10px
+            font-family: Montserrat
+        
+        select
+            text-transform: capitalize
             font-size: 10px
             font-family: Montserrat
 
@@ -166,13 +299,42 @@ $desktop_xl: 576px
 
 
 // List Add Teams
+
+#listAddTeams.hide
+    background-color: transparent
+    height: 0
+    -webkit-transition: all 2s // For Safari 3.1 to 6.0 
+    transition: all 2s
+    opacity: 0
+
 #listAddTeams
+    -webkit-transition: all 2s // For Safari 3.1 to 6.0 
+    transition: all 2s
+    margin: 0 auto 0 auto
+    width: 95%
+
+    @include desktop
+        margin: 0
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        width: 100%
 
     #myAddTeamForm
+        background-color: white
         border-radius: 2px
         box-shadow: 0 0 5px rgba(0,0,0,.3)
         padding: 1em
-        width: 30%
+        width: 100%
+
+        #form_header
+            h4
+                font-weight: bold
+                font-size: 12px
+                font-family: Montserrat
+
+        @include desktop
+            width: 70%
 
         .input-group-text
             font-size: 10px
@@ -185,45 +347,171 @@ $desktop_xl: 576px
     .list-group
         box-shadow: 0 0 5px rgba(0,0,0,.3)
         border-radius: 2px
-        width: 30%
+        width: 100%
+
+        @include desktop
+            width: 70%
 
         .list-group-item
             padding: 5px
-            border: none
-            background-color: color(accent)
+            border: solid 1px white
+            background-color: whitesmoke
             margin: auto 0 auto 0
             font-size: 10px
             font-family: Montserrat
+            text-transform: capitalize
 
 
-// List section
 
-#list_section
+
+
+
+
+
+
+// List Add Sales Category
+
+#listAddSalesCategory.hide
+    background-color: transparent
+    height: 0
+    -webkit-transition: all 2s // For Safari 3.1 to 6.0 
+    transition: all 2s
+    opacity: 0
+
+#listAddSalesCategory
+    -webkit-transition: all 2s // For Safari 3.1 to 6.0 
+    transition: all 2s
+    margin: 0 auto 0 auto
+    width: 95%
+
+    @include desktop
+        margin: 0
+        display: flex
+        flex-direction: column
+        align-items: flex-start
+        width: 100%
+
+    #myAddSalesCategoryForm
+        background-color: white
+        border-radius: 2px
+        box-shadow: 0 0 5px rgba(0,0,0,.3)
+        padding: 1em
+        width: 100%
+
+        #form_header
+            h4
+                font-weight: bold
+                font-size: 12px
+                font-family: Montserrat
+
+        @include desktop
+            width: 70%
+
+        .input-group-text
+            font-size: 10px
+            font-family: Montserrat
+
+        input
+            font-size: 10px
+            font-family: Montserrat      
 
     .list-group
         box-shadow: 0 0 5px rgba(0,0,0,.3)
         border-radius: 2px
         width: 100%
 
-        h4
-            margin: .5em
-            color: color(silk)
-            font-size: 12px
-            font-family: Montserrat
+        @include desktop
+            width: 70%
 
         .list-group-item
-            border: none
-            background-color: color(accent)
+            padding: 5px
+            border: solid 1px white
+            background-color: whitesmoke
+            margin: auto 0 auto 0
+            font-size: 10px
+            font-family: Montserrat
+            text-transform: capitalize
 
-            .div_wrap
-                padding: 5px    
+
+
+
+
+
+
+
+
+// List section
+#list_section.hide
+    background-color: transparent
+    height: 0
+    -webkit-transition: all 0s // For Safari 3.1 to 6.0 
+    transition: all 0s
+    opacity: 0
+
+    @include desktop
+        height: fit-content
+        opacity: 1
+
+
+#list_section
+    -webkit-transition: all 2s // For Safari 3.1 to 6.0 
+    transition: all 2s
+    height: fit-content
+    margin: 1em auto 1em auto
+    width: 95%
+    // box-shadow: 0 0 5px rgba(0,0,0,.3)
+    background-color: transparent
+
+    @include desktop
+        
+            width: 100%
+            margin: 0 0 1em 0
+
+    #list_title
+        text-align: left
+        h4
+            color: color(nevyBlueTheme)
+            font-size: 12px
+            font-weight: bold
+            font-family: Montserrat
+
+    #custom_service_wrapper
+        border: solid 2px white
+        padding: 5px
+        background: white
+        height: 400px
+        overflow-y: scroll
+
+        .list-group
+            box-shadow: 0 0 5px rgba(0,0,0,.3)
+            border-radius: 2px
+            width: 100%
+            background-color: whitesmoke
+            margin: 0 0 1em 0
+
+            #custom_service_name
                 
                 h4
-                    margin: auto 0 auto 0
-                    font-size: 10px
+                    margin: .5em
+                    color: color(silk)
+                    font-weight: bold
+                    text-transform: uppercase
+                    font-size: 12px
                     font-family: Montserrat
 
-                span
-                    margin: auto 0 auto 0
-                    font-size: 10px
-                    font-family: Montserrat
+            .list-group-item
+                border: none
+                background-color: white
+
+                .div_wrap
+                    padding: 5px    
+                    
+                    h4
+                        margin: auto 0 auto 0
+                        font-size: 10px
+                        font-family: Montserrat
+
+                    h4:first-letter
+                        text-transform: capitalize
+                        
+

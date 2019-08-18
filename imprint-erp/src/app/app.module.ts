@@ -6,6 +6,7 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { SidebarModule } from "ng-sidebar";
 import {ReactiveFormsModule} from "@angular/forms";
 import { FormsModule } from '@angular/forms';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from "ngx-toastr";
 import { HttpClientModule } from "@angular/common/http";
@@ -17,7 +18,7 @@ import { HomeComponent } from './components/home/home.component';
 import { RegisterComponent } from './components/home/register/register.component';
 
 
-// Services
+// Servicesn
 
 import { UserService } from './shared/services/user.service';
 import { NotificationService } from './shared/services/notification.service';
@@ -29,6 +30,11 @@ import { SalesBoardComponent } from './components/home/sales/sales-board/sales-b
 import { SalesService } from './shared/services/sales.service';
 import { SalesEditComponent } from './components/home/sales/sales-edit/sales-edit.component';
 import { ProjTaskTeamComponent } from './components/home/editorial/proj-task-team/proj-task-team.component';
+import { TeamsService } from './shared/services/teams.service';
+import { CustomaryService } from './shared/services/customary.service';
+import { SalesCategoryService } from './shared/services/sales-category.service';
+import { ProjectsService } from './shared/services/projects.service';
+import { UpdateProjectComponent } from './components/home/projects/update-project/update-project.component';
 
 
 @NgModule({
@@ -40,7 +46,8 @@ import { ProjTaskTeamComponent } from './components/home/editorial/proj-task-tea
     ProjectBoardsComponent,
     SalesBoardComponent,
     SalesEditComponent,
-    ProjTaskTeamComponent
+    ProjTaskTeamComponent,
+    UpdateProjectComponent
     
   ],
   imports: [
@@ -50,6 +57,7 @@ import { ProjTaskTeamComponent } from './components/home/editorial/proj-task-tea
     SidebarModule,
     ReactiveFormsModule,
     FormsModule,
+    NgbModule,
     HttpClientModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({
@@ -58,7 +66,7 @@ import { ProjTaskTeamComponent } from './components/home/editorial/proj-task-tea
       preventDuplicates: false,
     })
   ],
-  providers: [NotificationService, AuthGuard, UserService, SalesService ],
+  providers: [NotificationService, AuthGuard, UserService, SalesService, TeamsService, CustomaryService, SalesCategoryService, ProjectsService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

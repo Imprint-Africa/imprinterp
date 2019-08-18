@@ -8,6 +8,7 @@ import { ProjectBoardsComponent } from './components/home/projects/project-board
 import { SalesBoardComponent } from './components/home/sales/sales-board/sales-board.component';
 import { SalesEditComponent } from './components/home/sales/sales-edit/sales-edit.component';
 import { ProjTaskTeamComponent } from './components/home/editorial/proj-task-team/proj-task-team.component';
+import { UpdateProjectComponent } from './components/home/projects/update-project/update-project.component';
 
 const routes: Routes = [
   // login
@@ -19,11 +20,17 @@ const routes: Routes = [
   children: [{ path: "", component: ProjectBoardsComponent }]
   },
 
+  // Update Projects
+  {path: 'project_update', component: HomeComponent, canActivate: [AuthGuard],
+  children: [{ path: "", component: UpdateProjectComponent }]
+  },
+
+
   // Sales
   {path: 'sales', component: HomeComponent, canActivate: [AuthGuard],
   children: [{ path: "", component: SalesBoardComponent }]
   },
-
+  
   // Sales Edit
   {path: 'sales_edit', component: HomeComponent, canActivate: [AuthGuard],
   children: [{ path: "", component: SalesEditComponent }]

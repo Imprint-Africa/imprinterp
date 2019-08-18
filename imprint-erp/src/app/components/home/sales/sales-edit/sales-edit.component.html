@@ -7,66 +7,182 @@
 <!-- ------ -->
 <hr id="header_line">
 
+
+
+<!-- // article wrapper -->
+<article id="main_wrapper">
+
+
+
 <!-- Edit Form -->
-<form id="mySalesEditForm" #mySalesEditForm='ngForm' [formGroup]="salesEditForm" class="form">
+<form id="myClientProjForm" class="form" *ngIf="OpennedProject">
 
   <!-- ------ ------- -->
   <section id="projectClientSection" class="d-flex">
+
+
+
+
+    <!-- Client Name -->
+    <div class="form-group col-6 p-0">
+
+        <div class="input-group input-group-sm" *ngIf="OpennedProject">
+    
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm"><fa name="building"></fa></span>
+                </div>
+    
+                <input type="text" class="form-control text-primary" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                value="{{OpennedProject.clientName}}"  readonly>
+    
+        </div>
+    
+        </div>   
+
+
+
+
+
+
     <!-- Project Type -->
     <div class="form-group col-6 p-0">
 
-      <div class="input-group input-group-sm">
+      <div class="input-group input-group-sm" >
 
               <div class="input-group-prepend">
                 <span class="input-group-text" id="inputGroup-sizing-sm"><fa name="dashboard"></fa></span>
               </div>
 
-              <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-              formControlName="projectType"  [class.is-invalid]="form.projectType.invalid && form.projectType.touched" readonly>
+              <input type="text" class="form-control text-success" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+              value="{{OpennedProject.projectName}}" readonly>
 
       </div>
 
     </div>
 
 
-
-     <!-- Client Name -->
-     <div class="form-group col-6 p-0">
-
-      <div class="input-group input-group-sm">
-
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-sm"><fa name="building"></fa></span>
-              </div>
-
-              <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-              formControlName="clientName"  [class.is-invalid]="form.clientName.invalid && form.clientName.touched" value="Airtel" readonly>
-
-      </div>
-
-    </div>   
-
-
   </section>
   <!-- ---------------- -->
 
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Project date section -->
+<section id="project_date_section">
+
+
+    <div id="duration_wrap"  class="input-group input-group-sm mb-3 ">
+
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="inputGroup-sizing-sm"><fa name="time"></fa></span>
+        </div>
+
+        <input type="number" min="1" placeholder="Duration" [(ngModel)]="projectDuration">
+
+        <div class="input-group-append">
+            <span class="input-group-text" id="inputGroup-sizing-sm">Days</span>
+        </div>
+      
+  </div>
+
+
+
+  <div id="calender_wrapper">
+          <div class="d-flex">
+
+            <h4 class="col-6" *ngIf="projectFromDate">Commencement: <span>{{ projectFromDate.day }}/ {{ projectFromDate.month }}/{{ projectFromDate.year }} </span></h4>
+            <h4 class="col-6" *ngIf="projectToDate">Completion: <span>{{projectToDate.day}}/{{projectToDate.month}}/{{ projectToDate.year }}</span> </h4>
+          </div>
+
+          <ngb-datepicker #projectDatePicker [minDate]="projectMinDate" (select)="onProjectDateSelection($event)" [displayMonths]="2" [dayTemplate]="projectCalender" outsideDays="hidden">
+          </ngb-datepicker>
+
+          <ng-template #projectCalender let-date let-focused="focused" >
+            <span class="custom-day"
+                  [class.focused]="focused"
+                  [class.range]="isProjectDateRange(date)"
+                  [class.disabled]="isProjectDateBeforeMinDate(date)"
+                  [class.faded]="isProjectDateHovered(date) || isProjectDateInside(date)"
+                  (mouseenter)="projectHoveredDate = date"
+                  (mouseleave)="projectHoveredDate = null">
+              {{ date.day }}
+            </span>
+          </ng-template>
+  </div>
+
+
+  <div class="btn_wrapper">
+      <button class="btn btn-sm btn-primary" (click)="saveProjectDurationDates()">SaveChanges</button>
+  </div>
+
+
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Task Form -->
+
+
+
   <!-- Task Section -->
+
+  <article id="task_article" class="d-flex" *ngIf="OpennedProject">
+
 
   <section id="task_section" class="">
 
+
+
     <!-- Task Title -->
       <div id="task_titles" class="d-flex">
-        <div class="col-4 div_wrap">
+        <div class="col-6 div_wrap">
             <h4 class=""><fa name="tasks"></fa>Tasks</h4>
         </div>
         
-        <div  class="col-4 div_wrap">
+        <div  class="col-6 div_wrap">
             <h4 class=""><fa name="users"></fa>Teams</h4>
         </div>
         
-        <div class="col-4 div_wrap">
-            <h4 class=""><fa name="credit-card"></fa>Cash</h4>
-        </div>
         
       </div>
 
@@ -74,155 +190,205 @@
       <ul class="list-group">
 
 
-        <!-- List of Task -->
-        <li class="list-group-item d-flex p-0">
-          
-          <div class="d-flex col-4 div_wrap">
-              <input type="checkbox" name="task1" id="" class="">
-              <h4 class="">Task 1</h4>
-          </div>
+        <!-- List of Task --> 
+            <li *ngFor="let task of OpennedProject.task" [ngClass]="listClickedStatus === task._id ? 'list-group-item d-flex border border-info' : 'list-group-item d-flex'"
+             (click)="taskDetailsToggle(task._id)">
+            
+                    <div class="col-6 d-flex div_wrap">
 
-          <div class="d-flex col-4 div_wrap">
-              <h4>Communication & PR</h4>
-          </div>
+                        <input type="checkbox" name="task" id="task._id" class=""
+                        [checked]="task.taskStatus === 'checked'" onclick="return false">
 
-          <div class="d-flex col-4 div_wrap">
-              <span class="badge badge-success">100</span>
-          </div>     
-        
-        </li>
+                        <h4 class="">{{task.taskName}}</h4>
 
+                    </div>
 
-
-
-
-
-
-
-        <!-- List of Task -->
-        <li class="list-group-item d-flex p-0">
-          
-            <div class="d-flex col-4 div_wrap">
-                <input type="checkbox" name="task1" id="" class="">
-                <h4 class="">Task 1</h4>
-            </div>
+                    <div class="col-6 div_wrap">
+                        <h4>{{task.asignedTeam}}</h4>
+                    </div>
+            
+            </li> 
   
-            <div class="d-flex col-4 div_wrap">
-                <h4>Communication & PR</h4>
-            </div>
-  
-            <div class="d-flex col-4 div_wrap">
-                <span class="badge badge-success">100</span>
-            </div>     
-          
-          </li>
-
-
-
-
-
-
-        <!-- List of Task -->
-        <li class="list-group-item d-flex p-0">
-          
-            <div class="d-flex col-4 div_wrap">
-                <input type="checkbox" name="task1" id="" class="">
-                <h4 class="">Task 1</h4>
-            </div>
-  
-            <div class="d-flex col-4 div_wrap">
-                <h4>Communication & PR</h4>
-            </div>
-  
-            <div class="d-flex col-4 div_wrap">
-                <span class="badge badge-success">100</span>
-            </div>     
-          
-          </li>
-
-
-        <!-- List of Task -->
-        <li class="list-group-item d-flex p-0">
-          
-            <div class="d-flex col-4 div_wrap">
-                <input type="checkbox" name="task1" id="" class="">
-                <h4 class="">Task 1</h4>
-            </div>
-  
-            <div class="d-flex col-4 div_wrap">
-                <h4>Communication & PR</h4>
-            </div>
-  
-            <div class="d-flex col-4 div_wrap">
-                <span class="badge badge-success">100</span>
-            </div>     
-          
-          </li>
-
-
-        <!-- List of Task -->
-        <li class="list-group-item d-flex p-0">
-          
-            <div class="d-flex col-4 div_wrap">
-                <input type="checkbox" name="task1" id="" class="">
-                <h4 class="">Task 1</h4>
-            </div>
-  
-            <div class="d-flex col-4 div_wrap">
-                <h4>Communication & PR</h4>
-            </div>
-  
-            <div class="d-flex col-4 div_wrap">
-                <span class="badge badge-success">100</span>
-            </div>     
-          
-          </li>
-
-
-        <!-- List of Task -->
-        <li class="list-group-item d-flex p-0">
-          
-            <div class="d-flex col-4 div_wrap">
-                <input type="checkbox" name="task1" id="" class="">
-                <h4 class="">Task 1</h4>
-            </div>
-  
-            <div class="d-flex col-4 div_wrap">
-                <h4>Communication & PR</h4>
-            </div>
-  
-            <div class="d-flex col-4 div_wrap">
-                <span class="badge badge-success">100</span>
-            </div>     
-          
-          </li>
-      
 
       </ul>
+    </section>
+
+
+
+
+
+    <!-- task Details and calender -->
+
+    <section id="task_ditail_setting" [ngClass]="taskDetailsStatus ? '' : 'hide'">
+
+
+            <div id="duration_wrap"  class="input-group input-group-sm mb-3 ">
+
+                <div class="input-group-prepend">
+                  <span class="input-group-text" id="inputGroup-sizing-sm"><fa name="time"></fa></span>
+                </div>
+
+                <input type="number" min="1" placeholder="Duration" [(ngModel)]="taskDuration">
+
+                <div class="input-group-append">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">Days</span>
+                </div>
+              
+          </div>
+
+
+
+
+
+        <div id="calender_wrapper">
+            <div id="callender_date" class="d-flex">
+          
+              <h4 class="col-6" *ngIf="taskFromDate">Start: <span>{{ taskFromDate.day }}/ {{ taskFromDate.month }}/{{ taskFromDate.year }} </span></h4>
+              <h4 class="col-6" *ngIf="taskToDate">End: <span>{{taskToDate.day}}/{{taskToDate.month}}/{{ taskToDate.year }}</span> </h4>
+            </div>
+          
+            <ngb-datepicker  #taskDatePicker [minDate]="taskMinDate" [maxDate]="taskMaxDate"  (select)="onTaskDateSelection($event)" [displayMonths]="1" [dayTemplate]="taskCalender" outsideDays="hidden">
+            </ngb-datepicker>
+          
+            <ng-template #taskCalender let-date let-focused="focused" >
+              <span class="custom-day"
+              
+                    [class.focused]="focused"
+                    [class.range]="isTaskDateRange(date)"
+                    [class.disabled]="isTaskDateOutSide(date)"
+                    [class.faded]="isTaskDateHovered(date) || isTaskDateInside(date)"
+                    (mouseenter)="taskHoveredDate = date"
+                    (mouseleave)="taskHoveredDate = null">
+                {{ date.day }}
+              </span>
+            </ng-template>
+
+            <div class="text-center">
+              <button class="btn btn-sm btn-success" (click)="saveTasksDurationDates()">Save</button>
+            </div>
+
+          </div>
+
+
 
     </section>
 
 
-<!-- Total Section -->
-    <section id="total_section">
+  </article>
+  
 
-        <!-- Total gruop-->
-        <div id="total_group" class="d-flex">
-            <div class="col-4 div_wrap">
-                <span class="badge badge-secondary">7</span>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <!-- cost priority -->
+
+  <form *ngIf="OpennedProject" #myCostPriorForm='ngForm' [formGroup]="costPriorForm" class="form">
+
+  <section id="costPrioritySection">
+
+        <div id="costFormGroup" class="form-group">
+
+            <div class="input-group input-group-sm" >
+      
+                    <div class="input-group-prepend">
+                      <span class="input-group-text" id="inputGroup-sizing-sm"><fa name="usd"></fa></span>
+                    </div>
+      
+                    <input id="costInput" data-type="currency" class="form-control text-success" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                    formControlName="cost"  [class.is-invalid]="formCostPrior.cost.invalid && formCostPrior.cost.touched" value="{{OpennedProject.cost}}">
+      
             </div>
-            
-            <div class="col-4 div_wrap">
-                <span class="badge badge-secondary">3</span>
-            </div>
-            
-            <div class="col-4 div_wrap">
-                <span class="badge badge-secondary">115 000 000</span>
-            </div>
-            
+      
           </div>
 
-  </section>
+
+
+        <div id="priorityFormGroup" class="form-group">
+
+        <div class="input-group input-group-sm" >
+
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm"><fa name="star"></fa></span>
+                </div>
+
+                
+                <div id="radio_wrap" >
+                    <label>Low</label>
+                    <fa name="star"  [ngClass]="projPriority >= '1' ? 'text-primary' : 'text-secondary'" (click)="selectPriority(1)" ></fa> 
+                </div>
+
+                <div id="radio_wrap">
+                    <label>Medium</label>
+                    <fa name="star"  [ngClass]="projPriority >= '2' ? 'text-primary' : 'text-secondary'" (click)="selectPriority(2)" ></fa>
+                </div>
+
+                <div id="radio_wrap" >
+                    <label>High</label>
+                    <fa name="star"  [ngClass]="projPriority >= '3' ? 'text-primary' : 'text-secondary'" (click)="selectPriority(3)" ></fa> 
+                </div>         
+
+
+        </div>
+
+        </div>
+
+
+    </section>
+
+
+
+  </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- ================================================== -->
+
 
 
 
@@ -230,23 +396,33 @@
 
     <section id="button_section">
 
-          <!-- Button group -->
-          <div id="button_group" class="d-flex">
-              <div class="col-4 div_wrap">
-                  <button class="btn btn-sm btn-success">Save Changes</button>
-              </div>
-              
-              <div class="col-4 div_wrap">
-                  <button class="btn btn-sm btn-warning">Discard Changes</button>
-              </div>
-              
-              <div class="col-4 div_wrap">
-                  <button class="btn btn-sm btn-danger">Delete Project</button>
-              </div>
-              
-            </div>
+      <!-- Button group -->
+      <div id="button_group" class="d-flex">
+          <div class="col-3 div_wrap">
+              <button class="btn btn-sm btn-success" (click)="saveChanges()">Save Changes</button>
+          </div>
+          
+          <div class="col-3 div_wrap">
+              <button class="btn btn-sm btn-warning">Discard Changes</button>
+          </div>
+          
+          <div class="col-3 div_wrap">
+            <button class="btn btn-sm btn-primary" (click)="lauchProject()">Launch Project</button>
+          </div>
+          
+          <div class="col-3 div_wrap">
+              <button class="btn btn-sm btn-danger" (click)="deleteProject()">Delete Project</button>
+          </div>
 
-    </section>
+        
+          
+      </div>
+      <!-- <div id="launch_div">
+        <button class="btn btn-primary" (click)="lauchProject()">Launch Project</button>
+      </div> -->
+
+</section>
 
 
-</form>
+
+</article>

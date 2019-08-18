@@ -1,8 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { SalesService } from 'src/app/shared/services/sales.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
+import { SalesCategoryService } from 'src/app/shared/services/sales-category.service';
+import { CustomaryService } from 'src/app/shared/services/customary.service';
+
 
 @Component({
   selector: 'app-sales-board',
@@ -16,7 +19,9 @@ export class SalesBoardComponent implements OnInit {
     private formBuilder: FormBuilder,
     private router : Router,
     private salesService: SalesService,
-    private notifyService: NotificationService
+    private notifyService: NotificationService,
+    private salesCategoryService: SalesCategoryService,
+    private customService: CustomaryService
   ) { }
 
 
@@ -25,10 +30,29 @@ export class SalesBoardComponent implements OnInit {
 
 
 // Variables
-  @ViewChild('myAddClientForm') myAddClientFormValues;
-  public targetClientForm: FormGroup;
-  public targetClientFormStatus: boolean;
-  public targetClients: any = [];
+  @ViewChild('myNewClientForm') myNewClientFormValues;
+  public newClientForm: FormGroup;
+
+
+  @Input() listIndex: number;
+  @Input() cardIndex: number;
+
+
+// Status
+public FormStatus: boolean;
+
+
+
+
+
+
+  // Binded Variables
+  public SalesCategorys: any = [];
+  public Opportunitys: any = [];
+  public Projects: any = [];
+  public ProjectSatus: string;
+  public Tasks: any = [];
+
 
 
 
@@ -40,68 +64,224 @@ export class SalesBoardComponent implements OnInit {
   // Initialisation Hook
   ngOnInit() {
 
-    // toggle Form
-    this.targetClientFormStatus= true;
+    // form status
+    this.FormStatus = false;
+
+
+      // List Sales category
+    this.salesCategoryService.listSalesCategory().subscribe(
+
+        data=>{
+            this.SalesCategorys = data;
+          },
+        error=>{
+            console.log(error)
+          }
+      )
+
+
+
+
+
 
     // Pass form values
-    this.targetClientForm=this.formBuilder.group({
+    this.newClientForm=this.formBuilder.group({
+      projectName: ['', Validators.required],
       clientName: ['', Validators.required],
-      projectType: ['', Validators.required],
-      revenue: [''],
-      priority: ['0'],
-      status: ['1']
+      task : [{
+          taskName: [''],
+          asignedTeam: [''],
+          taskStatus: [''],
+          taskDuration: null,
+          taskStartDate: null,
+          taskEndDate: null
+      }],
+      cost: null,
+      priority: null,
+      projectStatus: [''],
+      projectDuration: null,
+      projectStartDate: null,
+      projectEndDate: null
     });
 
-      // List Targeted Clients
 
-  this.salesService.listRawProject().subscribe(
+
+
+
+
+
+
+
+
+      // List Opportunities
+
+  this.salesService.listOppProject().subscribe(
     data=>{
-      this.targetClients = data
+      this.Opportunitys = data
     },
     error=>{
       console.log(error)
     }
   )
 
+
+
+    // List custom services 
+    this.customService.listServices().subscribe(
+      data=>{
+          this.Projects = data;
+      },
+      error=>{
+        console.log(error)
+      }
+    )
+
+
+    
+
+
 // -----------------------------------
   }
 //------------------------------------
 
 
+
+
  // conveniently get the values from the form fields
- get formClientTarget() {return this.targetClientForm.controls;}
+ get formNewClient() {return this.newClientForm.controls;}
 
 
+ toggleFormInput(currentCat){
+   this.FormStatus = !this.FormStatus;
 
-  // Toggle Sidebar
-  toggleTargetClient() {
-    this.targetClientFormStatus = !this.targetClientFormStatus;
-  }
+   this.SalesCategorys.forEach((cat)=>{
+      return cat.name = currentCat ? this.ProjectSatus = currentCat : '';
+   })
+
+   
+ }
+
+
     
 
-  // Add New Client Target Funtion
-  submitNewTargetClient(){
-    this.salesService.addRawProject(this.targetClientForm.value).subscribe(
+  // Add New Client FunCtion
+submitNewClientForm(){
+
+    // Adding abjects to task array
+    this.Projects.forEach((proj)=>{
+      return proj.serviceName === this.newClientForm.value.projectName ?
+
+      this.Tasks = proj.task.filter((a)=>{
+          a.taskStatus = 'unChecked';
+          a.taskDuration =  null;
+          a.taskStartDate = null;
+          a.taskEndDate = null;
+          return true
+        }).map(a=>{return a}) : 
+
+
+       '';
+
+
+    })
+
+
+    let structuredData = {
+      projectName: this.newClientForm.value.projectName,
+      clientName: this.newClientForm.value.clientName,
+      task : this.Tasks,
+      cost: null,
+      priority: 1,
+      projectStatus: this.ProjectSatus,
+      projectDuration: null,
+      projectStartDate: null,
+      projectEndDate: null
+    }
+
+    this.salesService.addOppProject(structuredData).subscribe(
       data => { 
         this.notifyService.showSuccess(`Client ${data.clientName} has been added`, "Success")
-        this.myAddClientFormValues.resetForm(); 
+        this.myNewClientFormValues.resetForm(); 
+        console.log(data)
       },
       error => { this.notifyService.showError(error, "Failed...")}
     )
   }
 
 
+
+
+
+
+
   // Clear New Client Target Input Form
-  clearNewTargetForm(){
-    this.myAddClientFormValues.resetForm(); 
+  clearNewClientForm(){
+    this.myNewClientFormValues.resetForm(); 
   }
+
+
+
 
 
   // To sales Edit
 
-  toSalesEdit(){
+  toSalesEdit(id){
+
     this.router.navigate(['/sales_edit']);
+    window.localStorage.setItem('salesEditItemId', id)
+    
   }
 
 
+
+
+
+
+
+
+
+  // Drag and Drop Functions
+allowDrop(e){
+  e.preventDefault();
+}
+
+drag(e){
+  e.dataTransfer.setData('text', e.target.id);
+}
+
+drop(e){
+  e.preventDefault();
+  let CardId = e.dataTransfer.getData('text');
+  let TargetId = e.target.id
+  
+  // Get Target Info
+  this.salesCategoryService.getSaleCat(TargetId).subscribe(
+    data=>{
+  
+      let updateData = {
+        projectStatus: data.name
+      }
+
+      // Update
+
+      this.salesService.updateOppProject(CardId, updateData).subscribe(
+        data=>{
+          this.notifyService.showSuccess("Card Moved", "Success")
+    
+        },
+        error=>{
+          this.notifyService.showError("Card did not move", "Error !")
+        }
+      )
+
+      // ---
+    },
+    error=>{
+      console.log(error)
+    }
+  )
+}
+
+
+// === End ===  
 }

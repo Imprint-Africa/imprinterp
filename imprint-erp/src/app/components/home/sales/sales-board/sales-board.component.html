@@ -4,116 +4,135 @@
   <p>Creates and lists Incoming Projects </p>
 </section>
 
+
+
+
+
+
 <!-- ------ -->
 <hr id="header_line">
 
-<!-- List Section -->
-<section id="list_section" class="card-group">
+<section id="form_section">
 
 
-  <!-- Clients Target -->
-  <div id="target_clients" class="card">
-    
-    <!-- Head Title -->
-    <div id="head" class="clearfix pl-2 pr-4">
-        <h4 class="float-left">Target Clients</h4>
-        <fa id="addClientTargetToggler"name="plus" class="float-right" (click)="toggleTargetClient()"></fa>
-   </div>
-  
-   <hr>
 
    <!-- Input Form -->
 
-   <form id="myAddClientForm" #myAddClientForm='ngForm' [formGroup]="targetClientForm" class="form" [ngClass]="targetClientFormStatus ? 'hide' : ''">
+   <form id="myNewClientForm" #myNewClientForm='ngForm' [formGroup]="newClientForm" class="form" [ngClass]="FormStatus ? '' : 'hide'">
 
-      <!-- Client Name -->
-      <div class="form-group">
-          <div class="input-group input-group-sm mb-3">
+    <!-- Client Name -->
+    <div class="form-group">
+        <div class="input-group input-group-sm mb-3">
 
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-sm">Client Name</span>
-              </div>
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-sm">Client Name</span>
+            </div>
 
-              <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-              formControlName="clientName" [class.is-invalid]="formClientTarget.clientName.invalid && formClientTarget.clientName.touched" required>
-
-        </div>
+            <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+            formControlName="clientName" [class.is-invalid]="formNewClient.clientName.invalid && formNewClient.clientName.touched" required>
 
       </div>
 
-      <!-- Projects Type -->
-      <div class="form-group">
-          <div class="input-group input-group-sm mb-3">
-
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-sm">Project Type</span>
-              </div>
+    </div>
 
 
-              <select type="" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-              formControlName="projectType" class="form-control" [class.is-invalid]="formClientTarget.projectType.invalid && formClientTarget.projectType.touched" required>
 
-                <option value='branding'>Branding</option>
-                <option value='business development'>Busines Dev</option>
-                <option value='digital training'>Digital Training</option>
-                <option value='ERP'>ERP</option>
-                <option value='SEO task'>SEO Task</option>
-                <option value="social media">Social Media</option>
-                <option value="website">Website</option>
-                  
-              </select> 
 
-        </div>
+
+
+
+
+    <!-- Projects Type -->
+    <div class="form-group">
+        <div class="input-group input-group-sm mb-3">
+
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-sm">Project Type</span>
+            </div>
+
+
+            <select type="" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+            formControlName="projectName" class="form-control" [class.is-invalid]="formNewClient.projectName.invalid && formNewClient.projectName.touched" required>
+                <option value="0" disabled selected hidden >Choose Project</option>
+                <option *ngFor="let Project of Projects" value='{{Project.serviceName}}'>{{Project.serviceName}}</option>
+                
+            </select> 
+
       </div>
-
-      <!-- Buttons -->
-      <div class="clearfix pl-2 pr-4">
-          <button [disabled]="!myAddClientForm.valid" class="btn btn-sm btn-success float-left" (click)="submitNewTargetClient()">Save</button>
-          <button class="btn btn-sm btn-secondary float-right" (click)="clearNewTargetForm()">Cancel</button>
-     </div>
+    </div>
 
 
-   </form>
+
+
+
+
+
+    <!-- Buttons -->
+    <div class="clearfix pl-2 pr-4">
+        <button [disabled]="!newClientForm.valid" class="btn btn-sm btn-success float-left" (click)="submitNewClientForm()">Save</button>
+        <button class="btn btn-sm btn-secondary float-right" (click)="clearNewClientForm()">Cancel</button>
+   </div>
+
+
+ </form>
+
+
+
+
+
+</section>
+
+
+
+
+
+<!-- List Section -->
+<section id="list_section" class="d-flex">
+
+
+
+
+  <!-- Sales Category Card-->
+  <article *ngFor='let SalesCategory of SalesCategorys' [id]="SalesCategory._id"
+   (dragover)="allowDrop($event)" (drop)="drop($event)">
+    
+    <!-- Head Title -->
+    <div id="head" class="clearfix">
+        <h4 class="float-left">{{SalesCategory.name}}</h4>
+        <fa name="plus" class="float-right" (click)="toggleFormInput(SalesCategory.name)"></fa>
+   </div>
+
+   <div [id]="SalesCategory._id" class="dropSpace border border-primary">
+     Drop here
+   </div>
 
 
    <!-- List Of Added Clients Targets -->
 
-   <div id="targetClientCardGroup">
+   <div class="card-group">
 
     <!-- Cards -->
 
-        <div id="targetClientCard" (click)="toSalesEdit()" *ngFor="let targetClient of targetClients">
+        <div draggable="true" class="card" *ngFor="let Opportunity of Opportunitys" [id]="Opportunity._id" (click)="toSalesEdit(Opportunity._id)" 
+        (drop)="drop($event)" (dragover)="allowDrop($event)" (dragstart)="drag($event)"  [hidden]="Opportunity.projectStatus != SalesCategory.name">
 
-              <h4 id="projectT">{{ targetClient.projectType}}</h4>
-              <h4 id="clientN">{{ targetClient.clientName}}</h4>
+              <h4 id="clientN">{{ Opportunity.clientName}}</h4>
+              <h4 id="projectN">{{ Opportunity.projectName}}</h4>
+              <h4 id="cost">$: {{ Opportunity.cost}}</h4>
 
               <div id="rateWarp" class="clearfix">
-                  <fa id="rate1" name="star" class="rateColor"></fa>
-                  <fa id="rate2" name="star" class=""></fa>
-                  <fa id="rate3" name="star" class=""></fa>
-                  <!-- <fa id="edit" name="pencil" class="float-right text-warning" ></fa> -->
+                  <fa id="rate1" name="star" [ngClass]="Opportunity.priority >= '1' ? 'rateColor' : ''"></fa>
+
+                  <fa id="rate2" name="star" [ngClass]="Opportunity.priority >= '2' ? 'rateColor' : ''"></fa>
+                  <fa id="rate3" name="star" [ngClass]="Opportunity.priority >= '3' ? 'rateColor' : ''"></fa>
               </div>
+
 
         </div>
 
     </div>
 
-</div>
-
-
-
-
-
-  <!-- Proposed Leads -->
-
-  <div id="proposed_leads" class="card">
-
-      <div class="clearfix pl-2 pr-4">
-          <h4 class="float-left">Proposed Leads</h4>
-          <fa name="plus" class="float-right"></fa>
-     </div>
-
-  </div>
+</article>
 
 
 
@@ -121,31 +140,10 @@
 
 
 
-  <!-- Qualified Leads -->
-  <div id="qualified_leads" class="card">
-
-    <div class="clearfix pl-2 pr-4">
-      <h4 class="float-left">Qualified Leads</h4>
-      <fa name="plus" class="float-right"></fa>
-    </div>
-
-  </div>
 
 
 
 
-
-
-
-  <!-- Closed -->
-  <div id="closed_leads" class="card">
-
-    <div class="clearfix pl-2 pr-4">
-      <h4 class="float-left">Closed</h4>
-      <fa name="plus" class="float-right"></fa>
-    </div>
-    
-  </div>
 
 
 </section>

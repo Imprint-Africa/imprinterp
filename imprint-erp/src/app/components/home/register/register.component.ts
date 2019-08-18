@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import { UserService } from '../../../shared/services/user.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
+import { TeamsService } from 'src/app/shared/services/teams.service';
 
 
 @Component({
@@ -19,6 +20,7 @@ export class RegisterComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private userService: UserService,
+    private teamService: TeamsService,
     private notifyService: NotificationService
   ) {}
 
@@ -33,6 +35,13 @@ export class RegisterComponent implements OnInit {
   public showPasswordIcon : boolean;
   public hidePasswordIcon : boolean;
   public isDisabled: boolean;
+  public Teams: any = [];
+
+
+
+
+
+
 
 
 
@@ -43,6 +52,21 @@ export class RegisterComponent implements OnInit {
     this.hidePasswordIcon = true;
     this.togglePassword= "password";
     this.isDisabled = false;
+
+
+
+    // list Teams
+    this.teamService.listTeams().subscribe(
+      data=>{
+        this.Teams = data;
+      },
+      error=>{
+        console.log('Error');
+      }
+        )
+    
+
+
 
     this.registrationForm=this.formBuilder.group({
 
@@ -65,6 +89,8 @@ export class RegisterComponent implements OnInit {
 
   // Form Submit Function
   onSubmit(){
+
+
 
     this.submitted=true;
     // stop here if the form is invalid

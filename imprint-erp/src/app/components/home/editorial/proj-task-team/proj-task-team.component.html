@@ -18,19 +18,32 @@
 
 
 
+<!-- div -->
+<div class="row">
+<article class="col-md-6">
+
+
+
+
+
+
+
 
 <!-- add Section -->
 <section id="add_section">
   <div id="add_section_row" class="row">
 
-    <div class="col-6 div_wrap">
-      <button class="btn btn-sm btn-success">Define New Project</button>
-    </div>
-
-    <div class="col-6 div_wrap">
-        <button class="btn btn-sm btn-primary">Add New Team</button>
+    <div class="col-4 div_wrap">
+        <button class="btn btn-sm btn-primary" (click)="openTeamForm()">Teams</button>
       </div>
 
+    <div class="col-4 div_wrap">
+      <button class="btn btn-sm btn-info" (click)="openSalesCatForm()">Sales Categories</button>
+    </div>
+
+    <div class="col-4 div_wrap">
+        <button class="btn btn-sm btn-success" (click)="openCustomServiceForm()">Custom Service</button>
+      </div>
 
   </div>
 
@@ -43,26 +56,24 @@
 
 
 <!-- Preview section -->
-<section id="preview_section">
+<section id="preview_section" [ngClass]="previewSectionStatus ? '' : 'hide'">
 
     <!-- List the project and its Tasks-->
     <ul class="list-group">
   
-        <h4>Branding</h4>
+        <div id="service_name">
+          <h4>{{namedCustomService}}</h4>
+        </div>
         <!-- List of Task -->
-        <li class="list-group-item d-flex p-0">
+        <li class="list-group-item d-flex p-0" *ngFor="let Task of Tasks">
           
-          <div class="d-flex col-4 div_wrap">
-              <h4 class="">Task 1</h4>
+          <div class="d-flex col-6 div_wrap">
+              <h4 class="">{{Task.taskName}}</h4>
           </div>
   
-          <div class="d-flex col-4 div_wrap">
-              <h4>Communication & PR</h4>
+          <div class="d-flex col-6 div_wrap">
+              <h4>{{Task.asignedTeam}}</h4>
           </div>
-  
-          <div class="d-flex col-4 div_wrap">
-              <span class="badge badge-success">100</span>
-          </div>     
         
         </li>
   
@@ -78,20 +89,24 @@
 
 
 <!-- Form Section -->
-<section id="form_section">
+<section id="customServiceSection" [ngClass]="customServiceSectionStatus ? '' : 'hide'">
 
-    <!-- Define Project -->
-  <form id="myDefineProjectForm" class="form">
+    <!-- Define Custom Service -->
+  <form id="myCustomServiceForm"  #myCustomServiceForm='ngForm' [formGroup]="customServiceForm" [ngClass]="customServiceFormStatus ? '' : 'hide'">
 
+    <div id="form_header">
+      <h4>Add Custom Service</h4>
+    </div>
 
       <div class="form-group">
           <div class="input-group input-group-sm">
     
-              <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-              placeholder="Type New Project">
+              <input type="text" #customServiceInput class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+              formControlName="customServiceName" [class.is-invalid]="formCustomService.customServiceName.invalid && formCustomService.customServiceName.touched"
+              required placeholder="Customize new Service">
           
             <div class="input-group-append">
-              <button class="btn btn-sm btm-warning input-group-text">Next</button>
+              <button [disabled]="!customServiceForm.valid" class="btn btn-sm btm-warning input-group-text" (click)="moveToTaskForm()">Next</button>
             </div>
             
           </div>
@@ -99,49 +114,43 @@
 
   </form>
 
+</section>
 
 
 
 
 
+
+
+<!-- Define Tasks Section -->
+<section id="addTaskSection" [ngClass]="addTaskSectionStatus ? '' : 'hide'">
 
   <!-- Define Tasks -->
-  <form id="defineTaskForm" class="">
+  <form id="mydefineTaskForm" #mydefineTaskForm='ngForm' [formGroup]="defineTaskForm"  [ngClass]="defineTaskFormStatus ? '' : 'hide'">
 
       <div id="head">
-        <h4>Creating and ssigning task to project <span>Branding</span></h4>
+        <h4>Creating and asigning task to service <span>{{namedCustomService}}</span></h4>
       </div>
 
       <div class="form-group">
-          <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-           placeholder="Task">
+          <input type="text" #taskDefineInput class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+          formControlName="taskName" [class.is-invalid]="formAddTask.taskName.invalid && formAddTask.taskName.touched" required placeholder="Task">
       </div>
   
       <div class="form-group">
-          <select type="" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+          <select type="" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+          formControlName="asignedTeam" [class.is-invalid]="formAddTask.asignedTeam.invalid && formAddTask.asignedTeam.touched"
            required>
-
+       
             <option value="" disabled selected hidden >Asign Team</option>
-            <option value='branding'>Branding</option>
-            <option value='business development'>Busines Dev</option>
-            <option value='digital training'>Digital Training</option>
-            <option value='ERP'>ERP</option>
-            <option value='SEO task'>SEO Task</option>
-            <option value="social media">Social Media</option>
-            <option value="website">Website</option>
-              
+            <option *ngFor="let Team of Teams" value='{{Team.name}}'>{{Team.name}}</option>
+         
           </select> 
       </div>
 
-      <div class="form-group">
-          <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-            placeholder="Task Revenue">
-      </div>
-
-
       <div class="d-flex">
-          <button class="btn btn-sm btn-secondary mr-auto">Add Another Tasks</button>
-          <button class="btn btn-sm btn-success mx-auto">Save and Close</button>
+          <button [disabled]="!defineTaskForm.valid" class="btn btn-sm btn-secondary mr-auto" (click)="addAnotherTask()">Save Add Another Tasks</button>
+          <button [disabled]="!defineTaskForm.valid" class="btn btn-sm btn-success mx-auto" (click)="saveAndClose()">Save and Close</button>
       </div>
 
      
@@ -157,20 +166,25 @@
 
 
 
- <!-- list Add Clients  -->
-<section id="listAddTeams">
+ <!-- list Add Teams -->
+<section id="listAddTeams"  [ngClass]="listAddTeamStatus ? '' : 'hide'">
 
-  <form id="myAddTeamForm"   class="form">
+
+  <form id="myAddTeamForm" #myAddTeamForm='ngForm' [formGroup]="addNewTeamForm"   class="form">
+
+      <div id="form_header">
+          <h4>Teams</h4>
+      </div>
 
 
     <div class="form-group">
       <div class="input-group input-group-sm">
 
           <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-          placeholder="Type New Team">
+          formControlName="teamName" [class.is-invalid]="formAddNewTeam.teamName.invalid && formAddNewTeam.teamName.touched" required placeholder="Type">
       
         <div class="input-group-append">
-          <button class="btn btn-sm btm-warning input-group-text">Add</button>
+          <button [disabled]="!addNewTeamForm.valid" class="btn btn-sm btm-warning input-group-text" (click)="addTeam()">Add New Team</button>
         </div>
 
       </div>
@@ -179,8 +193,9 @@
   </form>
 
   <ul class="list-group">
-      <!-- List of Clients -->
-      <li class="list-group-item"> Dev Team </li>
+      <!-- List of Teams -->
+      <li class="list-group-item" *ngFor="let Team of Teams">{{Team.name}}</li>
+
   </ul>
 
 </section>
@@ -191,8 +206,41 @@
 
 
 
-<!-- ------ -->
-<hr>
+
+ <!-- list Add Sales Categories -->
+ <section id="listAddSalesCategory"  [ngClass]="listAddSalesCategoryStatus ? '' : 'hide'">
+
+
+    <form id="myAddSalesCategoryForm" #myAddSalesCategoryForm='ngForm' [formGroup]="addSalesCategoryForm"   class="form">
+  
+        <div id="form_header">
+            <h4>Sales Stages</h4>
+        </div>
+  
+  
+      <div class="form-group">
+        <div class="input-group input-group-sm">
+  
+            <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+            formControlName="name" [class.is-invalid]="formAddSalesCategory.name.invalid && formAddSalesCategory.name.touched" required placeholder="Type">
+        
+          <div class="input-group-append">
+            <button [disabled]="!addSalesCategoryForm.valid" class="btn btn-sm btm-warning input-group-text" (click)="addSalesCategory()">Add Sales Category </button>
+          </div>
+  
+        </div>
+      </div>
+  
+    </form>
+  
+    <ul class="list-group">
+        <!-- List of Teams -->
+        <li class="list-group-item" *ngFor="let SalesCategory of SalesCategorys">{{SalesCategory.name}}</li>
+  
+    </ul>
+  
+  </section>
+  
 
 
 
@@ -200,52 +248,69 @@
 
 
 
-<section id="list_section">
+
+
+
+
+</article>
+
+<!-- Article wrap -->
+<article id="listArticle" class="col-md-6">
+
+
+
+
+
+
+
+
+
+<section id="list_section" [ngClass]="listStatus ? '' : 'hide'">
+
+  <div id="list_title">
+     <h4>Our Custom Services</h4>
+  </div>
+
+  <div id="custom_service_wrapper">
+
 
   <!-- Listing of the Projects and tasks -->
-  <ul class="list-group">
+  <ul class="list-group" *ngFor='let Service of Services'>
 
-      <h4>Project 1</h4>
+      <div id="custom_service_name">
+        <h4>{{Service.serviceName}}</h4>
+      </div>
+      
       <!-- List of Task -->
-      <li class="list-group-item d-flex p-0">
+      <li class="list-group-item d-flex p-0" *ngFor='let task of Service.task'>
         
-        <div class="d-flex col-4 div_wrap">
-            <h4 class="">Task 1</h4>
+        <div class="d-flex col-6 div_wrap">
+            <h4 class="">{{task.taskName}}</h4>
         </div>
 
-        <div class="d-flex col-4 div_wrap">
-            <h4>Communication & PR</h4>
+        <div class="d-flex col-6 div_wrap">
+            <h4>{{task.asignedTeam}}</h4>
         </div>
-
-        <div class="d-flex col-4 div_wrap">
-            <span class="badge badge-success">100</span>
-        </div>     
       
       </li>
 
 
       <!-- ------ -->
 
-      <h4>Project 1</h4>
-      <!-- List of Task -->
-      <li class="list-group-item d-flex p-0">
-        
-        <div class="d-flex col-4 div_wrap">
-            <h4 class="">Task 1</h4>
-        </div>
-
-        <div class="d-flex col-4 div_wrap">
-            <h4>Communication & PR</h4>
-        </div>
-
-        <div class="d-flex col-4 div_wrap">
-            <span class="badge badge-success">100</span>
-        </div>     
-      
-      </li>
-
-
   </ul>
+
+
+  </div>
+
+
 
 </section>
 
+
+
+
+
+
+
+</article>
+</div>

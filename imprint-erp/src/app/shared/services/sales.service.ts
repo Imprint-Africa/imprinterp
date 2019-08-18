@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http"; 
-import { RawProject } from "../models/project";
+import { oppProject } from "../models/opportunity";
 import * as io from 'socket.io-client'
 import { Observable } from 'rxjs';
 
@@ -24,18 +24,39 @@ export class SalesService {
 
 
   // Add Opportunity Projects
-addRawProject( rawProjectsData : RawProject ) {
-  return this.http.post<any>(this._url + "add", rawProjectsData)
+addOppProject( oppProjectsData : oppProject ) {
+  return this.http.post<any>(this._url + "create", oppProjectsData)
 }
 
   // List Opportinity Projects
-listRawProject() {
+listOppProject() {
 
   return Observable.create((observer) =>{
     this.socket.on('/listOppProjects', data => {
       observer.next(data);
     })
   });
+}
+
+
+// Get Specific Opp Project
+getOppProject(id) {
+  return this.http.get<any>(this._url + "getOne/" + id )
+}
+
+
+
+
+// Update Opp Project
+updateOppProject(id, data: any) {
+  return this.http.put<any>(this._url + "update/" + id, data )
+}
+
+
+
+// Delete Opp Project
+deleteOppProject(id) {
+  return this.http.delete<any>(this._url + "delete/" + id )
 }
 
 

@@ -67,8 +67,8 @@
 
         <li class="nav-item"><a (click)="navToProjects()" data-target="#" class="nav-link">Projects</a></li>
         <li class="nav-item"><a (click)="navToSales()" data-target="#" class="nav-link">Sales</a></li>
-        <li class="nav-item"><a (click)="navToProjTaskTeam()" data-target="#" class="nav-link">Editorial</a></li>
-        <li class="nav-item"><a (click)="navToRegister()" data-target="#" class="nav-link">Register</a></li>
+        <li class="nav-item" [hidden]="isNotAdmin"><a (click)="navToProjTaskTeam()" data-target="#" class="nav-link">Editorial</a></li>
+        <li class="nav-item" [hidden]="isNotAdmin"><a (click)="navToRegister()" data-target="#" class="nav-link">Register</a></li>
     
     
     </ul>

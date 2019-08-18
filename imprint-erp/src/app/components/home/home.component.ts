@@ -6,27 +6,52 @@ import { Router } from '@angular/router';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.sass']
 })
+
+
 export class HomeComponent implements OnInit {
+
+
+
+
 
   // constructor
   constructor(
     private router : Router
   ) { }
 
-  public loggedUserName: string;
-  public sideBarStatus: boolean;
+
+
+
+// Variables
+public loggedUserName: string;
+public sideBarStatus: boolean;
+public isNotAdmin;
+
+
+
+
+
 
   // Initialise
   ngOnInit() {
     this.sideBarStatus = false;
     this.loggedUserName = window.localStorage.getItem("loggedUserName");
 
+    return window.localStorage.getItem("isAdmin") ? this.isNotAdmin = false : this.isNotAdmin = true;
+
   }
+
+
+
 
   // Toggle Sidebar
   toggleSideBar() {
     this.sideBarStatus = !this.sideBarStatus;
  }
+
+
+
+
 
  //Navigate
  navToProjects(){
@@ -48,6 +73,7 @@ export class HomeComponent implements OnInit {
   logout(){
     window.localStorage.removeItem("loggedUserToken");
     window.localStorage.removeItem("loggedUserName");
+    window.localStorage.removeItem("isAdmin");
     this.router.navigate(['/login']);
   }
 
