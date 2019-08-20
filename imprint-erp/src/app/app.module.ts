@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SidebarModule } from "ng-sidebar";
 import {ReactiveFormsModule} from "@angular/forms";
 import { FormsModule } from '@angular/forms';
@@ -54,6 +55,7 @@ import { UpdateProjectComponent } from './components/home/projects/update-projec
     BrowserModule,
     AppRoutingModule,
     AngularFontAwesomeModule,
+    FontAwesomeModule,
     SidebarModule,
     ReactiveFormsModule,
     FormsModule,

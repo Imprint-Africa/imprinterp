@@ -4,73 +4,62 @@
   <p>Set up the project's steps before commencement</p>
 </section>
 
-<!-- ------ -->
-<hr id="header_line">
+
 
 
 
 <!-- // article wrapper -->
 <article id="main_wrapper">
 
-
-
-<!-- Edit Form -->
-<form id="myClientProjForm" class="form" *ngIf="OpennedProject">
-
   <!-- ------ ------- -->
-  <section id="projectClientSection" class="d-flex">
-
-
-
+  <section id="projectClientSection" *ngIf="OpennedProject">
 
     <!-- Client Name -->
-    <div class="form-group col-6 p-0">
-
-        <div class="input-group input-group-sm" *ngIf="OpennedProject">
-    
-                <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroup-sizing-sm"><fa name="building"></fa></span>
-                </div>
-    
-                <input type="text" class="form-control text-primary" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-                value="{{OpennedProject.clientName}}"  readonly>
-    
+    <div id="clientName" class="">
+        <div class="div_wrap">
+          <h4>{{OpennedProject.clientName}}</h4>
         </div>
-    
-        </div>   
+    </div>   
 
 
-
-
-
-
-    <!-- Project Type -->
-    <div class="form-group col-6 p-0">
-
-      <div class="input-group input-group-sm" >
-
-              <div class="input-group-prepend">
-                <span class="input-group-text" id="inputGroup-sizing-sm"><fa name="dashboard"></fa></span>
-              </div>
-
-              <input type="text" class="form-control text-success" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-              value="{{OpennedProject.projectName}}" readonly>
-
-      </div>
-
+    <!-- Project Name -->
+    <div id="projectName" class="">
+        <div class="div_wrap">
+          <h4>{{OpennedProject.projectName}}</h4>
+        </div>
     </div>
 
 
   </section>
   <!-- ---------------- -->
 
-</form>
 
 
 
 
 
+<section id="project_duration_dates_section" *ngIf="OpennedProject">
 
+  <div class="div_wrap">
+    <h4>Duration:<span>{{OpennedProject.projectDuration}} Days</span></h4>
+  </div>
+
+  <div class="div_wrap" *ngIf="OpennedProject.projectDuration">
+    <h4>StartDate<span>
+      {{OpennedProject.projectStartDate.day}}/{{OpennedProject.projectStartDate.month}}/{{OpennedProject.projectStartDate.year}}
+    </span></h4>
+  </div>
+  <div class="div_wrap" *ngIf="OpennedProject.projectDuration">
+    <h4>EndDate<span>
+        {{OpennedProject.projectEndDate.day}}/{{OpennedProject.projectEndDate.month}}/{{OpennedProject.projectEndDate.year}}
+    </span></h4>
+  </div>
+  <div class="div_wrap">
+    <h4><fa name="pencil" (click)="projectCalenderToggle()"></fa></h4>
+  </div>
+
+
+</section>
 
 
 
@@ -81,10 +70,10 @@
 
 
 <!-- Project date section -->
-<section id="project_date_section">
+<section id="project_calender_section" [ngClass]="projectCalenderStatus ? '' : 'hide'">
 
 
-    <div id="duration_wrap"  class="input-group input-group-sm mb-3 ">
+    <div id="duration_wrap"  class="input-group input-group-sm">
 
         <div class="input-group-prepend">
           <span class="input-group-text" id="inputGroup-sizing-sm"><fa name="time"></fa></span>
@@ -135,38 +124,11 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- Task Form -->
-
-
 
   <!-- Task Section -->
 
-  <article id="task_article" class="d-flex" *ngIf="OpennedProject">
+  <article id="task_article" class="d-flex m-0 p-0" *ngIf="OpennedProject">
 
 
   <section id="task_section" class="">
@@ -175,12 +137,16 @@
 
     <!-- Task Title -->
       <div id="task_titles" class="d-flex">
-        <div class="col-6 div_wrap">
+        <div class="col-4 div_wrap">
             <h4 class=""><fa name="tasks"></fa>Tasks</h4>
         </div>
         
-        <div  class="col-6 div_wrap">
+        <div  class="col-4 div_wrap">
             <h4 class=""><fa name="users"></fa>Teams</h4>
+        </div>
+
+        <div  class="col-4 div_wrap">
+            <h4 class=""><fa name="tasks"></fa>Schedule</h4>
         </div>
         
         
@@ -194,7 +160,7 @@
             <li *ngFor="let task of OpennedProject.task" [ngClass]="listClickedStatus === task._id ? 'list-group-item d-flex border border-info' : 'list-group-item d-flex'"
              (click)="taskDetailsToggle(task._id)">
             
-                    <div class="col-6 d-flex div_wrap">
+                    <div class="col-4 d-flex div_wrap">
 
                         <input type="checkbox" name="task" id="task._id" class=""
                         [checked]="task.taskStatus === 'checked'" onclick="return false">
@@ -203,8 +169,15 @@
 
                     </div>
 
-                    <div class="col-6 div_wrap">
-                        <h4>{{task.asignedTeam}}</h4>
+                    <div class="col-4 div_wrap">
+                        <h4>{{task.assignedTeam}}</h4>
+                    </div>
+                    <div id="dates_div" class="col-4 div_wrap" *ngIf="task.taskDuration">
+                        <h4><span>
+                          {{task.taskStartDate.day}}/{{task.taskStartDate.month}}/{{task.taskStartDate.year}}
+                        </span>To<span>
+                          {{task.taskEndDate.day}}/{{task.taskEndDate.month}}/{{task.taskEndDate.year}}
+                        </span><span>({{task.taskDuration}})</span>days</h4>
                     </div>
             
             </li> 
@@ -301,9 +274,14 @@
 
  <!-- cost priority -->
 
-  <form *ngIf="OpennedProject" #myCostPriorForm='ngForm' [formGroup]="costPriorForm" class="form">
+  <form id="costPriorForm" *ngIf="OpennedProject" #myCostPriorForm='ngForm' [formGroup]="costPriorForm" class="form">
+
+  <div class="form-title">
+      <h4>Expected Reveneu and Priority</h4>
+  </div>
 
   <section id="costPrioritySection">
+
 
         <div id="costFormGroup" class="form-group">
 

@@ -21,7 +21,6 @@ export class ProjectBoardsComponent implements OnInit {
 
 
   // variables
-
   public Projects : any = [];
 
 
@@ -32,6 +31,9 @@ export class ProjectBoardsComponent implements OnInit {
   // initialize
   ngOnInit() {
 
+    window.localStorage.setItem('ActiveNav', 'projects');
+
+    // get Project Lists
     this.projectsService.listProject().subscribe(
       data=>{
         this.Projects = data;

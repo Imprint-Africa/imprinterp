@@ -41,28 +41,13 @@ public myInterval: any;
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Initialize
-  ngOnInit() {
+  ngOnInit() {   
 
     // ckeck if project exists
     if(window.localStorage.getItem('projectOnEditId')){
+
+      window.localStorage.setItem('ActiveNav', 'projects');
 
       this.hideTeamSectionStatus = false;
       this.hideDetailSectionStatus = true;
@@ -130,14 +115,14 @@ UpdateComponent ()  {
     this.teamAndTasks = [];
 
     // Get Involved teams
-    let getInvolvedTeam =  data.task.filter(task=>{ return true}).map(task=>{return task.asignedTeam});
+    let getInvolvedTeam =  data.task.filter(task=>{ return true}).map(task=>{return task.assignedTeam});
     this.involvedTeams = Array.from(new Set(getInvolvedTeam))
 
 
     // Iterate each team to all tasks
     this.involvedTeams.forEach((team)=>{
       let teamsTask = data.task.filter(task => {
-                                  return task.asignedTeam === team ? true : false
+                                  return task.assignedTeam === team ? true : false
                       }).map(teamsTask=>{ return teamsTask});
       let teamsTaskNumber = teamsTask.length;
       

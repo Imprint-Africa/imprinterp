@@ -1,63 +1,73 @@
 // Global Color Themes
+$colors: ( nevyBlueTheme: #030451, orangeTheme: #F28500, gray: #6c757d, gray-dark: #343a40, primary: #007bff, secondary: #6c757d, success: #28a745, info: #17a2b8, warning: #ffc107, danger: #dc3545, dark: #35424a, silk:#7D7D7D )
 
-$colors: ( nevyBlueTheme: #030451, orangeTheme: #F28500, gray: #6c757d, gray-dark: #343a40, secondary: #6c757d, success: #28a745, info: #17a2b8, warning: #ffc107, danger: #dc3545, dark: #35424a, silk:#7D7D7D )
+$brandColors: ( brandPrimary: #20a8d8, brandSecondary: #c8ced3, brandSuccess: #4dbd74, brandDanger: #f86c6b, brandWarning: #ffc107, brandInfo: #63c2de, brandLight: #f0f3f5, brandDark: #2f353a,  )
+    
+$grayColors: (g100: #f0f3f5, g200: #e4e7ea, g300: #c8ced3, g400: #acb4bc, g500: #8f9ba6, g600: #73818f, g700: #5c6873, g800: #2f353a, g900: #23282c)
 
 // Color function
 @function color($color-name) 
     @return map-get($colors , $color-name)
+    
+@function brandColor($color-name) 
+    @return map-get($brandColors , $color-name)
 
-// Page Sizes
-
-// Breakpoints: xs: 0,  sm: 576px; md: 768px; lg: 992px; xl: 1200px; 
-
+@function grayColor($color-name) 
+    @return map-get($grayColors , $color-name)
+    
+// Resposivenes Breakpoints
 // Extra small    
-$desktop_xm: 576px
+$desktop_xm: 0px
 
 @mixin desktop_xm
-    @media (min-width: #{$desktop_xm}) 
+    @media (max-width: #{$desktop_xm}) 
         @content
     
 // Small
 $desktop_sm: 576px
 
 @mixin desktop_sm
-    @media (min-width: #{$desktop_sm}) 
+    @media (max-width: #{$desktop_sm}) 
         @content
     
 // Medium
-$desktop: 768px
+$desktop_md: 768px
 
-@mixin desktop
-    @media (min-width: #{$desktop}) 
+@mixin desktop_md
+    @media (max-width: #{$desktop_md}) 
         @content
     
 // Large
-$desktop_lg: 576px
+$desktop_lg: 992px
 
 @mixin desktop_lg
-    @media (min-width: #{$desktop_lg}) 
+    @media (max-width: #{$desktop_lg}) 
         @content
     
 // Extra large
-$desktop_xl: 576px
+$desktop_xl: 1200px
 
 @mixin desktop_xl
-    @media (min-width: #{$desktop_xl}) 
+    @media (max-width: #{$desktop_xl}) 
         @content
     
 
+    
 // Header
 header
-    background-color: color(nevyBlueTheme)
-    box-shadow: 0 5px 5px rgba(0, 0, 0, .3)
+    background-color: white
+    padding: 7px
+    border: none
+    border-bottom: solid 1px grayColor(g300)
         // Navbar
     #navbar
-        background-color: whitesmoke
+        background-color: white
         padding: 0 4em 0 4em
-        height: fit-content
+        height: 40px
 
-        @include desktop
-            height: 40px
+        @include desktop_md
+            height: fit-content
+            
             
         .navbar-brand
             padding: 0
@@ -87,34 +97,6 @@ header
                         color: color(orangeTheme) !important
                         font-weight: bold !important
                         text-decoration: underline !important
-
-            //    Programme dropdown
-            #programme_dropdown
-                font-family: Montserrat
-                a
-                    &:hover
-                        text-decoration: none !important
-                        font-weight: bold
-                        color: color(orangeTheme)!important
-                        text-decoration: underline !important
-            
-                    &.active
-                        background-color: color(orangeTheme) !important
-                        color: white !important
-
-                .dropdown-menu:hover, a:hover + .dropdown-menu
-                    display: block
-                                                    
-                .dropdown-menu
-                    background-color: color(info)
-                    display: none
-
-                    @include desktop
-                        background-color: color(info)
-                        top: 5.5em
-                        transform: translate(-50%, -50%)
-                        display: none
-        
                 
 
                 // User Dropdown
@@ -140,13 +122,14 @@ header
                                                         
                 .dropdown-menu
                     background-color: color(info)
+                    top: 5em
+                    transform: translate(-50%, -50%)
                     display: none
-
-                    @include desktop
+                    
+                    @include desktop_md
                         background-color: color(info)
-                        top: 5em
-                        transform: translate(-50%, -50%)
                         display: none
+                        
                 
                     #loggedUser
                         cursor: default
@@ -183,19 +166,20 @@ header
 
 // Side Bar Active
 #sidebar.active
-    margin-left: -130px
+    margin-left: -15%
     transform: rotateY(100deg)
 
-    @include desktop
-        margin-left: -15%
+    @include desktop_md
+        margin-left: -130px
+        
 
     
 
 // Side Bar
 #sidebar
-    width: 130px
+    width: 15%
     position: fixed
-    top: 40px
+    top: 47px
     left: 0
     height: 100%
     z-index: 0
@@ -203,11 +187,12 @@ header
     color: #fff
     transition: all 0.6s
 
-    @include desktop
-        width: 15%
+    @include desktop_md
+        width: 130px
+        
 
     .nav-pills
-        margin: 0 1em 0 1em !important
+        margin: .3em 1em 0 1em !important
         padding: 0
 
         li
@@ -221,34 +206,45 @@ header
                 font-family: Montserrat
 
                 &.active
-                    background-color: color(info) !important
-                    color: #000000 !important
+                    background: none !important
+                    color: color(orangeTheme) !important
+                    font-weight: bold
+
+                    &:hover
+                        background: none !important
+                        color: color(orangeTheme) !important
+                        font-weight: bold
 
                 &:hover
                     color: white !important
                     font-weight: bold !important
                     text-decoration: underline !important
 
+                fa-icon
+                    color: color(orangeTheme)
+                    margin: 0 .5em 0 0 
+
 
 
 // Main
 main
     max-width: 100%
-    margin: 0px 0px 0px 130px
-    padding: .5em
+    margin: 0px 0px 0px 15%
+    padding: 0
     transition: all 0.6s
     overflow: hidden
     font-family: Montserrat
+    background-color: transparent
 
-    @include desktop
-        margin: 0px 0px 0px 15%
+    @include desktop_md 
+        margin: 0px 0px 0px 130px
 
 // main Toggle Class    
 main.expand
-    margin: .5em 4em .5em 4em
+    margin: 0
+    padding: 0
     box-shadow: 0 0 1px rgba(0,0,0,.3)
     height: 100%
-    // padding: .5em 4em .5em 4em
     font-family: Montserrat
 
 

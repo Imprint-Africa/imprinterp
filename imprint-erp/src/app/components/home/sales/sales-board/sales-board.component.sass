@@ -1,61 +1,69 @@
 // Global Color Themes
+$colors: ( nevyBlueTheme: #030451, orangeTheme: #F28500, gray: #6c757d, gray-dark: #343a40, primary: #007bff, secondary: #6c757d, success: #28a745, info: #17a2b8, warning: #ffc107, danger: #dc3545, dark: #35424a, silk:#7D7D7D )
 
-$colors: ( nevyBlueTheme: #030451, orangeTheme: #F28500, gray: #6c757d, gray-dark: #343a40, secondary: #6c757d, primary: #007bff, success: #28a745, info: #17a2b8, warning: #ffc107, danger: #dc3545, dark: #35424a, silk: #7D7D7D )
+$brandColors: ( brandPrimary: #20a8d8, brandSecondary: #c8ced3, brandSuccess: #4dbd74, brandDanger: #f86c6b, brandWarning: #ffc107, brandInfo: #63c2de, brandLight: #f0f3f5, brandDark: #2f353a,  )
+    
+$grayColors: (g100: #f0f3f5, g200: #e4e7ea, g300: #c8ced3, g400: #acb4bc, g500: #8f9ba6, g600: #73818f, g700: #5c6873, g800: #2f353a, g900: #23282c)
 
 // Color function
 @function color($color-name) 
     @return map-get($colors , $color-name)
+    
+@function brandColor($color-name) 
+    @return map-get($brandColors , $color-name)
 
-// Page Sizes
-
-// Breakpoints: xs: 0,  sm: 576px; md: 768px; lg: 992px; xl: 1200px; 
-
+@function grayColor($color-name) 
+    @return map-get($grayColors , $color-name)
+    
+// Resposivenes Breakpoints
 // Extra small    
 $desktop_xm: 0px
 
 @mixin desktop_xm
-    @media (min-width: #{$desktop_xm}) 
+    @media (max-width: #{$desktop_xm}) 
         @content
     
 // Small
 $desktop_sm: 576px
 
 @mixin desktop_sm
-    @media (min-width: #{$desktop_sm}) 
+    @media (max-width: #{$desktop_sm}) 
         @content
     
 // Medium
-$desktop: 768px
+$desktop_md: 768px
 
-@mixin desktop
-    @media (min-width: #{$desktop}) 
+@mixin desktop_md
+    @media (max-width: #{$desktop_md}) 
         @content
     
 // Large
 $desktop_lg: 992px
 
 @mixin desktop_lg
-    @media (min-width: #{$desktop_lg}) 
+    @media (max-width: #{$desktop_lg}) 
         @content
     
 // Extra large
 $desktop_xl: 1200px
 
 @mixin desktop_xl
-    @media (min-width: #{$desktop_xl}) 
+    @media (max-width: #{$desktop_xl}) 
         @content
     
 
+    
 
 // ------------------------------------------------
 
 // Title Section
 #title_section
-    font-size: 13px
-    background-color: transparent
-    border-radius: 10px
-    padding: 0
-    
+    background-color: white
+    text-align: left
+    padding: .3em 1em .1em 1em
+    font-family: Montserrat
+    border-bottom: solid 1px grayColor(g300)
+
     h4
         color: color(nevyBlueTheme)
         font-size: 14px
@@ -66,12 +74,17 @@ $desktop_xl: 1200px
         color: color(silk)
         font-family: Montserrat
         font-size: 10px
+        padding: 0
         margin: 0
-// Header line
-#header_line
-    color: color(silk)
-    margin: .5em 0 .5em 0
 
+
+
+
+
+
+.body_section
+    margin: 1em
+    background-color: transparent
 
 
 
@@ -86,7 +99,8 @@ $desktop_xl: 1200px
 
     form.hide
         background-color: transparent
-        margin-bottom: -120px
+        // margin-bottom: -120px
+        height: 0
         -webkit-transition: all 0.5s // For Safari 3.1 to 6.0 
         transition: all 0.5s
         opacity: 0
@@ -95,45 +109,62 @@ $desktop_xl: 1200px
     form
         min-width: 200px
         max-width: 350px
-        height: 120px
+        height: fit-content
         -webkit-transition: all 0.5s // For Safari 3.1 to 6.0 
         transition: all 0.5s
         background-color: white
+        border: solid 1px grayColor(g300)
         border-radius: 2px
-        padding: .5em .3em .3em .3em
         margin: 0 0 .5em 0
-        box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.1)
+
+        .form-title
+            background: brandColor(brandSecondary)
+            padding: .5em
+            h4
+                font-size: 12px
+                font-family: Montserrat
         
-        
-        .input-group-text
-            font-size: 10px
-            background-color: white
-            border: none
+        .form-group
+            padding: .5em
+            margin: 0
 
-        input
-            background-color: white
-            font-family: Montserrat
-            font-size: 10px
-            color: color(info)
-            border: none
-            border-radius: 5px
-            border-bottom: solid 1px color(secondary)
+            .input-group-text
+                font-size: 10px
+                background-color: white
+                border: none
 
-        
-        select
-            background-color: white
-            font-family: Montserrat
-            font-size: 10px
-            color: color(info)
-            border: none
-            border-radius: 5px
-            border-bottom: solid 1px color(secondary)
+            input
+                background-color: white
+                font-family: Montserrat
+                font-size: 10px
+                color: color(info)
+                border: none
+                border-radius: 5px
+                border-bottom: solid 1px color(secondary)
 
-            option
-                text-transform: capitalize
+            
+            select
+                background-color: white
+                font-family: Montserrat
+                font-size: 10px
+                color: color(info)
+                border: none
+                border-radius: 5px
+                border-bottom: solid 1px color(secondary)
 
-        button
-            font-size: 10px
+                option
+                    text-transform: capitalize
+
+        .btn-wrap
+            margin: 0
+            padding: .5em
+
+            button
+                font-size: 10px
+                font-family: Montserrat
+                box-shadow: 0 0 10px rgba(0,0,0,.3)
+                text-transform: uppercase
+                color: white
 
 
 
@@ -142,38 +173,38 @@ $desktop_xl: 1200px
 
 #list_section    
     font-size 11px
-    background-color: white
+    background-color: transparent
     border: none
-    padding: 5px
+    padding: 0
     overflow-y: scroll
     // box-shadow: 0 0 5px rgba(0,0,0,.3)
     
     article
-        background-color: whitesmoke
+        background-color: transparent
         height: fit-content
         min-width: 250px
         width: 50%
         border: none
-        border-top: solid 2px color(nevyBlueTheme)
         margin: 0 2em 0 0
-        box-shadow: 0 0 5px rgba(0,0,0,.3)
+        // box-shadow: 0 0 5px rgba(0,0,0,.3)
             
 
         #head
             background-color: white
             padding: .5em
             margin: 0 0 0 0
-            // box-shadow: 0 0 5px rgba(0,0,0,.3)
+            border: none
+            border-top: solid 3px color(nevyBlueTheme)
+            box-shadow: 0 0 5px rgba(0,0,0,.3)
             
             
             h4
                 margin: auto 0 auto 0
-                color: color(nevyBlueTheme)
-                font-size: 12px
+                color: color(info)
+                font-size: 10px
+                font-weight: bold
                 font-family: Montserrat
                 text-transform: uppercase
-                // font-weight: bold
-                // text-decoration: underline
                 letter-spacing: 2px
 
 
@@ -184,11 +215,14 @@ $desktop_xl: 1200px
                 cursor: pointer
 
         .dropSpace
+            border: none
             text-align: center
             color: gray
             opacity: .1
             font-size: 12px
             padding: .5em
+            background-color: whitesmoke
+            
 
         .card-group
             height: fit-content
@@ -196,16 +230,14 @@ $desktop_xl: 1200px
             display: flex
             flex-direction: column
             background-color: transparent
+            // box-shadow: 0 0 5px rgba(0,0,0,.3)
 
             .card
                 background-color: white
                 padding: .3em
+                margin: 0 0 .5em 0 
+                border: solid 1px grayColor(g300)
                 border-radius: 2px
-                margin: 0 0.5em 0.5em 0.5em
-                border: none
-                border-top: solid 1px color(orangeTheme)
-                border-radius: 5px
-                // box-shadow: 0px 0px 3px rgba(0,0,0,.3)
                 cursor: pointer
 
                 &:hover

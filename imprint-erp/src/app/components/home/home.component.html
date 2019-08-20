@@ -19,17 +19,6 @@
 
               <li class="nav-item"><a href="#" data-target="#" class="nav-link">News</a></li>
               <li class="nav-item"><a href="#" data-target="#" class="nav-link">Chats</a></li>
-              <li id="programme_dropdown" class="nav-item dropdown">
-                  <a href="/program/" class="nav-link dropdown-toggle" data-toggle="dropdown">Programmes</a>
-
-                  <div id="programme_dropdown_menu" class="dropdown-menu ">
-                    <a href="/program/#" data-target="#" class="dropdown-item">Program 1</a>
-                    <a href="/program/#" data-target="#" class="dropdown-item">Program 2</a>
-                    <a href="/program/#" data-target="#" class="dropdown-item">Program 3</a>
-                  
-                  </div>
-              </li>
-
               <li id="user_dropdown" class="nav-item dropdown">
 
                   <a href="#" class="nav-link " data-toggle="dropdown">
@@ -65,10 +54,32 @@
 
     <ul class="navbar-nav nav-pills">
 
-        <li class="nav-item"><a (click)="navToProjects()" data-target="#" class="nav-link">Projects</a></li>
-        <li class="nav-item"><a (click)="navToSales()" data-target="#" class="nav-link">Sales</a></li>
-        <li class="nav-item" [hidden]="isNotAdmin"><a (click)="navToProjTaskTeam()" data-target="#" class="nav-link">Editorial</a></li>
-        <li class="nav-item" [hidden]="isNotAdmin"><a (click)="navToRegister()" data-target="#" class="nav-link">Register</a></li>
+      <li class="nav-item active">
+        <a (click)="navToProjects()" [ngClass]=" projectsNavBarActive ? 'nav-link active' : 'nav-link'">
+          <fa-icon [icon]="faProjectDiagram"></fa-icon>Projects
+        </a>
+      </li>
+
+
+      <li class="nav-item">
+        <a (click)="navToSales()"  [ngClass]=" salesNavBarActive ? 'nav-link active' : 'nav-link'">
+          <fa-icon [icon]="faShoppingCart"></fa-icon>Sales
+        </a>
+      </li>
+
+
+      <li class="nav-item" [hidden]="isNotAdmin">
+        <a (click)="navToProjTaskTeam()" [ngClass]=" editorialNavBarActive ? 'nav-link active' : 'nav-link'">
+          <fa-icon [icon]="faEdit"></fa-icon>Editorial
+        </a>
+      </li>
+
+      
+      <li class="nav-item" [hidden]="isNotAdmin">
+        <a (click)="navToRegister()" [ngClass]=" usersNavBarActive ? 'nav-link active' : 'nav-link'">
+          <fa-icon [icon]="faUsers"></fa-icon>Users
+        </a>
+      </li>
     
     
     </ul>
@@ -84,10 +95,5 @@
     <router-outlet></router-outlet>
 
 </main>
-
-
-
-<script src="../../../assets/functions/sidebarToggle.js"></script>
-
 
 

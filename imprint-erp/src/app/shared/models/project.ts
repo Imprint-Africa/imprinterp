@@ -3,7 +3,7 @@ export class Project {
   clientName: String;
   task : [{
       taskName: String;
-      asignedTeam: String;
+      assignedTeam: String;
       taskStatus: String;
       taskDuration: Number;
       taskStartDate: Date;

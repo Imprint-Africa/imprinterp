@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { faProjectDiagram, faUsers, faEdit, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home',
@@ -19,7 +20,11 @@ export class HomeComponent implements OnInit {
     private router : Router
   ) { }
 
-
+// Icons
+public faProjectDiagram = faProjectDiagram;
+public faUsers = faUsers;
+public faEdit = faEdit;
+public faShoppingCart = faShoppingCart;
 
 
 // Variables
@@ -27,7 +32,13 @@ public loggedUserName: string;
 public sideBarStatus: boolean;
 public isNotAdmin;
 
+// Active side navbar status
+public projectsNavBarActive: boolean;
+public salesNavBarActive: boolean;
+public editorialNavBarActive: boolean;
+public usersNavBarActive: boolean;
 
+public myInterval: any;
 
 
 
@@ -37,11 +48,25 @@ public isNotAdmin;
     this.sideBarStatus = false;
     this.loggedUserName = window.localStorage.getItem("loggedUserName");
 
-    return window.localStorage.getItem("isAdmin") ? this.isNotAdmin = false : this.isNotAdmin = true;
+    if (window.localStorage.getItem("isAdmin")){ this.isNotAdmin = false} else{ this.isNotAdmin = true};
 
+
+    this.myInterval = setInterval(()=>{
+      this.CheckActiveNavBar();
+    }, 700);
+
+  // ---
   }
+// ---
 
 
+CheckActiveNavBar(){
+
+  if(window.localStorage.getItem('ActiveNav') === 'projects'){this.projectsNavBarActive = true }
+  if(window.localStorage.getItem('ActiveNav') === 'sales'){this.salesNavBarActive = true}
+  if(window.localStorage.getItem('ActiveNav') === 'editorial'){this.editorialNavBarActive = true}
+  if(window.localStorage.getItem('ActiveNav') === 'users') {this.usersNavBarActive = true}
+}
 
 
   // Toggle Sidebar
@@ -78,4 +103,16 @@ public isNotAdmin;
   }
 
 
+
+
+  // On Destroy
+ngOnDestroy(){
+  clearInterval(this.myInterval);
+
+}
+
+
+
+
+// === End ===
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { SalesService } from 'src/app/shared/services/sales.service';
@@ -31,6 +31,7 @@ export class SalesBoardComponent implements OnInit {
 
 // Variables
   @ViewChild('myNewClientForm') myNewClientFormValues;
+  @ViewChild('clientInput') clientInput: ElementRef
   public newClientForm: FormGroup;
 
 
@@ -64,7 +65,7 @@ public FormStatus: boolean;
   // Initialisation Hook
   ngOnInit() {
 
-    // form status
+    window.localStorage.setItem('ActiveNav', 'sales');
     this.FormStatus = false;
 
 
@@ -90,7 +91,7 @@ public FormStatus: boolean;
       clientName: ['', Validators.required],
       task : [{
           taskName: [''],
-          asignedTeam: [''],
+          assignedTeam: [''],
           taskStatus: [''],
           taskDuration: null,
           taskStartDate: null,
@@ -200,9 +201,9 @@ submitNewClientForm(){
 
     this.salesService.addOppProject(structuredData).subscribe(
       data => { 
-        this.notifyService.showSuccess(`Client ${data.clientName} has been added`, "Success")
-        this.myNewClientFormValues.resetForm(); 
-        console.log(data)
+        this.notifyService.showSuccess(`Client ${data.clientName} has been added`, "Success");
+        this.FormStatus = !this.FormStatus;
+        this.clientInput.nativeElement.value = '';
       },
       error => { this.notifyService.showError(error, "Failed...")}
     )
@@ -216,7 +217,8 @@ submitNewClientForm(){
 
   // Clear New Client Target Input Form
   clearNewClientForm(){
-    this.myNewClientFormValues.resetForm(); 
+    this.clientInput.nativeElement.value = ''; 
+    this.FormStatus = !this.FormStatus;
   }
 
 

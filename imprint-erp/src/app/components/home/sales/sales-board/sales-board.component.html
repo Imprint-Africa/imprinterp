@@ -9,16 +9,22 @@
 
 
 
-<!-- ------ -->
-<hr id="header_line">
+<!-- Body Section -->
+<section class="body_section">
+
+
+
+
 
 <section id="form_section">
-
-
 
    <!-- Input Form -->
 
    <form id="myNewClientForm" #myNewClientForm='ngForm' [formGroup]="newClientForm" class="form" [ngClass]="FormStatus ? '' : 'hide'">
+
+    <div class="form-title">
+          <h4>New Lead Form</h4>
+    </div>
 
     <!-- Client Name -->
     <div class="form-group">
@@ -28,7 +34,7 @@
               <span class="input-group-text" id="inputGroup-sizing-sm">Client Name</span>
             </div>
 
-            <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+            <input #clientInput type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
             formControlName="clientName" [class.is-invalid]="formNewClient.clientName.invalid && formNewClient.clientName.touched" required>
 
       </div>
@@ -53,7 +59,7 @@
 
             <select type="" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
             formControlName="projectName" class="form-control" [class.is-invalid]="formNewClient.projectName.invalid && formNewClient.projectName.touched" required>
-                <option value="0" disabled selected hidden >Choose Project</option>
+                <option value="" disabled selected hidden >Choose Project</option>
                 <option *ngFor="let Project of Projects" value='{{Project.serviceName}}'>{{Project.serviceName}}</option>
                 
             </select> 
@@ -68,7 +74,7 @@
 
 
     <!-- Buttons -->
-    <div class="clearfix pl-2 pr-4">
+    <div class="clearfix btn-wrap">
         <button [disabled]="!newClientForm.valid" class="btn btn-sm btn-success float-left" (click)="submitNewClientForm()">Save</button>
         <button class="btn btn-sm btn-secondary float-right" (click)="clearNewClientForm()">Cancel</button>
    </div>
@@ -135,16 +141,8 @@
 </article>
 
 
-
-
-
-
-
-
-
-
-
-
-
 </section>
 
+
+<!-- End of Body Section -->
+</section>

@@ -1,49 +1,58 @@
 // Global Color Themes
+$colors: ( nevyBlueTheme: #030451, orangeTheme: #F28500, gray: #6c757d, gray-dark: #343a40, primary: #007bff, secondary: #6c757d, success: #28a745, info: #17a2b8, warning: #ffc107, danger: #dc3545, dark: #35424a, silk:#7D7D7D )
 
-$colors: ( nevyBlueTheme: #030451, orangeTheme: #F28500, gray: #6c757d, gray-dark: #343a40, primary: #007bff, secondary: #6c757d, success: #28a745, info: #17a2b8, warning: #ffc107, danger: #dc3545, dark: #35424a, silk: #7D7D7D, accent: #FFF6BB, )
+$brandColors: ( brandPrimary: #20a8d8, brandSecondary: #c8ced3, brandSuccess: #4dbd74, brandDanger: #f86c6b, brandWarning: #ffc107, brandInfo: #63c2de, brandLight: #f0f3f5, brandDark: #2f353a,  )
+    
+$grayColors: (g100: #f0f3f5, g200: #e4e7ea, g300: #c8ced3, g400: #acb4bc, g500: #8f9ba6, g600: #73818f, g700: #5c6873, g800: #2f353a, g900: #23282c)
 
 // Color function
 @function color($color-name) 
     @return map-get($colors , $color-name)
+    
+@function brandColor($color-name) 
+    @return map-get($brandColors , $color-name)
 
-// Page Sizes
-
-// Breakpoints: xs: 0,  sm: 576px; md: 768px; lg: 992px; xl: 1200px; 
-
+@function grayColor($color-name) 
+    @return map-get($grayColors , $color-name)
+    
+// Resposivenes Breakpoints
 // Extra small    
-$desktop_xm: 576px
+$desktop_xm: 0px
 
 @mixin desktop_xm
-    @media (min-width: #{$desktop_xm}) 
+    @media (max-width: #{$desktop_xm}) 
         @content
     
 // Small
 $desktop_sm: 576px
 
 @mixin desktop_sm
-    @media (min-width: #{$desktop_sm}) 
+    @media (max-width: #{$desktop_sm}) 
         @content
     
 // Medium
-$desktop: 768px
+$desktop_md: 768px
 
-@mixin desktop
-    @media (min-width: #{$desktop}) 
+@mixin desktop_md
+    @media (max-width: #{$desktop_md}) 
         @content
     
 // Large
-$desktop_lg: 576px
+$desktop_lg: 992px
 
 @mixin desktop_lg
-    @media (min-width: #{$desktop_lg}) 
+    @media (max-width: #{$desktop_lg}) 
         @content
     
 // Extra large
-$desktop_xl: 576px
+$desktop_xl: 1200px
 
 @mixin desktop_xl
-    @media (min-width: #{$desktop_xl}) 
+    @media (max-width: #{$desktop_xl}) 
         @content
+    
+
+    
     
 
 
@@ -51,11 +60,12 @@ $desktop_xl: 576px
 
 // Title Section
 #title_section
-    font-size: 13px
-    background-color: transparent
-    border-radius: 10px
-    padding: 0
-    
+    background-color: white
+    text-align: left
+    padding: .3em 1em .1em 1em
+    font-family: Montserrat
+    border-bottom: solid 1px grayColor(g300)
+
     h4
         color: color(nevyBlueTheme)
         font-size: 14px
@@ -66,6 +76,7 @@ $desktop_xl: 576px
         color: color(silk)
         font-family: Montserrat
         font-size: 10px
+        padding: 0
         margin: 0
 
 
@@ -73,11 +84,9 @@ $desktop_xl: 576px
 
 
 
-// Header line
-#header_line
-    color: color(silk)
-    margin: .5em 0 .5em 0
-
+.body_section
+    margin: 1em
+    background-color: transparent
 
 
 
@@ -86,29 +95,30 @@ $desktop_xl: 576px
 
 // Add Section
 #add_section
-    margin: 0 auto 1em auto
+    margin: 0 0 1em 0
     width: 100%
 
-    @include desktop
-        margin: 0 0 1em 0
+    @include desktop_md
+        margin: 0 auto 1em auto
         width: 100%
-
-
-    
+ 
     #add_section_row
         
         .div_wrap
-            text-align: center
-
-            @include desktop
-                text-align: start
-                width: 100%
+            text-align: start
+            width: 100%
+            
+            @include desktop_md
+                text-align: center
+                
             
             .btn
-                font-family: Montserrat
-                font-size: 10px
                 width: 100%
                 height: 100%
+                font-size: 10px
+                font-family: Montserrat
+                box-shadow: 0 0 10px rgba(0,0,0,.3)
+                text-transform: uppercase
 
 
 
@@ -128,12 +138,12 @@ $desktop_xl: 576px
     -webkit-transition: all 2s // For Safari 3.1 to 6.0 
     transition: all 2s
     height: fit-content
-    margin: 0 auto .5em auto
-    width: 95%
-
-    @include desktop
-        width: 100%
-        margin: 0 0 .5em 0
+    width: 100%
+    margin: 0 0 .5em 0
+   
+    @include desktop_md
+        margin: 0 auto .5em auto
+        width: 95%
 
     .list-group
         background-color: whitesmoke
@@ -181,15 +191,16 @@ $desktop_xl: 576px
     -webkit-transition: all 2s // For Safari 3.1 to 6.0 
     transition: all 2s
     height: fit-content
-    margin: 0 auto 0 auto
-    width: 95%
+    margin: 0
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+    width: 100%
 
-    @include desktop
-        margin: 0
-        display: flex
-        flex-direction: column
-        align-items: flex-start
-        width: 100%
+    @include desktop_md
+        margin: 0 auto 0 auto
+        width: 95%
+        
 
     #myCustomServiceForm.hide
         background-color: transparent
@@ -203,12 +214,12 @@ $desktop_xl: 576px
         -webkit-transition: all 2s // For Safari 3.1 to 6.0 
         transition: all 2s
         border-radius: 2px
-        box-shadow: 0 0 5px rgba(0,0,0,.3)
+        box-shadow: 0 0 7px rgba(0, 0, 0, .3)
         padding: 1em
-        width: 100%
+        width: 70%
 
-        @include desktop
-            width: 70%
+        @include desktop_md
+            width: 100%
 
         #form_header
             h4
@@ -227,6 +238,8 @@ $desktop_xl: 576px
             .btn
                 font-size: 10px
                 font-family: Montserrat
+                background-color: brandColor(brandDark)
+                color: brandColor(brandLight)
 
 
 
@@ -245,15 +258,16 @@ $desktop_xl: 576px
     -webkit-transition: all 2s // For Safari 3.1 to 6.0 
     transition: all 2s
     height: fit-content
-    margin: 0 auto 0 auto
-    width: 95%
+    margin: 0
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+    width: 100%
 
-    @include desktop
-        margin: 0
-        display: flex
-        flex-direction: column
-        align-items: flex-start
-        width: 100%
+    @include desktop_md
+        margin: 0 auto 0 auto
+        width: 95%
+       
 
     #defineTaskForm.hide
         background-color: transparent
@@ -267,12 +281,12 @@ $desktop_xl: 576px
         -webkit-transition: all 2s // For Safari 3.1 to 6.0 
         transition: all 2s
         border-radius: 2px
-        box-shadow: 0 0 5px rgba(0,0,0,.3)
+        box-shadow: 0 0 7px rgba(0, 0, 0, .3)
         padding: 1em
-        width: 100%
+        width: 70%
 
-        @include desktop
-            width: 70%
+        @include desktop_md
+            width: 100%
 
         #head
 
@@ -310,22 +324,23 @@ $desktop_xl: 576px
 #listAddTeams
     -webkit-transition: all 2s // For Safari 3.1 to 6.0 
     transition: all 2s
-    margin: 0 auto 0 auto
-    width: 95%
+    margin: 0
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+    width: 100%
 
-    @include desktop
-        margin: 0
-        display: flex
-        flex-direction: column
-        align-items: flex-start
-        width: 100%
+    @include desktop_md
+        margin: 0 auto 0 auto
+        width: 95%
+        
 
     #myAddTeamForm
         background-color: white
         border-radius: 2px
-        box-shadow: 0 0 5px rgba(0,0,0,.3)
+        box-shadow: 0 0 7px rgba(0, 0, 0, .3)
         padding: 1em
-        width: 100%
+        width: 70%
 
         #form_header
             h4
@@ -333,8 +348,8 @@ $desktop_xl: 576px
                 font-size: 12px
                 font-family: Montserrat
 
-        @include desktop
-            width: 70%
+        @include desktop_md
+            width: 100%
 
         .input-group-text
             font-size: 10px
@@ -347,10 +362,10 @@ $desktop_xl: 576px
     .list-group
         box-shadow: 0 0 5px rgba(0,0,0,.3)
         border-radius: 2px
-        width: 100%
+        width: 70%
 
-        @include desktop
-            width: 70%
+        @include desktop_md
+            width: 100%
 
         .list-group-item
             padding: 5px
@@ -381,22 +396,23 @@ $desktop_xl: 576px
 #listAddSalesCategory
     -webkit-transition: all 2s // For Safari 3.1 to 6.0 
     transition: all 2s
-    margin: 0 auto 0 auto
-    width: 95%
+    margin: 0
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+    width: 100%
 
-    @include desktop
-        margin: 0
-        display: flex
-        flex-direction: column
-        align-items: flex-start
-        width: 100%
+    @include desktop_md
+        margin: 0 auto 0 auto
+        width: 95%
+        
 
     #myAddSalesCategoryForm
         background-color: white
         border-radius: 2px
-        box-shadow: 0 0 5px rgba(0,0,0,.3)
+        box-shadow: 0 0 7px rgba(0, 0, 0, .3)
         padding: 1em
-        width: 100%
+        width: 70%
 
         #form_header
             h4
@@ -404,8 +420,8 @@ $desktop_xl: 576px
                 font-size: 12px
                 font-family: Montserrat
 
-        @include desktop
-            width: 70%
+        @include desktop_md
+            width: 100%
 
         .input-group-text
             font-size: 10px
@@ -418,10 +434,10 @@ $desktop_xl: 576px
     .list-group
         box-shadow: 0 0 5px rgba(0,0,0,.3)
         border-radius: 2px
-        width: 100%
+        width: 70%
 
-        @include desktop
-            width: 70%
+        @include desktop_md
+            width: 100%
 
         .list-group-item
             padding: 5px
@@ -443,29 +459,29 @@ $desktop_xl: 576px
 // List section
 #list_section.hide
     background-color: transparent
-    height: 0
     -webkit-transition: all 0s // For Safari 3.1 to 6.0 
     transition: all 0s
-    opacity: 0
+    height: fit-content
+    opacity: 1
 
-    @include desktop
-        height: fit-content
-        opacity: 1
+    @include desktop_md
+        opacity: 0
+        height: 0
+        
 
 
 #list_section
     -webkit-transition: all 2s // For Safari 3.1 to 6.0 
     transition: all 2s
     height: fit-content
-    margin: 1em auto 1em auto
-    width: 95%
-    // box-shadow: 0 0 5px rgba(0,0,0,.3)
+    margin: 0 0 1em 0
+    width: 100%
     background-color: transparent
 
-    @include desktop
-        
-            width: 100%
-            margin: 0 0 1em 0
+    @include desktop_md
+        width: 95%
+        margin: 1em auto 1em auto
+            
 
     #list_title
         text-align: left

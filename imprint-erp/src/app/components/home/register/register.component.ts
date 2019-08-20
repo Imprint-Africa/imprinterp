@@ -47,6 +47,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
 
+    window.localStorage.setItem('ActiveNav', 'users');
     this.submitted = false;
     this.showPasswordIcon = false;
     this.hidePasswordIcon = true;

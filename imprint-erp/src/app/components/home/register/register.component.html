@@ -1,22 +1,27 @@
 
-<section class="section">
+
+<!-- Title Section -->
+<section id="title_section" class="">
+        <h4>Users</h4>
+        <p>Users Lists, Details and registration</p>
+</section>
+              
+              
+              
+<section class="body_section">
+
+  <form #myForm='ngForm' [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="form m-0 p-0">
 
 
-  <!-- <div class="image-card">
-    <img src="../../assets/images/logo.png" alt="Imprint Africa Logo">
-  </div>  -->
-
-
-  <!-- Title -->
-  <div class="title">
-    <h4>Register New User</h4>
-  </div>
-
-
-  <form #myForm='ngForm' [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="form">
+        <div class="form-title">
+                <h4>Registration Form</h4>
+        </div>
 
 
     <!-- Name -->
+
+    <div class="form-body">
+
     <div class="form-group">
 
         <div class="input-group input-group-sm mb-3">
@@ -153,9 +158,11 @@
 
     </div>
 
+        </div>
 
-    <button type="submit" [disabled]="isDisabled" class="btn btn-sm btn-button-theme">Register</button>
-
+        <div class="btn-wrap">
+                <button type="submit" [disabled]="isDisabled" class="btn btn-sm btn-button-theme">Register</button>
+        </div>
   </form>
 
 

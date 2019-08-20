@@ -1,22 +1,26 @@
 <!-- Title -->
-<section id="title_section">
+<section id="title_section" class="projectsNav">
     <h4>Project details and Updates</h4>
     <p>View projects details and updating of the projects</p>
-  </section>
+</section>
   
 
-  <!-- ------ -->
-<hr id="header_line">
 
+<!-- Body Section -->
+<section class="body_section">
 
 
 <article id="teams_article" [hidden]="hideTeamSectionStatus">
 
+
+
+
 <div id="info_section">
-
     <h4>Teams in<span>{{currentProject}}</span>project for<span>{{currentClient}}</span></h4>
-
 </div>
+
+
+
 
 
 <!-- Cards Sections -->
@@ -181,7 +185,7 @@
                   </div>
           
                   <div class="d-flex col-6 div_wrap">
-                      <h4>{{task.asignedTeam}}</h4>
+                      <h4>{{task.assignedTeam}}</h4>
                   </div>
           </li>
     
@@ -205,4 +209,5 @@
 
 
 
-
+<!-- Body section end -->
+</section>

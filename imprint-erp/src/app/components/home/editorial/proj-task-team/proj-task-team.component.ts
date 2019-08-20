@@ -55,6 +55,7 @@ public defineTaskForm: FormGroup;
 
 
 
+
 // Binded Variables
 public Teams : any = [];
 public SalesCategorys: any = [];
@@ -72,6 +73,8 @@ public Services: any = [];
 
 // Initialize
   ngOnInit() {
+
+  window.localStorage.setItem('ActiveNav', 'editorial');
 
     // status
   this.previewSectionStatus= false;
@@ -134,7 +137,7 @@ public Services: any = [];
   // define Tasks
   this.defineTaskForm=this.formBuilder.group({
     taskName: ['', Validators.required],
-    asignedTeam: ['', Validators.required]
+    assignedTeam: ['', Validators.required]
   });
 
 
@@ -347,7 +350,8 @@ addAnotherTask(){
   this.listStatus=false;
 
   this.Tasks.push(this.defineTaskForm.value);
-  this.mydefineTaskFormValues.resetForm();
+  // this.mydefineTaskFormValues.resetForm();
+  this.taskField.nativeElement.value = '';
   this.taskField.nativeElement.focus();
 
   setTimeout(()=>{ this.listStatus=true; }, 1000);

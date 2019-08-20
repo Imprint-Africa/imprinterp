@@ -35,7 +35,7 @@ public costPriorForm: FormGroup;
 // Status
 public listClickedStatus;
 public taskDetailsStatus;
-public lauchStatus;
+public projectCalenderStatus;
 
 
 // Binded Variables
@@ -72,20 +72,14 @@ public taskMaxDate;
 
 // Initialize
   ngOnInit() {
-
-
-
-
+    window.localStorage.setItem('ActiveNav', 'sales');
     this.listClickedStatus = null;
     this.taskDetailsStatus = false;
-    this.lauchStatus = false;
+    this.projectCalenderStatus = false;
 
     /// set dates
-    
-    
     this.taskFromDate = this.calendar.getToday();
     this.taskToDate = null;
-
 
 
     if(window.localStorage.getItem('salesEditItemId')){
@@ -97,19 +91,32 @@ public taskMaxDate;
 
             this.OpennedProject = data;
             this.projPriority = data.priority;
+       
 
-            // set Date
-            if(data.projectStartDate === null){
+            // set Dates
+            if(data.projectDuration === null){
               this.projectFromDate = this.calendar.getToday();
               this.taskMinDate = this.projectFromDate;
               this.taskMaxDate = this.calendar.getNext(this.taskMinDate, 'd', 7);
               this.projectToDate = null;           
             }else{
+              // converting project date to NgbDate
               let startdates = new Date(data.projectStartDate);
               this.projectFromDate = new NgbDate(startdates.getUTCFullYear(), startdates.getUTCMonth() + 1, startdates.getUTCDate());
               this.projectToDate = this.calendar.getNext(this.projectFromDate, 'd', data.projectDuration);
+              this.OpennedProject.projectStartDate = this.projectFromDate;
+              this.OpennedProject.projectEndDate = this.projectToDate;
               this.taskMinDate = this.projectFromDate;
               this.taskMaxDate = this.projectToDate;
+
+              // converting task date to NgbDate
+              this.OpennedProject.task.forEach((task)=>{
+                if (task.taskDuration){
+                let taskStartDates = new Date(task.taskStartDate);
+                task.taskStartDate = new NgbDate(taskStartDates.getUTCFullYear(), taskStartDates.getUTCMonth() + 1, taskStartDates.getUTCDate());
+                task.taskEndDate = this.calendar.getNext(task.taskStartDate, 'd', task.taskDuration);
+                }
+              })
             }
                     
 
@@ -150,13 +157,6 @@ public taskMaxDate;
  get formCostPrior() {return this.costPriorForm.controls;}
 
 
- 
-ngOnDestroy(){
-  window.localStorage.removeItem('salesEditItemId');
-}
-
-
-
 
 
 // Toogle calender
@@ -165,6 +165,12 @@ taskDetailsToggle(id){
   this.taskDetailsStatus = !this.taskDetailsStatus;
 }
 
+
+projectCalenderToggle(){
+
+  this.projectCalenderStatus = !this.projectCalenderStatus;
+
+}
 
 
 
@@ -217,9 +223,14 @@ saveProjectDurationDates(){
 
   this.salesService.updateOppProject(window.localStorage.getItem('salesEditItemId'), dataToBeSent).subscribe(
     data=>{
+      this.OpennedProject = data;
       let startdates = new Date(data.projectStartDate);
       this.projectFromDate = new NgbDate(startdates.getUTCFullYear(), startdates.getUTCMonth() + 1, startdates.getUTCDate());
       this.projectToDate = this.calendar.getNext(this.projectFromDate, 'd', data.projectDuration);
+
+      this.OpennedProject.projectStartDate = this.projectFromDate;
+      this.OpennedProject.projectEndDate = this.projectToDate;
+
       this.taskMinDate = this.projectFromDate;
       this.taskMaxDate = this.projectToDate;
       this.notifyService.showSuccess('Dates Changes Saved', 'Success');
@@ -274,17 +285,34 @@ isTaskDateOutSide(date: NgbDate) {
 // Save Changes on Tasks
 saveTasksDurationDates(){
   this.OpennedProject.task.forEach((t)=>{
+  
     if (this.listClickedStatus === t._id){
           t.taskDuration = this.taskDuration;
-          t.taskStartDate = new Date(this.taskFromDate.year, this.taskFromDate.month -1, this.taskFromDate.day);
-          t.taskEndDate = new Date(this.taskToDate.year, this.taskToDate.month -1, this.taskToDate.day);
+          t.taskStartDate = new Date(this.taskFromDate.year, this.taskFromDate.month -1, this.taskFromDate.day +1);
+          t.taskEndDate = new Date(this.taskToDate.year, this.taskToDate.month -1, this.taskToDate.day +1);
           t.taskStatus = 'checked';
+    }
+    if (t._id != this.listClickedStatus && t.taskDuration){
+      t.taskStartDate = new Date(t.taskStartDate.year, t.taskStartDate.month -1, t.taskStartDate.day +1);
+      t.taskEndDate = new Date(t.taskEndDate.year, t.taskEndDate.month -1, t.taskEndDate.day + 1);
     }
 
   })
 
+
   this.salesService.updateOppProject(window.localStorage.getItem('salesEditItemId'), {task : this.OpennedProject.task}).subscribe(
     data=>{
+
+      this.OpennedProject.task = data.task;
+      // converting task date to NgbDate
+      this.OpennedProject.task.forEach((task)=>{
+        if (task.taskDuration){
+        let taskStartDates = new Date(task.taskStartDate);
+        task.taskStartDate = new NgbDate(taskStartDates.getUTCFullYear(), taskStartDates.getUTCMonth() + 1, taskStartDates.getUTCDate());
+        task.taskEndDate = this.calendar.getNext(task.taskStartDate, 'd', task.taskDuration);
+        }
+      })
+
       this.notifyService.showSuccess('Task Updated', 'Success');
     },
     error=>{
@@ -292,6 +320,7 @@ saveTasksDurationDates(){
 
     }
   )
+
 }
 
 
@@ -427,6 +456,15 @@ deleteProject(){
 
 }
 
+
+
+
+
+
+ 
+ngOnDestroy(){
+  window.localStorage.removeItem('salesEditItemId');
+}
 
 
 

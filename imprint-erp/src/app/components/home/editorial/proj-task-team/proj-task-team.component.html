@@ -1,5 +1,5 @@
 <!-- Title -->
-<section id="title_section">
+<section id="title_section" class="editorialNav">
     <h4>Editorial</h4>
     <p>Create New Project, Tasks and Teams </p>
 </section>
@@ -8,22 +8,9 @@
 
 
 
-
-
-<!-- ------ -->
-<hr id="header_line">
-
-
-
-
-
-
 <!-- div -->
-<div class="row">
+<div class="row body_section">
 <article class="col-md-6">
-
-
-
 
 
 
@@ -72,7 +59,7 @@
           </div>
   
           <div class="d-flex col-6 div_wrap">
-              <h4>{{Task.asignedTeam}}</h4>
+              <h4>{{Task.assignedTeam}}</h4>
           </div>
         
         </li>
@@ -139,7 +126,7 @@
   
       <div class="form-group">
           <select type="" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-          formControlName="asignedTeam" [class.is-invalid]="formAddTask.asignedTeam.invalid && formAddTask.asignedTeam.touched"
+          formControlName="assignedTeam" [class.is-invalid]="formAddTask.assignedTeam.invalid && formAddTask.assignedTeam.touched"
            required>
        
             <option value="" disabled selected hidden >Asign Team</option>
@@ -289,7 +276,7 @@
         </div>
 
         <div class="d-flex col-6 div_wrap">
-            <h4>{{task.asignedTeam}}</h4>
+            <h4>{{task.assignedTeam}}</h4>
         </div>
       
       </li>

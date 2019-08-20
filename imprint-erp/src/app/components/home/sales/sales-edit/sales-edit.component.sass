@@ -1,76 +1,83 @@
 // Global Color Themes
+$colors: ( nevyBlueTheme: #030451, orangeTheme: #F28500, gray: #6c757d, gray-dark: #343a40, primary: #007bff, secondary: #6c757d, success: #28a745, info: #17a2b8, warning: #ffc107, danger: #dc3545, dark: #35424a, silk:#7D7D7D )
 
-$colors: ( nevyBlueTheme: #030451, orangeTheme: #F28500, gray: #6c757d, gray-dark: #343a40, secondary: #6c757d, success: #28a745, info: #17a2b8, warning: #ffc107, danger: #dc3545, dark: #35424a, silk: #7D7D7D )
+$brandColors: ( brandPrimary: #20a8d8, brandSecondary: #c8ced3, brandSuccess: #4dbd74, brandDanger: #f86c6b, brandWarning: #ffc107, brandInfo: #63c2de, brandLight: #f0f3f5, brandDark: #2f353a,  )
+    
+$grayColors: (g100: #f0f3f5, g200: #e4e7ea, g300: #c8ced3, g400: #acb4bc, g500: #8f9ba6, g600: #73818f, g700: #5c6873, g800: #2f353a, g900: #23282c)
 
 // Color function
 @function color($color-name) 
     @return map-get($colors , $color-name)
+    
+@function brandColor($color-name) 
+    @return map-get($brandColors , $color-name)
 
-// Page Sizes
-
-// Breakpoints: xs: 0,  sm: 576px; md: 768px; lg: 992px; xl: 1200px; 
-
+@function grayColor($color-name) 
+    @return map-get($grayColors , $color-name)
+    
+// Resposivenes Breakpoints
 // Extra small    
 $desktop_xm: 0px
 
 @mixin desktop_xm
-    @media (min-width: #{$desktop_xm}) 
+    @media (max-width: #{$desktop_xm}) 
         @content
     
 // Small
 $desktop_sm: 576px
 
 @mixin desktop_sm
-    @media (min-width: #{$desktop_sm}) 
+    @media (max-width: #{$desktop_sm}) 
         @content
     
 // Medium
-$desktop: 768px
+$desktop_md: 768px
 
-@mixin desktop
-    @media (min-width: #{$desktop}) 
+@mixin desktop_md
+    @media (max-width: #{$desktop_md}) 
         @content
     
 // Large
 $desktop_lg: 992px
 
 @mixin desktop_lg
-    @media (min-width: #{$desktop_lg}) 
+    @media (max-width: #{$desktop_lg}) 
         @content
     
 // Extra large
 $desktop_xl: 1200px
 
 @mixin desktop_xl
-    @media (min-width: #{$desktop_xl}) 
+    @media (max-width: #{$desktop_xl}) 
         @content
     
 
+    
 
 // ------------------------------------------------
 
 // Title Section
 #title_section
-    font-size: 13px
-    background-color: transparent
-    border-radius: 10px
-    padding: 0
+    background-color: white
+    text-align: left
+    padding: .3em 1em .1em 1em
+    font-family: Montserrat
+    border-bottom: solid 1px grayColor(g300)
     
-    h4
-        color: color(nevyBlueTheme)
-        font-size: 14px
-        font-weight: bold
-        text-transform: uppercase
+#title_section h4
+    color: color(nevyBlueTheme)
+    font-size: 14px
+    font-weight: bold
+    text-transform: uppercase
     
-    p
-        color: color(silk)
-        font-family: Montserrat
-        font-size: 10px
-        margin: 0
-// Header line
-#header_line
+#title_section p
     color: color(silk)
-    margin: .5em 0 .5em 0
+    font-family: Montserrat
+    font-size: 10px
+    padding: 0
+    margin: 0
+
+
 
 
 
@@ -80,41 +87,114 @@ $desktop_xl: 1200px
 
 
 article
-    background-color: white
-    box-shadow: 0 0 5px rgba(0,0,0,.3)
+    margin: 1em
+    background-color: transparent
 
     #projectClientSection
+        display: flex
+        align-items: stretch
+        background-color: brandColor(brandSecondary)
+        margin: 0 0 0 0
+        padding: 0
 
-        .input-group
-            width: 95%
+        @include desktop_md
+            flex-direction: column
+            align-items: baseline        
 
-            .input-group-text
-                border: none
-                border-right: solid 1px gray
-                background-color: white
-                font-size: 10px
-                font-family: Montserrat
+
+        #clientName
+            width: 100%
+            margin: 0
             
-            input
-                border: transparent
-                background-color: white
+
+            .div_wrap
+                text-align: center
+                min-width: 150px
+                width: fit-content
+                padding: .5em 1em .5em 1em
+                
+                h4
+                    font-size: 11px
+                    font-weight: bold
+                    font-family: Montserrat
+                    margin: auto
+                    color: color(nevyBlueTheme)
+                    text-transform: uppercase
+                    text-shadow: 0 1px 3px rgba(0,0,0,.3)
+
+        #projectName
+            width: 100%
+            margin: 0
+
+            .div_wrap
+                text-align: center
+                min-width: 150px
+                width: fit-content
+                padding: .5em 1em .5em 1em
+
+                h4
+                    font-size: 11px
+                    font-weight: bold
+                    font-family: Montserrat
+                    margin: auto
+                    color: color(nevyBlueTheme)
+                    text-transform: uppercase
+                    text-shadow: 0 1px 3px rgba(0,0,0,.3)
+            
+    #project_duration_dates_section
+        background: white
+        padding: .5em
+        display: flex
+        align-items: stretch
+        border: solid 1px grayColor(g300)
+
+        @include desktop_md
+            flex-direction: column
+            align-items: baseline
+
+        .div_wrap
+            width: 100%
+            padding: .5em 1em .5em 0
+
+            h4
                 font-size: 10px
+                font-weight: bold
                 font-family: Montserrat
-                text-transform: uppercase
+                margin: auto
+                text-transform: capitalize
+                span
+                    font-size: 10px
+                    font-family: Montserrat
+                    margin: auto 0 auto .5em
+                    color: color(orangeTheme)
+                fa
+                    font-size: 10px
+                    font-weight: bold
+                    font-family: Montserrat
+                    margin: auto
+                    color: color(info)
+                    cursor: pointer
 
     
 
-    #project_date_section
-        margin: 1em 0 0 0
-        box-shadow: 0 0 3px rgba(0,0,0,.3)
-        height: 460px
+
+    #project_calender_section
+        margin: 1em 0 1em 15%
+        height: 400px
         -webkit-transition: all 0.5s // For Safari 3.1 to 6.0 
         transition: all 0.5s
         width: fit-content
-        // border: solid blue 2px
+        padding: .5em
+        background-color: white
+        box-shadow: 0 1px 3px rgba(0,0,0,.3)
+
+        &.hide
+            margin-bottom: -400px
+            opacity: 0
 
 
         #duration_wrap
+            width: fit-content
 
             .input-group-prepend
                 span
@@ -136,9 +216,7 @@ article
                     color: color(info)
 
         #calender_wrapper
-
             div
-
                 h4
                     font-size: 10px
                     font-family: Montserrat
@@ -197,15 +275,16 @@ article
 
     // Tasks Section
     #task_section
-        margin: 0 0 0 0
-        background-color: whitesmoke
-        // padding: 0
+        margin: 0 0 1em 0
+        background-color: white
+        border: solid 1px grayColor(g300)
         width: 100%
-        
+        border-radius: 2px
+
         #task_titles
             // box-shadow: 0 0 5px rgba(0,0,0,.3)
             padding: 0
-            background-color: transparent
+            background-color: brandColor(brandSecondary)
             
         
             .div_wrap
@@ -221,17 +300,18 @@ article
 
         // List tasks
         .list-group
-            margin: 0
-
-            
-
+            margin: 0   
+            border-radius: 0
 
             .list-group-item
-                background-color: white
                 border: none
+                border-bottom: solid 1px grayColor(g300)
                 padding: .5em 0 .5em 0
+                border-radius: 0
                 cursor: pointer
-                margin: 0 .5em .5em .5em
+                background-color: transparent
+                // margin: 0 .5em .5em .5em
+                margin: 0
 
                 &:hover
                     box-shadow: 0 5px 5px rgba(0, 0, 0, .3)
@@ -251,16 +331,24 @@ article
     
                         &:first-letter
                             text-transform: capitalize  
+                #dates_div
+
+                    h4      
+                        span
+                            margin: 0 .5em 0 .5em
+                            color: color(orangeTheme)
 
 
 
 
     #task_ditail_setting.hide
         margin-right: -330px
+        height: 0
 
     #task_ditail_setting
         margin: 0 0 10px 10px
         box-shadow: 0 0 3px rgba(0,0,0,.3)
+        background-color: white
         -webkit-transition: all 0.5s // For Safari 3.1 to 6.0 
         transition: all 0.5s
         padding: 3px
@@ -332,162 +420,69 @@ article
                     color: gray
                     opacity: .3
                     background-color: white!important
-              
-                
 
 
 
+// cost Priotity Section
+#costPriorForm
+    border: solid 1px grayColor(g300)
+    border-radius: 2px
+    margin: 0 0 1em 0
 
 
+#costPriorForm .form-title
+    background: brandColor(brandSecondary)
+    padding: .5em
+#costPriorForm .form-title h4
+    font-size: 12px
+    font-family: Montserrat
 
 
+#costPrioritySection
+    margin: 0 0 0 0
+    background-color: white
+    padding: .5em .5em .5em 1em
+    border-radius: 2px
 
+#costPrioritySection #costFormGroup
+    width: 200px
 
+#costPrioritySection #costFormGroup .input-group-text
+    background-color: white
+    font-size: 10px
+    font-family: Montserrat
 
+#costPrioritySection #costFormGroup input
+    background-color: white
+    font-size: 10px
+    font-family: Montserrat
 
+#costPrioritySection #priorityFormGroup
+    width: 500px
 
+#costPrioritySection #priorityFormGroup .input-group-text
+    background-color: white
+    font-size: 10px
+    font-family: Montserrat
+    margin: 0 .5em 0 0
 
+#costPrioritySection #priorityFormGroup #radio_wrap
+    padding: auto
+    margin: 0 2em 0 0
+    font-size: 12px
 
-
-
-
-
-
-    
-    // Total Section
-    #total_section
-        margin: 0 0 1em 0
-
-
-        #total_group
-            width: 97.5%
+#costPrioritySection #priorityFormGroup label
+    margin: 0 .5em 0 0
+    font-size: 12px
+    font-family: Montserrat
             
-            .div_wrap
-                padding: 0 0 0 .5em
-
-                span
-                    font-size: 10px
-                    font-family: Montserrat
-
-
-
-
-
-
-
-    #costPrioritySection
-        margin: 0 0 1em 0
-        width: 200px
-
-        #costFormGroup
-            width: 200px
-
-            .input-group-text
-                background-color: white
-                font-size: 10px
-                font-family: Montserrat
-
-            input
-                background-color: white
-                font-size: 10px
-                font-family: Montserrat
-
-        #priorityFormGroup
-            width: 500px
-
-            .input-group-text
-                background-color: white
-                font-size: 10px
-                font-family: Montserrat
-
-            #radio_wrap
-                padding: auto
-                margin: 0 2em 0 0
-
-                label
-                    margin: 0 .5em 0 0
-                    font-size: 12px
-                    font-family: Montserrat
-                
-                input
-                    font-size: 10px
-                    font-family: Montserrat
-                fa
-                    font-size: 15px
-                    font-family: Montserrat
-                    cursor: pointer
-
-
-
-
-
-// Calender
-#date_Section.hide
-    background-color: transparent
-    margin-bottom: -400px
-    -webkit-transition: all 0.5s // For Safari 3.1 to 6.0 
-    transition: all 0.5s
-    opacity: 0
-    z-index: -1
-
-#date_Section
-    margin: 1em 0 0 0
-    box-shadow: 0 0 3px rgba(0,0,0,.3)
-    height: 400px
-    -webkit-transition: all 0.5s // For Safari 3.1 to 6.0 
-    transition: all 0.5s
-    width: fit-content
-    // border: solid blue 2px
-
-    div
-
-        h4
-            font-size: 10px
-            font-family: Montserrat
-            padding: .5em
-            color: color(success)
-
-            span
-                font-size: 10px
-                font-family: Montserrat
-                color: color(info)
-
-    ngb-datepicker
-        font-size: 10px
-        font-family: Montserrat
-
-        .custom-day 
-            text-align: center
-            padding: 0.185rem 0.25rem
-            display: inline-block
-            height: 2rem
-            width: 2rem
-        
-        .custom-day.focused 
-            background-color: #e6e6e6
-        
-        .custom-day.range, .custom-day:hover
-            background-color: rgb(2, 117, 216)
-            color: white
-        
-        .custom-day.faded
-            background-color: rgba(2, 117, 216, 0.5)
-        
-
-    #sendProj_div
-        margin: .5em 0 0 0
-        padding: 1em
-        width: 70%
-        text-align: left
-
-        .btn 
-            margin: 0 auto 0 auto
-            font-size: 10px
-            font-family: Montserrat
-
-
-
-
+#costPrioritySection #priorityFormGroup input
+    font-size: 10px
+    font-family: Montserrat
+#costPrioritySection #priorityFormGroup .input-group-text
+    font-size: 10px
+    font-family: Montserrat
+    cursor: pointer
 
 
 
@@ -497,32 +492,24 @@ article
 
 // Buton Section
 #button_section
-    margin: 1em 0 0 0
+    margin: 0 0 2em 0
     padding: 1em
-    box-shadow: 0 0 3px rgba(0,0,0,.3)
+    background-color: white
+    border: solid 1px grayColor(g300)
+    border-radius: 2px
 
-
-    #button_group
-        width: 97.5%
+#button_section #button_group
+    width: 97.5%
         
+#button_section #button_group .div_wrap
+    padding: 0
 
-        .div_wrap
-            padding: 0
-
-            .btn
-                font-size: 10px
-                font-family: Montserrat
+#button_section #button_group .div_wrap .btn
+    font-size: 10px
+    font-family: Montserrat
+    box-shadow: 0 0 10px rgba(0,0,0,.3)
+    text-transform: uppercase
     
-    #launch_div
-        margin: .5em 0 0 0
-        padding: .5em .5em .5em 0
-        width: 70%
-        text-align: left
-
-        .btn 
-            margin: 0 auto 0 auto
-            font-size: 10px
-            font-family: Montserrat
 
         
 

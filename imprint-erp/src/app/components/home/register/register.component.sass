@@ -1,130 +1,171 @@
 // Global Color Themes
+$colors: ( nevyBlueTheme: #030451, orangeTheme: #F28500, gray: #6c757d, gray-dark: #343a40, primary: #007bff, secondary: #6c757d, success: #28a745, info: #17a2b8, warning: #ffc107, danger: #dc3545, dark: #35424a, silk:#7D7D7D )
 
-
-$colors: ( nevyBlueTheme: #030451, orangeTheme: #F28500, gray: #6c757d, gray-dark: #343a40, secondary: #6c757d, success: #28a745, info: #17a2b8, warning: #ffc107, danger: #dc3545, dark: #35424a, silk:#7D7D7D )
+$brandColors: ( brandPrimary: #20a8d8, brandSecondary: #c8ced3, brandSuccess: #4dbd74, brandDanger: #f86c6b, brandWarning: #ffc107, brandInfo: #63c2de, brandLight: #f0f3f5, brandDark: #2f353a,  )
+    
+$grayColors: (g100: #f0f3f5, g200: #e4e7ea, g300: #c8ced3, g400: #acb4bc, g500: #8f9ba6, g600: #73818f, g700: #5c6873, g800: #2f353a, g900: #23282c)
 
 // Color function
 @function color($color-name) 
     @return map-get($colors , $color-name)
-
-
-// Page Sizes
     
-// Breakpoints: xs: 0,  sm: 576px; md: 768px; lg: 992px; xl: 1200px; 
+@function brandColor($color-name) 
+    @return map-get($brandColors , $color-name)
 
+@function grayColor($color-name) 
+    @return map-get($grayColors , $color-name)
+    
+// Resposivenes Breakpoints
 // Extra small    
-$desktop_xm: 576px
+$desktop_xm: 0px
 
 @mixin desktop_xm
-    @media (min-width: #{$desktop_xm}) 
+    @media (max-width: #{$desktop_xm}) 
         @content
     
 // Small
 $desktop_sm: 576px
 
 @mixin desktop_sm
-    @media (min-width: #{$desktop_sm}) 
+    @media (max-width: #{$desktop_sm}) 
         @content
     
 // Medium
-$desktop: 768px
+$desktop_md: 768px
 
-@mixin desktop
-    @media (min-width: #{$desktop}) 
+@mixin desktop_md
+    @media (max-width: #{$desktop_md}) 
         @content
     
 // Large
-$desktop_lg: 576px
+$desktop_lg: 992px
 
 @mixin desktop_lg
-    @media (min-width: #{$desktop_lg}) 
+    @media (max-width: #{$desktop_lg}) 
         @content
     
 // Extra large
-$desktop_xl: 576px
+$desktop_xl: 1200px
 
 @mixin desktop_xl
-    @media (min-width: #{$desktop_xl}) 
+    @media (max-width: #{$desktop_xl}) 
         @content
+    
+
     
     
 
 
 // ------------------------------------------------
+// Title Section
+#title_section
+    background-color: white
+    text-align: left
+    padding: .3em 1em .1em 1em
+    font-family: Montserrat
+    border-bottom: solid 1px grayColor(g300)
 
-.section
-    border-radius: 10px
-    // box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, .3)
-    padding: 1em
-
-
-    
-.image-card img
-    border: 1px solid #ffffff
-    width: 200px
-    position: relative
-    top: 0%
-    left: 20%
-    margin-bottom: 20px
-
-.title
     h4
-        color: color(info)
+        color: color(nevyBlueTheme)
+        font-size: 14px
         font-weight: bold
-        margin: 0 0 1em 1em
+        text-transform: uppercase
+    
+    p
+        color: color(silk)
+        font-family: Montserrat
+        font-size: 10px
+        padding: 0
+        margin: 0
+
+
+
+
+
+
+.body_section
+    margin: 1em
+    background-color: transparent
+
 
 
 .form
-    max-width: 80%
+    max-width:  22em
     background-color: white
-    border-radius: 10px
-    padding: 1em
-    box-shadow: 5px 5px 5px 5px rgba(0, 0, 0, .3)
+    border-radius: 2px
+    padding: 0 0 0 0 
+    border: solid 1px grayColor(g300)
 
-    @include desktop
-        max-width: 22em
+    @include desktop_md
+        max-width: 80%
 
-    .input-group-text
-        width: 2em
-        color: color(info)
+    .form-title
+            background: brandColor(brandSecondary)
+            padding: .5em
+            h4
+                font-size: 12px
+                font-family: Montserrat
+        
+    .form-body
+        margin: 1em
 
-    input
-        color: color(info)
-        &::placeholder
-            color: color(secondary)
-    select
-        padding-left: 2px
-        color: color(info)
-
-        &:invalid
-            color: gray
-        [disabled]
-            display: none 
-        option
+        .input-group-text
+            width: 3em
             color: color(info)
-            text-transform: capitalize
+            font-size: 10px
+            font-family: Montserrat
+
+        input
+            color: color(info)
+            font-size: 10px
+            font-family: Montserrat
+            
+            &::placeholder
+                color: color(secondary)
+                font-size: 10px
+                font-family: Montserrat
+        select
+            padding-left: 2px
+            color: color(info)
+            font-size: 10px
+            font-family: Montserrat
+
+            &:invalid
+                color: gray
+            [disabled]
+                display: none 
+            option
+                color: color(info)
+                text-transform: capitalize
+                font-size: 10px
+                font-family: Montserrat
+
+    .btn-wrap
+        text-align: center
+        padding: .5em
+
+        .btn-button-theme
+            width: 8em
+            font-size: 10px
+            font-family: Montserrat
+            color: color(nevyBlueTheme)
+            border: none
+            padding: 5px
+            background-color: brandColor(brandSuccess)
+            font-weight: bold
+            border-radius: 2px
+            text-align: center
+            text-transform: uppercase
+            box-shadow: 0 1px 3px rgba(0,0,0,.3)
+
+            // &:hover
+            //     background-color: color(info)
+            //     color: color(orangeTheme)
 
     
-.form-control
-        background: #f2f2f5
 
-.btn-button-theme
-    font-family: Montserrat
-    color: color(nevyBlueTheme)
-    margin-top: 30px
-    border: none
-    padding: 10px
-    background-color: transparent
-    font-weight: bold
-    border: solid 2px color(info)
-    border-radius: 5px
-    width: 100%
-    text-align: center
-    text-transform: uppercase
 
-    &:hover
-        background-color: color(info)
-        color: color(orangeTheme)
+
 
 
 
