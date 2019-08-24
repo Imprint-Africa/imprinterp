@@ -94,6 +94,13 @@ public myInterval: any;
 
 
 
+moveToDetails(){
+  this.router.navigate(['/project_details']);
+}
+
+
+
+
 
   // Update component function
 UpdateComponent ()  {
@@ -104,7 +111,7 @@ UpdateComponent ()  {
     this.currentProject = data.projectName;
     this.currentClient = data.clientName;
 
-    // conviting Date to NgbDate
+    // converting Date to NgbDate
     let convertingToNgbDate = new Date(data.projectStartDate);
     this.oppennedCard.projectStartDate = new NgbDate(convertingToNgbDate.getUTCFullYear(), convertingToNgbDate.getUTCMonth() + 1, convertingToNgbDate.getUTCDate());
     this.oppennedCard.projectEndDate = this.calendar.getNext(data.projectStartDate, 'd', data.projectDuration);
@@ -116,7 +123,7 @@ UpdateComponent ()  {
 
     // Get Involved teams
     let getInvolvedTeam =  data.task.filter(task=>{ return true}).map(task=>{return task.assignedTeam});
-    this.involvedTeams = Array.from(new Set(getInvolvedTeam))
+    this.involvedTeams = Array.from(new Set(getInvolvedTeam));
 
 
     // Iterate each team to all tasks
@@ -219,7 +226,6 @@ updateProjectsTasks(){
 // On Destroy
 ngOnDestroy(){
   clearInterval(this.myInterval);
-  window.localStorage.removeItem('projectOnEditId');
 }
 
 

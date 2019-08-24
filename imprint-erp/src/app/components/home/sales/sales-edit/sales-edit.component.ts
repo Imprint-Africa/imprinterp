@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbDatepickerConfig, NgbCalendar, NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
-import {FormBuilder, FormGroup, FormArray, Validators} from "@angular/forms";
+import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { SalesService } from 'src/app/shared/services/sales.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { ProjectsService } from 'src/app/shared/services/projects.service';
@@ -44,6 +44,10 @@ public OpennedProject: any;
 public OpennedProjectTasks: any = [];
 public TaskNumber: number;
 public projPriority: string;
+public totalTasks: number;
+public totalSelectedTasks: number;
+public totalTeams: number;
+public totalSelectedTeams: number;
 
 
 // Calender Variable
@@ -91,7 +95,22 @@ public taskMaxDate;
 
             this.OpennedProject = data;
             this.projPriority = data.priority;
-       
+
+            this.totalTasks = data.task.length;
+            this.totalSelectedTasks = data.task.filter((task)=>{
+              return task.taskStatus === 'checked' ? true : false
+            }).map(task=>{return task}).length;
+
+
+            let getInvolvedTeam =  data.task.filter(task=>{ return true}).map(task=>{return task.assignedTeam});
+            this.totalTeams = Array.from(new Set(getInvolvedTeam)).length;
+
+            let getSelectedInvolvedTeam =  data.task.filter((task)=>{
+              return task.taskStatus === 'checked' ? true : false
+            }).map(task=>{return task.assignedTeam});
+
+            this.totalSelectedTeams = Array.from(new Set(getSelectedInvolvedTeam)).length;
+                
 
             // set Dates
             if(data.projectDuration === null){
@@ -117,6 +136,7 @@ public taskMaxDate;
                 task.taskEndDate = this.calendar.getNext(task.taskStartDate, 'd', task.taskDuration);
                 }
               })
+
             }
                     
 
@@ -167,7 +187,6 @@ taskDetailsToggle(id){
 
 
 projectCalenderToggle(){
-
   this.projectCalenderStatus = !this.projectCalenderStatus;
 
 }
@@ -234,6 +253,7 @@ saveProjectDurationDates(){
       this.taskMinDate = this.projectFromDate;
       this.taskMaxDate = this.projectToDate;
       this.notifyService.showSuccess('Dates Changes Saved', 'Success');
+      this.projectCalenderStatus = !this.projectCalenderStatus;
     },
     error=>{
       this.notifyService.showError('No Changes are Saved', 'Error');
@@ -304,6 +324,24 @@ saveTasksDurationDates(){
     data=>{
 
       this.OpennedProject.task = data.task;
+
+
+      this.totalTasks = data.task.length;
+      this.totalSelectedTasks = data.task.filter((task)=>{
+        return task.taskStatus === 'checked' ? true : false
+      }).map(task=>{return task}).length;
+
+
+      let getInvolvedTeam =  data.task.filter(task=>{ return true}).map(task=>{return task.assignedTeam});
+      this.totalTeams = Array.from(new Set(getInvolvedTeam)).length;
+
+      let getSelectedInvolvedTeam =  data.task.filter((task)=>{
+        return task.taskStatus === 'checked' ? true : false
+      }).map(task=>{return task.assignedTeam});
+
+      this.totalSelectedTeams = Array.from(new Set(getSelectedInvolvedTeam)).length;
+
+
       // converting task date to NgbDate
       this.OpennedProject.task.forEach((task)=>{
         if (task.taskDuration){
@@ -314,6 +352,7 @@ saveTasksDurationDates(){
       })
 
       this.notifyService.showSuccess('Task Updated', 'Success');
+      this.taskDetailsStatus = !this.taskDetailsStatus;
     },
     error=>{
       this.notifyService.showError('Task Not Updated', 'Error');
@@ -353,11 +392,6 @@ saveChanges(){
   this.salesService.updateOppProject(window.localStorage.getItem('salesEditItemId'), this.costPriorForm.value).subscribe(
     data=>{
       this.notifyService.showSuccess("Changes Saved", "Success")
-
-      setTimeout(()=>{
-        this.router.navigate(['/sales'])
-      },5000)
-
     },
     error=>{
       this.notifyService.showError("Changes Not saved", "Error !")
@@ -368,7 +402,9 @@ saveChanges(){
 }
 
 
-
+discardChanges(){
+  this.router.navigate(['/sales'])
+}
 
 
 
@@ -446,7 +482,7 @@ deleteProject(){
       this.notifyService.showSuccess("Projects Deleted", "Success");
       setTimeout(()=>{
                 this.router.navigate(['/sales'])
-          },5000)
+          },2000)
     },
     error =>{
       this.notifyService.showError("Projects Not Deleted", "Failled");

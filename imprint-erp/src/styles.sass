@@ -15,12 +15,53 @@ $grayColors: (g100: #f0f3f5, g200: #e4e7ea, g300: #c8ced3, g400: #acb4bc, g500: 
 @function grayColor($color-name) 
     @return map-get($grayColors , $color-name)
     
+// Resposivenes Breakpoints
+// Extra small    
+$desktop_xm: 0px
+
+@mixin desktop_xm
+    @media (max-width: #{$desktop_xm}) 
+        @content
+    
+// Small
+$desktop_sm: 576px
+
+@mixin desktop_sm
+    @media (max-width: #{$desktop_sm}) 
+        @content
+    
+// Medium
+$desktop_md: 768px
+
+@mixin desktop_md
+    @media (max-width: #{$desktop_md}) 
+        @content
+    
+// Large
+$desktop_lg: 992px
+
+@mixin desktop_lg
+    @media (max-width: #{$desktop_lg}) 
+        @content
+    
+// Extra large
+$desktop_xl: 1200px
+
+@mixin desktop_xl
+    @media (max-width: #{$desktop_xl}) 
+        @content
+    
+
+    
+    
     
 #mainBody
-  // width: max-content
   background-color: grayColor(g200)
   font-family: Montserrat
-// ===========================================
+
+
+
+
 
 // TOASTR BUG FIX 
 

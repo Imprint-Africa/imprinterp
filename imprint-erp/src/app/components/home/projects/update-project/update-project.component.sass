@@ -1,58 +1,4 @@
-// Global Color Themes
-$colors: ( nevyBlueTheme: #030451, orangeTheme: #F28500, gray: #6c757d, gray-dark: #343a40, primary: #007bff, secondary: #6c757d, success: #28a745, info: #17a2b8, warning: #ffc107, danger: #dc3545, dark: #35424a, silk:#7D7D7D )
-
-$brandColors: ( brandPrimary: #20a8d8, brandSecondary: #c8ced3, brandSuccess: #4dbd74, brandDanger: #f86c6b, brandWarning: #ffc107, brandInfo: #63c2de, brandLight: #f0f3f5, brandDark: #2f353a,  )
-    
-$grayColors: (g100: #f0f3f5, g200: #e4e7ea, g300: #c8ced3, g400: #acb4bc, g500: #8f9ba6, g600: #73818f, g700: #5c6873, g800: #2f353a, g900: #23282c)
-
-// Color function
-@function color($color-name) 
-    @return map-get($colors , $color-name)
-    
-@function brandColor($color-name) 
-    @return map-get($brandColors , $color-name)
-
-@function grayColor($color-name) 
-    @return map-get($grayColors , $color-name)
-    
-// Resposivenes Breakpoints
-// Extra small    
-$desktop_xm: 0px
-
-@mixin desktop_xm
-    @media (max-width: #{$desktop_xm}) 
-        @content
-    
-// Small
-$desktop_sm: 576px
-
-@mixin desktop_sm
-    @media (max-width: #{$desktop_sm}) 
-        @content
-    
-// Medium
-$desktop_md: 768px
-
-@mixin desktop_md
-    @media (max-width: #{$desktop_md}) 
-        @content
-    
-// Large
-$desktop_lg: 992px
-
-@mixin desktop_lg
-    @media (max-width: #{$desktop_lg}) 
-        @content
-    
-// Extra large
-$desktop_xl: 1200px
-
-@mixin desktop_xl
-    @media (max-width: #{$desktop_xl}) 
-        @content
-    
-
-    
+@import "src/styles.sass"
 
 
 // ------------------------------------------------
@@ -97,6 +43,8 @@ $desktop_xl: 1200px
         border: solid 1px grayColor(g300)
         background-color: brandColor(brandSecondary)
         padding: .5em 
+        display: flex
+        align-items: stretch
 
         h4
             font-family: Montserrat
@@ -109,6 +57,11 @@ $desktop_xl: 1200px
                 color: color(orangeTheme)
                 text-transform: capitalize
                 margin: 0 2px 0 2px
+        .btn
+            margin: 0 0 0 auto 
+            background-color: brandColor(brandPrimary)
+            font-size: 10px
+            font-family: Montserrat
 
 
     #card_section
@@ -201,6 +154,7 @@ $desktop_xl: 1200px
         margin: 0 0 1em 0
         border: solid 1px grayColor(g300)
         background-color: brandColor(brandSecondary)
+        border-radius: 2px
         padding: .5em 
 
         h4
@@ -225,8 +179,13 @@ $desktop_xl: 1200px
     #update_section
         border: solid 1px grayColor(g300)
         height: fit-content
+        border-radius: 2px
         padding: 0
         background-color: white
+        width: 50%
+
+        @include desktop_md
+            width: 100%
 
         #update_section_title
             margin: 0 0 0 0
@@ -291,93 +250,3 @@ $desktop_xl: 1200px
 
                 .progress-bar            
                     font-size: 12px
-
-
-
-    #detail_section
-        border: solid 1px grayColor(g300)
-        height: fit-content
-        padding: 0
-        background-color: white
-        border-radius: 2px
-
-        #detail_section_title
-            margin: 0 0 0 0
-            background-color: brandColor(brandSecondary)
-            padding: .5em 
-
-            h4
-                font-family: Montserrat
-                font-size: 12px
-                color: color(silk)
-                font-weight: bold
-        
-        .detail_section_item
-            padding: 1em .2em 0 1em
-
-            h4
-                font-family: Montserrat
-                font-size: 10px
-                text-transform: capitalize
-                color: color(silk)
-
-                span
-                    font-family: Montserrat
-                    font-size: 10px
-                    color: color(orangeTheme)
-                    margin: 0 0 0 .2em
-
-        #detail_section_tasks
-            margin: 0 0 0 0
-            border: solid 1px grayColor(g300)
-            background-color: brandColor(brandSecondary)
-            padding: .5em 
-
-            h4
-                font-family: Montserrat
-                font-size: 10px
-                text-transform: capitalize
-                margin: 1em 0 0 0
-                color: color(silk)
-                
-
-        .list-group
-            padding: 1em
-
-            .done
-                text-decoration: line-through !important
-                color: color(info) !important
-
-            .list-group-item
-                border: none
-                background-color: white
-                padding: 0
-
-                .div_wrap
-                    padding: 5px    
-                    
-                    h4
-                        margin: auto 0 auto 0
-                        font-size: 10px
-                        font-family: Montserrat
-
-                    h4:first-letter
-                        text-transform: capitalize
-
-
-        .progress-head
-            font-size: 10px
-            font-family: Montserrat
-            margin: .5em 2em .5em 2em
-            
-        .progress
-            font-size: 12px
-            height: 2px
-            margin: .5em 2em 2em 2em
-
-            .progress-bar            
-                font-size: 12px
-            
-
-
-

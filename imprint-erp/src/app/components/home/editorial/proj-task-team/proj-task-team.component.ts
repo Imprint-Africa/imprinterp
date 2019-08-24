@@ -268,7 +268,9 @@ addSalesCategory(){
   setTimeout(()=>{ this.listStatus=true; }, 1000)
 
   let convertedData = {
-                      name: this.addSalesCategoryForm.value.name.toLowerCase()
+                      name: this.addSalesCategoryForm.value.name.toLowerCase(),
+                      totalLeads: 0,
+                      totalRevenue: 0
                     }
 
   this.salesCategoryService.addSalesCategory(convertedData).subscribe(

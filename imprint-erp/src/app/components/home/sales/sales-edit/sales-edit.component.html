@@ -184,6 +184,21 @@
   
 
       </ul>
+      <div id="totals" class="d-flex">
+        <div class="col-4 div_wrap">
+            <h4 class=""><span class="first-span">{{totalSelectedTasks}}</span>of<span class="second-span">{{totalTasks}}</span></h4>
+        </div>
+        
+        <div  class="col-4 div_wrap">
+            <h4 class=""><span class="first-span">{{totalSelectedTeams}}</span>of<span class="second-span">{{totalTeams}}</span></h4>
+        </div>
+
+        <div  class="col-4 div_wrap">
+    
+        </div>
+        
+        
+      </div>
     </section>
 
 
@@ -341,30 +356,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <!-- ================================================== -->
 
 
@@ -381,7 +372,7 @@
           </div>
           
           <div class="col-3 div_wrap">
-              <button class="btn btn-sm btn-warning">Discard Changes</button>
+              <button class="btn btn-sm btn-warning" (click)="discardChanges()">Discard Changes</button>
           </div>
           
           <div class="col-3 div_wrap">
@@ -395,9 +386,7 @@
         
           
       </div>
-      <!-- <div id="launch_div">
-        <button class="btn btn-primary" (click)="lauchProject()">Launch Project</button>
-      </div> -->
+
 
 </section>
 

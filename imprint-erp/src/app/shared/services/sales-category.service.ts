@@ -41,6 +41,17 @@ getSaleCat(id) {
 }
 
 
+// Update Opp Project
+updateSaleCategory(id, data: any) {
+  return this.http.put<any>(this._url + "update/" + id, data )
+}
+
+
+
+// Delete Opp Project
+deleteSaleCategory(id) {
+  return this.http.delete<any>(this._url + "delete/" + id )
+}
 
 
 

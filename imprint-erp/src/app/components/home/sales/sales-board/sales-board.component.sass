@@ -1,58 +1,5 @@
-// Global Color Themes
-$colors: ( nevyBlueTheme: #030451, orangeTheme: #F28500, gray: #6c757d, gray-dark: #343a40, primary: #007bff, secondary: #6c757d, success: #28a745, info: #17a2b8, warning: #ffc107, danger: #dc3545, dark: #35424a, silk:#7D7D7D )
+@import "src/styles.sass"
 
-$brandColors: ( brandPrimary: #20a8d8, brandSecondary: #c8ced3, brandSuccess: #4dbd74, brandDanger: #f86c6b, brandWarning: #ffc107, brandInfo: #63c2de, brandLight: #f0f3f5, brandDark: #2f353a,  )
-    
-$grayColors: (g100: #f0f3f5, g200: #e4e7ea, g300: #c8ced3, g400: #acb4bc, g500: #8f9ba6, g600: #73818f, g700: #5c6873, g800: #2f353a, g900: #23282c)
-
-// Color function
-@function color($color-name) 
-    @return map-get($colors , $color-name)
-    
-@function brandColor($color-name) 
-    @return map-get($brandColors , $color-name)
-
-@function grayColor($color-name) 
-    @return map-get($grayColors , $color-name)
-    
-// Resposivenes Breakpoints
-// Extra small    
-$desktop_xm: 0px
-
-@mixin desktop_xm
-    @media (max-width: #{$desktop_xm}) 
-        @content
-    
-// Small
-$desktop_sm: 576px
-
-@mixin desktop_sm
-    @media (max-width: #{$desktop_sm}) 
-        @content
-    
-// Medium
-$desktop_md: 768px
-
-@mixin desktop_md
-    @media (max-width: #{$desktop_md}) 
-        @content
-    
-// Large
-$desktop_lg: 992px
-
-@mixin desktop_lg
-    @media (max-width: #{$desktop_lg}) 
-        @content
-    
-// Extra large
-$desktop_xl: 1200px
-
-@mixin desktop_xl
-    @media (max-width: #{$desktop_xl}) 
-        @content
-    
-
-    
 
 // ------------------------------------------------
 
@@ -213,6 +160,30 @@ $desktop_xl: 1200px
                 font-size: 11px
                 color: color(nevyBlueTheme)
                 cursor: pointer
+
+        #totals
+            background-color: white
+            padding: .5em
+            margin: 0 0 0 0
+            border: none
+            border-top: none
+            
+            h4
+                margin: auto 0 auto 0
+                color: color(info)
+                font-size: 10px
+                font-family: Montserrat
+                text-transform: uppercase
+                letter-spacing: 2px
+                color: grayColor(g500)
+
+                span
+                    text-shadow: 5px 5px 3px rgba(0,0,0,.3)
+                    margin: auto .5em auto .5em
+                    font-size: 10px
+                    font-weight: bold
+                    color: color(orangeTheme)
+                    cursor: pointer
 
         .dropSpace
             border: none

@@ -30,7 +30,6 @@ export class ProjectsService {
   
     // List Projects
   listProject() {
-  
     return Observable.create((observer) =>{
       this.socket.on('/listProjects', data => {
         observer.next(data);
@@ -38,7 +37,7 @@ export class ProjectsService {
     });
   }
   
-  
+
   // Get Specific Project
   getProject(id) {
     return this.http.get<any>(this._url + "getOne/" + id )
@@ -52,6 +51,20 @@ export class ProjectsService {
     return this.http.put<any>(this._url + "update/" + id, data )
   }    
 
+
+// Get Specific Project
+getGanttProject(id): Promise<any>{
+  return this.http.get<any>(this._url + "oneToGantt/" + id)
+      .toPromise()
+      .catch()
+}
+  
+
+getLink(): Promise<any> {
+    return Promise.resolve([
+        {id: 1, source: 1, target: 2, type: "0"}
+    ]);
+}
 
 
 

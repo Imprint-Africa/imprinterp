@@ -36,6 +36,8 @@ import { CustomaryService } from './shared/services/customary.service';
 import { SalesCategoryService } from './shared/services/sales-category.service';
 import { ProjectsService } from './shared/services/projects.service';
 import { UpdateProjectComponent } from './components/home/projects/update-project/update-project.component';
+import { ProjectDetailsComponent } from './components/home/projects/project-details/project-details.component';
+import { GanttComponent } from './components/home/projects/project-details/gantt/gantt.component';
 
 
 @NgModule({
@@ -48,7 +50,9 @@ import { UpdateProjectComponent } from './components/home/projects/update-projec
     SalesBoardComponent,
     SalesEditComponent,
     ProjTaskTeamComponent,
-    UpdateProjectComponent
+    UpdateProjectComponent,
+    ProjectDetailsComponent,
+    GanttComponent
     
   ],
   imports: [

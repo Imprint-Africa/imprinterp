@@ -47,14 +47,14 @@ public FormStatus: boolean;
 
 
 
-  // Binded Variables
-  public SalesCategorys: any = [];
-  public Opportunitys: any = [];
-  public Projects: any = [];
-  public ProjectSatus: string;
-  public Tasks: any = [];
+// Binded Variables
+public SalesCategorys: any = [];
+public Opportunitys: any = [];
+public Projects: any = [];
+public ProjectSatus: string;
+public Tasks: any = [];
 
-
+public myInterval: any;
 
 
 
@@ -108,17 +108,11 @@ public FormStatus: boolean;
 
 
 
-
-
-
-
-
-
       // List Opportunities
 
   this.salesService.listOppProject().subscribe(
     data=>{
-      this.Opportunitys = data
+      this.Opportunitys = data;
     },
     error=>{
       console.log(error)
@@ -136,6 +130,11 @@ public FormStatus: boolean;
         console.log(error)
       }
     )
+
+      // Updating the component every 0.7 seconds
+      this.myInterval = setInterval(()=>{
+        this.UpdateSalesCategories();
+      }, 700)
 
 
     
@@ -161,6 +160,34 @@ public FormStatus: boolean;
 
    
  }
+
+
+
+
+
+ UpdateSalesCategories(){
+
+  this.SalesCategorys.forEach((category)=>{
+
+    let OppInThisCategory = this.Opportunitys.filter((opp)=>{
+      return opp.projectStatus === category.name ? true : false
+    }).map((e)=>{return e});
+
+    let dataToBeUpdated = {
+      totalLeads: OppInThisCategory.length,
+      totalRevenue: OppInThisCategory.reduce(function(previous, current){ return previous + current.cost}, 0)
+    }
+
+    this.salesCategoryService.updateSaleCategory(category._id, dataToBeUpdated).subscribe(
+      data=>{
+        this.SalesCategorys = data;
+      }
+    )
+
+  })
+
+ }
+
 
 
     
@@ -283,6 +310,15 @@ drop(e){
     }
   )
 }
+
+
+
+// On Destroy
+ngOnDestroy(){
+  clearInterval(this.myInterval);
+}
+
+
 
 
 // === End ===  

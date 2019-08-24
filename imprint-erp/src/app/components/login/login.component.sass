@@ -1,64 +1,7 @@
-// Global Color Themes
-$colors: ( nevyBlueTheme: #030451, orangeTheme: #F28500, gray: #6c757d, gray-dark: #343a40, primary: #007bff, secondary: #6c757d, success: #28a745, info: #17a2b8, warning: #ffc107, danger: #dc3545, dark: #35424a, silk:#7D7D7D )
-
-$brandColors: ( brandPrimary: #20a8d8, brandSecondary: #c8ced3, brandSuccess: #4dbd74, brandDanger: #f86c6b, brandWarning: #ffc107, brandInfo: #63c2de, brandLight: #f0f3f5, brandDark: #2f353a,  )
-    
-$grayColors: (g100: #f0f3f5, g200: #e4e7ea, g300: #c8ced3, g400: #acb4bc, g500: #8f9ba6, g600: #73818f, g700: #5c6873, g800: #2f353a, g900: #23282c)
-
-// Color function
-@function color($color-name) 
-    @return map-get($colors , $color-name)
-    
-@function brandColor($color-name) 
-    @return map-get($brandColors , $color-name)
-
-@function grayColor($color-name) 
-    @return map-get($grayColors , $color-name)
-    
-// Resposivenes Breakpoints
-// Extra small    
-$desktop_xm: 0px
-
-@mixin desktop_xm
-    @media (max-width: #{$desktop_xm}) 
-        @content
-    
-// Small
-$desktop_sm: 576px
-
-@mixin desktop_sm
-    @media (max-width: #{$desktop_sm}) 
-        @content
-    
-// Medium
-$desktop_md: 768px
-
-@mixin desktop_md
-    @media (max-width: #{$desktop_md}) 
-        @content
-    
-// Large
-$desktop_lg: 992px
-
-@mixin desktop_lg
-    @media (max-width: #{$desktop_lg}) 
-        @content
-    
-// Extra large
-$desktop_xl: 1200px
-
-@mixin desktop_xl
-    @media (max-width: #{$desktop_xl}) 
-        @content
-    
-
-
-
-
+@import "src/styles.sass"
 
 // login Section
 .section
-
     border: solid 1px grayColor(g300)
     border-top: solid 1px color(orangeTheme)
     border-radius: 5px
@@ -87,6 +30,8 @@ $desktop_xl: 1200px
     h4
         color: color(info)
         font-weight: bold
+        font-size: 10px
+        font-family: Montserrat
 
 
 .form
@@ -94,18 +39,23 @@ $desktop_xl: 1200px
     .input-group-text
         width: 2em
         color: color(info)
+        font-size: 10px
+        font-family: Montserrat
 
     input
         color: color(info)
+        font-size: 10px
+        font-family: Montserrat
         
         &::placeholder
             color: color(secondary)
+            font-size: 10px
+            font-family: Montserrat
 
     
-.form-control
-        background: #f2f2f5
 
 .btn-button-theme
+    font-size: 10px
     font-family: Montserrat
     color: color(nevyBlueTheme)
     margin-top: 30px

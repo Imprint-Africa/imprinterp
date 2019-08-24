@@ -107,6 +107,10 @@
         <h4 class="float-left">{{SalesCategory.name}}</h4>
         <fa name="plus" class="float-right" (click)="toggleFormInput(SalesCategory.name)"></fa>
    </div>
+   <div id="totals" class="clearfix">
+    <h4 class="float-left">Total:<span>{{SalesCategory.totalLeads}}</span></h4>
+    <h4 class="float-right">Ksh:<span>{{SalesCategory.totalRevenue}}</span></h4>
+</div>
 
    <div [id]="SalesCategory._id" class="dropSpace border border-primary">
      Drop here
