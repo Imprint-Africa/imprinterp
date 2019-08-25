@@ -83,7 +83,7 @@ export class LoginComponent implements OnInit {
         window.localStorage.setItem("loggedUserName", data.name);
         
         return data.role === "admin" ? 
-         (window.localStorage.setItem("isAdmin", data.role) , this.router.navigate(['/projects'])):
+         (window.localStorage.setItem("isAdmin", data.role) , this.router.navigate(['/dashboard'])):
           this.router.navigate(['/projects']);
 
         

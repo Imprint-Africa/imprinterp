@@ -10,11 +10,17 @@ import { SalesEditComponent } from './components/home/sales/sales-edit/sales-edi
 import { ProjTaskTeamComponent } from './components/home/editorial/proj-task-team/proj-task-team.component';
 import { UpdateProjectComponent } from './components/home/projects/update-project/update-project.component';
 import { ProjectDetailsComponent } from './components/home/projects/project-details/project-details.component';
+import { DashboardComponent } from './components/home/dashboard/dashboard.component';
 
 const routes: Routes = [
   // login
   {path: '', redirectTo: 'login', pathMatch: 'full' },
   {path: 'login', component: LoginComponent},
+
+  // Dashbords
+  {path: 'dashboard', component: HomeComponent, canActivate: [AuthGuard],
+  children: [{ path: "", component: DashboardComponent }]
+  },
 
   // Projects
   {path: 'projects', component: HomeComponent, canActivate: [AuthGuard],

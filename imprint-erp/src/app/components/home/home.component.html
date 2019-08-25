@@ -4,8 +4,8 @@
   <nav id="navbar" class="navbar navbar-expand-md navbar-light">
 
       <a class="navbar-brand">
-        <fa id="sideBarToggler" class="" (click)="toggleSideBar()" name="{{sideBarStatus ? 'bars' : 'angle-double-left'}}"></fa>
         <img src="../../../assets/images/logo.png">
+        <fa id="sideBarToggler" class="" (click)="toggleSideBar()" name="{{sideBarStatus ? 'bars' : 'angle-double-left'}}"></fa>
       </a>
 
       <button class="navbar-toggler btn-outline-info" type="button" data-toggle="collapse" data-target="#navbarResponsive">
@@ -57,15 +57,21 @@
     <ul class="navbar-nav nav-pills">
 
       <li class="nav-item active">
-        <a (click)="navToProjects()" [ngClass]=" projectsNavBarActive ? 'nav-link active' : 'nav-link'">
-          <fa-icon [icon]="faProjectDiagram"></fa-icon>Projects
-        </a>
+          <a (click)="navToDashboard()" [ngClass]="dashboardNavBarActive ? 'nav-link active' : 'nav-link'">
+            <fa name="dashboard"></fa>DashBoard
+          </a>
       </li>
 
-
       <li class="nav-item">
-        <a (click)="navToSales()"  [ngClass]=" salesNavBarActive ? 'nav-link active' : 'nav-link'">
-          <fa-icon [icon]="faShoppingCart"></fa-icon>Sales
+          <a (click)="navToSales()"  [ngClass]=" salesNavBarActive ? 'nav-link active' : 'nav-link'">
+            <fa-icon [icon]="faShoppingCart"></fa-icon>Sales
+          </a>
+        </li>
+    
+
+      <li class="nav-item active">
+        <a (click)="navToProjects()" [ngClass]=" projectsNavBarActive ? 'nav-link active' : 'nav-link'">
+          <fa-icon [icon]="faProjectDiagram"></fa-icon>Projects
         </a>
       </li>
 

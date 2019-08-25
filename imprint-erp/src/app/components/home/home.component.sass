@@ -9,7 +9,7 @@ header
         // Navbar
     #navbar
         background-color: white
-        padding: 0 4em 0 4em
+        padding: 0 4em 0 0
         height: 40px
 
         @include desktop_md
@@ -17,15 +17,24 @@ header
             
             
         .navbar-brand
-            padding: 0
+            padding: 0 .5em 0 .8em 
             cursor: default
+            width: 16%
+            display: flex
+            align-items: stretch
 
-            #sideBarToggler
-                cursor: pointer
-                color: color(orangeTheme)
-            
+            @include desktop_md
+                width: 130px
+                
             img
                 width: 5rem
+                margin: 0 auto 0 0
+            
+            #sideBarToggler
+                cursor: pointer
+                color: brandColor(brandSecondary)
+                margin: 0 0 0 auto
+                font-size: 22px
                 
         .nav-pills
             padding: 0
@@ -174,7 +183,7 @@ header
                     font-weight: bold !important
                     text-decoration: underline !important
 
-                fa-icon
+                fa-icon, fa
                     color: color(orangeTheme)
                     margin: 0 .5em 0 0 
 

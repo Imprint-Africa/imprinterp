@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { faProjectDiagram, faUsers, faEdit, faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faProjectDiagram, faUsers, faEdit, faShoppingCart, faDollarSign } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home',
@@ -25,6 +25,7 @@ public faProjectDiagram = faProjectDiagram;
 public faUsers = faUsers;
 public faEdit = faEdit;
 public faShoppingCart = faShoppingCart;
+public faDollarSign = faDollarSign;
 
 
 // Variables
@@ -33,6 +34,7 @@ public sideBarStatus: boolean;
 public isNotAdmin;
 
 // Active side navbar status
+public dashboardNavBarActive: boolean;
 public projectsNavBarActive: boolean;
 public salesNavBarActive: boolean;
 public editorialNavBarActive: boolean;
@@ -62,6 +64,7 @@ public myInterval: any;
 
 CheckActiveNavBar(){
 
+  if(window.localStorage.getItem('ActiveNav') === 'dashboard') {this.dashboardNavBarActive = true}
   if(window.localStorage.getItem('ActiveNav') === 'projects'){this.projectsNavBarActive = true }
   if(window.localStorage.getItem('ActiveNav') === 'sales'){this.salesNavBarActive = true}
   if(window.localStorage.getItem('ActiveNav') === 'editorial'){this.editorialNavBarActive = true}
@@ -79,6 +82,9 @@ CheckActiveNavBar(){
 
 
  //Navigate
+ navToDashboard(){
+   this.router.navigate(['/dashboard']);
+ }
  navToProjects(){
   this.router.navigate(['/projects']);
  }

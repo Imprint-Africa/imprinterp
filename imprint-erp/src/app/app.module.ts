@@ -11,6 +11,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from "ngx-toastr";
 import { HttpClientModule } from "@angular/common/http";
+import { ChartsModule } from 'ng2-charts';
 
 // Components
 import { AppComponent } from './app.component';
@@ -38,6 +39,7 @@ import { ProjectsService } from './shared/services/projects.service';
 import { UpdateProjectComponent } from './components/home/projects/update-project/update-project.component';
 import { ProjectDetailsComponent } from './components/home/projects/project-details/project-details.component';
 import { GanttComponent } from './components/home/projects/project-details/gantt/gantt.component';
+import { DashboardComponent } from './components/home/dashboard/dashboard.component';
 
 
 @NgModule({
@@ -52,7 +54,8 @@ import { GanttComponent } from './components/home/projects/project-details/gantt
     ProjTaskTeamComponent,
     UpdateProjectComponent,
     ProjectDetailsComponent,
-    GanttComponent
+    GanttComponent,
+    DashboardComponent
     
   ],
   imports: [
@@ -66,6 +69,7 @@ import { GanttComponent } from './components/home/projects/project-details/gantt
     NgbModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    ChartsModule,
     ToastrModule.forRoot({
       timeOut: 7000,
       positionClass: 'toast-bottom-right',
