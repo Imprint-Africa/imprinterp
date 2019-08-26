@@ -41,6 +41,12 @@ getSaleCat(id) {
 }
 
 
+// Get Specific Sales Category
+getAllSalesCategories() {
+  return this.http.get<any>(this._url + "getAll/" )
+}
+
+
 // Update Opp Project
 updateSaleCategory(id, data: any) {
   return this.http.put<any>(this._url + "update/" + id, data )

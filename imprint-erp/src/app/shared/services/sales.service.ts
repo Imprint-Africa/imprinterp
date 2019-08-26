@@ -39,11 +39,15 @@ listOppProject() {
 }
 
 
+// Get All Opp Project
+getAllOppProject() {
+  return this.http.get<any>(this._url + "getAll/")
+}
+
 // Get Specific Opp Project
 getOppProject(id) {
   return this.http.get<any>(this._url + "getOne/" + id )
 }
-
 
 
 

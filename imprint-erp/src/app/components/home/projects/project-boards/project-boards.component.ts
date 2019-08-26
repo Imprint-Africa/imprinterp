@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgbDatepickerConfig, NgbCalendar, NgbDate, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { NgbCalendar, NgbDate} from '@ng-bootstrap/ng-bootstrap';
 import { ProjectsService } from 'src/app/shared/services/projects.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 

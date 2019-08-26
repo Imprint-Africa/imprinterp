@@ -15,7 +15,7 @@
 
   <div class="card first">
       <div class="card-title">
-          <h4>12</h4>
+          <h4 *ngIf="Opportunitys">{{Opportunitys.length}}</h4>
           <fa-icon [icon]="faShoppingCart" class="dropdown-toggle" data-toggle="dropdown"></fa-icon>
           <div class="dropdown-menu dropdown-menu-right">
               <a class="dropdown-item">one</a>
@@ -29,20 +29,19 @@
           <h4>sales</h4>
       </div>
       <div class="card-body">
-          <canvas id="sales_canvas" baseChart class="chart"
-          [datasets]="lineChart1Data"
-          [labels]="lineChart1Labels"
-          [options]="lineChart1Options"
-          [colors]="lineChart1Colours"
-          [legend]="lineChart1Legend"
-          [chartType]="lineChart1Type"
+          <canvas id="sales_canvas" *ngIf="salesType" baseChart class="chart"
+          [chartType]="salesType"
+          [labels]="salesLabels"
+          [datasets]="salesDatasets"
+          [options]="salesOptions"          
           ></canvas>
+
       </div>
   </div>
 
   <div class="card second">
       <div class="card-title">
-          <h4>23</h4>
+          <h4 *ngIf="Projects">{{Projects.length}}</h4>
           <fa-icon [icon]="faProjectDiagram" class="dropdown-toggle" data-toggle="dropdown"></fa-icon>
           <div class="dropdown-menu dropdown-menu-right">
               <a class="dropdown-item">one</a>
@@ -56,19 +55,18 @@
         <h4>Projects</h4>
       </div>
       <div class="card-body">
-        <canvas baseChart class="chart"
-          [datasets]="lineChart2Data"
-          [labels]="lineChart2Labels"
-          [options]="lineChart2Options"
-          [colors]="lineChart2Colours"
-          [legend]="lineChart2Legend"
-          [chartType]="lineChart2Type"></canvas>
+        <canvas id="projects_canvas" *ngIf="projectsType" baseChart class="chart"
+          [chartType]="projectsType"
+          [labels]="projectsLabels"
+          [datasets]="projectsDatasets"
+          [options]="projectsOptions"          
+          ></canvas>
       </div>
   </div>
 
   <div class="card third">
       <div class="card-title">
-          <h4>23 000 000</h4>
+          <h4>{{TotalProjectsRevenue}}</h4>
           <fa-icon [icon]="faDollarSign" class="dropdown-toggle" data-toggle="dropdown"></fa-icon>
           <div class="dropdown-menu dropdown-menu-right">
               <a class="dropdown-item">one</a>
@@ -82,19 +80,18 @@
         <h4>Revenue</h4>
       </div>
       <div class="card-body">
-        <canvas baseChart class="chart"
-        [datasets]="lineChart3Data"
-        [labels]="lineChart3Labels"
-        [options]="lineChart3Options"
-        [colors]="lineChart3Colours"
-        [legend]="lineChart3Legend"
-        [chartType]="lineChart3Type"></canvas>
+        <canvas id="revenue_canvas" *ngIf="revenueType" baseChart class="chart"
+          [chartType]="revenueType"
+          [labels]="revenueLabels"
+          [datasets]="revenueDatasets"
+          [options]="revenueOptions"          
+          ></canvas>
       </div>
   </div>
 
   <div class="card forth">
       <div class="card-title">
-          <h4>8</h4>
+          <h4 *ngIf="clientsLabels">{{clientsLabels.length}}</h4>
           <fa-icon [icon]="faUsers" class="dropdown-toggle" data-toggle="dropdown" ></fa-icon>
           <div class="dropdown-menu dropdown-menu-right">
                   <a class="dropdown-item">one</a>
@@ -105,16 +102,15 @@
           </div>
       </div>
       <div class="card-info">
-        <h4>Online Users</h4>
+        <h4>Our Clients</h4>
       </div>
       <div class="card-body">
-        <canvas baseChart class="chart"
-        [datasets]="barChart1Data"
-        [labels]="barChart1Labels"
-        [options]="barChart1Options"
-        [colors]="barChart1Colours"
-        [legend]="barChart1Legend"
-        [chartType]="barChart1Type"></canvas>
+        <canvas id="clients_canvas" *ngIf="clientsType" baseChart class="chart"
+          [chartType]="clientsType"
+          [labels]="clientsLabels"
+          [datasets]="clientsDatasets"
+          [options]="clientsOptions"          
+          ></canvas>
       </div>
   </div>
 
@@ -129,80 +125,15 @@
 
 <section id="graph_section">
 
+    <div id="graph_wrap" class="">
+    <canvas id="targets_canvas" *ngIf="targetsType" baseChart class="chart"
+    [chartType]="targetsType"
+    [labels]="targetsLabels"
+    [datasets]="targetsDatasets"
+    [options]="targetsOptions"          
+    ></canvas>
 
-
-<div class="card-body">
-    <div class="title-wrap d-flex">
-        <div class="col-sm-5">
-        <h4 class="card-title mb-0">Traffic</h4>
-        <div class="small text-muted">November 2017</div>
-        </div><!--/.col-->
-        <div class="col-sm-7 d-none d-md-block">
-        <button type="button" class="btn btn-primary float-right"><fa-icon [icon]="faCloudDownloadAlt"></fa-icon></button>
-        <div class="btn-group btn-group-toggle float-right mr-3" data-toggle="buttons">
-            <label class="btn btn-outline-secondary"  btnRadio="Day" id="option1">Day</label>
-            <label class="btn btn-outline-secondary"  btnRadio="Month" id="option2">Month</label>
-            <label class="btn btn-outline-secondary"  btnRadio="Year" id="option3">Year</label>
-        </div>
-        </div><!--/.col-->
-    </div><!--/.row-->
-    <div class="chart-wrapper" style="height:300px;margin-top:40px;">
-        <canvas baseChart class="chart"
-        [datasets]="mainChartData"
-        [labels]="mainChartLabels"
-        [options]="mainChartOptions"
-        [colors]="mainChartColours"
-        [legend]="mainChartLegend"
-        [chartType]="mainChartType"></canvas>
     </div>
-    </div>
-    <div class="card-footer">
-    <div class="d-flex text-center">
-        <div class="col-sm-12 col-md mb-sm-2 mb-0">
-        <div class="text-muted">Visits</div>
-        <strong>29.703 Users (40%)</strong>
-        <div class="progress">
-                <div class="progress-bar bg-success progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" 
-                [style.width.%]="40"></div>              
-        </div>
-        </div>
-        <div class="col-sm-12 col-md mb-sm-2 mb-0">
-        <div class="text-muted">Unique</div>
-        <strong>24.093 Users (20%)</strong>
-        <div class="progress">
-                <div class="progress-bar bg-info progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" 
-                [style.width.%]="20"></div>              
-        </div>
-        </div>
-        <div class="col-sm-12 col-md mb-sm-2 mb-0">
-        <div class="text-muted">Pageviews</div>
-        <strong>78.706 Views (60%)</strong>
-        <div class="progress">
-                <div class="progress-bar bg-warning progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" 
-                [style.width.%]="60"></div>              
-        </div>
-        </div>
-        <div class="col-sm-12 col-md mb-sm-2 mb-0">
-        <div class="text-muted">New Users</div>
-        <strong>22.123 Users (80%)</strong>
-        <div class="progress">
-                <div class="progress-bar bg-danger progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" 
-                [style.width.%]="80"></div>              
-        </div>
-        </div>
-        <div class="col-sm-12 col-md mb-sm-2 mb-0">
-        <div class="text-muted">Bounce Rate</div>
-        <strong>40.15%</strong>
-        <div class="progress">
-                <div class="progress-bar bg-primary progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100" 
-                [style.width.%]="40"></div>              
-        </div>
-        </div>
-    </div>
-    </div>
-
-
-
 
 </section>
 

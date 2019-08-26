@@ -38,6 +38,13 @@ listServices() {
 }
  
 
+// Get All Services
+getAllServices() {
+  return this.http.get<any>(this._url + "getAll/" )
+}
+
+
+
 
 
 }

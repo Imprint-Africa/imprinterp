@@ -36,7 +36,12 @@ export class ProjectsService {
       })
     });
   }
+
   
+  // Get All Project
+  getAllProject() {
+    return this.http.get<any>(this._url + "getAll/" )
+  }
 
   // Get Specific Project
   getProject(id) {

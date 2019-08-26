@@ -2,6 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { faProjectDiagram, faUsers, faEdit, faShoppingCart, faDollarSign, faCloudDownloadAlt } from '@fortawesome/free-solid-svg-icons';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
+import { SalesService } from 'src/app/shared/services/sales.service';
+import { ProjectsService } from 'src/app/shared/services/projects.service';
+import { SalesCategoryService } from 'src/app/shared/services/sales-category.service';
+import { TeamsService } from 'src/app/shared/services/teams.service';
+import { CustomaryService } from 'src/app/shared/services/customary.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,7 +15,13 @@ import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private salesService: SalesService,
+    private projectsService: ProjectsService,
+    private salesCategoryService: SalesCategoryService,
+    private teamsService: TeamsService,
+    private customService: CustomaryService,
+  ) { }
 
   // Icons
 public faProjectDiagram = faProjectDiagram;
@@ -23,418 +34,47 @@ public faCloudDownloadAlt = faCloudDownloadAlt;
 
  
 radioModel: string = 'Month';
+public myInterval: any;
 
-// lineChart1
-public lineChart1Data: Array<any> = [
-  {
-    data: [65, 59, 84, 84, 51, 55, 40],
-    label: 'Series A'
-  }
-];
-public lineChart1Labels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-public lineChart1Options: any = {
-  tooltips: {
-    enabled: false,
-    custom: CustomTooltips
-  },
-  maintainAspectRatio: false,
-  scales: {
-    xAxes: [{
-      gridLines: {
-        color: 'transparent',
-        zeroLineColor: 'transparent'
-      },
-      ticks: {
-        fontSize: 2,
-        fontColor: 'transparent',
-      }
-
-    }],
-    yAxes: [{
-      display: false,
-      ticks: {
-        display: false,
-        min: 40 - 5,
-        max: 84 + 5,
-      }
-    }],
-  },
-  elements: {
-    line: {
-      borderWidth: 1
-    },
-    point: {
-      radius: 4,
-      hitRadius: 10,
-      hoverRadius: 4,
-    },
-  },
-  legend: {
-    display: false
-  }
-};
-public lineChart1Colours: Array<any> = [
-  {
-    backgroundColor: 'transparent',
-    borderColor: 'rgba(255,255,255,.55)'
-  }
-];
-public lineChart1Legend = false;
-public lineChart1Type = 'line';
+// data Variables
+public SalesCategorys: Array<any>
+public Opportunitys: Array<any>
+public Projects: Array<any>
+public TotalProjectsRevenue
+public CustomServices: Array<any>
+public Teams: Array<any>
 
 
 
+// Sales Chart Variables
+public salesType: string;
+public salesLabels: Array<any>;
+public salesDatasets: Array<any>;
+public salesOptions: any;
 
+// Projects Chart Variables
+public projectsType: string;
+public projectsLabels: Array<any>;
+public projectsDatasets: Array<any>;
+public projectsOptions: any;
 
+// Revenue Chart Variables
+public revenueType: string;
+public revenueLabels: Array<any>;
+public revenueDatasets: Array<any>;
+public revenueOptions: any;
 
-  // lineChart2
-  public lineChart2Data: Array<any> = [
-    {
-      data: [1, 18, 9, 17, 34, 22, 11],
-      label: 'Series A'
-    }
-  ];
-  public lineChart2Labels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  public lineChart2Options: any = {
-    tooltips: {
-      enabled: false,
-      custom: CustomTooltips
-    },
-    maintainAspectRatio: false,
-    scales: {
-      xAxes: [{
-        gridLines: {
-          color: 'transparent',
-          zeroLineColor: 'transparent'
-        },
-        ticks: {
-          fontSize: 2,
-          fontColor: 'transparent',
-        }
+// Clients Chart Variables
+public clientsType: string;
+public clientsLabels: Array<any>;
+public clientsDatasets: Array<any>;
+public clientsOptions: any;
 
-      }],
-      yAxes: [{
-        display: false,
-        ticks: {
-          display: false,
-          min: 1 - 5,
-          max: 34 + 5,
-        }
-      }],
-    },
-    elements: {
-      line: {
-        tension: 0.00001,
-        borderWidth: 1
-      },
-      point: {
-        radius: 4,
-        hitRadius: 10,
-        hoverRadius: 4,
-      },
-    },
-    legend: {
-      display: false
-    }
-  };
-  public lineChart2Colours: Array<any> = [
-    { 
-      backgroundColor: 'transparent',
-      borderColor: 'rgba(255,255,255,.55)'
-    }
-  ];
-  public lineChart2Legend = false;
-  public lineChart2Type = 'line';
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-   // lineChart3
-   public lineChart3Data: Array<any> = [
-    {
-      data: [78, 81, 80, 45, 34, 12, 40],
-      label: 'Series A'
-    }
-  ];
-  public lineChart3Labels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  public lineChart3Options: any = {
-    tooltips: {
-      enabled: false,
-      custom: CustomTooltips
-    },
-    maintainAspectRatio: false,
-    scales: {
-      xAxes: [{
-        display: false
-      }],
-      yAxes: [{
-        display: false
-      }]
-    },
-    elements: {
-      line: {
-        borderWidth: 2
-      },
-      point: {
-        radius: 0,
-        hitRadius: 10,
-        hoverRadius: 4,
-      },
-    },
-    legend: {
-      display: false
-    }
-  };
-  public lineChart3Colours: Array<any> = [
-    {
-      backgroundColor: 'rgba(255,255,255,.3)',
-      borderColor: 'rgba(255,255,255,.55)',
-    }
-  ];
-  public lineChart3Legend = false;
-  public lineChart3Type = 'line';
-
-
-
-
-
-
-
-  
-  // barChart1
-  public barChart1Data: Array<any> = [
-    {
-      data: [78, 81, 80, 45, 34, 12, 40, 78, 81, 80, 45, 34, 12, 40, 12, 40],
-      label: 'Series A'
-    }
-  ];
-  public barChart1Labels: Array<any> = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16'];
-  public barChart1Options: any = {
-    tooltips: {
-      enabled: false,
-      custom: CustomTooltips
-    },
-    maintainAspectRatio: false,
-    scales: {
-      xAxes: [{
-        display: false,
-        barPercentage: 0.6,
-      }],
-      yAxes: [{
-        display: false
-      }]
-    },
-    legend: {
-      display: false
-    }
-  };
-  public barChart1Colours: Array<any> = [
-    {
-      backgroundColor: 'rgba(255,255,255,.3)',
-      borderWidth: 0
-    }
-  ];
-  public barChart1Legend = false;
-  public barChart1Type = 'bar';
-
- 
-
-
-
-
-
-
-
-
-
-
-  // mainChart
-
-  public mainChartElements = 27;
-  public mainChartData1: Array<number> = [];
-  public mainChartData2: Array<number> = [];
-  public mainChartData3: Array<number> = [];
-
-  public mainChartData: Array<any> = [
-    {
-      data: this.mainChartData1,
-      label: 'Current'
-    },
-    {
-      data: this.mainChartData2,
-      label: 'Previous'
-    },
-    {
-      data: this.mainChartData3,
-      label: 'BEP'
-    }
-  ];
-  /* tslint:disable:max-line-length */
-  public mainChartLabels: Array<any> = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday', 'Monday', 'Thursday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-  /* tslint:enable:max-line-length */
-  public mainChartOptions: any = {
-    tooltips: {
-      enabled: false,
-      custom: CustomTooltips,
-      intersect: true,
-      mode: 'index',
-      position: 'nearest',
-      callbacks: {
-        labelColor: function(tooltipItem, chart) {
-          return { backgroundColor: chart.data.datasets[tooltipItem.datasetIndex].borderColor };
-        }
-      }
-    },
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      xAxes: [{
-        gridLines: {
-          drawOnChartArea: false,
-        },
-        ticks: {
-          callback: function(value: any) {
-            return value.charAt(0);
-          }
-        }
-      }],
-      yAxes: [{
-        ticks: {
-          beginAtZero: true,
-          maxTicksLimit: 5,
-          stepSize: Math.ceil(250 / 5),
-          max: 250
-        }
-      }]
-    },
-    elements: {
-      line: {
-        borderWidth: 2
-      },
-      point: {
-        radius: 0,
-        hitRadius: 10,
-        hoverRadius: 4,
-        hoverBorderWidth: 3,
-      }
-    },
-    legend: {
-      display: false
-    }
-  };
-  public mainChartColours: Array<any> = [
-    { // brandInfo
-      backgroundColor: hexToRgba(getStyle('--info'), 10),
-      borderColor: getStyle('--info'),
-      pointHoverBackgroundColor: '#fff'
-    },
-    { // brandSuccess
-      backgroundColor: 'transparent',
-      borderColor: getStyle('--success'),
-      pointHoverBackgroundColor: '#fff'
-    },
-    { // brandDanger
-      backgroundColor: 'transparent',
-      borderColor: getStyle('--danger'),
-      pointHoverBackgroundColor: '#fff',
-      borderWidth: 1,
-      borderDash: [8, 5]
-    }
-  ];
-  public mainChartLegend = false;
-  public mainChartType = 'line';
-
-  // social box charts
-
-  public brandBoxChartData1: Array<any> = [
-    {
-      data: [65, 59, 84, 84, 51, 55, 40],
-      label: 'Facebook'
-    }
-  ];
-  public brandBoxChartData2: Array<any> = [
-    {
-      data: [1, 13, 9, 17, 34, 41, 38],
-      label: 'Twitter'
-    }
-  ];
-  public brandBoxChartData3: Array<any> = [
-    {
-      data: [78, 81, 80, 45, 34, 12, 40],
-      label: 'LinkedIn'
-    }
-  ];
-  public brandBoxChartData4: Array<any> = [
-    {
-      data: [35, 23, 56, 22, 97, 23, 64],
-      label: 'Google+'
-    }
-  ];
-
-  public brandBoxChartLabels: Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
-  public brandBoxChartOptions: any = {
-    tooltips: {
-      enabled: false,
-      custom: CustomTooltips
-    },
-    responsive: true,
-    maintainAspectRatio: false,
-    scales: {
-      xAxes: [{
-        display: false,
-      }],
-      yAxes: [{
-        display: false,
-      }]
-    },
-    elements: {
-      line: {
-        borderWidth: 2
-      },
-      point: {
-        radius: 0,
-        hitRadius: 10,
-        hoverRadius: 4,
-        hoverBorderWidth: 3,
-      }
-    },
-    legend: {
-      display: false
-    }
-  };
-  public brandBoxChartColours: Array<any> = [
-    {
-      backgroundColor: 'rgba(255,255,255,.1)',
-      borderColor: 'rgba(255,255,255,.55)',
-      pointHoverBackgroundColor: '#fff'
-    }
-  ];
-  public brandBoxChartLegend = false;
-  public brandBoxChartType = 'line';
-
-  public random(min: number, max: number) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  }
-
-
-
-
-
-
-
-
-
-
+// Clients Chart Variables
+public targetsType: string;
+public targetsLabels: Array<any>;
+public targetsDatasets: Array<any>;
+public targetsOptions: any;
 
 
 
@@ -442,13 +82,571 @@ public lineChart1Type = 'line';
 
     window.localStorage.setItem('ActiveNav', 'dashboard');
 
-        // generate random values for mainChart
-        for (let i = 0; i <= this.mainChartElements; i++) {
-          this.mainChartData1.push(this.random(50, 200));
-          this.mainChartData2.push(this.random(80, 100));
-          this.mainChartData3.push(65);
-        }
+      this.salesCategoryService.getAllSalesCategories().subscribe(
+          categoryData=>{this.SalesCategorys = categoryData;
+
+            this.salesService.getAllOppProject().subscribe(
+              oppData=>{this.Opportunitys = oppData;
+
+                this.projectsService.getAllProject().subscribe(
+                  projectData=>{this.Projects = projectData;
+
+                    this.customService.getAllServices().subscribe(
+                      servicesData=>{this.CustomServices = servicesData;
+
+                          this.teamsService.getAllTeams().subscribe(
+                            teamsDate=>{this.Teams = teamsDate;
+                                             
+                                this.salesChartFunction();
+                                this.projectsChartFunction();
+                                this.revenueChartFunction();
+                                this.clientsChartFunction();
+                                this.targetsChartFunction();
+
+                                this.TotalProjectsRevenue = this.Projects.reduce(function(previous, current){ return previous + current.cost}, 0)
+
+                            },
+                            error=>console.log('Error Getting Error')
+                          )
+                      },
+                      error=>console.log('Error Getting CustomServices')
+                    )   
+
+                  },
+                  error=>console.log('Error Getting Projects')
+                );
+              
+              },
+              error=>console.log('Error Getting Opportunities')
+            );
+          },
+          error=>console.log('Error Getting SalesCategories')
+          );
+
+    
+    
 
   }
 
+
+
+
+
+
+
+
+salesChartFunction(){
+
+  this.salesType = 'line';
+
+  this.salesLabels = this.SalesCategorys.filter(()=>{return true}).map((e)=>{return e.name});
+  
+  this.salesDatasets = [{
+      label: 'Opportunty',
+      data: this.SalesCategorys.filter(()=>{return true}).map((e)=>{return e.totalLeads}),
+      backgroundColor: 'transparent',
+      borderColor: 'white',
+      borderWidth: 0.5,
+      pointBackgroundColor: 'transparent',
+      pointHoverBackgroundColor: 'transparent',
+      pointBorderColor: 'white',
+      pointHoverBorderColor: getStyle('--dark')
+    }];
+  
+  this.salesOptions = { 
+    title:{
+      display: false,
+      text: 'Sales',
+      fontSize: 25
+    },
+    legend: {
+      display: false,
+      position: 'right',
+      labels: {
+            fontColor: '#00e676'
+          }
+    },
+    layout: {
+      padding: 10
+    },
+    tooltips: {
+        enabled: true
+    },
+    scales: {
+      yAxes: [{
+          display: false,
+          gridLines: {
+              drawBorder: false,
+              display: false
+          },
+          stacked: true,
+          ticks: {
+              beginAtZero: true
+          }
+      }],
+      xAxes: [{
+          display: false,
+          stacked: true,
+          gridLines: {
+              drawBorder: true,
+              display: false
+          },
+          ticks: {
+            beginAtZero: false
+          }
+      }]
+    },
+    maintainAspectRatio: false,
+    responsive: true,
+    plugins: {
+        datalabels: {
+            anchor: 'end',
+            align: 'top',
+            formatter: Math.round,
+            font: { weight: 'bold'}
+        }
+    }
+  }
+  
 }
+
+
+
+
+
+
+projectsChartFunction(){
+
+  this.projectsType = 'line';
+
+  this.projectsLabels = this.CustomServices.filter(()=>{return true}).map((e)=>{return e.serviceName});
+
+  let ourData = [];
+
+  this.projectsLabels.forEach(service=>{
+    let getNumber = this.Projects.filter(project=>{
+        return project.projectName === service ? true : false
+    }).map(e=>{return e}).length;
+
+    ourData.push(getNumber);
+  });
+  
+  this.projectsDatasets = [{
+      label: 'Clients',
+      data: ourData,
+      backgroundColor: 'transparent',
+      borderColor: 'white',
+      borderWidth: 0.5,
+      pointBackgroundColor: 'transparent',
+      pointHoverBackgroundColor: 'transparent',
+      pointBorderColor: 'white',
+      pointHoverBorderColor: getStyle('--dark')
+    }];
+  
+  this.projectsOptions = { 
+    title:{
+      display: false,
+      text: 'Sales',
+      fontSize: 25
+    },
+    legend: {
+      display: false,
+      position: 'right',
+      labels: {
+            fontColor: '#00e676'
+          }
+    },
+    layout: {
+      padding: 10
+    },
+    tooltips: {
+        enabled: true
+    },
+    scales: {
+      yAxes: [{
+          display: false,
+          gridLines: {
+              drawBorder: false,
+              display: false
+          },
+          stacked: true,
+          ticks: {
+              beginAtZero: true
+          }
+      }],
+      xAxes: [{
+          display: false,
+          stacked: true,
+          gridLines: {
+              drawBorder: true,
+              display: false
+          },
+          ticks: {
+            beginAtZero: false
+          }
+      }]
+    },
+    maintainAspectRatio: false,
+    responsive: true,
+    plugins: {
+        datalabels: {
+            anchor: 'end',
+            align: 'top',
+            formatter: Math.round,
+            font: { weight: 'bold'}
+        }
+    }
+  }
+  
+
+
+
+}
+//--
+
+
+
+
+
+
+revenueChartFunction(){
+
+  this.revenueType = 'line';
+
+  this.revenueLabels = this.CustomServices.filter(()=>{return true}).map((e)=>{return e.serviceName});
+
+  let ourData = [];
+
+  this.projectsLabels.forEach(service=>{
+    let getProjects = this.Projects.filter(project=>{
+        return project.projectName === service ? true : false
+    }).map(e=>{return e});
+
+    let getTotalRevenue = getProjects.reduce(function(previous, current){ return previous + current.cost}, 0)
+
+    ourData.push(getTotalRevenue);
+  });
+  
+  
+  this.revenueDatasets = [{
+      label: 'Revenue',
+      data: ourData,
+      backgroundColor: 'transparent',
+      borderColor: 'white',
+      borderWidth: 0.5,
+      pointBackgroundColor: 'transparent',
+      pointHoverBackgroundColor: 'transparent',
+      pointBorderColor: 'white',
+      pointHoverBorderColor: getStyle('--dark')
+    }];
+  
+  this.revenueOptions = { 
+    title:{
+      display: false,
+      text: 'Sales',
+      fontSize: 25
+    },
+    legend: {
+      display: false,
+      position: 'right',
+      labels: {
+            fontColor: '#00e676'
+          }
+    },
+    layout: {
+      padding: 10
+    },
+    tooltips: {
+        enabled: true
+    },
+    scales: {
+      yAxes: [{
+          display: false,
+          gridLines: {
+              drawBorder: false,
+              display: false
+          },
+          stacked: true,
+          ticks: {
+              beginAtZero: true
+          }
+      }],
+      xAxes: [{
+          display: false,
+          stacked: true,
+          gridLines: {
+              drawBorder: true,
+              display: false
+          },
+          ticks: {
+            beginAtZero: false
+          }
+      }]
+    },
+    maintainAspectRatio: false,
+    responsive: true,
+    plugins: {
+        datalabels: {
+            anchor: 'end',
+            align: 'top',
+            formatter: Math.round,
+            font: { weight: 'bold'}
+        }
+    }
+  }
+
+
+}
+// ---
+
+
+clientsChartFunction(){
+
+  this.clientsType = 'bar';
+
+  // Get Get Clients
+  let getOurClients =  this.Projects.filter(()=>{ return true}).map(e=>{return e.clientName});
+
+  this.clientsLabels = Array.from(new Set(getOurClients));
+
+  let ourData = [];
+
+  this.clientsLabels.forEach(client=>{
+    let getProjects = this.Projects.filter(project=>{
+        return project.clientName === client ? true : false
+    }).map(e=>{return e});
+
+    let getTotalRevenue = getProjects.reduce(function(previous, current){ return previous + current.cost}, 0)
+
+    ourData.push(getTotalRevenue);
+  });
+  
+  
+  this.clientsDatasets = [{
+      label: 'Revenue',
+      data: ourData,
+      backgroundColor: 'rgba(255,255,255,.2)',
+      borderColor: 'white',
+      borderWidth: 0.5,
+      hoverBackgroundColor: 'rgba(255,255,255,.2)',
+      hoverBorderColor: getStyle('--dark')
+    }];
+  
+  this.clientsOptions = { 
+    title:{
+      display: false,
+      text: 'Sales',
+      fontSize: 25
+    },
+    legend: {
+      display: false,
+      position: 'right',
+      labels: {
+            fontColor: '#00e676'
+          }
+    },
+    layout: {
+      padding: 10
+    },
+    tooltips: {
+        enabled: true
+    },
+    scales: {
+      yAxes: [{
+          display: false,
+          gridLines: {
+              drawBorder: false,
+              display: false
+          },
+          stacked: true,
+          ticks: {
+              beginAtZero: true
+          }
+      }],
+      xAxes: [{
+          display: false,
+          stacked: true,
+          gridLines: {
+              drawBorder: true,
+              display: false
+          },
+          ticks: {
+            beginAtZero: true
+          }
+      }]
+    },
+    maintainAspectRatio: false,
+    responsive: true,
+    plugins: {
+        datalabels: {
+            anchor: 'end',
+            align: 'top',
+            formatter: Math.round,
+            font: { weight: 'bold'}
+        }
+    }
+  }
+
+}
+// --
+
+
+
+
+
+
+
+targetsChartFunction(){
+
+  this.targetsType = 'line';
+
+
+  this.targetsLabels = this.CustomServices.filter(()=>{return true}).map((e)=>{return e.serviceName});
+
+  let ourProjectNumberData = [];
+
+  this.targetsLabels.forEach(service=>{
+    let getNumber = this.Projects.filter(project=>{
+        return project.projectName === service ? true : false
+    }).map(e=>{return e}).length;
+
+    ourProjectNumberData.push(getNumber);
+  });
+  
+
+  let ourProjectRevenueData = [];
+
+  this.targetsLabels.forEach(service=>{
+    let getProjects = this.Projects.filter(project=>{
+        return project.projectName === service ? true : false
+    }).map(e=>{return e});
+
+    let getTotalRevenue = getProjects.reduce(function(previous, current){ return previous + current.cost}, 0)
+
+    ourProjectRevenueData.push(getTotalRevenue);
+  });
+
+
+  let ourTargetRevenueData = [ 160000, 50000, 210000, 130000 ];
+  
+  this.targetsDatasets = [
+    // {
+    //   label: 'Project Num',
+    //   data: ourProjectNumberData,
+    //   backgroundColor: 'rgba(​ 77, ​ 189, ​ 116, .2)',
+    //   borderColor: getStyle('--info'),
+    //   borderWidth: 0.5,
+    //   pointBackgroundColor: 'transparent',
+    //   pointHoverBackgroundColor: 'transparent',
+    //   pointBorderColor: 'white',
+    //   pointHoverBorderColor: getStyle('--dark')
+    // },
+    {
+      label: 'Total Rev',
+      data: ourProjectRevenueData,
+      backgroundColor: hexToRgba(getStyle('--info'), 35),
+      borderColor: getStyle('--info'),
+      borderWidth: 0.5,
+      pointBackgroundColor: 'transparent',
+      pointHoverBackgroundColor: getStyle('--primary'),
+      pointBorderColor: getStyle('--primary'),
+      pointHoverBorderColor: getStyle('--dark')
+    },
+    {
+      label: 'Target Rev',
+      data: ourTargetRevenueData,
+      backgroundColor: hexToRgba(getStyle('--success'), 35),
+      borderColor: getStyle('--success'),
+      borderWidth: 0.5,
+      pointBackgroundColor: 'transparent',
+      pointHoverBackgroundColor: 'transparent',
+      pointBorderColor: getStyle('--success'),
+      pointHoverBorderColor: getStyle('--dark')
+    }
+  
+  
+  ];
+  
+  this.targetsOptions = { 
+    title:{
+      display: false,
+      text: 'Sales',
+      fontSize: 25
+    },
+    legend: {
+      display: false,
+      position: 'right',
+      labels: {
+            fontColor: '#00e676'
+          }
+    },
+    layout: {
+      padding: 10,
+    },
+    tooltips: {
+      enabled: true
+    },
+    scales: {
+      yAxes: [{
+          display: true,
+          gridLines: {
+              drawBorder: false,
+              display: false
+          },
+          stacked: false,
+          ticks: {
+              beginAtZero: false
+          }
+      }],
+      xAxes: [{
+          display: true,
+          stacked: false,
+          gridLines: {
+              drawBorder: true,
+              display: false
+          },
+          ticks: {
+            beginAtZero: false
+          }
+      }]
+    },
+    maintainAspectRatio: false,
+    responsive: true,
+    plugins: {
+        datalabels: {
+            anchor: 'end',
+            align: 'top',
+            formatter: Math.round,
+            font: { weight: 'bold'}
+        }
+    }
+  }
+
+}
+
+
+
+
+
+
+
+
+// On Destroy
+ngOnDestroy(){
+  clearInterval(this.myInterval);
+}
+
+
+
+// === end
+}
+// ======
+
+
+
+
+
+
+
+
+

@@ -57,7 +57,7 @@ public myInterval: any;
       // Updating the component every 0.7 seconds
       this.myInterval = setInterval(()=>{
         this.UpdateComponent();
-      }, 700)
+      }, 700);
      
       
 
