@@ -91,8 +91,8 @@ CheckActiveNavBar(){
  navToSales(){
   this.router.navigate(['/sales']);
  }
- navToRegister(){
-  this.router.navigate(['/register']);
+ navToUsers(){
+  this.router.navigate(['/users']);
  }
 
  navToProjTaskTeam(){

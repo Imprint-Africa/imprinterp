@@ -1,9 +1,11 @@
 export class oppProject {
     projectName : String;
     clientName: String;
+    projectManager: String;
     task : [{
         taskName: String;
         assignedTeam: String;
+        assignedUser: String;
         taskStatus: String;
         taskDuration: Number;
         taskStartDate: Date;

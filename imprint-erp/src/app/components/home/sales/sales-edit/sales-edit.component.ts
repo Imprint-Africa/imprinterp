@@ -5,6 +5,7 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { SalesService } from 'src/app/shared/services/sales.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { ProjectsService } from 'src/app/shared/services/projects.service';
+import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
   selector: 'app-sales-edit',
@@ -19,6 +20,7 @@ export class SalesEditComponent implements OnInit {
     private calendar: NgbCalendar,
     private formBuilder: FormBuilder,
     private router : Router,
+    private userService: UserService,
     private salesService: SalesService,
     private projectService: ProjectsService,
     private notifyService: NotificationService
@@ -27,6 +29,8 @@ export class SalesEditComponent implements OnInit {
 
 
 // Variables
+public projectManagerForm: FormGroup;
+public assignedUserForm: FormGroup;
 @ViewChild('myCostPriorForm') myCostPriorFormValues;
 public costPriorForm: FormGroup;
 
@@ -35,7 +39,7 @@ public costPriorForm: FormGroup;
 // Status
 public listClickedStatus;
 public taskDetailsStatus;
-public projectCalenderStatus;
+public taskClickedTeamStatus;
 
 
 // Binded Variables
@@ -48,6 +52,8 @@ public totalTasks: number;
 public totalSelectedTasks: number;
 public totalTeams: number;
 public totalSelectedTeams: number;
+public Users: any = [];
+public totalProjectAssignedUsers: number;
 
 
 // Calender Variable
@@ -79,7 +85,6 @@ public taskMaxDate;
     window.localStorage.setItem('ActiveNav', 'sales');
     this.listClickedStatus = null;
     this.taskDetailsStatus = false;
-    this.projectCalenderStatus = false;
 
     /// set dates
     this.taskFromDate = this.calendar.getToday();
@@ -110,6 +115,9 @@ public taskMaxDate;
             }).map(task=>{return task.assignedTeam});
 
             this.totalSelectedTeams = Array.from(new Set(getSelectedInvolvedTeam)).length;
+
+            let getInvolvedUsers =  data.task.filter(task=>{ return task.assignedUser === ''? false: true}).map(task=>{return task.assignedUser});
+            this.totalProjectAssignedUsers = Array.from(new Set(getInvolvedUsers)).length;
                 
 
             // set Dates
@@ -162,7 +170,24 @@ public taskMaxDate;
         cost: [null, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],
         priority: null
       });
+
+      this.projectManagerForm=this.formBuilder.group({
+        projectManager: ['', Validators.required],
+      });
+
+      this.assignedUserForm=this.formBuilder.group({
+        assignedUser: ['', Validators.required],
+      });
     
+
+      this.userService.listUsers().subscribe(
+        data=>{
+            this.Users = data;
+        },
+        error=>{
+            console.log('Error in getting Users');
+        }
+      )
     
 
 
@@ -174,6 +199,8 @@ public taskMaxDate;
 
 
  // conveniently get the values from the form fields
+ get formProjectManager() {return this.projectManagerForm.controls;}
+ get formAssignedUser() {return this.assignedUserForm.controls;}
  get formCostPrior() {return this.costPriorForm.controls;}
 
 
@@ -183,14 +210,11 @@ public taskMaxDate;
 taskDetailsToggle(id){
   this.listClickedStatus = id;
   this.taskDetailsStatus = !this.taskDetailsStatus;
+
+  this.OpennedProject.task.forEach(task=>{
+    return this.listClickedStatus === task._id ? this.taskClickedTeamStatus = task.assignedTeam : ''
+  })
 }
-
-
-projectCalenderToggle(){
-  this.projectCalenderStatus = !this.projectCalenderStatus;
-
-}
-
 
 
 
@@ -253,7 +277,6 @@ saveProjectDurationDates(){
       this.taskMinDate = this.projectFromDate;
       this.taskMaxDate = this.projectToDate;
       this.notifyService.showSuccess('Dates Changes Saved', 'Success');
-      this.projectCalenderStatus = !this.projectCalenderStatus;
     },
     error=>{
       this.notifyService.showError('No Changes are Saved', 'Error');
@@ -264,6 +287,23 @@ saveProjectDurationDates(){
 
 
 
+
+
+
+
+submitProjectManager(){
+
+  this.salesService.updateOppProject(window.localStorage.getItem('salesEditItemId'), this.projectManagerForm.value).subscribe(
+    data=>{
+      this.OpennedProject = data;
+      this.notifyService.showSuccess("Changes Saved", "Success")
+    },
+    error=>{
+      this.notifyService.showError("Changes Not saved", "Error !")
+    }
+  )
+
+}
 
 
 
@@ -307,10 +347,12 @@ saveTasksDurationDates(){
   this.OpennedProject.task.forEach((t)=>{
   
     if (this.listClickedStatus === t._id){
+          t.assignedUser = this.assignedUserForm.value.assignedUser
           t.taskDuration = this.taskDuration;
           t.taskStartDate = new Date(this.taskFromDate.year, this.taskFromDate.month -1, this.taskFromDate.day +1);
           t.taskEndDate = new Date(this.taskToDate.year, this.taskToDate.month -1, this.taskToDate.day +1);
           t.taskStatus = 'checked';
+          
     }
     if (t._id != this.listClickedStatus && t.taskDuration){
       t.taskStartDate = new Date(t.taskStartDate.year, t.taskStartDate.month -1, t.taskStartDate.day +1);
@@ -340,6 +382,9 @@ saveTasksDurationDates(){
       }).map(task=>{return task.assignedTeam});
 
       this.totalSelectedTeams = Array.from(new Set(getSelectedInvolvedTeam)).length;
+
+      let getInvolvedUsers =  data.task.filter(task=>{ return task.assignedUser === ''? false: true}).map(task=>{return task.assignedUser});
+      this.totalProjectAssignedUsers = Array.from(new Set(getInvolvedUsers)).length;
 
 
       // converting task date to NgbDate
@@ -419,6 +464,7 @@ lauchProject(){
       let newProject = {
         clientName : data.clientName,
         projectName: data.projectName,
+        projectManager: data.projectManager,
         task : data.task.filter((task)=>{
                           return task.taskStatus === 'checked';
                       }).map(task =>{return task}),

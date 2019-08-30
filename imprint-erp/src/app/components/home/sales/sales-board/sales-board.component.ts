@@ -89,9 +89,11 @@ public myInterval: any;
     this.newClientForm=this.formBuilder.group({
       projectName: ['', Validators.required],
       clientName: ['', Validators.required],
+      projectManager: [''],
       task : [{
           taskName: [''],
           assignedTeam: [''],
+          assignedUser: [''],
           taskStatus: [''],
           taskDuration: null,
           taskStartDate: null,
@@ -131,7 +133,7 @@ public myInterval: any;
       }
     )
 
-      // Updating the component every 0.7 seconds
+
       this.myInterval = setInterval(()=>{
         this.UpdateSalesCategories();
       }, 700)
@@ -200,6 +202,7 @@ submitNewClientForm(){
       return proj.serviceName === this.newClientForm.value.projectName ?
 
       this.Tasks = proj.task.filter((a)=>{
+          a.assignedUser = '';
           a.taskStatus = 'unChecked';
           a.taskDuration =  null;
           a.taskStartDate = null;
@@ -217,6 +220,7 @@ submitNewClientForm(){
     let structuredData = {
       projectName: this.newClientForm.value.projectName,
       clientName: this.newClientForm.value.clientName,
+      projectManager: '',
       task : this.Tasks,
       cost: null,
       priority: 1,

@@ -57,7 +57,7 @@ getSaleCat(id) {
 
 
 
-// Get Specific Sales Category
+// Get Sales Category
 getAllSalesCategories() {
   return this.http.get<any>(this._url + "getAll/", {headers : this.header} )
 }

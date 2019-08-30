@@ -62,9 +62,11 @@ const routes: Routes = [
   
 
   // Register
-  {path: 'register', component: HomeComponent, canActivate: [AuthGuard],
+  {path: 'users', component: HomeComponent, canActivate: [AuthGuard],
   children: [{ path: "", component: RegisterComponent }]
   },
+
+  {path: '**', redirectTo: 'login', pathMatch: 'full' },
 
 ];
 

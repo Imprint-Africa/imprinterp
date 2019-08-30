@@ -107,20 +107,38 @@ article
                 font-size: 10px
                 font-weight: bold
                 font-family: Montserrat
-                margin: auto
+                margin: .7em 0 auto 0 !important
                 text-transform: capitalize
+
                 span
                     font-size: 10px
                     font-family: Montserrat
-                    margin: auto 0 auto .5em
+                    // margin: auto 0 auto .5em
                     color: color(orangeTheme)
-                fa
-                    font-size: 10px
-                    font-weight: bold
-                    font-family: Montserrat
-                    margin: auto
-                    color: color(info)
-                    cursor: pointer
+
+
+            .btn-edit
+                font-size: 10px
+                font-family: Montserrat             
+                text-transform: uppercase
+                margin: auto 0 auto 0
+                background-color: brandColor(brandLight) !important
+                color: black
+                width: 7em
+
+                &:hover
+                    width: 7em
+                    background-color: brandColor(brandPrimary) !important
+                    border: none
+                    color: white
+            .btn-close
+                font-size: 10px
+                font-family: Montserrat             
+                text-transform: uppercase
+                margin: auto 0 auto 0
+                background-color: brandColor(brandDanger) !important
+                color: black
+                width: 7em
 
     
 
@@ -218,6 +236,87 @@ article
 
 
 
+    #project_manager_form
+        box-shadow: 0 1px 1px rgba(0, 0, 0, .1)
+        margin: 0 0 1em 0
+        background-color: white
+
+        .info-wrap
+
+            .name-wrap
+                padding: .5em 0 0 1em  
+                background-color: brandColor(brandSecondary)
+                h4
+                    font-size: 10px
+                    font-weight: bold
+                    font-family: Montserrat             
+                    text-transform: capitalize
+                    margin: 1em auto 
+
+            .value-wrap  
+                padding: .5em 0 0 1em  
+                h4
+                    font-size: 10px
+                    font-family: Montserrat             
+                    text-transform: capitalize
+                    margin: 1em auto 
+                    color: black
+
+            .btn-wrap 
+                  
+                .btn-edit
+                    font-size: 10px
+                    font-family: Montserrat             
+                    text-transform: uppercase
+                    margin: 1em auto
+                    background-color: brandColor(brandLight) !important
+                    color: black
+                    width: 7em
+    
+                    &:hover
+                        width: 7em
+                        background-color: brandColor(brandPrimary) !important
+                        border: none
+                        color: white
+                .btn-close
+                    font-size: 10px
+                    font-family: Montserrat             
+                    text-transform: uppercase
+                    margin: 1em auto
+                    background-color: brandColor(brandDanger) !important
+                    color: black
+                    width: 7em
+
+        .form-group
+            
+            select
+                margin: auto 0 auto 0
+                font-size: 10px
+                font-family: Montserrat 
+                text-transform: capitalize
+
+                option
+                    text-transform: capitalize
+
+            .btn-wrap
+
+                .btn
+                    font-size: 10px
+                    font-family: Montserrat             
+                    text-transform: uppercase
+                    color: white
+                    margin: 1em auto
+                    width: 7em
+                    background-color: brandColor(brandSuccess) !important
+
+
+
+
+
+
+
+
+
 
 
     // Tasks Section
@@ -236,7 +335,8 @@ article
                 padding: 5px
 
                 h4
-                    font-size: 14px
+                    font-size: 12px
+                    font-weight: bold
                     font-family: Montserrat
 
                     fa
@@ -387,6 +487,39 @@ article
                     color: gray
                     opacity: .3
                     background-color: white!important
+
+            #assignedUserForm
+                margin: 1em 0 1em 0
+
+                .form-group
+
+                    label
+                        margin: 0 0 0 1em
+                        font-size: 10px
+                        font-weight: bold
+                        font-family: Montserrat 
+
+            
+                    select
+                        margin: auto 0 auto 0
+                        font-size: 10px
+                        font-family: Montserrat 
+                        text-transform: capitalize
+                        background-color: grayColor(g200)
+
+                        option
+                            text-transform: capitalize
+
+            .btn-wrap
+                .btn
+                    font-size: 10px
+                    font-family: Montserrat             
+                    text-transform: uppercase
+                    box-shadow: 0 0 10px rgba(0,0,0,.3)
+                    color: white
+                    margin: 1em auto
+                    width: 7em
+                    background-color: brandColor(brandSuccess) !important
 
 
 
