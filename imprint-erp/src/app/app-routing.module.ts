@@ -11,6 +11,7 @@ import { ProjTaskTeamComponent } from './components/home/editorial/proj-task-tea
 import { UpdateProjectComponent } from './components/home/projects/update-project/update-project.component';
 import { ProjectDetailsComponent } from './components/home/projects/project-details/project-details.component';
 import { DashboardComponent } from './components/home/dashboard/dashboard.component';
+import { CustomServiceEditComponent } from './components/home/editorial/custom-service-edit/custom-service-edit.component';
 
 const routes: Routes = [
   // login
@@ -49,10 +50,16 @@ const routes: Routes = [
   },
 
 
-  // ProjTaskTeams
-  {path: 'proj_task_team', component: HomeComponent, canActivate: [AuthGuard],
+  // Editorial
+  {path: 'editorial', component: HomeComponent, canActivate: [AuthGuard],
   children: [{ path: "", component: ProjTaskTeamComponent }]
   },
+
+  // Custom Servcie Edit
+  {path: 'custom_service_edit', component: HomeComponent, canActivate: [AuthGuard],
+  children: [{ path: "", component: CustomServiceEditComponent }]
+  },
+  
 
   // Register
   {path: 'register', component: HomeComponent, canActivate: [AuthGuard],

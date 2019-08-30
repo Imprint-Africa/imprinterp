@@ -1,5 +1,5 @@
 <!-- Title -->
-<section id="title_section" class="editorialNav">
+<section id="title_section">
     <h4>Editorial</h4>
     <p>Create New Project, Tasks and Teams </p>
 </section>
@@ -21,15 +21,15 @@
   <div id="add_section_row" class="row">
 
     <div class="col-4 div_wrap">
-        <button class="btn btn-sm btn-primary" (click)="openTeamForm()">Teams</button>
+        <button id="btn_teams" class="btn btn-sm" (click)="openTeamForm()">Teams</button>
       </div>
 
     <div class="col-4 div_wrap">
-      <button class="btn btn-sm btn-info" (click)="openSalesCatForm()">Sales Categories</button>
+      <button id="btn_sales" class="btn btn-sm" (click)="openSalesCatForm()">Sales Categories</button>
     </div>
 
     <div class="col-4 div_wrap">
-        <button class="btn btn-sm btn-success" (click)="openCustomServiceForm()">Custom Service</button>
+        <button id="btn_services" class="btn btn-sm" (click)="openCustomServiceForm()">Custom Service</button>
       </div>
 
   </div>
@@ -91,13 +91,26 @@
               <input type="text" #customServiceInput class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
               formControlName="customServiceName" [class.is-invalid]="formCustomService.customServiceName.invalid && formCustomService.customServiceName.touched"
               required placeholder="Customize new Service">
-          
-            <div class="input-group-append">
-              <button [disabled]="!customServiceForm.valid" class="btn btn-sm btm-warning input-group-text" (click)="moveToTaskForm()">Next</button>
-            </div>
             
           </div>
+      </div>
+
+
+      <div class="form-group">
+
+        <div class="input-group input-group-sm">
+  
+            <input type="number" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+            formControlName="targetRevenue" min="1" [class.is-invalid]="formCustomService.targetRevenue.invalid && formCustomService.targetRevenue.touched"
+            required placeholder="Target Serveice Revenue">
+        
+          <div class="input-group-append">
+            <button [disabled]="!customServiceForm.valid" class="btn btn-sm btm-warning input-group-text" (click)="moveToTaskForm()">Next</button>
+          </div>
+          
         </div>
+      </div>
+
 
   </form>
 
@@ -264,8 +277,9 @@
   <!-- Listing of the Projects and tasks -->
   <ul class="list-group" *ngFor='let Service of Services'>
 
-      <div id="custom_service_name">
+      <div id="custom_service_name" class="d-flex">
         <h4>{{Service.serviceName}}</h4>
+        <button class="btn btn-sm ml-auto" (click)="editCustomService(Service._id)">Edit</button>
       </div>
       
       <!-- List of Task -->
@@ -282,22 +296,14 @@
       </li>
 
 
-      <!-- ------ -->
 
   </ul>
-
-
   </div>
 
-
-
 </section>
-
-
-
-
-
-
-
 </article>
+
+
+
+
 </div>

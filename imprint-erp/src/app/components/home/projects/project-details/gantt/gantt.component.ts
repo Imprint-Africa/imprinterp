@@ -19,7 +19,7 @@ export class GanttComponent implements OnInit {
   constructor(
     private projectsService: ProjectsService,
     private notifyService: NotificationService
-  ) { gantt.config.columns = []; }
+  ) { gantt.config.columns = [];}
 
 
 

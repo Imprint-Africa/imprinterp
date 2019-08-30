@@ -4,7 +4,8 @@ export class CustomService {
     task : [{
         taskName: String;
         assignedTeam: String;
-    }]
+    }];
+    targetRevenue : Number;
 
   }
   

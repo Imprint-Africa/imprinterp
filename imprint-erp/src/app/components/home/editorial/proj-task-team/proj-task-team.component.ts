@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators, FormArray} from "@angular/forms";
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { TeamsService } from 'src/app/shared/services/teams.service';
 import { CustomaryService } from 'src/app/shared/services/customary.service';
@@ -52,6 +52,7 @@ public addNewTeamForm: FormGroup;
 public addSalesCategoryForm: FormGroup;
 public customServiceForm: FormGroup;
 public defineTaskForm: FormGroup;
+public editServiceForm: FormGroup;
 
 
 
@@ -60,13 +61,15 @@ public defineTaskForm: FormGroup;
 public Teams : any = [];
 public SalesCategorys: any = [];
 public namedCustomService: string;
+public namedTargetRevenue: number;
 public Tasks: any = [];
 public Services: any = [];
 
 
 
 
-
+// Edit Variables
+public serviceTobeEdited;
 
 
 
@@ -131,7 +134,8 @@ public Services: any = [];
 
   // Add new Custom Service Form
   this.customServiceForm=this.formBuilder.group({
-    customServiceName: ['', Validators.required]
+    customServiceName: ['', Validators.required],
+    targetRevenue: [null, Validators.required]
   });
 
   // define Tasks
@@ -152,6 +156,16 @@ public Services: any = [];
   )
 
 
+  this.editServiceForm=this.formBuilder.group({
+    serviceName: ['', Validators.required],
+    targetRevenue: ['', Validators.required],
+    task: {
+      taskName: ['', Validators.required],
+      assignedTeam: ['', Validators.required]
+    }
+  })
+
+
 
 // ---
   }
@@ -163,6 +177,7 @@ get formAddNewTeam() {return this.addNewTeamForm.controls;}
 get formAddSalesCategory() {return this.addSalesCategoryForm.controls;}
 get formCustomService() {return this.customServiceForm.controls;}
 get formAddTask(){ return this.defineTaskForm.controls;}
+get formEditService(){ return this.editServiceForm.controls;}
 
 
 
@@ -327,7 +342,8 @@ moveToTaskForm(){
   this.listAddSalesCategoryStatus=false;
   this.listStatus=false;
 
-  this.namedCustomService = this.customServiceForm.value.customServiceName.toLowerCase()
+  this.namedCustomService = this.customServiceForm.value.customServiceName.toLowerCase();
+  this.namedTargetRevenue = this.customServiceForm.value.targetRevenue;
   this.myCustomServiceFormValues.resetForm();
   this.taskField.nativeElement.focus();
 
@@ -379,7 +395,9 @@ saveAndClose(){
 
   let convertedData = {
     serviceName : this.namedCustomService,
-    task: this.Tasks
+    task: this.Tasks,
+    targetRevenue: this.namedTargetRevenue
+
   }
 
   this.mydefineTaskFormValues.resetForm();
@@ -394,10 +412,22 @@ saveAndClose(){
 
   )
 
+}
+
+
+
+
+
+
+
+// Edit Custom Service
+editCustomService(id){
+
+  window.localStorage.setItem('IdServiceTobeEdited', id);
+  this.router.navigate(['/custom_service_edit']);
 
 
 }
-
 
 
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from "@angular/common/http"; 
+import { HttpClient, HttpHeaders } from "@angular/common/http"; 
 import { User } from "../models/user";
 
 // -------------------------------------
@@ -10,22 +10,38 @@ import { User } from "../models/user";
 // -------------------------------------
 export class UserService {
 
-// ---------------------------------------
-  constructor( private http: HttpClient ) { }
+
+
+//Headers
+header = new HttpHeaders().set(
+  'Authorization', `Bearer ${window.localStorage.getItem("loggedUserToken")}`
+);
+
 
 
 //--------- MAIN URL -----------------------------
 _url: string = "http://localhost:3000/api/user/";
 
-// Register User
-registerUser( registrationData : User ) {
-  return this.http.post<any>(this._url + "register", registrationData)
-}
+
+
+// ---------------------------------------
+  constructor( private http: HttpClient ) { }
+
+
+
+
 
 // Login User
 loginUser( loginData: User ) {
   return this.http.post<any>(this._url + "login", loginData)
 }
+
+
+// Register User
+registerUser( registrationData : User ) {
+  return this.http.post<any>(this._url + "register", registrationData, {headers : this.header})
+}
+
 
 
 

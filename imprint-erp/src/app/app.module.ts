@@ -40,6 +40,7 @@ import { UpdateProjectComponent } from './components/home/projects/update-projec
 import { ProjectDetailsComponent } from './components/home/projects/project-details/project-details.component';
 import { GanttComponent } from './components/home/projects/project-details/gantt/gantt.component';
 import { DashboardComponent } from './components/home/dashboard/dashboard.component';
+import { CustomServiceEditComponent } from './components/home/editorial/custom-service-edit/custom-service-edit.component';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import { DashboardComponent } from './components/home/dashboard/dashboard.compon
     UpdateProjectComponent,
     ProjectDetailsComponent,
     GanttComponent,
-    DashboardComponent
+    DashboardComponent,
+    CustomServiceEditComponent
     
   ],
   imports: [

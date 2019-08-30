@@ -325,20 +325,25 @@
 
                 
                 <div id="radio_wrap" >
-                    <label>Low</label>
+                    <!-- <label>Low</label> -->
                     <fa name="star"  [ngClass]="projPriority >= '1' ? 'text-primary' : 'text-secondary'" (click)="selectPriority(1)" ></fa> 
                 </div>
 
                 <div id="radio_wrap">
-                    <label>Medium</label>
+                    <!-- <label>Medium</label> -->
                     <fa name="star"  [ngClass]="projPriority >= '2' ? 'text-primary' : 'text-secondary'" (click)="selectPriority(2)" ></fa>
                 </div>
 
                 <div id="radio_wrap" >
-                    <label>High</label>
+                    <!-- <label>High</label> -->
                     <fa name="star"  [ngClass]="projPriority >= '3' ? 'text-primary' : 'text-secondary'" (click)="selectPriority(3)" ></fa> 
                 </div>         
 
+        </div>
+
+        <div class="div_wrap">
+
+            <button class="btn btn-sm btn-warning" (click)="saveRevenuePrioroty()">Save</button>
 
         </div>
 
@@ -367,19 +372,17 @@
 
       <!-- Button group -->
       <div id="button_group" class="d-flex">
-          <div class="col-3 div_wrap">
-              <button class="btn btn-sm btn-success" (click)="saveChanges()">Save Changes</button>
+          
+          
+          <div class="col-4 div_wrap">
+              <button class="btn btn-sm btn-secondary" (click)="discardChanges()">Discard Changes</button>
           </div>
           
-          <div class="col-3 div_wrap">
-              <button class="btn btn-sm btn-warning" (click)="discardChanges()">Discard Changes</button>
-          </div>
-          
-          <div class="col-3 div_wrap">
+          <div class="col-4 div_wrap">
             <button class="btn btn-sm btn-primary" (click)="lauchProject()">Launch Project</button>
           </div>
           
-          <div class="col-3 div_wrap">
+          <div class="col-4 div_wrap">
               <button class="btn btn-sm btn-danger" (click)="deleteProject()">Delete Project</button>
           </div>
 

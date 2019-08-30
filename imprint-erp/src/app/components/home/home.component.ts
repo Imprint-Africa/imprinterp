@@ -96,7 +96,7 @@ CheckActiveNavBar(){
  }
 
  navToProjTaskTeam(){
-  this.router.navigate(['/proj_task_team']);
+  this.router.navigate(['/editorial']);
  }
 
 

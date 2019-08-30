@@ -527,20 +527,10 @@ targetsChartFunction(){
   });
 
 
-  let ourTargetRevenueData = [ 160000, 50000, 210000, 130000 ];
+  let ourTargetRevenueData = this.CustomServices.filter(()=>{return true}).map((e)=>{return e.targetRevenue});
   
   this.targetsDatasets = [
-    // {
-    //   label: 'Project Num',
-    //   data: ourProjectNumberData,
-    //   backgroundColor: 'rgba(​ 77, ​ 189, ​ 116, .2)',
-    //   borderColor: getStyle('--info'),
-    //   borderWidth: 0.5,
-    //   pointBackgroundColor: 'transparent',
-    //   pointHoverBackgroundColor: 'transparent',
-    //   pointBorderColor: 'white',
-    //   pointHoverBorderColor: getStyle('--dark')
-    // },
+
     {
       label: 'Total Rev',
       data: ourProjectRevenueData,
