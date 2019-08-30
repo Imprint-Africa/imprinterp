@@ -1,15 +1,20 @@
 <!-- Title -->
-<section id="title_section">
-  <h4>Edit</h4>
-  <p>Set up the project's steps before commencement</p>
+<section id="title_section" class="projectsNav">
+  <h4>Project Edit</h4>
+  <p>Edit Details about the project</p>
 </section>
 
 
 
 
 
-<!-- // article wrapper -->
-<article id="main_wrapper">
+
+<!-- Body Section -->
+<section class="body_section">
+
+
+
+
 
   <!-- ------ ------- -->
   <section id="projectClientSection" *ngIf="OpennedProject">
@@ -234,12 +239,12 @@
 
       </ul>
       <div id="totals" class="d-flex">
-        <div class="col-3 div_wrap pl-3">
-            <h4 class=""><span class="first-span">{{totalSelectedTasks}}</span>of<span class="second-span">{{totalTasks}}</span></h4>
+        <div class="col-3 div_wrap pl-4">
+            <h4 class=""><span class="first-span">{{totalSelectedTasks}}</span></h4>
         </div>
         
-        <div  class="col-3 div_wrap pl-3">
-            <h4 class=""><span class="first-span">{{totalSelectedTeams}}</span>of<span class="second-span">{{totalTeams}}</span></h4>
+        <div  class="col-3 div_wrap pl-4">
+            <h4 class=""><span class="first-span">{{totalSelectedTeams}}</span></h4>
         </div>
 
         <div  class="col-3 div_wrap pl-4">
@@ -305,8 +310,9 @@
             </ng-template>
 
             <div class="btn-wrap text-center">
-              <button class="btn btn-sm" (click)="saveTasksDurationDates()">Save</button>
+              <button class="btn btn-sm" (click)="changeTasksDurationDates()">Save</button>
             </div>
+
 
             <form id="assignedUserForm" [formGroup]=assignedUserForm>
               <div class="form-group">
@@ -322,6 +328,7 @@
                   </select>
               </div>
             </form>
+
 
 
             <div class="btn-wrap text-center">
@@ -468,4 +475,9 @@
 
 
 
-</article>
+
+
+
+
+
+</section>

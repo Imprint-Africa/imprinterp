@@ -10,7 +10,7 @@
 
 
 <!-- Body Section -->
-<section class="body_section">
+<section class="body_section" >
 
 
 
@@ -23,7 +23,8 @@
 
     <div id="detail_section_title">
         <h4> Projects Details </h4>
-        <button class="btn btn-sm" (click)="moveBackToTeams()">Back To Teams</button>
+        <button id="toEditProject" class="btn btn-sm" (click)="toEditProject()">Edit Project</button>
+        <button id="backToTeams" class="btn btn-sm" (click)="moveBackToTeams()">Back To Teams</button>
     </div>
 
     <div class="item-wrap card-group">
@@ -34,6 +35,10 @@
 
     <div class="detail_section_item">
       <h4>Project Name :<span>{{oppennedProject.projectName}}</span></h4>
+    </div>
+
+    <div class="detail_section_item">
+      <h4>Project Manager :<span>{{oppennedProject.projectManager}}</span></h4>
     </div>
 
     <div class="detail_section_item">
@@ -216,17 +221,17 @@
                 <h4>{{task.assignedTeam}}</h4>
             </div>
 
-            <div class="d-flex col-2 div_wrap">
-                <h4>{{task.taskStartDate.day}}/{{task.taskStartDate.month}}/{{task.taskStartDate.year}}</h4>
+            <div class="d-flex col-3 div_wrap">
+              <h4>{{task.assignedUser}}</h4>
             </div>
 
-            <div class="d-flex col-2 div_wrap">
-                <h4>{{task.taskEndDate.day}}/{{task.taskEndDate.month}}/{{task.taskEndDate.year}}</h4>
+            <div class="d-flex col-3 div_wrap">
+                <h4><span>{{task.taskDuration}}</span>Days
+                  <span>{{task.taskStartDate.day}}/{{task.taskStartDate.month}}/{{task.taskStartDate.year}}</span>
+                  To<span>{{task.taskEndDate.day}}/{{task.taskEndDate.month}}/{{task.taskEndDate.year}}</span> 
+                </h4>
             </div>
 
-            <div class="d-flex col-2 div_wrap">
-                <h4>{{task.taskDuration}}Days</h4>
-            </div>
     </li>
 
 </ul>

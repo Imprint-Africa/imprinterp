@@ -254,8 +254,6 @@ isProjectDateBeforeMinDate(date: NgbDate) {
 
 
 // Save Project dates and Duration
-
-
 saveProjectDurationDates(){
 
   let dataToBeSent = {
@@ -276,6 +274,16 @@ saveProjectDurationDates(){
 
       this.taskMinDate = this.projectFromDate;
       this.taskMaxDate = this.projectToDate;
+
+      // converting task date to NgbDate
+      this.OpennedProject.task.forEach((task)=>{
+        if (task.taskDuration){
+        let taskStartDates = new Date(task.taskStartDate);
+        task.taskStartDate = new NgbDate(taskStartDates.getUTCFullYear(), taskStartDates.getUTCMonth() + 1, taskStartDates.getUTCDate());
+        task.taskEndDate = this.calendar.getNext(task.taskStartDate, 'd', task.taskDuration);
+        }
+      })
+
       this.notifyService.showSuccess('Dates Changes Saved', 'Success');
     },
     error=>{
@@ -347,8 +355,7 @@ saveTasksDurationDates(){
   this.OpennedProject.task.forEach((t)=>{
   
     if (this.listClickedStatus === t._id){
-          t.assignedUser = this.assignedUserForm.value.assignedUser
-          t.taskDuration = this.taskDuration;
+          t.taskDuration = this.taskDuration,
           t.taskStartDate = new Date(this.taskFromDate.year, this.taskFromDate.month -1, this.taskFromDate.day +1);
           t.taskEndDate = new Date(this.taskToDate.year, this.taskToDate.month -1, this.taskToDate.day +1);
           t.taskStatus = 'checked';
@@ -387,6 +394,7 @@ saveTasksDurationDates(){
       this.totalProjectAssignedUsers = Array.from(new Set(getInvolvedUsers)).length;
 
 
+  
       // converting task date to NgbDate
       this.OpennedProject.task.forEach((task)=>{
         if (task.taskDuration){
@@ -409,6 +417,54 @@ saveTasksDurationDates(){
 
 
 
+
+
+changeAssignedUser(){
+
+  this.OpennedProject.task.forEach((t)=>{
+
+    if (this.listClickedStatus === t._id){
+          t.assignedUser = this.assignedUserForm.value.assignedUser
+
+          if(t.taskDuration){
+            t.taskStartDate = new Date(t.taskStartDate.year, t.taskStartDate.month -1, t.taskStartDate.day +1);
+            t.taskEndDate = new Date(t.taskEndDate.year, t.taskEndDate.month -1, t.taskEndDate.day + 1);
+          }
+    }
+    if (t._id != this.listClickedStatus && t.taskDuration){
+      t.taskStartDate = new Date(t.taskStartDate.year, t.taskStartDate.month -1, t.taskStartDate.day +1);
+      t.taskEndDate = new Date(t.taskEndDate.year, t.taskEndDate.month -1, t.taskEndDate.day + 1);
+    }
+  
+  });
+  
+  this.salesService.updateOppProject(window.localStorage.getItem('salesEditItemId'), {task : this.OpennedProject.task}).subscribe(
+    data=>{
+
+      this.OpennedProject.task = data.task;
+
+      let getInvolvedUsers =  data.task.filter(task=>{ return task.assignedUser === ''? false: true}).map(task=>{return task.assignedUser});
+      this.totalProjectAssignedUsers = Array.from(new Set(getInvolvedUsers)).length;
+
+  
+      // converting task date to NgbDate
+      this.OpennedProject.task.forEach((task)=>{
+        if (task.taskDuration){
+        let taskStartDates = new Date(task.taskStartDate);
+        task.taskStartDate = new NgbDate(taskStartDates.getUTCFullYear(), taskStartDates.getUTCMonth() + 1, taskStartDates.getUTCDate());
+        task.taskEndDate = this.calendar.getNext(task.taskStartDate, 'd', task.taskDuration);
+        }
+      })
+
+      this.taskDetailsStatus = !this.taskDetailsStatus;
+      this.notifyService.showSuccess('Task Updated', 'Success');
+    },error=>{
+      this.notifyService.showError('Task Not Updated', 'Success');
+    }
+  )
+
+
+}
 
 
 

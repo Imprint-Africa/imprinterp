@@ -90,11 +90,11 @@ public taskMaxDate;
 
             // converting task dates to NgbDate
             this.oppennedProject.task.forEach((task)=>{
-              if (task.taskDuration){
+            
               let taskStartDates = new Date(task.taskStartDate);
               task.taskStartDate = new NgbDate(taskStartDates.getUTCFullYear(), taskStartDates.getUTCMonth() + 1, taskStartDates.getUTCDate());
               task.taskEndDate = this.calendar.getNext(task.taskStartDate, 'd', task.taskDuration);
-              }
+      
             })
 
           },
@@ -146,6 +146,9 @@ moveBackToTeams(){
   this.router.navigate(['/project_update']);
 }
   
+toEditProject(){
+  this.router.navigate(['/project_edit']);
+}
 
 
 

@@ -12,6 +12,7 @@ import { UpdateProjectComponent } from './components/home/projects/update-projec
 import { ProjectDetailsComponent } from './components/home/projects/project-details/project-details.component';
 import { DashboardComponent } from './components/home/dashboard/dashboard.component';
 import { CustomServiceEditComponent } from './components/home/editorial/custom-service-edit/custom-service-edit.component';
+import { EditProjectComponent } from './components/home/projects/edit-project/edit-project.component';
 
 const routes: Routes = [
   // login
@@ -37,7 +38,12 @@ const routes: Routes = [
   {path: 'project_details', component: HomeComponent, canActivate: [AuthGuard],
   children: [{ path: "", component: ProjectDetailsComponent }]
   },
+ 
   
+  // Projects Details
+  {path: 'project_edit', component: HomeComponent, canActivate: [AuthGuard],
+  children: [{ path: "", component: EditProjectComponent }]
+  },
 
   // Sales
   {path: 'sales', component: HomeComponent, canActivate: [AuthGuard],

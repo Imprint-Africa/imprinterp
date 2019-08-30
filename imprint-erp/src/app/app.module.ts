@@ -41,6 +41,7 @@ import { ProjectDetailsComponent } from './components/home/projects/project-deta
 import { GanttComponent } from './components/home/projects/project-details/gantt/gantt.component';
 import { DashboardComponent } from './components/home/dashboard/dashboard.component';
 import { CustomServiceEditComponent } from './components/home/editorial/custom-service-edit/custom-service-edit.component';
+import { EditProjectComponent } from './components/home/projects/edit-project/edit-project.component';
 
 
 @NgModule({
@@ -57,7 +58,8 @@ import { CustomServiceEditComponent } from './components/home/editorial/custom-s
     ProjectDetailsComponent,
     GanttComponent,
     DashboardComponent,
-    CustomServiceEditComponent
+    CustomServiceEditComponent,
+    EditProjectComponent
     
   ],
   imports: [
