@@ -62,11 +62,11 @@ export class ProjectsService {
 
 
 
-getGanttProject(id): Promise<any>{
-  return this.http.get<any>(this._url + "oneToGantt/" + id, {headers : this.header})
-      .toPromise()
-      .catch()
-}
+  getGanttProject(id): Promise<any>{
+    return this.http.get<any>(this._url + "oneToGantt/" + id, {headers : this.header})
+        .toPromise()
+        .catch()
+  }
   
   // Structure Gantt Chart data
   getLink(): Promise<any> {
@@ -76,7 +76,10 @@ getGanttProject(id): Promise<any>{
   }
 
 
-
+  deleteProject(id) {
+    return this.http.delete<any>(this._url + "delete/" + id, {headers : this.header})
+  }
+  
 
     // End
 }

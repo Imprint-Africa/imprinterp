@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
-import {FormBuilder, FormGroup, Validators, FormArray} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { TeamsService } from 'src/app/shared/services/teams.service';
 import { CustomaryService } from 'src/app/shared/services/customary.service';
@@ -23,8 +24,11 @@ export class CustomServiceEditComponent implements OnInit {
     private notifyService: NotificationService,
     private teamsService: TeamsService,
     private customService: CustomaryService,
-    private salesCategoryService: SalesCategoryService
   ) { }
+
+// Modal
+@ViewChild('dangerModal') public dangerModal: ModalDirective;
+
 
 public serviceNameForm: FormGroup;
 public targetRevenueForm: FormGroup;
@@ -196,6 +200,29 @@ submitAssignedTeamChange(id){
   )
 
 }
+
+
+
+
+
+
+
+deleteService(){
+
+  this.customService.deleteService(window.localStorage.getItem('IdServiceTobeEdited')).subscribe(
+    data=>{
+      this.notifyService.showSuccess('Service Deleted', 'Success');
+      window.localStorage.removeItem('IdServiceTobeEdited');
+      setTimeout(()=>{
+        this.router.navigate(['/editorial'])
+      }, 3000);
+    },
+    error=>{
+      this.notifyService.showError('Not Deleted', "Error");
+    }
+  )
+   
+ }
 
 
 

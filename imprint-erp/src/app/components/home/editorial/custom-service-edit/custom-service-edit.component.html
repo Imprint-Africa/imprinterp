@@ -168,4 +168,44 @@
 
 
 
+
+
+<!-- // Modals -->
+<section class="modal_section">
+
+  <div class="delete_btn_div">
+    <button type="button" class="btn" data-toggle="modal" (click)="dangerModal.show()">
+        Delete Service
+    </button>
+
+  </div>
+
+  <div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-danger" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Are you sure ?</h4>
+            <button type="button" class="btn close" (click)="dangerModal.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" *ngIf="serviceTobeEdited">
+            <p>You are about to delete<span>{{serviceTobeEdited.serviceName}}</span>Service</p>
+            <p>This action is IRRIVERSABLE.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-cancel" (click)="dangerModal.hide()">No</button>
+            <button type="button" class="btn btn-confirm" (click)="deleteService(); dangerModal.hide()">YES</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+
+</section>
+
+
+
+
+
 </section>

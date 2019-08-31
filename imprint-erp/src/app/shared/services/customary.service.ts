@@ -55,5 +55,11 @@ updateServices(id, data: any) {
 }
 
 
-
+deleteService(id) {
+  return this.http.delete<any>(this._url + "delete/" + id, {headers : this.header})
 }
+
+
+//
+}
+//

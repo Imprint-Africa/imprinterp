@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
@@ -30,7 +31,8 @@ export class EditProjectComponent implements OnInit {
     ) { 
     }
 
-
+// Modal
+@ViewChild('dangerModal') public dangerModal: ModalDirective;
 
 // Variables
 public projectManagerForm: FormGroup;
@@ -589,6 +591,27 @@ this.projectService.updateProject(window.localStorage.getItem('projectOnEditId')
 
 
 
+
+
+
+
+
+deleteProject(){
+
+ this.projectService.deleteProject(window.localStorage.getItem('projectOnEditId')).subscribe(
+   data=>{
+     this.notifyService.showSuccess('Project Deleted', 'Success');
+     window.localStorage.removeItem('projectOnEditId');
+     setTimeout(()=>{
+       this.router.navigate(['/projects'])
+     }, 3000);
+   },
+   error=>{
+     this.notifyService.showError('Not Deleted', "Error");
+   }
+ )
+  
+}
 
 
 

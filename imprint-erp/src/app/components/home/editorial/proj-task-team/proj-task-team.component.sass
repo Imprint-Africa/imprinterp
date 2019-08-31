@@ -171,6 +171,7 @@
         box-shadow: 0 0 7px rgba(0, 0, 0, .3)
         padding: 1em
         width: 70%
+        border: none
 
         @include desktop_md
             width: 100%
@@ -180,6 +181,7 @@
                 font-weight: bold
                 font-size: 12px
                 font-family: Montserrat
+                color: brandColor(brandSuccess)
  
         .form-group
             margin: 0 0 2em 0
@@ -296,12 +298,14 @@
         box-shadow: 0 0 7px rgba(0, 0, 0, .3)
         padding: 1em
         width: 70%
+        border: none
 
         #form_header
             h4
                 font-weight: bold
                 font-size: 12px
                 font-family: Montserrat
+                color: brandColor(brandPrimary)
 
         @include desktop_md
             width: 100%
@@ -326,10 +330,93 @@
             padding: 5px
             border: solid 1px white
             background-color: whitesmoke
-            margin: auto 0 auto 0
-            font-size: 10px
+            margin: auto 0 auto 0    
+
+            h4
+                margin: auto 0 auto 0 
+                font-size: 10px
+                font-family: Montserrat
+                text-transform: capitalize
+            .btn-wrap
+                margin: 0 0 0 auto
+
+                button
+                    fa
+                        margin: 0 .5em 0 .5em
+                        font-size: 10px
+                        font-family: Montserrat
+                        text-transform: capitalize
+                        &[name=pencil]
+                            color: brandColor(brandPrimary)
+                        &[name=trash]
+                            color: brandColor(brandDanger)
+    
+    .editTeamModal
+        .modal-header
+            background-color: brandColor(brandPrimary)
+            .modal-title
+                font-size: 15px
+                font-family: Montserrat
+
+                span
+                    margin: 0 .5em 0 .5em
+                    color: white
+                    text-transform: uppercase
+               
+
+        .modal-body
+            font-size: 12px
             font-family: Montserrat
-            text-transform: capitalize
+
+            input
+                font-size: 10px
+                font-family: Montserrat  
+
+        .modal-footer
+            .btn-cancel
+                background-color: brandColor(brandSecondary)
+                font-size: 10px
+                font-family: Montserrat
+            .btn-confirm
+                background-color: brandColor(brandSuccess)
+                font-size: 10px
+                font-family: Montserrat
+
+
+    .deleteTeamModal   
+        .modal-header
+            background-color: brandColor(brandDanger) !important
+            .modal-title
+                font-size: 15px
+                font-family: Montserrat
+               
+
+        .modal-body
+            font-size: 12px
+            font-family: Montserrat
+            text-align: center
+
+            p
+                color: black
+
+                span
+                    text-transform: capitalize
+                    margin: 0 .2em 0 .2em
+                    color: brandColor(brandPrimary)
+                    text-transform: uppercase
+
+
+        .modal-footer
+            .btn-cancel
+                background-color: brandColor(brandSecondary)
+                font-size: 10px
+                font-family: Montserrat
+            .btn-confirm
+                background-color: brandColor(brandDanger)
+                font-size: 10px
+                font-family: Montserrat
+
+
 
 
 
@@ -368,12 +455,14 @@
         box-shadow: 0 0 7px rgba(0, 0, 0, .3)
         padding: 1em
         width: 70%
+        border: none
 
         #form_header
             h4
                 font-weight: bold
                 font-size: 12px
                 font-family: Montserrat
+                color: brandColor(brandWarning)
 
         @include desktop_md
             width: 100%
@@ -398,10 +487,93 @@
             padding: 5px
             border: solid 1px white
             background-color: whitesmoke
-            margin: auto 0 auto 0
-            font-size: 10px
+            margin: auto 0 auto 0    
+
+            h4
+                margin: auto 0 auto 0 
+                font-size: 10px
+                font-family: Montserrat
+                text-transform: capitalize
+            .btn-wrap
+                margin: 0 0 0 auto
+
+                button
+                    fa
+                        margin: 0 .5em 0 .5em
+                        font-size: 10px
+                        font-family: Montserrat
+                        text-transform: capitalize
+                        &[name=pencil]
+                            color: brandColor(brandPrimary)
+                        &[name=trash]
+                            color: brandColor(brandDanger)
+
+
+    .editSalesCatModal
+        .modal-header
+            background-color: brandColor(brandPrimary)
+            .modal-title
+                font-size: 15px
+                font-family: Montserrat
+
+                span
+                    margin: 0 .5em 0 .5em
+                    color: white
+                    text-transform: uppercase
+               
+
+        .modal-body
+            font-size: 12px
             font-family: Montserrat
-            text-transform: capitalize
+
+            input
+                font-size: 10px
+                font-family: Montserrat  
+
+        .modal-footer
+            .btn-cancel
+                background-color: brandColor(brandSecondary)
+                font-size: 10px
+                font-family: Montserrat
+            .btn-confirm
+                background-color: brandColor(brandSuccess)
+                font-size: 10px
+                font-family: Montserrat
+
+
+
+    .deleteSalesCatModal  
+        .modal-header
+            background-color: brandColor(brandDanger) !important
+            .modal-title
+                font-size: 15px
+                font-family: Montserrat
+               
+
+        .modal-body
+            font-size: 12px
+            font-family: Montserrat
+            text-align: center
+
+            p
+                color: black
+
+                span
+                    text-transform: capitalize
+                    margin: 0 .2em 0 .2em
+                    color: brandColor(brandPrimary)
+                    text-transform: uppercase
+
+
+        .modal-footer
+            .btn-cancel
+                background-color: brandColor(brandSecondary)
+                font-size: 10px
+                font-family: Montserrat
+            .btn-confirm
+                background-color: brandColor(brandDanger)
+                font-size: 10px
+                font-family: Montserrat
 
 
 

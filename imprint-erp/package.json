@@ -36,6 +36,7 @@
     "jquery": "^3.4.1",
     "ng-sidebar": "^8.0.0",
     "ng2-charts": "^2.2.3",
+    "ngx-bootstrap": "^5.1.1",
     "ngx-drag-drop": "^2.0.0",
     "ngx-toastr": "^9.1.2",
     "popper.js": "^1.15.0",

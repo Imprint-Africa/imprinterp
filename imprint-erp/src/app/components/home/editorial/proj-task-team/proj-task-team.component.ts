@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
-import {FormBuilder, FormGroup, Validators, FormArray} from "@angular/forms";
+import { ModalDirective } from 'ngx-bootstrap/modal';
+import {FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { TeamsService } from 'src/app/shared/services/teams.service';
 import { CustomaryService } from 'src/app/shared/services/customary.service';
@@ -26,7 +27,11 @@ export class ProjTaskTeamComponent implements OnInit {
   ) { }
 
 
-
+// Modal
+@ViewChild('editTeamModal') public editTeamModal: ModalDirective;
+@ViewChild('deleteTeamModal') public deleteTeamModal: ModalDirective;
+@ViewChild('editSalesCatModal') public editSalesCatModal: ModalDirective;
+@ViewChild('deleteSalesCatModal') public deleteSalesCatModal: ModalDirective;
 
 
 // Status Variables
@@ -53,6 +58,8 @@ public addSalesCategoryForm: FormGroup;
 public customServiceForm: FormGroup;
 public defineTaskForm: FormGroup;
 public editServiceForm: FormGroup;
+public editTeamForm: FormGroup;
+public editSalesCatForm: FormGroup;
 
 
 
@@ -70,6 +77,10 @@ public Services: any = [];
 
 // Edit Variables
 public serviceTobeEdited;
+public teamToBeEdited;
+public teamToBeDeleted;
+public salesCategoryToBeEdited;
+public salesCategoryToBeDeleted;
 
 
 
@@ -165,6 +176,14 @@ public serviceTobeEdited;
     }
   })
 
+  this.editTeamForm=this.formBuilder.group({
+    name: ['', Validators.required]
+  })
+
+  this.editSalesCatForm=this.formBuilder.group({
+    name: ['', Validators.required]
+  })
+
 
 
 // ---
@@ -178,6 +197,8 @@ get formAddSalesCategory() {return this.addSalesCategoryForm.controls;}
 get formCustomService() {return this.customServiceForm.controls;}
 get formAddTask(){ return this.defineTaskForm.controls;}
 get formEditService(){ return this.editServiceForm.controls;}
+get formEditTeam(){ return this.editTeamForm.controls;}
+get formSalesCatTeam(){ return this.editSalesCatForm.controls;}
 
 
 
@@ -430,8 +451,91 @@ editCustomService(id){
 }
 
 
+identifyTeamToBeEdited(team){
+  this.teamToBeEdited = team;
+}
 
 
+editTeam(){
+
+  let data = this.editTeamForm.value.name.toLowerCase();
+
+  this.teamsService.updateTeam(this.teamToBeEdited._id, {name: data}).subscribe(
+    data=>{
+      this.notifyService.showSuccess('Team Updated', 'Success');
+    },
+    error=>{
+      this.notifyService.showError('Not Updated..', 'Error');
+    }
+    
+  )
+}
+
+
+
+identifyTeamToBeDeleted(team){
+  this.teamToBeDeleted = team;
+}
+
+
+deleteTeam(){
+
+  this.teamsService.deleteTeam(this.teamToBeDeleted._id).subscribe(
+    data=>{
+      this.notifyService.showSuccess('Team Delete', 'Success');
+    },
+    error=>{
+      this.notifyService.showError('Not Deleted..', 'Error');
+    }
+    
+  )
+
+}
+
+
+
+
+
+identifySalesCatBeEdited(salesCat){
+  this.salesCategoryToBeEdited= salesCat;
+}
+
+
+editSalesCategory(){
+
+  let data = this.editSalesCatForm.value.name.toLowerCase();
+
+  this.salesCategoryService.updateSaleCategory(this.salesCategoryToBeEdited._id, {name: data}).subscribe(
+    data=>{
+      this.notifyService.showSuccess('Sales Category Updated', 'Success');
+    },
+    error=>{
+      this.notifyService.showError('Not Updated..', 'Error');
+    }
+    
+  )
+}
+
+
+
+identifySalesCatToBeDeleted(salesCat){
+  this.salesCategoryToBeDeleted = salesCat;
+}
+
+
+deleteSalesCategory(){
+
+  this.salesCategoryService.deleteSaleCategory(this.salesCategoryToBeDeleted._id).subscribe(
+    data=>{
+      this.notifyService.showSuccess('Sales Category Delete', 'Success');
+    },
+    error=>{
+      this.notifyService.showError('Not Deleted..', 'Error');
+    }
+    
+  )
+
+}
 
 
 

@@ -194,11 +194,76 @@
 
   <ul class="list-group">
       <!-- List of Teams -->
-      <li class="list-group-item" *ngFor="let Team of Teams">{{Team.name}}</li>
+      <li class="list-group-item d-flex" *ngFor="let Team of Teams">
+        <h4>{{Team.name}}</h4>
+        <div class="btn-wrap">
+            <button class="btn btn-sm" data-toggle="modal" (click)="editTeamModal.show(); identifyTeamToBeEdited(Team)">
+                <fa name="pencil"></fa>
+            </button>
+            <button class="btn btn-sm" data-toggle="modal" (click)="deleteTeamModal.show(); identifyTeamToBeDeleted(Team)">
+                <fa name="trash"></fa>
+            </button>
+        </div>
+        
+      </li>
 
   </ul>
 
+
+
+  <div bsModal #editTeamModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog editTeamModal" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" *ngIf="teamToBeEdited">You are Editing<span>{{teamToBeEdited.name}}</span></h4>
+            <button type="button" class="btn close" (click)="editTeamModal.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form class="form" [formGroup]="editTeamForm">
+              <div class="form-group">
+                  <input type="text" class="form-control"
+                  formControlName="name" [class.is-invalid]="formEditTeam.name.invalid && formEditTeam.name.touched">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-cancel" (click)="editTeamModal.hide()">No</button>
+            <button type="button" [disabled]="!editTeamForm.valid"class="btn btn-confirm" (click)="editTeam(); editTeamModal.hide()">YES</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+
+  <div bsModal #deleteTeamModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog deleteTeamModal" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Are you sure ?</h4>
+            <button type="button" class="btn close" (click)="deleteTeamModal.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" *ngIf="teamToBeDeleted">
+            <p>You are about to delete<span>{{teamToBeDeleted.name}}</span></p>
+            <p>This action is IRRIVERSABLE.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-cancel" (click)="deleteTeamModal.hide()">No</button>
+            <button type="button" class="btn btn-confirm" (click)="deleteTeam(); deleteTeamModal.hide()">YES</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->  
+
+
+
 </section>
+
+
+
 
 
 
@@ -234,15 +299,85 @@
     </form>
   
     <ul class="list-group">
-        <!-- List of Teams -->
-        <li class="list-group-item" *ngFor="let SalesCategory of SalesCategorys">{{SalesCategory.name}}</li>
+        <li class="list-group-item d-flex" *ngFor="let SalesCategory of SalesCategorys">
+          <h4>{{SalesCategory.name}}</h4>
+          <div class="btn-wrap">
+              <button class="btn btn-sm" data-toggle="modal" (click)="editSalesCatModal.show(); identifySalesCatBeEdited(SalesCategory)">
+                  <fa name="pencil"></fa>
+              </button>
+              <button class="btn btn-sm" data-toggle="modal" (click)="deleteSalesCatModal.show(); identifySalesCatToBeDeleted(SalesCategory)">
+                  <fa name="trash"></fa>
+              </button>
+          </div>
+        
+        </li>
   
     </ul>
+
+
+
+
+
+
+
+    <div bsModal #editSalesCatModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog editSalesCatModal" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" *ngIf="salesCategoryToBeEdited">You are Editing<span>{{salesCategoryToBeEdited.name}}</span></h4>
+            <button type="button" class="btn close" (click)="editSalesCatModal.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form class="form" [formGroup]="editSalesCatForm">
+              <div class="form-group">
+                  <input type="text" class="form-control"
+                  formControlName="name" [class.is-invalid]="formSalesCatTeam.name.invalid && formSalesCatTeam.name.touched">
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-cancel" (click)="editSalesCatModal.hide()">No</button>
+            <button type="button" [disabled]="!editSalesCatForm.valid"class="btn btn-confirm" (click)="editSalesCategory(); editSalesCatModal.hide()">YES</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+
+  <div bsModal #deleteSalesCatModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog deleteSalesCatModal" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Are you sure ?</h4>
+            <button type="button" class="btn close" (click)="deleteSalesCatModal.hide()" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body" *ngIf="salesCategoryToBeDeleted">
+            <p>You are about to delete<span>{{salesCategoryToBeDeleted.name}}</span></p>
+            <p>This action is IRRIVERSABLE.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-cancel" (click)="deleteSalesCatModal.hide()">No</button>
+            <button type="button" class="btn btn-confirm" (click)="deleteSalesCategory(); deleteSalesCatModal.hide()">YES</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->  
+
+
+
+
+
+
+
+
+
   
   </section>
   
-
-
 
 
 

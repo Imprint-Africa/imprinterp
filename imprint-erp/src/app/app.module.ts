@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { ModalModule } from "ngx-bootstrap";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
@@ -74,6 +75,7 @@ import { EditProjectComponent } from './components/home/projects/edit-project/ed
     HttpClientModule,
     BrowserAnimationsModule,
     ChartsModule,
+    ModalModule.forRoot(),
     ToastrModule.forRoot({
       timeOut: 7000,
       positionClass: 'toast-bottom-right',
