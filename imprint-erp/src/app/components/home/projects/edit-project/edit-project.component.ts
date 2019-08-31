@@ -24,6 +24,7 @@ export class EditProjectComponent implements OnInit {
       private formBuilder: FormBuilder,
       private router : Router,
       private userService: UserService,
+      private teamsService: TeamsService,
       private projectService: ProjectsService,
       private notifyService: NotificationService
     ) { 
@@ -34,6 +35,10 @@ export class EditProjectComponent implements OnInit {
 // Variables
 public projectManagerForm: FormGroup;
 public assignedUserForm: FormGroup;
+
+@ViewChild('taskDefineInput') taskDefineInputField: ElementRef;
+public addTaskForm: FormGroup;
+
 @ViewChild('myCostPriorForm') myCostPriorFormValues;
 public costPriorForm: FormGroup;
 
@@ -56,6 +61,7 @@ public totalSelectedTasks: number;
 public totalTeams: number;
 public totalSelectedTeams: number;
 public Users: any = [];
+public Teams : any = [];
 public totalProjectAssignedUsers: number;
 
 
@@ -160,6 +166,7 @@ public taskMaxDate;
 
 
 
+
                   // Pass form values
           this.costPriorForm=this.formBuilder.group({
             cost: [null, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],
@@ -173,8 +180,28 @@ public taskMaxDate;
           this.assignedUserForm=this.formBuilder.group({
             assignedUser: ['', Validators.required],
           });
-        
 
+          this.addTaskForm=this.formBuilder.group({
+              taskName: ['', Validators.required],
+              assignedTeam: ['', Validators.required],
+              assignedUser: ['', Validators.required],
+              taskStatus: ['checked'],
+              taskDuration: [null],
+              taskStartDate: [null],
+              taskEndDate: [null],
+            });
+    
+          // List Teams
+          this.teamsService.listTeams().subscribe(
+            data=>{
+                this.Teams = data;
+            },
+            error=>{
+              console.log(error)
+            }
+          )
+
+          // List Users
           this.userService.listUsers().subscribe(
             data=>{
                 this.Users = data;
@@ -192,9 +219,18 @@ public taskMaxDate;
  // conveniently get the values from the form fields
  get formProjectManager() {return this.projectManagerForm.controls;}
  get formAssignedUser() {return this.assignedUserForm.controls;}
+ get formAddTask(){ return this.addTaskForm.controls;}
  get formCostPrior() {return this.costPriorForm.controls;}
 
 
+
+ toDetails(){
+   this.router.navigate(['/project_details']);
+ }
+
+ toTeams(){
+  this.router.navigate(['/project_update']);
+}
 
 
 
@@ -468,6 +504,61 @@ changeAssignedUser(){
 
 
 
+
+addTask(){
+  this.addTaskForm.value.taskDuration = this.taskDuration;
+  this.addTaskForm.value.taskStartDate = this.taskFromDate;
+  this.addTaskForm.value.taskEndDate = this.taskToDate;
+
+  this.OpennedProject.task.push(this.addTaskForm.value);
+
+  let dataToBeUpdated = this.OpennedProject.task.filter(t=>{
+    t.taskStartDate = new Date(t.taskStartDate.year, t.taskStartDate.month -1, t.taskStartDate.day +1);
+    t.taskEndDate = new Date(t.taskEndDate.year, t.taskEndDate.month -1, t.taskEndDate.day + 1);
+
+    return true;
+  }).map(e=>{return e});
+
+  this.projectService.updateProject(window.localStorage.getItem('projectOnEditId'), {task: dataToBeUpdated}).subscribe(
+    data=>{
+      this.OpennedProject = data;
+
+      // converting Project's Date to NgbDate
+      let convertingToNgbDate = new Date(data.projectStartDate);
+      this.OpennedProject.projectStartDate = new NgbDate(convertingToNgbDate.getUTCFullYear(), convertingToNgbDate.getUTCMonth() + 1, convertingToNgbDate.getUTCDate());
+      this.OpennedProject.projectEndDate = this.calendar.getNext(data.projectStartDate, 'd', data.projectDuration);
+
+
+      // converting task dates to NgbDate
+      this.OpennedProject.task.forEach((task)=>{
+        if (task.taskDuration){
+        let taskStartDates = new Date(task.taskStartDate);
+        task.taskStartDate = new NgbDate(taskStartDates.getUTCFullYear(), taskStartDates.getUTCMonth() + 1, taskStartDates.getUTCDate());
+        task.taskEndDate = this.calendar.getNext(task.taskStartDate, 'd', task.taskDuration);
+        }
+      })
+
+
+      this.notifyService.showSuccess('Task Added', 'Success');
+    },
+    error=>{
+      this.notifyService.showError('Could Not Add Task', 'Error !!');
+    }
+  )
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
 // Set priority
 selectPriority(num){
 this.projPriority = num;
@@ -495,28 +586,6 @@ this.projectService.updateProject(window.localStorage.getItem('projectOnEditId')
 
 
 }
-
-
-discardChanges(){
-this.router.navigate(['/project'])
-}
-
-
-
-
-
-
-
-
-
-
-
- 
-// ngOnDestroy(){
-//   window.localStorage.removeItem('projectOnEditId');
-// }
-
-
 
 
 

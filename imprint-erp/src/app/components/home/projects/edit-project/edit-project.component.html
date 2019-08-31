@@ -16,27 +16,37 @@
 
 
 
-  <!-- ------ ------- -->
-  <section id="projectClientSection" *ngIf="OpennedProject">
 
-    <!-- Client Name -->
-    <div id="clientName" class="">
-        <div class="div_wrap">
-          <h4>{{OpennedProject.clientName}}</h4>
-        </div>
-    </div>   
+<section id="nav_section" class="d-flex">
+  <button class="btn btn-sm btn-back" (click)="toDetails()">Back</button>
+  <button class="btn btn-sm btn-to-team" (click)="toTeams()">To Teams</button>
+</section>
 
 
-    <!-- Project Name -->
-    <div id="projectName" class="">
-        <div class="div_wrap">
-          <h4>{{OpennedProject.projectName}}</h4>
-        </div>
-    </div>
 
 
-  </section>
-  <!-- ---------------- -->
+
+
+<section id="projectClientSection" *ngIf="OpennedProject">
+
+  <!-- Client Name -->
+  <div id="clientName" class="">
+      <div class="div_wrap">
+        <h4>{{OpennedProject.clientName}}</h4>
+      </div>
+  </div>   
+
+
+  <!-- Project Name -->
+  <div id="projectName" class="">
+      <div class="div_wrap">
+        <h4>{{OpennedProject.projectName}}</h4>
+      </div>
+  </div>
+
+
+</section>
+
 
 
 
@@ -252,8 +262,10 @@
         </div>
 
         <div  class="col-3 div_wrap pl-4">
-    
-        </div>
+            <button class="btn btn-sm btn-edit" *ngIf="!addTaskSectionStatus" 
+            (click)="addTaskSectionStatus=!addTaskSectionStatus; addTaskFormStatus=true; addTaskCalenderStatus=false">Add Task</button>
+            <button class="btn btn-sm btn-close" *ngIf="addTaskSectionStatus" (click)="addTaskSectionStatus=!addTaskSectionStatus">Close</button>
+          </div>
         
         
       </div>
@@ -353,6 +365,118 @@
 
 
 
+<!-- Define Tasks Section -->
+<section id="addTaskSection" *ngIf="addTaskSectionStatus">
+
+  <!-- Define Tasks -->
+  <form id="myAddTaskForm" #myAddTaskForm='ngForm' [formGroup]="addTaskForm" *ngIf="addTaskFormStatus">
+  
+      <div id="head">
+          <h4>You are adding a task to<span>{{OpennedProject.projectName}}</span>project of<span>{{OpennedProject.clientName}}</span></h4>
+      </div>
+  
+      <div class="form-group">
+          <input type="text" #taskDefineInput class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+          formControlName="taskName" [class.is-invalid]="formAddTask.taskName.invalid && formAddTask.taskName.touched" required placeholder="Task">
+      </div>
+  
+      <div class="form-group">
+          <select type="" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+          formControlName="assignedTeam" [class.is-invalid]="formAddTask.assignedTeam.invalid && formAddTask.assignedTeam.touched"
+              required>
+          
+              <option value="" disabled selected hidden >Select Team---</option>
+              <option *ngFor="let Team of Teams" value='{{Team.name}}'>{{Team.name}}</option>
+          
+          </select> 
+      </div>
+
+      <div class="form-group">
+        <select type="" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+        formControlName="assignedUser" [class.is-invalid]="formAddTask.assignedUser.invalid && formAddTask.assignedUser.touched"
+            required>
+        
+            <option value="" disabled selected hidden >Select User---</option>
+            <option *ngFor="let User of Users" value='{{User.name}}'>{{User.name}}</option>
+        
+        </select> 
+    </div>
+  
+      <div class="d-flex">
+          <button [disabled]="!addTaskForm.valid" type="button" class="btn btn-sm btn-success mr-auto" (click)="addTaskFormStatus=false; addTaskCalenderStatus=true">Set Dates</button>
+      </div> 
+  
+  </form>
+  
+  
+  
+  
+  
+  
+  
+  <div id="date_setting" *ngIf="addTaskCalenderStatus">
+  
+          <div id="duration_wrap"  class="input-group input-group-sm mb-3 ">
+  
+                  <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm"><fa name="time"></fa></span>
+                  </div>
+  
+                  <input type="number" min="1" placeholder="Duration" [(ngModel)]="taskDuration">
+  
+                  <div class="input-group-append">
+                      <span class="input-group-text" id="inputGroup-sizing-sm">Days</span>
+                  </div>
+                
+            </div>
+  
+  
+  
+  
+  
+          <div id="calender_wrapper">
+              <div id="callender_date" class="d-flex">
+            
+                <h4 class="col-6" *ngIf="taskFromDate">Start: <span>{{ taskFromDate.day }}/ {{ taskFromDate.month }}/{{ taskFromDate.year }} </span></h4>
+                <h4 class="col-6" *ngIf="taskToDate">End: <span>{{taskToDate.day}}/{{taskToDate.month}}/{{ taskToDate.year }}</span> </h4>
+              </div>
+            
+              <ngb-datepicker  #taskDatePicker [minDate]="taskMinDate" [maxDate]="taskMaxDate"  (select)="onTaskDateSelection($event)" [displayMonths]="1" [dayTemplate]="taskCalender" outsideDays="hidden">
+              </ngb-datepicker>
+            
+              <ng-template #taskCalender let-date let-focused="focused" >
+                <span class="custom-day"
+                
+                      [class.focused]="focused"
+                      [class.range]="isTaskDateRange(date)"
+                      [class.disabled]="isTaskDateOutSide(date)"
+                      [class.faded]="isTaskDateHovered(date) || isTaskDateInside(date)"
+                      (mouseenter)="taskHoveredDate = date"
+                      (mouseleave)="taskHoveredDate = null">
+                  {{ date.day }}
+                </span>
+              </ng-template>
+  
+          
+            </div>
+            <div class="d-flex">
+                  <button class="btn btn-sm btn-success mr-auto" (click)="addTask()">Add Tasks</button>
+          </div> 
+  
+  
+  </div>
+  
+  
+  </section>
+    
+
+
+
+
+
+
+
+
 
 
 
@@ -423,7 +547,7 @@
 
         <div class="div_wrap">
 
-            <button class="btn btn-sm btn-warning" (click)="saveRevenuePrioroty()">Save</button>
+            <button class="btn btn-sm" (click)="saveRevenuePrioroty()">Save</button>
 
         </div>
 
@@ -438,42 +562,9 @@
 
 
 
-
-
-
-<!-- ================================================== -->
-
-
-
-
-    <!-- Button Section -->
-
-    <section id="button_section">
-
-      <!-- Button group -->
-      <div id="button_group" class="d-flex">
-          
-          
-          <div class="col-4 div_wrap">
-              <button class="btn btn-sm btn-secondary" (click)="discardChanges()">Discard Changes</button>
-          </div>
-          
-          <div class="col-4 div_wrap">
-            <button class="btn btn-sm btn-primary" (click)="lauchProject()">Launch Project</button>
-          </div>
-          
-          <div class="col-4 div_wrap">
-              <button class="btn btn-sm btn-danger" (click)="deleteProject()">Delete Project</button>
-          </div>
-
-        
-          
-      </div>
-
-
+<section id="delete_section">
+  <button class="btn btn-sm" (click)="deleteProject()">Delete Project</button>
 </section>
-
-
 
 
 

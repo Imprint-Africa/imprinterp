@@ -34,6 +34,29 @@
 
 
 
+    #nav_section
+        // background-color: white
+        // padding: 1em
+        margin: 0 0 1em 0
+        border-radius: 2px
+        border: none
+
+        .btn
+            font-size: 10px
+            font-family: Montserrat
+            box-shadow: 0 0 10px rgba(0,0,0,.3)
+            text-transform: uppercase
+            width: 10em
+
+        .btn-back
+            background-color: brandColor(brandPrimary)
+            color: white
+            margin: 0 3em 0 0
+
+        .btn-to-team
+            background-color: brandColor(brandInfo)
+            color: white
+
 
     #projectClientSection
         display: flex
@@ -399,10 +422,29 @@
                         font-weight: bold
                         margin: 0 .5em 0 .5em
                     .second-span
-                        // text-shadow: 5px 5px 3px rgba(0,0,0,.3)
                         color: brandColor(brandDark)
-                        // font-weight: bold
                         margin: 0 .5em 0 .5em
+
+                .btn-edit
+                    font-size: 10px
+                    font-family: Montserrat             
+                    text-transform: uppercase
+                    background-color: brandColor(brandLight) !important
+                    color: black
+                    width: 10em
+    
+                    &:hover
+                        width: 10em
+                        background-color: brandColor(brandPrimary) !important
+                        border: none
+                        color: white
+                .btn-close
+                    font-size: 10px
+                    font-family: Montserrat             
+                    text-transform: uppercase
+                    background-color: brandColor(brandDanger) !important
+                    color: black
+                    width: 10em
 
 
 
@@ -443,6 +485,7 @@
 
 
         #calender_wrapper
+            background-color: white
 
             #callender_date
 
@@ -521,6 +564,162 @@
 
 
 
+
+
+
+
+            // Add Task Section
+    #addTaskSection.hide
+        background-color: transparent
+        height: 0
+        -webkit-transition: all 2s // For Safari 3.1 to 6.0 
+        transition: all 2s
+        opacity: 0
+
+    #addTaskSection
+        -webkit-transition: all 2s // For Safari 3.1 to 6.0 
+        transition: all 2s
+        height: fit-content
+        margin:  0 0 1em 0
+        width: 100%
+
+        @include desktop_md
+            margin: 0 auto 0 auto
+            width: 95%
+        
+        #myAddTaskForm.hide
+            height: 0
+            opacity: 0
+
+        #myAddTaskForm
+            background-color: white
+            -webkit-transition: all 2s // For Safari 3.1 to 6.0 
+            transition: all 2s
+            border-radius: 2px
+            box-shadow: 0 0 7px rgba(0, 0, 0, .3)
+            padding: 1em
+            width: 50%
+            margin: 0 1em 0 1em
+            height: fit-content
+
+            @include desktop_md
+                width: 100%
+
+            #head
+
+                h4
+                    font-size: 11px
+                    font-family: Montserrat
+
+                    span
+                        text-transform: capitalize
+                        color: color(orangeTheme)
+                        margin: 0 .5em 0  .5em
+                        text-transform: uppercase
+
+            .form-group
+                input
+                    font-size: 10px
+                    font-family: Montserrat
+                
+                select
+                    text-transform: capitalize
+                    font-size: 10px
+                    font-family: Montserrat
+
+            .d-flex
+                .btn
+                    font-size: 10px
+                    font-family: Montserrat
+
+        #date_setting.hide
+            height: 0
+            opacity: 0
+
+        #date_setting
+            border: solid 1px grayColor(g200)
+            width: fit-content
+            -webkit-transition: all 2s // For Safari 3.1 to 6.0 
+            transition: all 2s
+            margin: 0 1em 0 1em
+            box-shadow: 0 0 7px rgba(0, 0, 0, .3)
+            height: fit-content
+
+            #duration_wrap
+
+                .input-group-prepend
+                    span
+                        font-size: 10px
+                        font-family: Montserrat
+                        color: color(info)
+
+                input
+                    font-size: 10px
+                    font-family: Montserrat
+                    padding: .5em
+                    color: color(success)
+
+
+                .input-group-prepend
+                    span
+                        font-size: 10px
+                        font-family: Montserrat
+                        color: color(info)
+
+            .d-flex
+                padding: .5em
+                text-align: center
+                .btn
+                    font-size: 10px
+                    font-family: Montserrat
+
+            #calender_wrapper
+
+                #callender_date
+
+                    h4
+                        font-size: 10px
+                        font-family: Montserrat
+                        padding: .5em
+                        color: color(success)
+
+                        span
+                            font-size: 10px
+                            font-family: Montserrat
+                            color: color(info)
+
+                ngb-datepicker
+                    font-size: 10px
+                    font-family: Montserrat
+
+                    .custom-day 
+                        text-align: center
+                        padding: 0.185rem 0.25rem
+                        display: inline-block
+                        height: 2rem
+                        width: 2rem
+                    
+                    .custom-day.focused 
+                        background-color: #e6e6e6
+                    
+                    .custom-day.range, .custom-day:hover
+                        background-color: rgb(2, 117, 216)
+                        color: white
+                    
+                    .custom-day.faded
+                        background-color: rgba(2, 117, 216, 0.5)
+
+                    .custom-day.disabled
+                        color: gray
+                        opacity: .3
+                    .custom-day.disabled:hover
+                        color: gray
+                        opacity: .3
+                        background-color: white!important    
+
+
+
+
 // cost Priotity Section
 #costPriorForm
     border: solid 1px grayColor(g300)
@@ -589,33 +788,25 @@
         font-family: Montserrat
         box-shadow: 0 0 10px rgba(0,0,0,.3)
         text-transform: uppercase
-
-
-
-
-
-
-// Buton Section
-#button_section
-    margin: 0 0 2em 0
-    padding: 1em
-    background-color: white
-    border: solid 1px grayColor(g300)
-    border-radius: 2px
-
-#button_section #button_group
-    width: 97.5%
-        
-#button_section #button_group .div_wrap
-    padding: 0
-
-#button_section #button_group .div_wrap .btn
-    font-size: 10px
-    font-family: Montserrat
-    box-shadow: 0 0 10px rgba(0,0,0,.3)
-    text-transform: uppercase
-    
+        width: 10em
+        background-color: brandColor(brandWarning)
 
    
 
 
+#delete_section
+    background-color: white
+    padding: 1em
+    margin: 0 0 1em 0
+    border-radius: 2px
+    border: none
+    text-align: center
+
+#delete_section .btn
+    font-size: 10px
+    font-family: Montserrat
+    box-shadow: 0 0 10px rgba(0,0,0,.3)
+    text-transform: uppercase
+    width: 10em
+    color: white
+    background-color: brandColor(brandDanger)
