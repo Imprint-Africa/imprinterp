@@ -1,0 +1,79 @@
+<section class="title-section">
+  <h4>Users</h4>
+  <p>View, Edit, and Invite Users</p>
+</section>
+
+
+
+
+
+
+<section class="body-section d-flex">
+
+
+<article class="article-list col-md-8">
+
+  <section class="list-users-section" *ngIf="Users">
+      <div class="title-div">
+        <h4>List of Users</h4>
+      </div>
+      <div class="list-div">
+        <li *ngFor="let User of Users">
+          <div class="info-div d-flex">
+            <div class="name-wrap d-flex col-3">
+                <h4>{{User.name}}</h4>
+                <button class="btn btn-sm ml-auto">
+                  <fa name="pencil"></fa>
+                </button>
+            </div>
+            <div class="role-wrap d-flex col-2">
+                <h4>{{User.role}}</h4>
+                <button class="btn btn-sm ml-auto">
+                  <fa name="pencil"></fa>
+                </button>
+            </div>
+            <div class="email-wrap col-4">
+                <h4>{{User.email}}</h4>
+            </div>
+            <div class="btn-wrap col-3 d-flex">
+                <button class="btn btn-sm">Change Password</button>
+                
+                <fa name="trash"></fa>
+               
+            </div>
+            
+          </div>
+        </li>
+      </div>
+  </section>
+
+</article> <!-- .article-list -->
+
+
+
+
+
+
+<article class="article-invite col-md-4">
+
+  <section class="invite-section">
+
+    <div class="title-div">
+      <h4>Total users <span>{{Users.length}}</span></h4>
+    </div>
+
+    <form class="form">
+      <div class="form-group">
+        <input type="text" class="form-control">
+      </div>
+      <button class="btn btn-sm">Invite</button>
+    </form>
+
+
+  </section>
+  
+</article><!-- .article-invite -->
+
+
+
+</section><!-- .body_section -->

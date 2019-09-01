@@ -13,6 +13,7 @@ import { ProjectDetailsComponent } from './components/home/projects/project-deta
 import { DashboardComponent } from './components/home/dashboard/dashboard.component';
 import { CustomServiceEditComponent } from './components/home/editorial/custom-service-edit/custom-service-edit.component';
 import { EditProjectComponent } from './components/home/projects/edit-project/edit-project.component';
+import { UsersComponent } from './components/home/users/users.component';
 
 const routes: Routes = [
   // login
@@ -67,8 +68,13 @@ const routes: Routes = [
   },
   
 
-  // Register
+  // Users
   {path: 'users', component: HomeComponent, canActivate: [AuthGuard],
+  children: [{ path: "", component: UsersComponent}]
+  },
+
+  // Register
+  {path: 'register', component: HomeComponent, canActivate: [AuthGuard],
   children: [{ path: "", component: RegisterComponent }]
   },
 
