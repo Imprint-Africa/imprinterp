@@ -41,6 +41,8 @@ export class SalesBoardComponent implements OnInit {
 
 // Status
 public FormStatus: boolean;
+public salesCatHoveredOnDrag: any;
+public cardHoveredOnDrag: any;
 
 
 
@@ -76,7 +78,7 @@ public myInterval: any;
             this.SalesCategorys = data;
           },
         error=>{
-            console.log(error)
+            console.log('Cannot list Sales Categories')
           }
       )
 
@@ -117,7 +119,7 @@ public myInterval: any;
       this.Opportunitys = data;
     },
     error=>{
-      console.log(error)
+      console.log('Cannot list Opp projects')
     }
   )
 
@@ -129,14 +131,14 @@ public myInterval: any;
           this.Projects = data;
       },
       error=>{
-        console.log(error)
+        console.log('Cannot list custom Service')
       }
     )
 
 
       this.myInterval = setInterval(()=>{
         this.UpdateSalesCategories();
-      }, 700)
+      }, 1000)
 
 
     
@@ -169,24 +171,30 @@ public myInterval: any;
 
  UpdateSalesCategories(){
 
-  this.SalesCategorys.forEach((category)=>{
+   this.salesCategoryService.getAllSalesCategories().subscribe(
+     data=>{
 
-    let OppInThisCategory = this.Opportunitys.filter((opp)=>{
-      return opp.projectStatus === category.name ? true : false
-    }).map((e)=>{return e});
+      data.forEach((category)=>{
 
-    let dataToBeUpdated = {
-      totalLeads: OppInThisCategory.length,
-      totalRevenue: OppInThisCategory.reduce(function(previous, current){ return previous + current.cost}, 0)
-    }
+        let OppInThisCategory = this.Opportunitys.filter((opp)=>{
+          return opp.projectStatus === category.name ? true : false
+        }).map((e)=>{return e});
+    
+        let dataToBeUpdated = {
+          totalLeads: OppInThisCategory.length,
+          totalRevenue: OppInThisCategory.reduce(function(previous, current){ return previous + current.cost}, 0)
+        }
+    
+        this.salesCategoryService.updateSaleCategory(category._id, dataToBeUpdated).subscribe(
+          data=>{
+            this.SalesCategorys = data;
+          }
+        )
+    
+      })
 
-    this.salesCategoryService.updateSaleCategory(category._id, dataToBeUpdated).subscribe(
-      data=>{
-        this.SalesCategorys = data;
-      }
-    )
-
-  })
+     }
+   )
 
  }
 
@@ -235,6 +243,7 @@ submitNewClientForm(){
         this.notifyService.showSuccess(`Client ${data.clientName} has been added`, "Success");
         this.FormStatus = !this.FormStatus;
         this.clientInput.nativeElement.value = '';
+
       },
       error => { this.notifyService.showError(error, "Failed...")}
     )
@@ -274,43 +283,76 @@ submitNewClientForm(){
 
 
   // Drag and Drop Functions
+highlightcategory(e){
+this.salesCatHoveredOnDrag = e.target.id;
+}
+
+
 allowDrop(e){
   e.preventDefault();
 }
+
 
 drag(e){
   e.dataTransfer.setData('text', e.target.id);
 }
 
+
+dragenter(e){
+  this.cardHoveredOnDrag = e.target.id;
+}
+
+
+dragleave(e){
+  this.cardHoveredOnDrag = null;
+}
+
+
 drop(e){
   e.preventDefault();
+  this.cardHoveredOnDrag = null;
+  this.salesCatHoveredOnDrag = null;
+
   let CardId = e.dataTransfer.getData('text');
   let TargetId = e.target.id
-  
+
   // Get Target Info
   this.salesCategoryService.getSaleCat(TargetId).subscribe(
     data=>{
   
-      let updateData = {
-        projectStatus: data.name
-      }
+      this.Opportunitys.forEach(opp=>{
+        if(opp._id === CardId){
+            
+          if(opp.projectStatus != data.name){
+           
+            let updateData = {
+                  projectStatus: data.name
+                }
+          
+                // Update
+          
+                this.salesService.updateOppProject(CardId, updateData).subscribe(
+                  data=>{
+                    this.notifyService.showSuccess("Card Moved", "Success")
+              
+                  },
+                  error=>{
+                    this.notifyService.showError("Card did not move", "Error !")
+                  }
+                )
+                  
+          }
 
-      // Update
-
-      this.salesService.updateOppProject(CardId, updateData).subscribe(
-        data=>{
-          this.notifyService.showSuccess("Card Moved", "Success")
-    
-        },
-        error=>{
-          this.notifyService.showError("Card did not move", "Error !")
         }
-      )
+
+      })
+
+
 
       // ---
     },
     error=>{
-      console.log(error)
+      console.log('Droped on the Wrong Place')
     }
   )
 }

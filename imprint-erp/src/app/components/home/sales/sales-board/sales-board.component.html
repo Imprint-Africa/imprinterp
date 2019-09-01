@@ -103,8 +103,11 @@
    (dragover)="allowDrop($event)" (drop)="drop($event)">
     
     <!-- Head Title -->
-    <div id="head" class="clearfix">
-        <h4 class="float-left">{{SalesCategory.name}}</h4>
+    <div id="head" class="clearfix d-flex">
+        <div>
+            <h4 class="float-left">{{SalesCategory.name}}</h4>
+        </div>
+        
         <button class="btn btn-sm float-right" (click)="toggleFormInput(SalesCategory.name)">
             <fa name="plus"></fa>
         </button>
@@ -115,29 +118,32 @@
     <h4 class="float-right">Ksh:<span>{{SalesCategory.totalRevenue}}</span></h4>
 </div>
 
-   <div [id]="SalesCategory._id" class="dropSpace border border-primary">
+   <!-- <div class="dropSpace border border-primary">
      Drop here
-   </div>
+   </div> -->
 
 
    <!-- List Of Added Clients Targets -->
 
-   <div class="card-group">
+   <div class="card-group" [id]="SalesCategory._id" (dragenter)="highlightcategory($event)"
+   [ngClass]="salesCatHoveredOnDrag === SalesCategory._id ? 'card-group hovered' : 'card-group'">
 
     <!-- Cards -->
 
-        <div draggable="true" class="card" *ngFor="let Opportunity of Opportunitys" [id]="Opportunity._id" (click)="toSalesEdit(Opportunity._id)" 
-        (drop)="drop($event)" (dragover)="allowDrop($event)" (dragstart)="drag($event)"  [hidden]="Opportunity.projectStatus != SalesCategory.name">
+        <div draggable="true" *ngFor="let Opportunity of Opportunitys" [id]="Opportunity._id" (click)="toSalesEdit(Opportunity._id)" 
+        (drop)="drop($event)" (dragover)="allowDrop($event)" (dragstart)="drag($event)" (dragenter)="dragenter($event)" (dragleave)="dragleave($event)"
+        [ngClass]="cardHoveredOnDrag === Opportunity._id ? 'card hovered-on-drag' : 'card'"
+          [hidden]="Opportunity.projectStatus != SalesCategory.name">
 
-              <h4 id="clientN">{{ Opportunity.clientName}}</h4>
-              <h4 id="projectN">{{ Opportunity.projectName}}</h4>
-              <h4 id="cost">$: {{ Opportunity.cost}}</h4>
+              <h4  [id]="Opportunity._id" class="clientN">{{ Opportunity.clientName}}</h4>
+              <h4  [id]="Opportunity._id" class="projectN">{{ Opportunity.projectName}}</h4>
+              <h4  [id]="Opportunity._id" class="cost">$: {{ Opportunity.cost}}</h4>
 
-              <div id="rateWarp" class="clearfix">
-                  <fa id="rate1" name="star" [ngClass]="Opportunity.priority >= '1' ? 'rateColor' : ''"></fa>
+              <div  [id]="Opportunity._id" class="rateWarp clearfix">
+                  <fa [id]="Opportunity._id" class="rate1" name="star" [ngClass]="Opportunity.priority >= '1' ? 'rateColor' : ''"></fa>
 
-                  <fa id="rate2" name="star" [ngClass]="Opportunity.priority >= '2' ? 'rateColor' : ''"></fa>
-                  <fa id="rate3" name="star" [ngClass]="Opportunity.priority >= '3' ? 'rateColor' : ''"></fa>
+                  <fa  [id]="Opportunity._id" class="rate2" name="star" [ngClass]="Opportunity.priority >= '2' ? 'rateColor' : ''"></fa>
+                  <fa  [id]="Opportunity._id" class="rate3" name="star" [ngClass]="Opportunity.priority >= '3' ? 'rateColor' : ''"></fa>
               </div>
 
 
@@ -149,6 +155,7 @@
 
 
 </section>
+
 
 
 <!-- End of Body Section -->
