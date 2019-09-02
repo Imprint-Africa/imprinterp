@@ -82,15 +82,20 @@ export class LoginComponent implements OnInit {
         window.localStorage.setItem("loggedUserToken", data.token);
         window.localStorage.setItem("loggedUserName", data.name);
         
-        return data.role === "admin" ? 
-         (window.localStorage.setItem("isAdmin", data.role) , this.router.navigate(['/dashboard'])):
-          this.router.navigate(['/projects']);
+        return  data.role === "admin" ? 
+                    (window.localStorage.setItem("rolePermissionStatus", 'isAdmin') , this.router.navigate(['/dashboard'])):
+
+                data.role === "manager" ?
+                    (window.localStorage.setItem("rolePermissionStatus", 'isManager') , this.router.navigate(['/dashboard'])):
+
+                    (window.localStorage.setItem("rolePermissionStatus", 'isUser') , this.router.navigate(['/projects']));
+
+          
 
         
 
       },
       error => {
-        // this.loginError = error.error.message;
         this.notifyService.showError(error.error.message, "Access Restricted..")
         this.loading = false;
       }

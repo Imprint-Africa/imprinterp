@@ -545,12 +545,12 @@ targetsChartFunction(){
     {
       label: 'Target Rev',
       data: ourTargetRevenueData,
-      backgroundColor: hexToRgba(getStyle('--success'), 35),
-      borderColor: getStyle('--success'),
+      backgroundColor: hexToRgba(getStyle('--danger'), 35),
+      borderColor: getStyle('--danger'),
       borderWidth: 0.5,
       pointBackgroundColor: 'transparent',
       pointHoverBackgroundColor: 'transparent',
-      pointBorderColor: getStyle('--success'),
+      pointBorderColor: getStyle('--danger'),
       pointHoverBorderColor: getStyle('--dark')
     }
   
