@@ -83,12 +83,12 @@ export class LoginComponent implements OnInit {
         window.localStorage.setItem("loggedUserName", data.name);
         
         return  data.role === "admin" ? 
-                    (window.localStorage.setItem("rolePermissionStatus", 'isAdmin') , this.router.navigate(['/dashboard'])):
+                    (window.localStorage.setItem("permissionStatus", 'isAdmin') , this.router.navigate(['/dashboard'])):
 
                 data.role === "manager" ?
-                    (window.localStorage.setItem("rolePermissionStatus", 'isManager') , this.router.navigate(['/dashboard'])):
+                    (window.localStorage.setItem("permissionStatus", 'isManager') , this.router.navigate(['/dashboard'])):
 
-                    (window.localStorage.setItem("rolePermissionStatus", 'isUser') , this.router.navigate(['/projects']));
+                    (window.localStorage.setItem("permissionStatus", 'isUser') , this.router.navigate(['/projects']));
 
           
 

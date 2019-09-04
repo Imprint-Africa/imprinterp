@@ -18,7 +18,7 @@ export class HomeComponent implements OnInit {
   // constructor
   constructor(
     private router : Router
-  ) { }
+  ) {  }
 
 // Icons
 public faProjectDiagram = faProjectDiagram;
@@ -31,7 +31,11 @@ public faDollarSign = faDollarSign;
 // Variables
 public loggedUserName: string;
 public sideBarStatus: boolean;
-public isNotAdmin;
+
+// permisions
+public toAdmin: boolean = false;
+public toAdminManager: boolean = false;
+public toAdminManagerUser: boolean = false;
 
 // Active side navbar status
 public dashboardNavBarActive: boolean;
@@ -50,7 +54,18 @@ public myInterval: any;
     this.sideBarStatus = false;
     this.loggedUserName = window.localStorage.getItem("loggedUserName");
 
-    if (window.localStorage.getItem("isAdmin")){ this.isNotAdmin = false} else{ this.isNotAdmin = true};
+    if (window.localStorage.getItem("permissionStatus") === 'isAdmin'){
+        this.toAdmin= true;
+        this.toAdminManagerUser= true;
+        this.toAdminManager= true;
+    }
+    else if(window.localStorage.getItem("permissionStatus") === 'isManager'){
+        this.toAdminManager= true;
+        this.toAdminManagerUser= true;
+    }
+    else if(window.localStorage.getItem("permissionStatus") === 'isUser'){
+        this.toAdminManagerUser= true;
+    }
 
 
     this.myInterval = setInterval(()=>{
@@ -104,7 +119,7 @@ CheckActiveNavBar(){
   logout(){
     window.localStorage.removeItem("loggedUserToken");
     window.localStorage.removeItem("loggedUserName");
-    window.localStorage.removeItem("isAdmin");
+    window.localStorage.removeItem("permissionStatus");
     this.router.navigate(['/login']);
   }
 

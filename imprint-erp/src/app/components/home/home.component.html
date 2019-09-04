@@ -56,34 +56,34 @@
 
     <ul class="navbar-nav nav-pills">
 
-      <li class="nav-item active">
+      <li class="nav-item active" *ngIf="toAdminManager">
           <a (click)="navToDashboard()" [ngClass]="dashboardNavBarActive ? 'nav-link active' : 'nav-link'">
             <fa name="dashboard"></fa>DashBoard
           </a>
       </li>
 
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="toAdminManagerUser">
           <a (click)="navToSales()"  [ngClass]=" salesNavBarActive ? 'nav-link active' : 'nav-link'">
             <fa-icon [icon]="faShoppingCart"></fa-icon>Sales
           </a>
         </li>
     
 
-      <li class="nav-item active">
+      <li class="nav-item active" *ngIf="toAdminManagerUser">
         <a (click)="navToProjects()" [ngClass]=" projectsNavBarActive ? 'nav-link active' : 'nav-link'">
           <fa-icon [icon]="faProjectDiagram"></fa-icon>Projects
         </a>
       </li>
 
 
-      <li class="nav-item" >
+      <li class="nav-item" *ngIf="toAdminManager">
         <a (click)="navToProjTaskTeam()" [ngClass]=" editorialNavBarActive ? 'nav-link active' : 'nav-link'">
           <fa-icon [icon]="faEdit"></fa-icon>Editorial
         </a>
       </li>
 
       
-      <li class="nav-item" >
+      <li class="nav-item" *ngIf="toAdmin">
         <a (click)="navToUsers()" [ngClass]=" usersNavBarActive ? 'nav-link active' : 'nav-link'">
           <fa-icon [icon]="faUsers"></fa-icon>Users
         </a>

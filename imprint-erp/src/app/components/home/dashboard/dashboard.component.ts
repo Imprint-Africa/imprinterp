@@ -534,9 +534,9 @@ targetsChartFunction(){
     {
       label: 'Total Rev',
       data: ourProjectRevenueData,
-      backgroundColor: hexToRgba(getStyle('--info'), 35),
-      borderColor: getStyle('--info'),
-      borderWidth: 0.5,
+      backgroundColor: hexToRgba(getStyle('--success'), 70),
+      borderColor: getStyle('--light'),
+      borderWidth: 1,
       pointBackgroundColor: 'transparent',
       pointHoverBackgroundColor: getStyle('--primary'),
       pointBorderColor: getStyle('--primary'),
@@ -545,12 +545,12 @@ targetsChartFunction(){
     {
       label: 'Target Rev',
       data: ourTargetRevenueData,
-      backgroundColor: hexToRgba(getStyle('--danger'), 35),
-      borderColor: getStyle('--danger'),
-      borderWidth: 0.5,
+      backgroundColor: hexToRgba(getStyle('--info'), 70),
+      borderColor: getStyle('--dark'),
+      borderWidth: 1,
       pointBackgroundColor: 'transparent',
       pointHoverBackgroundColor: 'transparent',
-      pointBorderColor: getStyle('--danger'),
+      pointBorderColor: getStyle('--primary'),
       pointHoverBorderColor: getStyle('--dark')
     }
   
