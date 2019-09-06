@@ -98,56 +98,11 @@ public taskMaxDate;
           this.projectService.getProject(window.localStorage.getItem('projectOnEditId')).subscribe(
 
             data=>{
-  
-              this.OpennedProject = data;
-              this.projPriority = data.priority;
-  
-              this.totalTasks = data.task.length;
-              this.totalSelectedTasks = data.task.filter((task)=>{
-                return task.taskStatus === 'checked' ? true : false
-              }).map(task=>{return task}).length;
-  
-  
-              let getInvolvedTeam =  data.task.filter(task=>{ return true}).map(task=>{return task.assignedTeam});
-              this.totalTeams = Array.from(new Set(getInvolvedTeam)).length;
-  
-              let getSelectedInvolvedTeam =  data.task.filter((task)=>{
-                return task.taskStatus === 'checked' ? true : false
-              }).map(task=>{return task.assignedTeam});
-  
-              this.totalSelectedTeams = Array.from(new Set(getSelectedInvolvedTeam)).length;
-  
-              let getInvolvedUsers =  data.task.filter(task=>{ return task.assignedUser === ''? false: true}).map(task=>{return task.assignedUser});
-              this.totalProjectAssignedUsers = Array.from(new Set(getInvolvedUsers)).length;
-                  
-  
-              // set Dates
-              if(data.projectDuration === null){
-                this.projectFromDate = this.calendar.getToday();
-                this.taskMinDate = this.projectFromDate;
-                this.taskMaxDate = this.calendar.getNext(this.taskMinDate, 'd', 7);
-                this.projectToDate = null;           
-              }else{
-                // converting project date to NgbDate
-                let startdates = new Date(data.projectStartDate);
-                this.projectFromDate = new NgbDate(startdates.getUTCFullYear(), startdates.getUTCMonth() + 1, startdates.getUTCDate());
-                this.projectToDate = this.calendar.getNext(this.projectFromDate, 'd', data.projectDuration);
-                this.OpennedProject.projectStartDate = this.projectFromDate;
-                this.OpennedProject.projectEndDate = this.projectToDate;
-                this.taskMinDate = this.projectFromDate;
-                this.taskMaxDate = this.projectToDate;
-  
-                // converting task date to NgbDate
-                this.OpennedProject.task.forEach((task)=>{
-                  if (task.taskDuration){
-                  let taskStartDates = new Date(task.taskStartDate);
-                  task.taskStartDate = new NgbDate(taskStartDates.getUTCFullYear(), taskStartDates.getUTCMonth() + 1, taskStartDates.getUTCDate());
-                  task.taskEndDate = this.calendar.getNext(task.taskStartDate, 'd', task.taskDuration);
-                  }
-                })
-  
-              }
-                      
+
+              this.setData(data);
+            
+              this.convertDatesToNgbDates(data);
+
   
               let clientName = data.clientName.toUpperCase()
               let projectName = data.projectName.toUpperCase()
@@ -251,6 +206,56 @@ taskDetailsToggle(id){
 
 
 
+setData(data){
+
+  
+  this.OpennedProject = data;
+  this.projPriority = data.priority;
+
+  this.totalTasks = data.task.length;
+
+
+  let getInvolvedTeam =  data.task.filter(task=>{ return true}).map(task=>{return task.assignedTeam});
+  this.totalTeams = Array.from(new Set(getInvolvedTeam)).length;
+
+  let getInvolvedUsers =  data.task.filter(task=>{ return task.assignedUser === ''? false: true}).map(task=>{return task.assignedUser});
+  
+  this.totalProjectAssignedUsers = Array.from(new Set(getInvolvedUsers)).length;
+
+}
+
+convertDatesToNgbDates(data){
+
+    // set Dates
+    if(data.projectDuration === null){
+      this.projectFromDate = this.calendar.getToday();
+      this.taskMinDate = this.projectFromDate;
+      this.taskMaxDate = this.calendar.getNext(this.taskMinDate, 'd', 7);
+      this.projectToDate = null;           
+    }else{
+      // converting project date to NgbDate
+      let startdates = new Date(data.projectStartDate);
+      this.projectFromDate = new NgbDate(startdates.getUTCFullYear(), startdates.getUTCMonth() + 1, startdates.getUTCDate());
+      this.projectToDate = this.calendar.getNext(this.projectFromDate, 'd', data.projectDuration);
+      this.OpennedProject.projectStartDate = this.projectFromDate;
+      this.OpennedProject.projectEndDate = this.projectToDate;
+      this.taskMinDate = this.projectFromDate;
+      this.taskMaxDate = this.projectToDate;
+
+      // converting task date to NgbDate
+      this.OpennedProject.task.forEach((task)=>{
+        if (task.taskDuration){
+        let taskStartDates = new Date(task.taskStartDate);
+        task.taskStartDate = new NgbDate(taskStartDates.getUTCFullYear(), taskStartDates.getUTCMonth() + 1, taskStartDates.getUTCDate());
+        task.taskEndDate = this.calendar.getNext(task.taskStartDate, 'd', task.taskDuration);
+        }
+      })
+
+    }
+                   
+
+}
+
 
 
 
@@ -297,27 +302,9 @@ saveProjectDurationDates(){
 
   this.projectService.updateProject(window.localStorage.getItem('projectOnEditId'), dataToBeSent).subscribe(
     data=>{
-      this.OpennedProject = data;
-      let startdates = new Date(data.projectStartDate);
-      this.projectFromDate = new NgbDate(startdates.getUTCFullYear(), startdates.getUTCMonth() + 1, startdates.getUTCDate());
-      this.projectToDate = this.calendar.getNext(this.projectFromDate, 'd', data.projectDuration);
-
-      this.OpennedProject.projectStartDate = this.projectFromDate;
-      this.OpennedProject.projectEndDate = this.projectToDate;
-
-      this.taskMinDate = this.projectFromDate;
-      this.taskMaxDate = this.projectToDate;
-
-      // converting task date to NgbDate
-      this.OpennedProject.task.forEach((task)=>{
-        if (task.taskDuration){
-        let taskStartDates = new Date(task.taskStartDate);
-        task.taskStartDate = new NgbDate(taskStartDates.getUTCFullYear(), taskStartDates.getUTCMonth() + 1, taskStartDates.getUTCDate());
-        task.taskEndDate = this.calendar.getNext(task.taskStartDate, 'd', task.taskDuration);
-        }
-      })
-
-
+      
+      this.setData(data);          
+      this.convertDatesToNgbDates(data);
 
       this.notifyService.showSuccess('Dates Changes Saved', 'Success');
     },
@@ -340,23 +327,8 @@ submitProjectManager(){
     data=>{
       this.OpennedProject = data;
 
-        // converting project date to NgbDate
-        let startdates = new Date(data.projectStartDate);
-        this.projectFromDate = new NgbDate(startdates.getUTCFullYear(), startdates.getUTCMonth() + 1, startdates.getUTCDate());
-        this.projectToDate = this.calendar.getNext(this.projectFromDate, 'd', data.projectDuration);
-        this.OpennedProject.projectStartDate = this.projectFromDate;
-        this.OpennedProject.projectEndDate = this.projectToDate;
-        this.taskMinDate = this.projectFromDate;
-        this.taskMaxDate = this.projectToDate;
-
-        // converting task date to NgbDate
-        this.OpennedProject.task.forEach((task)=>{
-          if (task.taskDuration){
-          let taskStartDates = new Date(task.taskStartDate);
-          task.taskStartDate = new NgbDate(taskStartDates.getUTCFullYear(), taskStartDates.getUTCMonth() + 1, taskStartDates.getUTCDate());
-          task.taskEndDate = this.calendar.getNext(task.taskStartDate, 'd', task.taskDuration);
-          }
-        })
+      this.setData(data);          
+      this.convertDatesToNgbDates(data);
 
       this.notifyService.showSuccess("Changes Saved", "Success")
     },
@@ -427,20 +399,8 @@ this.OpennedProject.task.forEach((t)=>{
 this.projectService.updateProject(window.localStorage.getItem('projectOnEditId'), {task : this.OpennedProject.task}).subscribe(
   data=>{
 
-    this.OpennedProject.task = data.task;
-
-    let getInvolvedUsers =  data.task.filter(task=>{ return task.assignedUser === ''? false: true}).map(task=>{return task.assignedUser});
-    this.totalProjectAssignedUsers = Array.from(new Set(getInvolvedUsers)).length;
-
-
-    // converting task date to NgbDate
-    this.OpennedProject.task.forEach((task)=>{
-      if (task.taskDuration){
-      let taskStartDates = new Date(task.taskStartDate);
-      task.taskStartDate = new NgbDate(taskStartDates.getUTCFullYear(), taskStartDates.getUTCMonth() + 1, taskStartDates.getUTCDate());
-      task.taskEndDate = this.calendar.getNext(task.taskStartDate, 'd', task.taskDuration);
-      }
-    })
+    this.setData(data);          
+    this.convertDatesToNgbDates(data);
 
     this.notifyService.showSuccess('Task Updated', 'Success');
     this.taskDetailsStatus = !this.taskDetailsStatus;
@@ -475,20 +435,8 @@ changeAssignedUser(){
   this.projectService.updateProject(window.localStorage.getItem('projectOnEditId'), {task : this.OpennedProject.task}).subscribe(
     data=>{
 
-      this.OpennedProject.task = data.task;
-
-      let getInvolvedUsers =  data.task.filter(task=>{ return task.assignedUser === ''? false: true}).map(task=>{return task.assignedUser});
-      this.totalProjectAssignedUsers = Array.from(new Set(getInvolvedUsers)).length;
-
-  
-      // converting task date to NgbDate
-      this.OpennedProject.task.forEach((task)=>{
-        if (task.taskDuration){
-        let taskStartDates = new Date(task.taskStartDate);
-        task.taskStartDate = new NgbDate(taskStartDates.getUTCFullYear(), taskStartDates.getUTCMonth() + 1, taskStartDates.getUTCDate());
-        task.taskEndDate = this.calendar.getNext(task.taskStartDate, 'd', task.taskDuration);
-        }
-      })
+      this.setData(data);          
+      this.convertDatesToNgbDates(data);
 
       this.notifyService.showSuccess('Task Updated', 'Success');
     },error=>{
@@ -523,22 +471,10 @@ addTask(){
 
   this.projectService.updateProject(window.localStorage.getItem('projectOnEditId'), {task: dataToBeUpdated}).subscribe(
     data=>{
-      this.OpennedProject = data;
 
-      // converting Project's Date to NgbDate
-      let convertingToNgbDate = new Date(data.projectStartDate);
-      this.OpennedProject.projectStartDate = new NgbDate(convertingToNgbDate.getUTCFullYear(), convertingToNgbDate.getUTCMonth() + 1, convertingToNgbDate.getUTCDate());
-      this.OpennedProject.projectEndDate = this.calendar.getNext(data.projectStartDate, 'd', data.projectDuration);
-
-
-      // converting task dates to NgbDate
-      this.OpennedProject.task.forEach((task)=>{
-        if (task.taskDuration){
-        let taskStartDates = new Date(task.taskStartDate);
-        task.taskStartDate = new NgbDate(taskStartDates.getUTCFullYear(), taskStartDates.getUTCMonth() + 1, taskStartDates.getUTCDate());
-        task.taskEndDate = this.calendar.getNext(task.taskStartDate, 'd', task.taskDuration);
-        }
-      })
+      
+      this.setData(data);          
+      this.convertDatesToNgbDates(data);
 
 
       this.notifyService.showSuccess('Task Added', 'Success');

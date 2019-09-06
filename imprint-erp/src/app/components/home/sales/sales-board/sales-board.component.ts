@@ -1,10 +1,12 @@
 import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
+import { ModalDirective } from 'ngx-bootstrap/modal';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { SalesService } from 'src/app/shared/services/sales.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { SalesCategoryService } from 'src/app/shared/services/sales-category.service';
 import { CustomaryService } from 'src/app/shared/services/customary.service';
+import { UserSalesStagesService } from 'src/app/shared/services/user-sales-stages.service';
 
 
 @Component({
@@ -21,18 +23,21 @@ export class SalesBoardComponent implements OnInit {
     private salesService: SalesService,
     private notifyService: NotificationService,
     private salesCategoryService: SalesCategoryService,
+    private userSalesStageService: UserSalesStagesService,
     private customService: CustomaryService
   ) { }
 
 
 
-
+// Modal
+@ViewChild('addNewClientModal') public addNewClientModal: ModalDirective;
 
 
 // Variables
   @ViewChild('myNewClientForm') myNewClientFormValues;
   @ViewChild('clientInput') clientInput: ElementRef
   public newClientForm: FormGroup;
+  public changeStageNameForm: FormGroup;
 
 
   @Input() listIndex: number;
@@ -51,9 +56,11 @@ public cardHoveredOnDrag: any;
 
 // Binded Variables
 public SalesCategorys: any = [];
+public UserSalesStages: any = [];
 public Opportunitys: any = [];
 public Projects: any = [];
-public ProjectSatus: string;
+public ProjectStatusToNewClient: string;
+public idStageToBeEdited: any;
 public Tasks: any = [];
 
 public myInterval: any;
@@ -62,27 +69,41 @@ public myInterval: any;
 
 
 
-
-
-  // Initialisation Hook
   ngOnInit() {
 
     window.localStorage.setItem('ActiveNav', 'sales');
-    this.FormStatus = false;
 
+    this.salesCategoryService.getAllSalesCategories().subscribe(
+      data=>{
+          this.SalesCategorys = data;
+          setTimeout(() => {
+            this.UpdateSalesCategories();
+            this.getUserSalesStages();
+            this.UpdateUsersSalesStages();
+          }, 1000);
+        },
+      error=>{console.log('Cannot get Sales Categories')}
+    )// get All Sales Category -end
 
-      // List Sales category
-    this.salesCategoryService.listSalesCategory().subscribe(
+    
 
-        data=>{
-            this.SalesCategorys = data;
-          },
-        error=>{
-            console.log('Cannot list Sales Categories')
-          }
-      )
+    this.salesService.getAllOppProject().subscribe(
+      data=>{
+        this.Opportunitys = data;
+      },
+      error=>{
+        console.log('Cannot get all Opp projects')
+      }
+    )// list opp Cat -end
 
-
+    this.customService.getAllServices().subscribe(
+      data=>{
+          this.Projects = data;
+      },
+      error=>{
+        console.log('Cannot get all custom Service')
+      }
+    )// list Custom Service Cat -end
 
 
 
@@ -109,23 +130,30 @@ public myInterval: any;
       projectEndDate: null
     });
 
+    this.changeStageNameForm=this.formBuilder.group({
+      name: ['', Validators.required]
+    })
 
 
-
-      // List Opportunities
-
-  this.salesService.listOppProject().subscribe(
-    data=>{
-      this.Opportunitys = data;
-    },
-    error=>{
-      console.log('Cannot list Opp projects')
-    }
-  )
+    this.salesCategoryService.listSalesCategory().subscribe(
+      data=>{
+          this.SalesCategorys = data;
+        },
+      error=>{
+          console.log('Cannot list Sales Categories')
+        }
+    )// list sales Cat -end
 
 
+    this.salesService.listOppProject().subscribe(
+      data=>{
+        this.Opportunitys = data;
+      },
+      error=>{
+        console.log('Cannot list Opp projects')
+      }
+    )// list opp Cat -end
 
-    // List custom services 
     this.customService.listServices().subscribe(
       data=>{
           this.Projects = data;
@@ -133,40 +161,104 @@ public myInterval: any;
       error=>{
         console.log('Cannot list custom Service')
       }
-    )
+    )// list Custom Service Cat -end
 
 
-      this.myInterval = setInterval(()=>{
-        this.UpdateSalesCategories();
-      }, 1000)
+  }// ngOnInit -end
 
-
-    
-
-
-// -----------------------------------
-  }
-//------------------------------------
 
 
 
 
  // conveniently get the values from the form fields
  get formNewClient() {return this.newClientForm.controls;}
+ get formChangeStageName() {return this.changeStageNameForm.controls;}
 
 
- toggleFormInput(currentCat){
-   this.FormStatus = !this.FormStatus;
 
-   this.SalesCategorys.forEach((cat)=>{
-      return cat.name = currentCat ? this.ProjectSatus = currentCat : '';
-   })
 
-   
+ setClickedStage(clickedStage){
+  this.ProjectStatusToNewClient = clickedStage
+ }
+
+ stageToBeEdited(id){
+  this.idStageToBeEdited = id;
  }
 
 
+getUserSalesStages(){
+  this.userSalesStageService.getUserStages(localStorage.getItem('loggedUserID')).subscribe(
+    data=>{
 
+      if( data.length === 0 ){        
+
+              let stage1 = { name: 'new leads', totalLeads: null, totalRevenue: null, userId: localStorage.getItem('loggedUserID') };
+              let stage2 = { name: 'proposed leads', totalLeads: null, totalRevenue: null, userId: localStorage.getItem('loggedUserID') };
+              let stage3 = { name: 'qualified leads', totalLeads: null, totalRevenue: null, userId: localStorage.getItem('loggedUserID') }           
+
+              this.userSalesStageService.createStage(stage1).subscribe(
+                data=>{
+                  this.userSalesStageService.createStage(stage2).subscribe(
+                    data=>{
+
+                      this.userSalesStageService.createStage(stage3).subscribe(
+                        data=>{
+
+                          this.notifyService.showInfo('Defaults stages has been created.', 'Info');
+                          
+                          this.getUserSalesStages();
+
+                        },
+                        error=>{ console.log('Errror')}
+                      )
+                          
+                    },
+                    error=>{ console.log('Errror')}
+                  )
+                },
+                error=>{ console.log('Errror')}
+              )
+  
+      }
+      else if(data.length != 0){
+        this.UserSalesStages = data;
+      }
+
+    },
+    error=>{ console.log('Cannot get user sales stages');}
+
+  )
+}
+
+
+  UpdateUsersSalesStages(){
+
+    this.userSalesStageService.getAllStages().subscribe(
+      data=>{
+        data.forEach(stage => {
+          
+          let OppInThisCategory = this.Opportunitys.filter((opp)=>{
+            return opp.projectStatus === stage.name ? true : false
+          }).map((e)=>{return e});
+      
+          let dataToBeUpdated = {
+            totalLeads: OppInThisCategory.length,
+            totalRevenue: OppInThisCategory.reduce(function(previous, current){ return previous + current.cost}, 0)
+          }
+
+          this.userSalesStageService.updateStage(stage._id, dataToBeUpdated).subscribe(
+            data=>{
+              this.getUserSalesStages();
+            }
+          )
+
+
+        });
+      }, error=>{}
+    )
+
+
+  }
 
 
  UpdateSalesCategories(){
@@ -200,9 +292,6 @@ public myInterval: any;
 
 
 
-    
-
-  // Add New Client FunCtion
 submitNewClientForm(){
 
     // Adding abjects to task array
@@ -218,12 +307,9 @@ submitNewClientForm(){
           return true
         }).map(a=>{return a}) : 
 
-
        '';
 
-
     })
-
 
     let structuredData = {
       projectName: this.newClientForm.value.projectName,
@@ -232,7 +318,7 @@ submitNewClientForm(){
       task : this.Tasks,
       cost: null,
       priority: 1,
-      projectStatus: this.ProjectSatus,
+      projectStatus: this.ProjectStatusToNewClient,
       projectDuration: null,
       projectStartDate: null,
       projectEndDate: null
@@ -244,6 +330,11 @@ submitNewClientForm(){
         this.FormStatus = !this.FormStatus;
         this.clientInput.nativeElement.value = '';
 
+        setTimeout(() => {
+          this.UpdateSalesCategories();
+          this.UpdateUsersSalesStages();
+        }, 1000);
+
       },
       error => { this.notifyService.showError(error, "Failed...")}
     )
@@ -254,33 +345,68 @@ submitNewClientForm(){
 
 
 
+  submitEditedStage(){
 
-  // Clear New Client Target Input Form
+    this.userSalesStageService.getOneStage(this.idStageToBeEdited).subscribe(
+      prevStage=>{
+
+        let previouseName = prevStage.name;
+
+        let dataToSend = { name : this.changeStageNameForm.value.name.toLowerCase()}
+        this.userSalesStageService.updateStage(this.idStageToBeEdited, dataToSend).subscribe(
+    
+          data=>{ 
+            
+            this.salesService.getAllOppProject().subscribe(
+              oppData=>{
+
+                oppData.forEach(opp => {
+                  
+                  if(opp.projectStatus === previouseName){
+
+                    this.salesService.updateOppProject(opp._id, {projectStatus: this.changeStageNameForm.value.name.toLowerCase()}).subscribe(
+                      data=>{
+                        this.notifyService.showSuccess('Stage Edited', 'Success'); this.getUserSalesStages();
+                      },
+                      error=>{ this.notifyService.showError('Not Edited', 'Error')}
+                    )
+
+                  }
+
+
+                });
+    
+              }
+            )
+          
+          }
+    
+        )
+
+
+      }
+    )
+
+
+
+  }
+
+
+
+
+
+
   clearNewClientForm(){
     this.clientInput.nativeElement.value = ''; 
     this.FormStatus = !this.FormStatus;
   }
 
 
-
-
-
-  // To sales Edit
-
   toSalesEdit(id){
-
     this.router.navigate(['/sales_edit']);
     window.localStorage.setItem('salesEditItemId', id)
     
   }
-
-
-
-
-
-
-
-
 
   // Drag and Drop Functions
 highlightcategory(e){
@@ -304,7 +430,7 @@ dragenter(e){
 
 
 dragleave(e){
-  this.cardHoveredOnDrag = null;
+  // this.cardHoveredOnDrag = null;
 }
 
 
@@ -317,7 +443,7 @@ drop(e){
   let TargetId = e.target.id
 
   // Get Target Info
-  this.salesCategoryService.getSaleCat(TargetId).subscribe(
+  this.userSalesStageService.getOneStage(TargetId).subscribe(
     data=>{
   
       this.Opportunitys.forEach(opp=>{
@@ -330,10 +456,14 @@ drop(e){
                 }
           
                 // Update
-          
                 this.salesService.updateOppProject(CardId, updateData).subscribe(
                   data=>{
+                    
                     this.notifyService.showSuccess("Card Moved", "Success")
+                    setTimeout(() => {
+                      this.UpdateSalesCategories();
+                      this.UpdateUsersSalesStages();
+                    }, 1000);
               
                   },
                   error=>{
@@ -359,7 +489,7 @@ drop(e){
 
 
 
-// On Destroy
+
 ngOnDestroy(){
   clearInterval(this.myInterval);
 }
@@ -367,5 +497,5 @@ ngOnDestroy(){
 
 
 
-// === End ===  
-}
+
+}// Class -end

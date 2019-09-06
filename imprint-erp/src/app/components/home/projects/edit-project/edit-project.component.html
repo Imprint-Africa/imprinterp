@@ -221,8 +221,8 @@
             
                     <div class="col-3 d-flex div_wrap">
 
-                        <input type="checkbox" name="task" id="task._id" class=""
-                        [checked]="task.taskStatus === 'checked'" onclick="return false">
+                        <!-- <input type="checkbox" name="task" id="task._id" class=""
+                        [checked]="task.taskStatus === 'checked'" onclick="return false"> -->
 
                         <h4 class="">{{task.taskName}}</h4>
 
@@ -250,11 +250,11 @@
       </ul>
       <div id="totals" class="d-flex">
         <div class="col-3 div_wrap pl-4">
-            <h4 class=""><span class="first-span">{{totalSelectedTasks}}</span></h4>
+            <h4 class=""><span class="first-span">{{totalTasks}}</span></h4>
         </div>
         
         <div  class="col-3 div_wrap pl-4">
-            <h4 class=""><span class="first-span">{{totalSelectedTeams}}</span></h4>
+            <h4 class=""><span class="first-span">{{totalTeams}}</span></h4>
         </div>
 
         <div  class="col-3 div_wrap pl-4">

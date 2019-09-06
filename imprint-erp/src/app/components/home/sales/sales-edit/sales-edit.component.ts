@@ -98,26 +98,9 @@ public taskMaxDate;
 
           data=>{
 
-            this.OpennedProject = data;
-            this.projPriority = data.priority;
 
-            this.totalTasks = data.task.length;
-            this.totalSelectedTasks = data.task.filter((task)=>{
-              return task.taskStatus === 'checked' ? true : false
-            }).map(task=>{return task}).length;
+            this.setdata(data);
 
-
-            let getInvolvedTeam =  data.task.filter(task=>{ return true}).map(task=>{return task.assignedTeam});
-            this.totalTeams = Array.from(new Set(getInvolvedTeam)).length;
-
-            let getSelectedInvolvedTeam =  data.task.filter((task)=>{
-              return task.taskStatus === 'checked' ? true : false
-            }).map(task=>{return task.assignedTeam});
-
-            this.totalSelectedTeams = Array.from(new Set(getSelectedInvolvedTeam)).length;
-
-            let getInvolvedUsers =  data.task.filter(task=>{ return task.assignedUser === ''? false: true}).map(task=>{return task.assignedUser});
-            this.totalProjectAssignedUsers = Array.from(new Set(getInvolvedUsers)).length;
                 
 
             // set Dates
@@ -188,6 +171,31 @@ public taskMaxDate;
  get formCostPrior() {return this.costPriorForm.controls;}
 
 
+
+setdata(data){
+
+  this.OpennedProject = data;
+  this.projPriority = data.priority;
+
+  this.totalTasks = data.task.length;
+  this.totalSelectedTasks = data.task.filter((task)=>{
+    return task.taskStatus === 'checked' ? true : false
+  }).map(task=>{return task}).length;
+
+
+  let getInvolvedTeam =  data.task.filter(task=>{ return true}).map(task=>{return task.assignedTeam});
+  this.totalTeams = Array.from(new Set(getInvolvedTeam)).length;
+
+  let getSelectedInvolvedTeam =  data.task.filter((task)=>{
+    return task.taskStatus === 'checked' ? true : false
+  }).map(task=>{return task.assignedTeam});
+
+  this.totalSelectedTeams = Array.from(new Set(getSelectedInvolvedTeam)).length;
+
+  let getInvolvedUsers =  data.task.filter(task=>{ return task.assignedUser === ''? false: true}).map(task=>{return task.assignedUser});
+  this.totalProjectAssignedUsers = Array.from(new Set(getInvolvedUsers)).length;
+
+}
 
 
 convertDatesToNgbDates(data){
@@ -273,6 +281,7 @@ saveProjectDurationDates(){
 
   this.salesService.updateOppProject(window.localStorage.getItem('salesEditItemId'), dataToBeSent).subscribe(
     data=>{
+      this.setdata(data);
       this.convertDatesToNgbDates(data);
 
       this.notifyService.showSuccess('Dates Changes Saved', 'Success');
@@ -295,6 +304,7 @@ submitProjectManager(){
   this.salesService.updateOppProject(window.localStorage.getItem('salesEditItemId'), this.projectManagerForm.value).subscribe(
     data=>{
       
+      this.setdata(data);
       this.convertDatesToNgbDates(data);
 
       this.notifyService.showSuccess("Changes Saved", "Success")
@@ -364,6 +374,8 @@ saveTasksDurationDates(){
 
   this.salesService.updateOppProject(window.localStorage.getItem('salesEditItemId'), {task : this.OpennedProject.task}).subscribe(
     data=>{
+
+      this.setdata(data);
       this.convertDatesToNgbDates(data);
 
       this.notifyService.showSuccess('Task Updated', 'Success');

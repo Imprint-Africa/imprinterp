@@ -44,6 +44,8 @@ import { DashboardComponent } from './components/home/dashboard/dashboard.compon
 import { CustomServiceEditComponent } from './components/home/editorial/custom-service-edit/custom-service-edit.component';
 import { EditProjectComponent } from './components/home/projects/edit-project/edit-project.component';
 import { UsersComponent } from './components/home/users/users.component';
+import { UserSalesStagesService } from './shared/services/user-sales-stages.service';
+import { ClientService } from './shared/services/client.service';
 
 
 @NgModule({
@@ -79,12 +81,13 @@ import { UsersComponent } from './components/home/users/users.component';
     ChartsModule,
     ModalModule.forRoot(),
     ToastrModule.forRoot({
-      timeOut: 7000,
+      timeOut: 5000,
       positionClass: 'toast-bottom-right',
       preventDuplicates: false,
     })
   ],
-  providers: [NotificationService, AuthGuard, UserService, SalesService, TeamsService, CustomaryService, SalesCategoryService, ProjectsService ],
+  providers: [NotificationService, AuthGuard, UserService, SalesService, TeamsService, CustomaryService,
+              SalesCategoryService, ProjectsService, UserSalesStagesService, ClientService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -120,6 +120,7 @@ CheckActiveNavBar(){
     window.localStorage.removeItem("loggedUserToken");
     window.localStorage.removeItem("loggedUserName");
     window.localStorage.removeItem("permissionStatus");
+    window.localStorage.removeItem("loggedUserID");
     this.router.navigate(['/login']);
   }
 

@@ -15,57 +15,67 @@
 
 
 
+<!-- Adding new client Form -->
 
-<section id="form_section">
+<div bsModal #addNewClientModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog addNewClientModal" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">New Clients To <span>{{ProjectStatusToNewClient}}</span></h4>
+        <button type="button" class="btn close" (click)="addNewClientModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+                    
+              <form id="myNewClientForm" #myNewClientForm='ngForm' [formGroup]="newClientForm" class="form">
 
-   <!-- Input Form -->
+                <!-- Client Name -->
+                <div class="form-group">
+                    <div class="input-group input-group-sm mb-3">
 
-   <form id="myNewClientForm" #myNewClientForm='ngForm' [formGroup]="newClientForm" class="form" [ngClass]="FormStatus ? '' : 'hide'">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="inputGroup-sizing-sm">Client Name</span>
+                        </div>
 
-    <div class="form-title">
-          <h4>New Lead Form</h4>
-    </div>
+                        <input #clientInput type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                        formControlName="clientName" [class.is-invalid]="formNewClient.clientName.invalid && formNewClient.clientName.touched" required>
 
-    <!-- Client Name -->
-    <div class="form-group">
-        <div class="input-group input-group-sm mb-3">
+                  </div>
 
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="inputGroup-sizing-sm">Client Name</span>
-            </div>
+                </div>
 
-            <input #clientInput type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-            formControlName="clientName" [class.is-invalid]="formNewClient.clientName.invalid && formNewClient.clientName.touched" required>
+
+                <!-- Projects Type -->
+                <div class="form-group">
+                    <div class="input-group input-group-sm mb-3">
+
+                        <div class="input-group-prepend">
+                          <span class="input-group-text" id="inputGroup-sizing-sm">Project Type</span>
+                        </div>
+
+
+                        <select type="" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                        formControlName="projectName" class="form-control" [class.is-invalid]="formNewClient.projectName.invalid && formNewClient.projectName.touched" required>
+                            <option value="" disabled selected hidden >Choose Project</option>
+                            <option *ngFor="let Project of Projects" value='{{Project.serviceName}}'>{{Project.serviceName}}</option>
+                            
+                        </select> 
+
+                  </div>
+                </div>
+
+
+            </form>
 
       </div>
-
-    </div>
-
-
-
-
-
-
-
-
-    <!-- Projects Type -->
-    <div class="form-group">
-        <div class="input-group input-group-sm mb-3">
-
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="inputGroup-sizing-sm">Project Type</span>
-            </div>
-
-
-            <select type="" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-            formControlName="projectName" class="form-control" [class.is-invalid]="formNewClient.projectName.invalid && formNewClient.projectName.touched" required>
-                <option value="" disabled selected hidden >Choose Project</option>
-                <option *ngFor="let Project of Projects" value='{{Project.serviceName}}'>{{Project.serviceName}}</option>
-                
-            </select> 
-
+      <div class="modal-footer">
+        <button type="button" class="btn btn-cancel" (click)="addNewClientModal.hide()">Cancel</button>
+        <button type="button" [disabled]="!newClientForm.valid"class="btn btn-confirm" (click)="submitNewClientForm(); addNewClientModal.hide()">Save</button>
       </div>
-    </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 
 
@@ -73,67 +83,75 @@
 
 
 
-    <!-- Buttons -->
-    <div class="clearfix btn-wrap">
-        <button [disabled]="!newClientForm.valid" class="btn btn-sm btn-success float-left" (click)="submitNewClientForm()">Save</button>
-        <button class="btn btn-sm btn-secondary float-right" (click)="clearNewClientForm()">Cancel</button>
-   </div>
 
-
- </form>
-
-
-
-
-
-</section>
 
 
 
 
 
 <!-- List Section -->
-<section id="list_section" class="d-flex">
+<section id="list_section" class="d-flex" *ngIf="UserSalesStages">
 
 
 
 
   <!-- Sales Category Card-->
-  <article *ngFor='let SalesCategory of SalesCategorys' [id]="SalesCategory._id"
+  <article *ngFor='let UserSalesStage of UserSalesStages' [id]="UserSalesStage._id"
    (dragover)="allowDrop($event)" (drop)="drop($event)">
     
     <!-- Head Title -->
     <div id="head" class="clearfix d-flex">
-        <div>
-            <h4 class="float-left">{{SalesCategory.name}}</h4>
+        <div class="info-div" *ngIf="!UserSalesStage._id2">
+            <h4 class="float-left">{{UserSalesStage.name}} <span>({{UserSalesStage.totalLeads}})</span></h4>
         </div>
+
+        <form class="form" *ngIf="UserSalesStage._id4">
+            <div class="form-group" [formGroup]="changeStageNameForm">
+                <input type="text" class="form-control"
+                formControlName="name" [class.is-invalid]="formChangeStageName.name.invalid && formChangeStageName.name.touched">
+            </div>
+        </form>
+
+        <button class="btn btn-sm ml-auto mr-2" *ngIf="!UserSalesStage._id2" (click)="stageToBeEdited(UserSalesStage._id); UserSalesStage._id2 = true; UserSalesStage._id4 = true">
+          <fa name="pencil"></fa>
+        </button>
+
+        <button class="btn btn-sm ml-auto mr-2" *ngIf="UserSalesStage._id4" (click)="submitEditedStage(); UserSalesStage._id2 = false; UserSalesStage._id4 = false">
+          <fa name="check"></fa>
+        </button>
         
-        <button class="btn btn-sm float-right" (click)="toggleFormInput(SalesCategory.name)">
+        <button class="btn btn-sm ml-auto">
             <fa name="plus"></fa>
         </button>
         
-   </div>
-   <div id="totals" class="clearfix">
-    <h4 class="float-left">Total:<span>{{SalesCategory.totalLeads}}</span></h4>
-    <h4 class="float-right">Ksh:<span>{{SalesCategory.totalRevenue}}</span></h4>
-</div>
+    </div>
+    
+    <div id="totals" class="clearfix text-center">
+      <h4 class="">$:<span>{{UserSalesStage.totalRevenue}}</span></h4>
+    </div>
 
-   <!-- <div class="dropSpace border border-primary">
-     Drop here
-   </div> -->
+    <div id="add_deal_div" class="clearfix text-center">
+      <button class="btn btn-sm" (click)="addNewClientModal.show(); setClickedStage(UserSalesStage.name)"><fa name="plus"></fa></button>
+    </div>
 
 
-   <!-- List Of Added Clients Targets -->
+  
 
-   <div class="card-group" [id]="SalesCategory._id" (dragenter)="highlightcategory($event)"
-   [ngClass]="salesCatHoveredOnDrag === SalesCategory._id ? 'card-group hovered' : 'card-group'">
+
+
+
+
+
+
+   <div class="card-group" [id]="UserSalesStage._id" (dragenter)="highlightcategory($event)"
+   [ngClass]="salesCatHoveredOnDrag === UserSalesStage._id ? 'card-group hovered' : 'card-group'" >
 
     <!-- Cards -->
 
         <div draggable="true" *ngFor="let Opportunity of Opportunitys" [id]="Opportunity._id" (click)="toSalesEdit(Opportunity._id)" 
         (drop)="drop($event)" (dragover)="allowDrop($event)" (dragstart)="drag($event)" (dragenter)="dragenter($event)" (dragleave)="dragleave($event)"
         [ngClass]="cardHoveredOnDrag === Opportunity._id ? 'card hovered-on-drag' : 'card'"
-          [hidden]="Opportunity.projectStatus != SalesCategory.name">
+          [hidden]="Opportunity.projectStatus != UserSalesStage.name">
 
               <h4  [id]="Opportunity._id" class="clientN">{{ Opportunity.clientName}}</h4>
               <h4  [id]="Opportunity._id" class="projectN">{{ Opportunity.projectName}}</h4>
@@ -142,8 +160,8 @@
               <div  [id]="Opportunity._id" class="rateWarp clearfix">
                   <fa [id]="Opportunity._id" class="rate1" name="star" [ngClass]="Opportunity.priority >= '1' ? 'rateColor' : ''"></fa>
 
-                  <fa  [id]="Opportunity._id" class="rate2" name="star" [ngClass]="Opportunity.priority >= '2' ? 'rateColor' : ''"></fa>
-                  <fa  [id]="Opportunity._id" class="rate3" name="star" [ngClass]="Opportunity.priority >= '3' ? 'rateColor' : ''"></fa>
+                  <fa   [id]="Opportunity._id" class="rate2" name="star" [ngClass]="Opportunity.priority >= '2' ? 'rateColor' : ''"></fa>
+                  <fa   [id]="Opportunity._id" class="rate3" name="star" [ngClass]="Opportunity.priority >= '3' ? 'rateColor' : ''"></fa>
               </div>
 
 

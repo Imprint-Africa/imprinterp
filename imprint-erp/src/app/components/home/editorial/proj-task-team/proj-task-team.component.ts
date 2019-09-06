@@ -85,110 +85,136 @@ public salesCategoryToBeDeleted;
 
 
 
-// Initialize
+
   ngOnInit() {
 
-  window.localStorage.setItem('ActiveNav', 'editorial');
+          window.localStorage.setItem('ActiveNav', 'editorial');
 
-    // status
-  this.previewSectionStatus= false;
-  this.customServiceSectionStatus= true;
-  this.customServiceFormStatus= true;
-  this.addTaskSectionStatus= false;
-  this.defineTaskFormStatus= false;
-  this.listAddSalesCategoryStatus= false;
-  this.listAddTeamStatus=false;
-  this.listStatus=true;
-
-
+            // status
+          this.previewSectionStatus= false;
+          this.customServiceSectionStatus= true;
+          this.customServiceFormStatus= true;
+          this.addTaskSectionStatus= false;
+          this.defineTaskFormStatus= false;
+          this.listAddSalesCategoryStatus= false;
+          this.listAddTeamStatus=false;
+          this.listStatus=true;
 
 
 
-  // Add new Team
-  this.addNewTeamForm=this.formBuilder.group({
-    teamName: ['', Validators.required]
-  });
+          // load
+          this.teamsService.getAllTeams().subscribe(
+            data=>{
+                this.Teams = data;
+            },
+            error=>{
+              console.log('Cannot get all teams')
+            }
+          )
+
+          this.salesCategoryService.getAllSalesCategories().subscribe(
+            data=>{
+                this.SalesCategorys = data;
+            },
+            error=>{
+              console.log('Cannot get all Categoris')
+            }
+          )
+
+          this.customService.getAllServices().subscribe(
+            data=>{
+                this.Services = data;
+            },
+            error=>{
+              console.log('Cannot get all Services')
+            }
+          )
+          
+
+
+          // Add new Team
+          this.addNewTeamForm=this.formBuilder.group({
+            teamName: ['', Validators.required]
+          });
 
 
 
-  // List Teams
-  this.teamsService.listTeams().subscribe(
-    data=>{
-        this.Teams = data;
-    },
-    error=>{
-      console.log(error)
-    }
-  )
+          // List Teams
+          this.teamsService.listTeams().subscribe(
+            data=>{
+                this.Teams = data;
+            },
+            error=>{
+              console.log(error)
+            }
+          )
 
 
 
 
-  // Add Sales Category
-  this.addSalesCategoryForm=this.formBuilder.group({
-    name: ['', Validators.required]
-  });
+          // Add Sales Category
+          this.addSalesCategoryForm=this.formBuilder.group({
+            name: ['', Validators.required]
+          });
 
 
 
-  // List Sales category
-  this.salesCategoryService.listSalesCategory().subscribe(
-    data=>{
-        this.SalesCategorys = data;
-    },
-    error=>{
-      console.log(error)
-    }
-  )
+          // List Sales category
+          this.salesCategoryService.listSalesCategory().subscribe(
+            data=>{
+                this.SalesCategorys = data;
+            },
+            error=>{
+              console.log(error)
+            }
+          )
 
 
 
-  // Add new Custom Service Form
-  this.customServiceForm=this.formBuilder.group({
-    customServiceName: ['', Validators.required],
-    targetRevenue: [null, Validators.required]
-  });
+          // Add new Custom Service Form
+          this.customServiceForm=this.formBuilder.group({
+            customServiceName: ['', Validators.required],
+            targetRevenue: [null, Validators.required]
+          });
 
-  // define Tasks
-  this.defineTaskForm=this.formBuilder.group({
-    taskName: ['', Validators.required],
-    assignedTeam: ['', Validators.required]
-  });
-
-
-  // List custom services 
-  this.customService.listServices().subscribe(
-    data=>{
-        this.Services = data;
-    },
-    error=>{
-      console.log(error)
-    }
-  )
+          // define Tasks
+          this.defineTaskForm=this.formBuilder.group({
+            taskName: ['', Validators.required],
+            assignedTeam: ['', Validators.required]
+          });
 
 
-  this.editServiceForm=this.formBuilder.group({
-    serviceName: ['', Validators.required],
-    targetRevenue: ['', Validators.required],
-    task: {
-      taskName: ['', Validators.required],
-      assignedTeam: ['', Validators.required]
-    }
-  })
-
-  this.editTeamForm=this.formBuilder.group({
-    name: ['', Validators.required]
-  })
-
-  this.editSalesCatForm=this.formBuilder.group({
-    name: ['', Validators.required]
-  })
+          // List custom services 
+          this.customService.listServices().subscribe(
+            data=>{
+                this.Services = data;
+            },
+            error=>{
+              console.log(error)
+            }
+          )
 
 
+          this.editServiceForm=this.formBuilder.group({
+            serviceName: ['', Validators.required],
+            targetRevenue: ['', Validators.required],
+            task: {
+              taskName: ['', Validators.required],
+              assignedTeam: ['', Validators.required]
+            }
+          })
 
-// ---
-  }
-// ---
+          this.editTeamForm=this.formBuilder.group({
+            name: ['', Validators.required]
+          })
+
+          this.editSalesCatForm=this.formBuilder.group({
+            name: ['', Validators.required]
+          })
+
+
+
+  }// ngOnInit -end
 
 
  // conveniently get the values from the form fields

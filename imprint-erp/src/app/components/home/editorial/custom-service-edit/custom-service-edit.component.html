@@ -171,7 +171,7 @@
 
 
 <!-- // Modals -->
-<section class="modal_section">
+<section class="modal_section" *ngIf="toAdmin">
 
   <div class="delete_btn_div">
     <button type="button" class="btn" data-toggle="modal" (click)="dangerModal.show()">

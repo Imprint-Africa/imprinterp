@@ -29,6 +29,10 @@ export class CustomServiceEditComponent implements OnInit {
 // Modal
 @ViewChild('dangerModal') public dangerModal: ModalDirective;
 
+// permisions
+public toAdmin: boolean = false;
+public toAdminManager: boolean = false;
+public toAdminManagerUser: boolean = false;
 
 public serviceNameForm: FormGroup;
 public targetRevenueForm: FormGroup;
@@ -50,6 +54,11 @@ public assignedTeamInputValue: string;
     }
     else if(window.localStorage.getItem('IdServiceTobeEdited')){
       window.localStorage.setItem('ActiveNav', 'editorial');
+
+      if (window.localStorage.getItem("permissionStatus") === 'isAdmin'){
+        this.toAdmin= true;
+      }
+
 
             // List Teams
       this.teamsService.listTeams().subscribe(
