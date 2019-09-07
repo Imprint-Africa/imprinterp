@@ -37,6 +37,7 @@ export class SalesBoardComponent implements OnInit {
   @ViewChild('myNewClientForm') myNewClientFormValues;
   @ViewChild('clientInput') clientInput: ElementRef
   public newClientForm: FormGroup;
+  public newStageForm: FormGroup;
   public changeStageNameForm: FormGroup;
 
 
@@ -134,6 +135,10 @@ public myInterval: any;
       name: ['', Validators.required]
     })
 
+    this.newStageForm=this.formBuilder.group({
+      name: ['', Validators.required]
+    })
+
 
     this.salesCategoryService.listSalesCategory().subscribe(
       data=>{
@@ -173,6 +178,7 @@ public myInterval: any;
  // conveniently get the values from the form fields
  get formNewClient() {return this.newClientForm.controls;}
  get formChangeStageName() {return this.changeStageNameForm.controls;}
+ get formNewStage() {return this.newStageForm.controls;}
 
 
 
@@ -357,26 +363,23 @@ submitNewClientForm(){
     
           data=>{ 
             
-            this.salesService.getAllOppProject().subscribe(
+              this.salesService.getAllOppProject().subscribe(
               oppData=>{
 
-                oppData.forEach(opp => {
+                   oppData.forEach(opp => {
+                          if(opp.projectStatus === previouseName){
+        
+                            this.salesService.updateOppProject(opp._id, {projectStatus: this.changeStageNameForm.value.name.toLowerCase()}).subscribe(
+                              data=>{},
+                              error=>{ console.log('Error')}
+                              )
+                            }
+                    })
                   
-                  if(opp.projectStatus === previouseName){
-
-                    this.salesService.updateOppProject(opp._id, {projectStatus: this.changeStageNameForm.value.name.toLowerCase()}).subscribe(
-                      data=>{
-                        this.notifyService.showSuccess('Stage Edited', 'Success'); this.getUserSalesStages();
-                      },
-                      error=>{ this.notifyService.showError('Not Edited', 'Error')}
-                    )
-
-                  }
-
-
-                });
+                  this.notifyService.showSuccess('Stage Edited', 'Success'); this.getUserSalesStages();
     
-              }
+              },
+              error=>{this.notifyService.showError('Not Edited', 'Error')}
             )
           
           }
@@ -386,8 +389,24 @@ submitNewClientForm(){
 
       }
     )
+  }// submitEditedStage -end
 
 
+
+
+  submitNewStageForm(){
+
+    let dataToBeSent = {
+      name : this.newStageForm.value.name,
+      totalLeads : null,
+      totalRevenue : null,
+      userId: localStorage.getItem('loggedUserID')
+    }
+
+    this.userSalesStageService.createStage(dataToBeSent).subscribe(
+      data=>{this.notifyService.showSuccess('Stage Added', 'Success'); this.getUserSalesStages();},
+      error=>{ this.notifyService.showError('Stage Not Added', 'Error') }
+    )
 
   }
 
