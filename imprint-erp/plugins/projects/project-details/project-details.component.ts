@@ -5,7 +5,7 @@ import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { ProjectsService } from 'src/app/shared/services/projects.service';
 import { TeamsService } from 'src/app/shared/services/teams.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
-import { GanttComponent } from 'src/app/components/home/projects/project-details/gantt/gantt.component';
+import { GanttComponent } from './gantt/gantt.component';
 
 
 

@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
-import { UserService } from '../../shared/services/user.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
+import { UserService } from 'src/app/shared/services/user.service';
 
 
 @Component({
@@ -82,6 +82,7 @@ export class LoginComponent implements OnInit {
         window.localStorage.setItem("loggedUserToken", data.token);
         window.localStorage.setItem("loggedUserName", data.name);
         window.localStorage.setItem("loggedUserID", data._id);
+
         
         return  data.role === "admin" ? 
                     (window.localStorage.setItem("permissionStatus", 'isAdmin') , this.router.navigate(['/dashboard'])):

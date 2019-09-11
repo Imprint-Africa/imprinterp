@@ -33,7 +33,22 @@ export class ProjectBoardsComponent implements OnInit {
 
     window.localStorage.setItem('ActiveNav', 'projects');
 
-    // get Project Lists
+    this.projectsService.getAllProject().subscribe(
+      data=>{
+        this.Projects = data;
+        this.Projects.forEach(project=>{
+          let convertingToNgbDate = new Date(project.projectStartDate);
+          project.projectStartDate = new NgbDate(convertingToNgbDate.getUTCFullYear(), convertingToNgbDate.getUTCMonth() + 1, convertingToNgbDate.getUTCDate());
+          project.projectEndDate = this.calendar.getNext(project.projectStartDate, 'd', project.projectDuration);
+        })
+        
+      },
+      error=>{
+        console.log('Could get all Projects')
+      }
+    )
+
+    // Project Lists
     this.projectsService.listProject().subscribe(
       data=>{
         this.Projects = data;
@@ -43,11 +58,9 @@ export class ProjectBoardsComponent implements OnInit {
           project.projectEndDate = this.calendar.getNext(project.projectStartDate, 'd', project.projectDuration);
         })
         
-
-
       },
       error=>{
-        console.log('Error');
+        console.log('could not list projects');
       }
     )
 

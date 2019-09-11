@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
-import { UserService } from '../../../shared/services/user.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { TeamsService } from 'src/app/shared/services/teams.service';
+import { UserService } from 'src/app/shared/services/user.service';
 
 
 @Component({

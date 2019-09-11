@@ -48,6 +48,19 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
 
+
+    window.localStorage.setItem('ActiveNav', 'users');
+
+    this.userService.getAllUsers().subscribe(
+      data=>{
+        this.Users = data;
+      },
+      error=>{
+        console.log("Error In getting all Users");
+      }
+    )// get all users
+
+
     this.userService.listUsers().subscribe(
       data=>{
         this.Users = data;
