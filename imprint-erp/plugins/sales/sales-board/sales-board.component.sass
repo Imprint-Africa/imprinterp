@@ -221,7 +221,7 @@
 
         .card-group
             height: fit-content
-            min-height: 100px
+            min-height: 140px
             padding: 1em 0 0 0
             display: flex
             flex-direction: column
@@ -234,42 +234,105 @@
 
             .card
                 background-color: white
-                padding: .3em
+                padding: .5em
                 margin: 0 0 .5em 0 
                 border: solid 1px grayColor(g300)
                 border-radius: 2px
                 cursor: pointer
+               
 
                 &:hover
-                    // box-shadow: 0 5px 7px rgba(0, 0, 0, .3)
                     border: solid 2px brandColor(brandPrimary)
 
                 &.hovered-on-drag
-                    margin: 100px 0 0 0 
+                    margin: 140px 0 0 0 
 
-                .clientN
-                    font-family: Montserrat
-                    font-size: 10px
-                    color: color(primary)
-                    text-transform: uppercase
+                &.beingDragged
+                    border: solid 2px brandColor(brandWarning)
 
-                .projectN
-                    font-family: Montserrat
-                    font-size: 10px
-                    color: color(secondary)
-                    text-transform: capitalize
-                    
+                .card-body
+                    display: flex
+                    align-items: stretch
+                    padding: 0
 
-                .cost
-                    font-family: Montserrat
-                    font-size: 10px
-                    color: color(silk)
-                
-                .rateWarp
-                    font-size: 10px
-                    color: gray
+                    .card-info-div
+                        width: 70%
+                        flex-direction: column
+                        align-items: flex-start
 
-                    .rateColor
-                        color: color(orangeTheme)               
+                        .clientN
+                            font-family: Montserrat
+                            font-size: 10px
+                            color: color(primary)
+                            text-transform: uppercase
+
+                            &:hover
+                                color: brandColor(brandPrimary)
+                                zoom: 1.1
+                                font-weight: bold
+                                text-decoration: underline
+                                text-transform: uppercase
+
+                        .projectN
+                            font-family: Montserrat
+                            font-size: 10px
+                            color: color(secondary)
+                            text-transform: capitalize
+                            
+
+                        .cost
+                            font-family: Montserrat
+                            font-size: 10px
+                            color: color(silk)
+                        
+                        .rateWarp
+                            font-size: 10px
+                            color: gray
+
+                            .rateColor
+                                color: color(orangeTheme)  
+
+                    .card-icon-div
+                        width: 30%
+                        display: flex
+                        flex-direction: column
+                        align-items: flex-end
+
+                        .btn
+                            margin: 0
+                            float: right      
+                            width: fit-content
+                            
+                            &:hover
+                                fa
+                                    color: brandColor(brandPrimary)
+                                    zoom: 1.1
+
+                            fa
+                                font-size: 10px
+                                color: brandColor(brandSecondary)
+
+                .card-footer
+                    margin: .3em 0 0 0
+                    padding: .4em 0 0 0
+                    h4
+                        font-family: Montserrat
+                        font-size: 10px
+                        color: color(secondary)
+
+                        &.schedule
+                            cursor: pointer
+
+                            &:hover
+                                color: brandColor(brandPrimary)
+                                zoom: 1.1
+                                font-weight: bold
+                                text-decoration: underline
+                                
+                        span
+                            color: brandColor(brandPrimary)
+                            font-weight: bold
+                            text-shadow: 0 0 3px rgba(0,0,0,.3)
+
 
 

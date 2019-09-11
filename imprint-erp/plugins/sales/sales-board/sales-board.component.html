@@ -191,19 +191,37 @@
 
         <div draggable="true" *ngFor="let Opportunity of Opportunitys" [id]="Opportunity._id" (click)="toSalesEdit(Opportunity._id)" 
         (drop)="drop($event)" (dragover)="allowDrop($event)" (dragstart)="drag($event)" (dragenter)="dragenter($event)" (dragleave)="dragleave($event)"
-        [ngClass]="cardHoveredOnDrag === Opportunity._id ? 'card hovered-on-drag' : 'card'"
+        [ngClass]="cardHoveredOnDrag === Opportunity._id && cardBeingDraged !=  Opportunity._id ? 'card hovered-on-drag' : cardBeingDraged ===  Opportunity._id ? 'card beingDragged' : 'card'"
           [hidden]="Opportunity.projectStatus != UserSalesStage.name">
 
-              <h4  [id]="Opportunity._id" class="clientN">{{ Opportunity.clientName}}</h4>
-              <h4  [id]="Opportunity._id" class="projectN">{{ Opportunity.projectName}}</h4>
-              <h4  [id]="Opportunity._id" class="cost">$: {{ Opportunity.cost}}</h4>
+          <div class="card-body">
 
-              <div  [id]="Opportunity._id" class="rateWarp clearfix">
-                  <fa [id]="Opportunity._id" class="rate1" name="star" [ngClass]="Opportunity.priority >= '1' ? 'rateColor' : ''"></fa>
+            <div class="card-info-div">
+              <h4  class="clientN">{{ Opportunity.clientName}}</h4>
+              <h4  class="projectN">{{ Opportunity.projectName}}</h4>
+              <h4  class="cost">$: {{ Opportunity.cost}}</h4>
 
-                  <fa   [id]="Opportunity._id" class="rate2" name="star" [ngClass]="Opportunity.priority >= '2' ? 'rateColor' : ''"></fa>
-                  <fa   [id]="Opportunity._id" class="rate3" name="star" [ngClass]="Opportunity.priority >= '3' ? 'rateColor' : ''"></fa>
+              <div  class="rateWarp clearfix">
+                  <fa class="rate1" name="star" [ngClass]="Opportunity.priority >= '1' ? 'rateColor' : ''"></fa>
+
+                  <fa class="rate2" name="star" [ngClass]="Opportunity.priority >= '2' ? 'rateColor' : ''"></fa>
+                  <fa   class="rate3" name="star" [ngClass]="Opportunity.priority >= '3' ? 'rateColor' : ''"></fa>
               </div>
+            </div><!-- .card-info-div -->
+
+            <div class="card-icon-div">
+              <button class="btn btn-sm"><fa name="envelope"></fa></button>
+              <button class="btn btn-sm"><fa name="phone"></fa></button>
+
+            </div><!-- .card-icon-div -->
+
+          </div><!-- .card-body-->
+
+              <div class="card-footer card-icon-div d-flex">
+                <h4 class="mr-auto">Activities <span>3</span></h4>
+                <h4 class="ml-auto schedule">Schedule</h4>
+              </div>
+              
 
 
         </div>

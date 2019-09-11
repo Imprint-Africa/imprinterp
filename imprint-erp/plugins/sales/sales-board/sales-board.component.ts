@@ -49,6 +49,7 @@ export class SalesBoardComponent implements OnInit {
 public FormStatus: boolean;
 public salesCatHoveredOnDrag: any;
 public cardHoveredOnDrag: any;
+public cardBeingDraged: any;
 
 
 
@@ -440,6 +441,7 @@ allowDrop(e){
 
 drag(e){
   e.dataTransfer.setData('text', e.target.id);
+  this.cardBeingDraged = e.target.id;
 }
 
 
@@ -457,7 +459,6 @@ drop(e){
   e.preventDefault();
   this.cardHoveredOnDrag = null;
   this.salesCatHoveredOnDrag = null;
-
   let CardId = e.dataTransfer.getData('text');
   let TargetId = e.target.id
 
@@ -477,7 +478,8 @@ drop(e){
                 // Update
                 this.salesService.updateOppProject(CardId, updateData).subscribe(
                   data=>{
-                    
+
+                    this.cardBeingDraged = null;
                     this.notifyService.showSuccess("Card Moved", "Success")
                     setTimeout(() => {
                       this.UpdateSalesCategories();
@@ -486,6 +488,7 @@ drop(e){
               
                   },
                   error=>{
+                    this.cardBeingDraged = null;
                     this.notifyService.showError("Card did not move", "Error !")
                   }
                 )
