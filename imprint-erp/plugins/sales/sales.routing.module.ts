@@ -7,9 +7,9 @@ import { SalesEditComponent } from './sales-edit/sales-edit.component';
 
 const routes: Routes = [
 
-    {path: '', component: HomeComponent, canActivate: [AuthGuard],
+    {path: 'sales', component: HomeComponent, canActivate: [AuthGuard],
         children: [
-            { path: "sales", component: SalesBoardComponent },
+            { path: "", component: SalesBoardComponent },
             { path: "sales_edit", component: SalesEditComponent },
         ]
     },

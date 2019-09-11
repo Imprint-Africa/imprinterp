@@ -77,7 +77,7 @@ export class ProjectBoardsComponent implements OnInit {
 toModifyCard(id){
 
   window.localStorage.setItem('projectOnEditId', id);
-  this.router.navigate(['/project_update'])
+  this.router.navigate(['projects/project_update'])
 
 
 }

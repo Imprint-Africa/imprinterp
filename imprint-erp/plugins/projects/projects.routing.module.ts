@@ -10,9 +10,9 @@ import { EditProjectComponent } from './edit-project/edit-project.component';
 
 const routes: Routes = [
 
-    {path: '', component: HomeComponent, canActivate: [AuthGuard],
+    {path: 'projects', component: HomeComponent, canActivate: [AuthGuard],
         children: [
-            { path: "projects", component: ProjectBoardsComponent },
+            { path: "", component: ProjectBoardsComponent },
             { path: "project_update", component: UpdateProjectComponent },
             { path: "project_details", component: ProjectDetailsComponent },
             { path: "project_edit", component: EditProjectComponent }

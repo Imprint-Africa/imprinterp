@@ -8,9 +8,9 @@ import { CustomServiceEditComponent } from './custom-service-edit/custom-service
 
 const routes: Routes = [
 
-    {path: '', component: HomeComponent, canActivate: [AuthGuard],
+    {path: 'editorial', component: HomeComponent, canActivate: [AuthGuard],
         children: [
-            { path: "editorial", component: ProjTaskTeamComponent },
+            { path: "", component: ProjTaskTeamComponent },
             { path: "custom_service_edit", component: CustomServiceEditComponent }
         ]
     },

@@ -471,7 +471,7 @@ saveAndClose(){
 editCustomService(id){
 
   window.localStorage.setItem('IdServiceTobeEdited', id);
-  this.router.navigate(['/custom_service_edit']);
+  this.router.navigate(['editorial/custom_service_edit']);
 
 
 }

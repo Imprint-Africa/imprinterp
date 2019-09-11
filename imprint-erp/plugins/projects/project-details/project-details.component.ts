@@ -97,11 +97,11 @@ public oppennedProject;
 
 
 moveBackToTeams(){
-  this.router.navigate(['/project_update']);
+  this.router.navigate(['projects/project_update']);
 }
   
 toEditProject(){
-  this.router.navigate(['/project_edit']);
+  this.router.navigate(['projects/project_edit']);
 }
 
 

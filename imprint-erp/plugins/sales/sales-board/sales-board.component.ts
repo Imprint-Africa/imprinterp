@@ -422,7 +422,7 @@ submitNewClientForm(){
 
 
   toSalesEdit(id){
-    this.router.navigate(['/sales_edit']);
+    this.router.navigate(['sales/sales_edit']);
     window.localStorage.setItem('salesEditItemId', id)
     
   }

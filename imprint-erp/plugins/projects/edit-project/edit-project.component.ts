@@ -182,11 +182,11 @@ public taskMaxDate;
 
 
  toDetails(){
-   this.router.navigate(['/project_details']);
+   this.router.navigate(['projects/project_details']);
  }
 
  toTeams(){
-  this.router.navigate(['/project_update']);
+  this.router.navigate(['projects/project_update']);
 }
 
 

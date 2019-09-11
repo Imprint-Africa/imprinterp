@@ -39,6 +39,7 @@ import { ProjectsSharedModule } from 'plugins/projects/projects.module';
 import { EditorialSharedModule } from 'plugins/editorial/editorial.module';
 import { SalesSharedModule } from 'plugins/sales/sales.module';
 import { DashboardSharedModule } from 'plugins/dashboard/dashboard.module';
+import { NotFoundComponent } from './components/notFound/notFound.component';
 
 
 
@@ -48,7 +49,8 @@ import { DashboardSharedModule } from 'plugins/dashboard/dashboard.module';
     LoginComponent,
     RegisterComponent,
     HomeComponent,
-    UsersComponent
+    UsersComponent,
+    NotFoundComponent
     
   ],
   imports: [

@@ -95,7 +95,7 @@ public myInterval: any;
 
 
 moveToDetails(){
-  this.router.navigate(['/project_details']);
+  this.router.navigate(['projects/project_details']);
 }
 
 
