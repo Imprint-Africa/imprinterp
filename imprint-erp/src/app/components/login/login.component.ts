@@ -90,11 +90,7 @@ export class LoginComponent implements OnInit {
                 data.role === "manager" ?
                     (window.localStorage.setItem("permissionStatus", 'isManager') , this.router.navigate(['/dashboard'])):
 
-                    (window.localStorage.setItem("permissionStatus", 'isUser') , this.router.navigate(['/projects']));
-
-          
-
-        
+                    (window.localStorage.setItem("permissionStatus", 'isUser') , this.router.navigate(['/projects'])); 
 
       },
       error => {

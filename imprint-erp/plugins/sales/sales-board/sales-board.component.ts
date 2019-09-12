@@ -7,6 +7,8 @@ import { NotificationService } from 'src/app/shared/services/notification.servic
 import { SalesCategoryService } from 'src/app/shared/services/sales-category.service';
 import { CustomaryService } from 'src/app/shared/services/customary.service';
 import { UserSalesStagesService } from 'src/app/shared/services/user-sales-stages.service';
+import { ClientService } from 'src/app/shared/services/client.service';
+import { UserService } from 'src/app/shared/services/user.service';
 
 
 @Component({
@@ -24,21 +26,32 @@ export class SalesBoardComponent implements OnInit {
     private notifyService: NotificationService,
     private salesCategoryService: SalesCategoryService,
     private userSalesStageService: UserSalesStagesService,
-    private customService: CustomaryService
+    private customService: CustomaryService,
+    private clientService: ClientService,
+    private userService: UserService
   ) { }
 
 
 
 // Modal
 @ViewChild('addNewClientModal') public addNewClientModal: ModalDirective;
-
+@ViewChild('mailToClientModal') public mailToClientModal: ModalDirective;
 
 // Variables
-  @ViewChild('myNewClientForm') myNewClientFormValues;
+  @ViewChild('myNewOppForm') myNewOppFormValues;
   @ViewChild('clientInput') clientInput: ElementRef
-  public newClientForm: FormGroup;
+
+
+  
+  public newOppForm: FormGroup;
   public newStageForm: FormGroup;
   public changeStageNameForm: FormGroup;
+  public managerNameForm: FormGroup;
+  public phoneForm: FormGroup;
+  public altPhoneForm: FormGroup;
+  public emailForm: FormGroup;
+  public websiteForm: FormGroup;
+  public sendMailForm: FormGroup;
 
 
   @Input() listIndex: number;
@@ -61,9 +74,12 @@ public SalesCategorys: any = [];
 public UserSalesStages: any = [];
 public Opportunitys: any = [];
 public Projects: any = [];
-public ProjectStatusToNewClient: string;
+public ProjectStatusToNewOpp: string;
 public idStageToBeEdited: any;
 public Tasks: any = [];
+
+public ClientOppened: any = [];
+public mailData: any = [];
 
 public myInterval: any;
 
@@ -111,7 +127,7 @@ public myInterval: any;
 
 
     // Pass form values
-    this.newClientForm=this.formBuilder.group({
+    this.newOppForm=this.formBuilder.group({
       projectName: ['', Validators.required],
       clientName: ['', Validators.required],
       projectManager: [''],
@@ -132,6 +148,8 @@ public myInterval: any;
       projectEndDate: null
     });
 
+    
+
     this.changeStageNameForm=this.formBuilder.group({
       name: ['', Validators.required]
     })
@@ -140,6 +158,31 @@ public myInterval: any;
       name: ['', Validators.required]
     })
 
+    this.managerNameForm=this.formBuilder.group({
+      managerName: ['', Validators.required]
+    })
+
+    this.phoneForm=this.formBuilder.group({
+      primaryTelNumber: ['', [Validators.required, Validators.minLength(10)]]
+    })
+    this.altPhoneForm=this.formBuilder.group({
+      secondaryTelNumber: ['', [Validators.required, Validators.minLength(10)]]
+    })
+
+    this.emailForm=this.formBuilder.group({
+      email: ['', [ Validators.required, Validators.email]],
+    })
+
+    this.websiteForm=this.formBuilder.group({
+      website: ['', Validators.required]
+    })
+
+    this.sendMailForm=this.formBuilder.group({
+      subject: ['', Validators.required],
+      message: ['', Validators.required]
+    })
+
+    
 
     this.salesCategoryService.listSalesCategory().subscribe(
       data=>{
@@ -177,15 +220,21 @@ public myInterval: any;
 
 
  // conveniently get the values from the form fields
- get formNewClient() {return this.newClientForm.controls;}
+ get formNewOpp() {return this.newOppForm.controls;}
  get formChangeStageName() {return this.changeStageNameForm.controls;}
  get formNewStage() {return this.newStageForm.controls;}
+ get formManagerName() {return this.managerNameForm.controls;}
+ get formPhone() {return this.phoneForm.controls;}
+ get formAltPhone() {return this.altPhoneForm.controls;}
+ get formEmail() {return this.emailForm.controls;}
+ get formWebsite() {return this.websiteForm.controls;}
+ get formSendMail() {return this.sendMailForm.controls;}
 
 
 
 
  setClickedStage(clickedStage){
-  this.ProjectStatusToNewClient = clickedStage
+  this.ProjectStatusToNewOpp = clickedStage
  }
 
  stageToBeEdited(id){
@@ -299,11 +348,11 @@ getUserSalesStages(){
 
 
 
-submitNewClientForm(){
+ submitNewOppForm(){
 
     // Adding abjects to task array
     this.Projects.forEach((proj)=>{
-      return proj.serviceName === this.newClientForm.value.projectName ?
+      return proj.serviceName === this.newOppForm.value.projectName ?
 
       this.Tasks = proj.task.filter((a)=>{
           a.assignedUser = '';
@@ -319,13 +368,13 @@ submitNewClientForm(){
     })
 
     let structuredData = {
-      projectName: this.newClientForm.value.projectName,
-      clientName: this.newClientForm.value.clientName,
+      projectName: this.newOppForm.value.projectName,
+      clientName: this.newOppForm.value.clientName,
       projectManager: '',
       task : this.Tasks,
       cost: null,
       priority: 1,
-      projectStatus: this.ProjectStatusToNewClient,
+      projectStatus: this.ProjectStatusToNewOpp,
       projectDuration: null,
       projectStartDate: null,
       projectEndDate: null
@@ -333,6 +382,7 @@ submitNewClientForm(){
 
     this.salesService.addOppProject(structuredData).subscribe(
       data => { 
+        this.createNewClient(data)
         this.notifyService.showSuccess(`Client ${data.clientName} has been added`, "Success");
         this.FormStatus = !this.FormStatus;
         this.clientInput.nativeElement.value = '';
@@ -347,6 +397,166 @@ submitNewClientForm(){
     )
   }
 
+
+
+
+
+  createNewClient(client){
+    let newClient = {
+      companyName : client.clientName,
+      managerName : '',
+      primaryTelNumber : null,
+      secondaryTelNumber : null,
+      email : '',
+      website : '',
+      twitter : '',
+      facebook : '',
+      instagram : '' 
+  }
+
+    this.clientService.createClient(newClient).subscribe(
+
+      data=>{
+        this.notifyService.showSuccess('New Cilent Adedd', 'Success')
+      },
+      error=>{
+        
+        this.notifyService.showInfo('New Deal to existing client', 'Info')
+      }
+
+    )
+
+  }
+
+
+
+
+
+
+  seeClient(client){
+
+    this.clientService.getOneByName(client).subscribe(
+      data=>{
+        this.ClientOppened = data;
+      }
+    )
+  }
+
+
+  saveManagerName(id){
+    this.clientService.updateClient(this.ClientOppened._id, this.managerNameForm.value).subscribe(
+      data=>{
+        this.ClientOppened = data;
+        this.notifyService.showSuccess('Changes Saved', 'Success')
+      },
+      error=>{
+        this.notifyService.showError('Not Saved', 'Error')
+      }
+    )
+  }
+
+  savePhoneNumber(){
+    this.clientService.updateClient(this.ClientOppened._id, this.phoneForm.value).subscribe(
+      data=>{
+        this.ClientOppened = data;
+        this.notifyService.showSuccess('Changes Saved', 'Success')
+      },
+      error=>{
+        this.notifyService.showError('Not Saved', 'Error')
+      }
+    )
+  }
+  
+
+  saveAlternativePhoneNumber(){
+    this.clientService.updateClient(this.ClientOppened._id, this.altPhoneForm.value).subscribe(
+      data=>{
+        this.ClientOppened = data;
+        this.notifyService.showSuccess('Changes Saved', 'Success')
+      },
+      error=>{
+        this.notifyService.showError('Not Saved', 'Error')
+      }
+    )
+  }
+
+  saveEmail(){
+    this.clientService.updateClient(this.ClientOppened._id, this.emailForm.value).subscribe(
+      data=>{
+        this.ClientOppened = data;
+        this.notifyService.showSuccess('Changes Saved', 'Success')
+      },
+      error=>{
+        this.notifyService.showError('Not Saved', 'Error')
+      }
+    )
+  }
+
+  saveWebsite(){
+    this.clientService.updateClient(this.ClientOppened._id, this.websiteForm.value).subscribe(
+      data=>{
+        this.ClientOppened = data;
+        this.notifyService.showSuccess('Changes Saved', 'Success')
+      },
+      error=>{
+        this.notifyService.showError('Not Saved', 'Error')
+      }
+    )
+  }
+
+
+
+
+  mailFunction(client){
+
+    this.clientService.getOneByName(client).subscribe(
+      clientData=>{
+
+        if(clientData.email == ''){
+          this.mailToClientModal.hide();
+          this.notifyService.showWarning('Client has no mail', 'Warning!')
+        }
+
+        this.userService.getOneUser(localStorage.getItem('loggedUserID')).subscribe(
+          userData=>{
+            this.mailData = {
+              sender: userData.email,
+              reciever: clientData.email
+            }
+          }
+        )
+        
+      }
+    )
+  }
+
+
+  sendMailToClient(){
+    // let dataToBeSent = {
+    //   sender: 'sainezkimutai@gmail.com',
+    //   reciever: this.mailData.reciever,
+    //   subject: this.sendMailForm.value.subject,
+    //   message: this.sendMailForm.value.message
+    // }
+
+    let dataToBeSent = {
+      sender: 'sainezkimutai@gmail.com',
+      reciever: 'sainezamon@gmail.com',
+      subject: 'Try Mail',
+      message: 'Hello, this mail from me'
+    }
+
+
+    this.clientService.sendMail(dataToBeSent).subscribe(
+      data=>{
+        this.notifyService.showSuccess('Mail Sent', 'Success')
+      },
+      error=>{
+        this.notifyService.showError('mail not sent', 'Error')
+      }
+    )
+
+  }
 
 
 

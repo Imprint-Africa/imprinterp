@@ -33,7 +33,7 @@
     background-color: transparent
 
 
-.addNewClientModal, .addNewStageModal
+.addNewOppModal, .addNewStageModal
     .modal-header
         background-color: brandColor(brandSuccess)
         .modal-title
@@ -235,7 +235,7 @@
             .card
                 background-color: white
                 padding: .5em
-                margin: 0 0 .5em 0 
+                margin: 0 0 1em 0 
                 border: solid 1px grayColor(g300)
                 border-radius: 2px
                 cursor: pointer
@@ -265,6 +265,7 @@
                             font-size: 10px
                             color: color(primary)
                             text-transform: uppercase
+                            margin: 0 0 1em 0
 
                             &:hover
                                 color: brandColor(brandPrimary)
@@ -278,16 +279,19 @@
                             font-size: 10px
                             color: color(secondary)
                             text-transform: capitalize
+                            margin: 0 0 1em 0
                             
 
                         .cost
                             font-family: Montserrat
                             font-size: 10px
                             color: color(silk)
+                            margin: 0 0 1em 0
                         
                         .rateWarp
                             font-size: 10px
                             color: gray
+                            margin: 0 0 1em 0
 
                             .rateColor
                                 color: color(orangeTheme)  
@@ -302,6 +306,7 @@
                             margin: 0
                             float: right      
                             width: fit-content
+                            padding: 0 .5em .5em 1em
                             
                             &:hover
                                 fa
@@ -334,5 +339,235 @@
                             font-weight: bold
                             text-shadow: 0 0 3px rgba(0,0,0,.3)
 
+
+
+
+.clientDetailModal
+
+    .modal-header
+        background-color: brandColor(brandInfo)
+        .modal-title
+            font-size: 15px
+            font-family: Montserrat
+
+            span
+                margin: 0 .5em 0 .5em
+                color: white
+                text-transform: uppercase
+            
+
+    .modal-body
+        font-size: 12px
+        font-family: Montserrat
+        
+        .info-div
+            display: flex
+            align-items: stretch
+            border-bottom: solid 1px grayColor(g200)
+
+            .company-name
+                margin: 0 0 0 1em
+                width: 50%
+                font-family: Montserrat
+                font-size: 10px
+                span
+                    font-size: 14px
+                    color: color(warning)
+            .manager
+                margin: 0 1em 0 0
+                width: 50%
+                font-size: 10px
+                font-family: Montserrat
+
+                span
+                    font-size: 14px
+                    color: color(warning)
+
+
+        
+        .contact-div
+            border-radius: 5px
+            background-color: grayColor(g200)
+            margin: 1em
+            padding: 1em
+            
+            .phone, .altPhone, .email, .website
+                font-size: 10px
+                font-family: Montserrat
+                margin: 0 0 1em 0
+
+                span
+                    font-size: 11px
+                    color: color(warning)
+        
+
+        
+
+    .modal-footer
+        .btn-cancel
+            background-color: brandColor(brandSecondary)
+            font-size: 10px
+            font-family: Montserrat
+        .btn-confirm
+            background-color: brandColor(brandInfo)
+            font-size: 10px
+            font-family: Montserrat
+
+
+
+
+
+
+.clientEditModal
+    .modal-header
+        background-color: brandColor(brandPrimary)
+        .modal-title
+            font-size: 15px
+            font-family: Montserrat
+
+            span
+                margin: 0 .5em 0 .5em
+                color: white
+                text-transform: uppercase
+            
+
+    .modal-body
+        font-size: 12px
+        font-family: Montserrat
+        
+        form
+            display: flex
+            align-items: stretch
+
+            .info-div
+                display: flex
+                align-items: stretch
+                width: 50%
+                padding: .5em 0 .5em
+                margin: 0 0 1em 0
+
+                .title
+                    font-size: 12px
+                    font-family: Montserrat
+                    width: 30%
+                .value
+                    font-size: 10px
+                    font-family: Montserrat
+                    width: 30%
+                    color: brandColor(brandWarning)
+                .btn
+                    font-size: 10px
+                    font-family: Montserrat
+                    width: 5rem
+
+                    &:hover
+                        fa
+                            color: brandColor(brandPrimary)
+
+                    fa
+                        font-size: 10px
+
+
+            .input-group
+                width: 50%
+
+                input
+                    font-size: 10px
+                    font-family: Montserrat
+
+                .input-group-append
+                    font-size: 10px
+
+                    .btn
+                        font-size: 10px
+                        font-family: Montserrat
+                        background-color: brandColor(brandSuccess)
+
+    .modal-footer
+        .btn-cancel
+            background-color: brandColor(brandSecondary)
+            font-size: 10px
+            font-family: Montserrat
+        .btn-confirm
+            background-color: brandColor(brandSuccess)
+            font-size: 10px
+            font-family: Montserrat
+
+
+
+.mailToClientModal
+    .modal-header
+        background-color: brandColor(brandPrimary)
+        .modal-title
+            font-size: 15px
+            font-family: Montserrat
+
+            span
+                margin: 0 .5em 0 .5em
+                color: white
+                text-transform: uppercase
+            
+
+    .modal-body
+        font-size: 12px
+        font-family: Montserrat
+        
+        form
+            .sender, .reciever    
+                display: flex
+                align-items: stretch
+                margin: 0 1em 1em 0
+                
+                h4
+                    font-size: 10px
+                    width: 60px
+                    margin: 0 0 0 0 
+                
+                h5 
+                    font-size: 10px
+                    margin: 0
+                    padding: 0
+
+            .subject-div
+                display: flex
+                align-items: stretch
+
+                h4
+                    font-size: 10px
+                    font-family: Montserrat
+                    width: 60px
+                    margin: auto 1em auto 0
+
+                input
+                    font-size: 10px
+                    font-family: Montserrat
+                    margin: auto 0
+
+                    span
+                        font-size: 10px
+                        margin: 0 0 0 1em
+
+            .body-div
+                margin: 1em 0 1em 0
+                
+                textarea
+                    background-color: grayColor(g100)
+                    width: 100%
+
+
+
+
+
+
+
+    .modal-footer
+        .btn-cancel
+            background-color: brandColor(brandSecondary)
+            font-size: 10px
+            font-family: Montserrat
+        .btn-confirm
+            background-color: brandColor(brandSuccess)
+            font-size: 10px
+            font-family: Montserrat
 
 

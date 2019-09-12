@@ -17,18 +17,18 @@
 
 <!-- Adding new client Form -->
 
-<div bsModal #addNewClientModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog addNewClientModal" role="document">
+<div bsModal #addNewOppModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog addNewOppModal" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">New Clients To <span>{{ProjectStatusToNewClient}}</span></h4>
-        <button type="button" class="btn close" (click)="addNewClientModal.hide()" aria-label="Close">
+        <h4 class="modal-title">New Opportunity To <span>{{ProjectStatusToNewOpp}}</span></h4>
+        <button type="button" class="btn close" (click)="addNewOppModal.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
                     
-              <form id="myNewClientForm" #myNewClientForm='ngForm' [formGroup]="newClientForm" class="form">
+              <form id="myNewOppForm" #myNewOppForm='ngForm' [formGroup]="newOppForm" class="form">
 
                 <!-- Client Name -->
                 <div class="form-group">
@@ -39,7 +39,7 @@
                         </div>
 
                         <input #clientInput type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-                        formControlName="clientName" [class.is-invalid]="formNewClient.clientName.invalid && formNewClient.clientName.touched" required>
+                        formControlName="clientName" [class.is-invalid]="formNewOpp.clientName.invalid && formNewOpp.clientName.touched" required>
 
                   </div>
 
@@ -56,7 +56,7 @@
 
 
                         <select type="" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-                        formControlName="projectName" class="form-control" [class.is-invalid]="formNewClient.projectName.invalid && formNewClient.projectName.touched" required>
+                        formControlName="projectName" class="form-control" [class.is-invalid]="formNewOpp.projectName.invalid && formNewOpp.projectName.touched" required>
                             <option value="" disabled selected hidden >Choose Project</option>
                             <option *ngFor="let Project of Projects" value='{{Project.serviceName}}'>{{Project.serviceName}}</option>
                             
@@ -70,8 +70,8 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-cancel" (click)="addNewClientModal.hide()">Cancel</button>
-        <button type="button" [disabled]="!newClientForm.valid"class="btn btn-confirm" (click)="submitNewClientForm(); addNewClientModal.hide()">Save</button>
+        <button type="button" class="btn btn-cancel" (click)="addNewOppModal.hide()">Cancel</button>
+        <button type="button" [disabled]="!newOppForm.valid"class="btn btn-confirm" (click)="submitNewOppForm(); addNewOppModal.hide()">Save</button>
       </div>
     </div><!-- /.modal-content -->
   </div><!-- /.modal-dialog -->
@@ -172,7 +172,7 @@
     </div>
 
     <div id="add_deal_div" class="clearfix text-center">
-      <button class="btn btn-sm" (click)="addNewClientModal.show(); setClickedStage(UserSalesStage.name)"><fa name="plus"></fa></button>
+      <button class="btn btn-sm" (click)="addNewOppModal.show(); setClickedStage(UserSalesStage.name)"><fa name="plus"></fa></button>
     </div>
 
 
@@ -188,8 +188,8 @@
    [ngClass]="salesCatHoveredOnDrag === UserSalesStage._id ? 'card-group hovered' : 'card-group'" >
 
     <!-- Cards -->
-
-        <div draggable="true" *ngFor="let Opportunity of Opportunitys" [id]="Opportunity._id" (click)="toSalesEdit(Opportunity._id)" 
+    <!-- (click)="toSalesEdit(Opportunity._id)" -->
+        <div draggable="true" *ngFor="let Opportunity of Opportunitys" [id]="Opportunity._id"  
         (drop)="drop($event)" (dragover)="allowDrop($event)" (dragstart)="drag($event)" (dragenter)="dragenter($event)" (dragleave)="dragleave($event)"
         [ngClass]="cardHoveredOnDrag === Opportunity._id && cardBeingDraged !=  Opportunity._id ? 'card hovered-on-drag' : cardBeingDraged ===  Opportunity._id ? 'card beingDragged' : 'card'"
           [hidden]="Opportunity.projectStatus != UserSalesStage.name">
@@ -197,7 +197,7 @@
           <div class="card-body">
 
             <div class="card-info-div">
-              <h4  class="clientN">{{ Opportunity.clientName}}</h4>
+              <h4  class="clientN" (click)="seeClient(Opportunity.clientName); clientDetailModal.show()">{{ Opportunity.clientName}}</h4>
               <h4  class="projectN">{{ Opportunity.projectName}}</h4>
               <h4  class="cost">$: {{ Opportunity.cost}}</h4>
 
@@ -210,8 +210,9 @@
             </div><!-- .card-info-div -->
 
             <div class="card-icon-div">
-              <button class="btn btn-sm"><fa name="envelope"></fa></button>
+              <button class="btn btn-sm" (click)="mailFunction(Opportunity.clientName); mailToClientModal.show()"><fa name="envelope"></fa></button>
               <button class="btn btn-sm"><fa name="phone"></fa></button>
+              <button class="btn btn-sm" (click)="toSalesEdit(Opportunity._id)"><fa name="pencil"></fa></button>
 
             </div><!-- .card-icon-div -->
 
@@ -232,6 +233,202 @@
 
 
 </section>
+
+
+
+
+<div bsModal #clientDetailModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog clientDetailModal modal-md" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Client Detail </h4>
+        <button type="button" class="btn close" (click)="clientDetailModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <div class="info-div">
+              <h4 class="company-name">Company Name: <span>{{ClientOppened.companyName}}</span></h4>
+              <h4 class="manager">Manager: <span>{{ClientOppened.managerName}}</span></h4>
+            </div> 
+            
+            <div class="contact-div">
+              <h4 class="phone">Phone: <span>{{ClientOppened.primaryTelNumber}}</span></h4>
+              <h4 class="altPhone">Alt Number: <span>{{ClientOppened.secondaryTelNumber}}</span></h4>
+              <h4 class="email">Email: <span>{{ClientOppened.email}}</span></h4>
+              <h4 class="website">Website: <span>{{ClientOppened.website}}</span></h4>
+            </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-cancel" (click)="clientDetailModal.hide()">Cancel</button>
+        <button type="button" class="btn btn-confirm" (click)="clientDetailModal.hide(); clientEditModal.show()">EDIT</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<div bsModal #clientEditModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog clientEditModal modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title"> You are Editing <span>{{ClientOppened.companyName}}</span> details </h4>
+        <button type="button" class="btn close" (click)="clientEditModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+          <form [formGroup]="managerNameForm" >
+            <div class="info-div">
+              <h4 class="title">Manager:</h4>
+              <h4 class="value">{{ClientOppened.managerName}}</h4>
+              <button class="btn btn-sm" (click)="managerNameInput=!managerNameInput"><fa name="pencil"></fa></button>
+            </div>
+
+            <div class="input-group input-group-sm mb-3" *ngIf="managerNameInput">
+              <input type="text" class="form-control"
+              formControlName="managerName" [class.is-invalid]="formManagerName.managerName.invalid && formManagerName.managerName.touched">
+
+              <div class="input-group-append">
+                 <button [disabled]="!managerNameForm.valid" class="btn btn-sm" (click)="saveManagerName(); managerNameInput=!managerNameInput">Save</button>          
+              </div><!--input-group-append-->
+            </div><!-- input-group -->
+          </form>
+
+          <form [formGroup]="phoneForm" >
+              <div class="info-div">
+                <h4 class="title">Phone:</h4>
+                <h4 class="value">{{ClientOppened.primaryTelNumber}}</h4>
+                <button class="btn btn-sm" (click)="phoneInput=!phoneInput"><fa name="pencil"></fa></button>
+              </div>
+  
+              <div class="input-group input-group-sm mb-3" *ngIf="phoneInput">
+                <input type="number" class="form-control"
+                formControlName="primaryTelNumber" [class.is-invalid]="formPhone.primaryTelNumber.invalid && formPhone.primaryTelNumber.touched">
+  
+                <div class="input-group-append">
+                   <button [disabled]="!phoneForm.valid" class="btn btn-sm" (click)="savePhoneNumber(); phoneInput=!phoneInput">Save</button>          
+                </div><!--input-group-append-->
+              </div><!-- input-group -->
+          </form>
+
+          <form [formGroup]="altPhoneForm" >
+              <div class="info-div">
+                <h4 class="title">Alternative Tel:</h4>
+                <h4 class="value">{{ClientOppened.secondaryTelNumber}}</h4>
+                <button class="btn btn-sm" (click)="altPhoneInput=!altPhoneInput"><fa name="pencil"></fa></button>
+              </div>
+  
+              <div class="input-group input-group-sm mb-3" *ngIf="altPhoneInput">
+                <input type="number" class="form-control"
+                formControlName="secondaryTelNumber" [class.is-invalid]="formAltPhone.secondaryTelNumber.invalid && formAltPhone.secondaryTelNumber.touched">
+  
+                <div class="input-group-append">
+                   <button [disabled]="!altPhoneForm.valid" class="btn btn-sm" (click)="saveAlternativePhoneNumber(); altPhoneInput=!altPhoneInput">Save</button>          
+                </div><!--input-group-append-->
+              </div><!-- input-group -->
+          </form>
+
+          <form [formGroup]="emailForm" >
+              <div class="info-div">
+                <h4 class="title">Email:</h4>
+                <h4 class="value">{{ClientOppened.email}}</h4>
+                <button class="btn btn-sm" (click)="emailInput=!emailInput"><fa name="pencil"></fa></button>
+              </div>
+  
+              <div class="input-group input-group-sm mb-3" *ngIf="emailInput">
+                <input type="email" class="form-control"
+                formControlName="email" [class.is-invalid]="formEmail.email.invalid && formEmail.email.touched">
+  
+                <div class="input-group-append">
+                   <button [disabled]="!emailForm.valid"  class="btn btn-sm" (click)="saveEmail(); emailInput=!emailInput">Save</button>          
+                </div><!--input-group-append-->
+              </div><!-- input-group -->
+          </form>
+          
+
+          <form [formGroup]="websiteForm" >
+              <div class="info-div">
+                <h4 class="title">website:</h4>
+                <h4 class="value">{{ClientOppened.website}}</h4>
+                <button class="btn btn-sm" (click)="websiteInput=!websiteInput"><fa name="pencil"></fa></button>
+              </div>
+  
+              <div class="input-group input-group-sm mb-3" *ngIf="websiteInput">
+                <input type="text" class="form-control"
+                formControlName="website" [class.is-invalid]="formWebsite.website.invalid && formWebsite.website.touched">
+  
+                <div class="input-group-append">
+                   <button [disabled]="!websiteForm.valid"  class="btn btn-sm" (click)="saveWebsite(); websiteInput=!websiteInput">Save</button>          
+                </div><!--input-group-append-->
+              </div><!-- input-group -->
+          </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-cancel" (click)="clientEditModal.hide()">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+ 
+
+
+
+<div bsModal #mailToClientModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog mailToClientModal modal-md" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Composing Mail To <span></span> </h4>
+          <button type="button" class="btn close" (click)="mailToClientModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <form action="" *ngIf="mailData" [formGroup]="sendMailForm">
+
+              <div class="sender">
+                  <h4>From:</h4>
+                  <h5>{{mailData.sender}}</h5>
+              </div>
+
+              <div class="reciever">
+                  <h4>To:</h4>
+                  <h5>{{mailData.reciever}}</h5>
+              </div>
+
+              <div class="subject-div">
+                <h4>Subject</h4>
+                <input type="text" class="form-control"
+                formControlName="subject" [class.is-invalid]="formSendMail.subject.invalid && formSendMail.subject.touched">
+              </div>
+
+              <div class="body-div">
+
+                <textarea name="" id="" cols="30" rows="10"
+                formControlName="message" [class.is-invalid]="formSendMail.message.invalid && formSendMail.message.touched"></textarea>
+
+              </div>
+
+
+
+
+            </form>
+  
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" (click)="mailToClientModal.hide()">Cancel</button>
+          <button type="button" class="btn btn-confirm" (click)=" sendMailToClient(); mailToClientModal.hide()">Send Mail</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  
+
 
 
 

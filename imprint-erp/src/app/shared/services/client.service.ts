@@ -54,6 +54,10 @@ export class ClientService {
   }
 
 
+  getOneByName(name) {
+    return this.http.get<any>(this._url + "getByName/" + name, {headers : this.header})
+  }
+
 
   updateClient(id, data: any) {
     return this.http.put<any>(this._url + "update/" + id, data, {headers : this.header})
@@ -65,6 +69,10 @@ export class ClientService {
     return this.http.delete<any>(this._url + "delete/" + id, {headers : this.header})
   }
 
+
+  sendMail( data : any ) {
+    return this.http.post<any>(this._url + "sendMail", data, {headers : this.header})
+  }
 
 
 }
