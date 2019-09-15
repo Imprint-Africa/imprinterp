@@ -8,18 +8,21 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { SidebarModule } from "ng-sidebar";
 import { ReactiveFormsModule} from "@angular/forms";
 import { FormsModule } from '@angular/forms';
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from "ngx-toastr";
 import { HttpClientModule } from "@angular/common/http";
 import { ChartsModule } from 'ng2-charts';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { FlatpickrModule } from 'angularx-flatpickr';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 // Components
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
-
 
 // Services
 import { UserService } from './shared/services/user.service';
@@ -33,6 +36,8 @@ import { ProjectsService } from './shared/services/projects.service';
 import { UsersComponent } from './components/home/users/users.component';
 import { UserSalesStagesService } from './shared/services/user-sales-stages.service';
 import { ClientService } from './shared/services/client.service';
+import { SpinnerService } from './shared/services/spinner.service';
+import { CalenderEventService } from './shared/services/calenderEvent.service';
 
 // Modules
 import { ProjectsSharedModule } from 'plugins/projects/projects.module';
@@ -40,8 +45,7 @@ import { EditorialSharedModule } from 'plugins/editorial/editorial.module';
 import { SalesSharedModule } from 'plugins/sales/sales.module';
 import { DashboardSharedModule } from 'plugins/dashboard/dashboard.module';
 import { NotFoundComponent } from './components/notFound/notFound.component';
-
-
+import { ngCalenderComponent } from './components/angularCalender/ngCalender.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +54,8 @@ import { NotFoundComponent } from './components/notFound/notFound.component';
     RegisterComponent,
     HomeComponent,
     UsersComponent,
-    NotFoundComponent
+    NotFoundComponent,
+    ngCalenderComponent
     
   ],
   imports: [
@@ -65,11 +70,18 @@ import { NotFoundComponent } from './components/notFound/notFound.component';
     HttpClientModule,
     BrowserAnimationsModule,
     ChartsModule,
+    NgxSpinnerModule,
     ModalModule.forRoot(),
     ToastrModule.forRoot({
       timeOut: 5000,
       positionClass: 'toast-bottom-right',
       preventDuplicates: false,
+    }),
+    NgbModalModule,
+    FlatpickrModule.forRoot(),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory
     }),
 
     // import modules
@@ -80,7 +92,7 @@ import { NotFoundComponent } from './components/notFound/notFound.component';
 
   ],
   providers: [NotificationService, AuthGuard, UserService, SalesService, TeamsService, CustomaryService,
-              SalesCategoryService, ProjectsService, UserSalesStagesService, ClientService ],
+              SalesCategoryService, ProjectsService, UserSalesStagesService, ClientService, SpinnerService, CalenderEventService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

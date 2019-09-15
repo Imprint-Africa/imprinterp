@@ -9,6 +9,7 @@ import { CustomaryService } from 'src/app/shared/services/customary.service';
 import { UserSalesStagesService } from 'src/app/shared/services/user-sales-stages.service';
 import { ClientService } from 'src/app/shared/services/client.service';
 import { UserService } from 'src/app/shared/services/user.service';
+import { SpinnerService } from 'src/app/shared/services/spinner.service';
 
 
 @Component({
@@ -28,7 +29,8 @@ export class SalesBoardComponent implements OnInit {
     private userSalesStageService: UserSalesStagesService,
     private customService: CustomaryService,
     private clientService: ClientService,
-    private userService: UserService
+    private userService: UserService,
+    private spinnerServcice: SpinnerService
   ) { }
 
 
@@ -515,50 +517,68 @@ getUserSalesStages(){
         if(clientData.email == ''){
           this.mailToClientModal.hide();
           this.notifyService.showWarning('Client has no mail', 'Warning!')
+          setTimeout(()=>{
+            this.notifyService.showInfo('You might want to assigned and email', 'Info...')
+          }, 3000)
         }
-
-        this.userService.getOneUser(localStorage.getItem('loggedUserID')).subscribe(
-          userData=>{
-            this.mailData = {
-              sender: userData.email,
-              reciever: clientData.email
+        else{
+          this.mailToClientModal.show();
+          this.userService.getOneUser(localStorage.getItem('loggedUserID')).subscribe(
+            userData=>{
+              this.mailData = {
+                sender: userData.email,
+                reciever: clientData.email
+              }
             }
-          }
-        )
-        
+          )
+        }
       }
     )
   }
 
 
   sendMailToClient(){
-    // let dataToBeSent = {
-    //   sender: 'sainezkimutai@gmail.com',
-    //   reciever: this.mailData.reciever,
-    //   subject: this.sendMailForm.value.subject,
-    //   message: this.sendMailForm.value.message
-    // }
-
+    this.spinnerServcice.spinStart();
     let dataToBeSent = {
-      sender: 'sainezkimutai@gmail.com',
-      reciever: 'sainezamon@gmail.com',
-      subject: 'Try Mail',
-      message: 'Hello, this mail from me'
+      sender: this.mailData.sender,
+      reciever: this.mailData.reciever,
+      subject: this.sendMailForm.value.subject,
+      message: this.sendMailForm.value.message
     }
-
 
     this.clientService.sendMail(dataToBeSent).subscribe(
       data=>{
+        this.spinnerServcice.spinStop()
         this.notifyService.showSuccess('Mail Sent', 'Success')
       },
       error=>{
-        this.notifyService.showError('mail not sent', 'Error')
+        this.spinnerServcice.spinStop()
+        this.notifyService.showError('Mail not sent', 'Error')
       }
     )
 
   }
 
 
+
+
+
+  spinToggle(){
+
+    this.spinnerServcice.spinStart();
+
+    setTimeout(()=>{
+      this.spinnerServcice.spinStop()
+    }, 3000)
+
+  }
+
+
+
+
+  toCalender(){
+    this.router.navigate(['/ngCalender'])
+  }
 
 
 

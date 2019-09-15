@@ -11,6 +11,7 @@
 
 <!-- Body Section -->
 <section class="body_section">
+<ngx-spinner> <p>Loading...</p> </ngx-spinner>
 
 
 
@@ -210,8 +211,8 @@
             </div><!-- .card-info-div -->
 
             <div class="card-icon-div">
-              <button class="btn btn-sm" (click)="mailFunction(Opportunity.clientName); mailToClientModal.show()"><fa name="envelope"></fa></button>
-              <button class="btn btn-sm"><fa name="phone"></fa></button>
+              <button class="btn btn-sm" (click)="mailFunction(Opportunity.clientName)"><fa name="envelope"></fa></button>
+              <button class="btn btn-sm" (click)="spinToggle()"><fa name="phone"></fa></button>
               <button class="btn btn-sm" (click)="toSalesEdit(Opportunity._id)"><fa name="pencil"></fa></button>
 
             </div><!-- .card-icon-div -->
@@ -220,7 +221,7 @@
 
               <div class="card-footer card-icon-div d-flex">
                 <h4 class="mr-auto">Activities <span>3</span></h4>
-                <h4 class="ml-auto schedule">Schedule</h4>
+                <h4 class="ml-auto schedule" (click)="toCalender()">Schedule</h4>
               </div>
               
 
@@ -422,7 +423,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-cancel" (click)="mailToClientModal.hide()">Cancel</button>
-          <button type="button" class="btn btn-confirm" (click)=" sendMailToClient(); mailToClientModal.hide()">Send Mail</button>
+          <button type="button" class="btn btn-confirm" (click)=" sendMailToClient();">Send Mail</button>
         </div>
       </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

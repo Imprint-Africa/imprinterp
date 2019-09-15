@@ -11,6 +11,7 @@ import { ToastrModule } from "ngx-toastr";
 import { HttpClientModule } from "@angular/common/http";
 import { ChartsModule } from 'ng2-charts';
 import { ModalModule } from "ngx-bootstrap";
+import { NgxSpinnerModule } from "ngx-spinner";
 import { SalesRoutingModule } from './sales.routing.module';
 
 // components
@@ -36,6 +37,7 @@ declarations: [
     HttpClientModule,
     BrowserAnimationsModule,
     ChartsModule,
+    NgxSpinnerModule,
     ModalModule.forRoot(),
     ToastrModule.forRoot({
       timeOut: 5000,
