@@ -17,6 +17,7 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { FilterPipeModule } from 'ngx-filter-pipe'
 
 // Components
 import { AppComponent } from './app.component';
@@ -71,6 +72,7 @@ import { ngCalenderComponent } from './components/angularCalender/ngCalender.com
     BrowserAnimationsModule,
     ChartsModule,
     NgxSpinnerModule,
+    FilterPipeModule,
     ModalModule.forRoot(),
     ToastrModule.forRoot({
       timeOut: 5000,

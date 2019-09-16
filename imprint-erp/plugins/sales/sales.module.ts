@@ -13,6 +13,7 @@ import { ChartsModule } from 'ng2-charts';
 import { ModalModule } from "ngx-bootstrap";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { SalesRoutingModule } from './sales.routing.module';
+import { FilterPipeModule } from 'ngx-filter-pipe';
 
 // components
 import { SalesBoardComponent } from './sales-board/sales-board.component';
@@ -38,6 +39,7 @@ declarations: [
     BrowserAnimationsModule,
     ChartsModule,
     NgxSpinnerModule,
+    FilterPipeModule,
     ModalModule.forRoot(),
     ToastrModule.forRoot({
       timeOut: 5000,

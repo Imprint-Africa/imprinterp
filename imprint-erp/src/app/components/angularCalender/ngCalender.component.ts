@@ -26,16 +26,16 @@ import { UserService } from 'src/app/shared/services/user.service';
 
     @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
-    view: CalendarView = CalendarView.Month;
-    CalendarView = CalendarView;
-    viewDate: Date = new Date();
-    refresh: Subject<any> = new Subject();
+    public view: CalendarView = CalendarView.Month;
+    public CalendarView = CalendarView;
+    public viewDate: Date = new Date();
+    public refresh: Subject<any> = new Subject();
   
-    events= [];
-    Users= [];
+    public events: any = [];
+    public Users: any = [];
   
-    activeDayIsOpen: boolean;
-    calenderSectionStatus: boolean;
+    public activeDayIsOpen: boolean;
+    public calenderSectionStatus: boolean;
   
 
 
@@ -137,6 +137,7 @@ import { UserService } from 'src/app/shared/services/user.service';
         {
           title: 'New event',
           assignedUser: localStorage.getItem('loggedUserName'),
+          projectId: null,
           start: startOfDay(new Date()),
           end: endOfDay(new Date()),
           color: {
@@ -156,12 +157,22 @@ import { UserService } from 'src/app/shared/services/user.service';
 
 
     submitNewEvent(){
+      let eventAssignedToProject;
+
+      if(localStorage.getItem('eventProjectId')){
+        eventAssignedToProject = localStorage.getItem('eventProjectId')
+      }
+      if(!localStorage.getItem('eventProjectId')){
+        eventAssignedToProject = null
+      }
+       
 
       this.events.forEach((e, idx, array)=>{
         if (idx === array.length - 1){ 
           let i = {
             title: e.title,
             assignedUser: e.assignedUser,
+            projectId: eventAssignedToProject,
             start: e.start,
             end: e.end,
             color: e.color,
@@ -213,7 +224,10 @@ import { UserService } from 'src/app/shared/services/user.service';
     }
 
 
+    ngOnDestroy(){
+      localStorage.removeItem('eventProjectId')
+    }
 
 
-  }
+  }// End Of Class
   

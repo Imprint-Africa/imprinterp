@@ -1,6 +1,7 @@
 export class calenderEvent {
     title: String;
     assignedUser: String;
+    projectId: any;
     start: Date;
     end: Date;
     color: {

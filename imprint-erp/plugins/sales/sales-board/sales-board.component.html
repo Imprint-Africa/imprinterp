@@ -220,8 +220,8 @@
           </div><!-- .card-body-->
 
               <div class="card-footer card-icon-div d-flex">
-                <h4 class="mr-auto">Activities <span>3</span></h4>
-                <h4 class="ml-auto schedule" (click)="toCalender()">Schedule</h4>
+                <h4 class="mr-auto">Activities <span *ngIf="Events">{{(Events | filterBy: {projectId: Opportunity._id }).length}}</span></h4>
+                <h4 class="ml-auto schedule" (click)="toCalender(Opportunity._id)">Schedule</h4>
               </div>
               
 

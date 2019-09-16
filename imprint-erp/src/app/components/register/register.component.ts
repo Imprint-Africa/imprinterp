@@ -55,6 +55,16 @@ export class RegisterComponent implements OnInit {
     this.isDisabled = false;
 
 
+    // Get all Teams
+    this.teamService.getAllTeams().subscribe(
+      data=>{
+        this.Teams = data;
+      },
+      error=>{
+        console.log('Error');
+      }
+    )
+    
 
     // list Teams
     this.teamService.listTeams().subscribe(
@@ -64,7 +74,8 @@ export class RegisterComponent implements OnInit {
       error=>{
         console.log('Error');
       }
-        )
+    )
+
     
 
 

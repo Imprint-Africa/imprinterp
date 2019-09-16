@@ -30,8 +30,8 @@ header = new HttpHeaders().set(
 
 
 
-addCalenderEvent( oppProjectsData : any ) {
-  return this.http.post<any>(this._url + "create", oppProjectsData, {headers : this.header})
+addCalenderEvent( event : calenderEvent ) {
+  return this.http.post<any>(this._url + "create", event, {headers : this.header})
 }
 
 

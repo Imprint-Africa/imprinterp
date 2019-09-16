@@ -10,6 +10,7 @@ import { UserSalesStagesService } from 'src/app/shared/services/user-sales-stage
 import { ClientService } from 'src/app/shared/services/client.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { SpinnerService } from 'src/app/shared/services/spinner.service';
+import { CalenderEventService } from 'src/app/shared/services/calenderEvent.service';
 
 
 @Component({
@@ -30,6 +31,7 @@ export class SalesBoardComponent implements OnInit {
     private customService: CustomaryService,
     private clientService: ClientService,
     private userService: UserService,
+    private calenderEventService: CalenderEventService,
     private spinnerServcice: SpinnerService
   ) { }
 
@@ -74,8 +76,9 @@ public cardBeingDraged: any;
 // Binded Variables
 public SalesCategorys: any = [];
 public UserSalesStages: any = [];
-public Opportunitys: any = [];
+public Opportunitys: any = []; // the spelling is intentional
 public Projects: any = [];
+public Events: any = []; 
 public ProjectStatusToNewOpp: string;
 public idStageToBeEdited: any;
 public Tasks: any = [];
@@ -124,6 +127,23 @@ public myInterval: any;
         console.log('Cannot get all custom Service')
       }
     )// list Custom Service Cat -end
+
+
+    this.calenderEventService.getAllCalenderEvent().subscribe(
+      data=>{
+        this.Events = data;
+      },
+      error=>{console.log("cannot get all calender events on init")}
+    )// getAllCalenderEvent
+
+
+    this.calenderEventService.listCalenderEvent().subscribe(
+      data=>{
+        this.Events = data;
+      },
+      error=>{console.log("cannot get all calender events on init")}
+    )// listCalenderEvent
+
 
 
 
@@ -576,7 +596,8 @@ getUserSalesStages(){
 
 
 
-  toCalender(){
+  toCalender(id){
+    localStorage.setItem('eventProjectId', id);
     this.router.navigate(['/ngCalender'])
   }
 
