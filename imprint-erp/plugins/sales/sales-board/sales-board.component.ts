@@ -235,6 +235,11 @@ public myInterval: any;
     )// list Custom Service Cat -end
 
 
+    this.myInterval = setInterval(()=>{
+      this.eventReminder();
+    }, 600000) // Ten minutes
+
+
   }// ngOnInit -end
 
 
@@ -760,6 +765,49 @@ drop(e){
   )
 }
 
+
+
+
+async eventReminder(){
+
+   this.Events.forEach((eventElement, index )=> {
+
+    
+
+    setTimeout(()=>{
+
+      this.Opportunitys.forEach((oppElement)=>{
+
+        if(eventElement.projectId === oppElement._id){
+
+              let now = new Date;
+              let then = new Date(eventElement.start)
+
+              let diffInMS = (then.getTime() - now.getTime())
+
+              let diffInHours = Math.ceil(diffInMS / (1000 * 3600))
+
+              if(diffInHours === 1){
+                this.notifyService.showWarning(eventElement.title +' : '+ oppElement.clientName, "This Hour Event")
+              }
+
+              if(diffInHours === 2){
+                this.notifyService.showWarning(eventElement.title +' : '+ oppElement.clientName, "Next Hour Event")
+              }
+
+              if( 13 > diffInHours && diffInHours > 2){
+                this.notifyService.showInfo(eventElement.title +' : '+ oppElement.clientName, "Up coming Event")
+              }
+        }
+
+      })
+
+   },6000 * index)
+
+    
+  });
+
+}
 
 
 

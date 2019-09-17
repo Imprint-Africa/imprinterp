@@ -177,8 +177,6 @@
     </div>
 
 
-  
-
 
 
 
@@ -218,9 +216,18 @@
             </div><!-- .card-icon-div -->
 
           </div><!-- .card-body-->
+          
 
               <div class="card-footer card-icon-div d-flex">
-                <h4 class="mr-auto">Activities <span *ngIf="Events">{{(Events | filterBy: {projectId: Opportunity._id }).length}}</span></h4>
+                <h4 class="mr-auto dropdown" data-toggle="dropdown" >Activities 
+                  <span *ngIf="Events">{{(Events | filterBy: {projectId: Opportunity._id }).length}}</span>
+
+                  <div class="dropdown-menu">
+                      <h4 *ngFor="let event of Events" [hidden]="event.projectId != Opportunity._id ">{{event.title}}</h4>
+                </div>
+
+                </h4>
+                
                 <h4 class="ml-auto schedule" (click)="toCalender(Opportunity._id)">Schedule</h4>
               </div>
               
