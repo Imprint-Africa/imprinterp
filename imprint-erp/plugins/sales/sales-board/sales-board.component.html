@@ -1,11 +1,20 @@
 <!-- Title -->
-<section id="title_section">
-  <h4>Sales</h4>
-  <p>Creates and lists Incoming Projects </p>
+<section id="title_section" class="d-flex">
+    <div class="col-4 head-wrap">
+        <h4>Sales</h4>
+        <p>Creates and lists Incoming Projects </p>
+    </div>
+
+    <div class="col-8 btn-wrap">
+      <button class="btn btn-sm btn-deals btn-info">Deals</button>
+      <button class="btn btn-sm btn-contacts btn-warning">Contacts</button>
+      <button class="btn btn-sm btn-companies btn-info">Companies</button>
+      <button class="btn btn-sm btn-products btn-success" (click)="toCalender()">Calender</button>
+
+    </div>
+    
 </section>
-
-
-
+  
 
 
 
@@ -45,7 +54,6 @@
                   </div>
 
                 </div>
-
 
                 <!-- Projects Type -->
                 <div class="form-group">
@@ -123,8 +131,48 @@
 
 
 
-<!-- List Section -->
-<section id="list_section" class="d-flex" *ngIf="UserSalesStages">
+
+<section class="navigation-section d-flex">
+
+
+  <div class="currentTitle-div">
+    <h4>Deals</h4>
+  </div>
+
+  <div class="search-div">
+      <div class="input-group input-group-sm">
+          <input type="text" class="form-control" placeholder="Search">
+
+          <div class="input-group-append">
+              <button class="input-group-text">
+                <fa name="search"></fa>
+              </button>
+          </div>
+      </div>
+      
+  </div>
+
+  <div class="nav-button-div">
+    <button class="btn btn-sm btn-outline-info">Kanban</button>
+    <button class="btn btn-sm btn-outline-info">List</button>
+    <button class="btn btn-sm btn-outline-info">Reports</button>
+    <button class="btn btn-sm btn-outline-info" (click)="eventReminder()">Events Reminder</button>
+    
+  </div>
+
+</section>
+
+
+
+
+
+
+
+
+
+
+<!-- kanban_section -->
+<section id="kanban_section" class="d-flex" *ngIf="UserSalesStages">
 
 
 
@@ -150,16 +198,16 @@
           <fa name="pencil"></fa>
         </button>
 
-        <button class="btn btn-sm ml-auto mr-2" *ngIf="UserSalesStage._id4" (click)="submitEditedStage(); UserSalesStage._id2 = false; UserSalesStage._id4 = false">
+        <button class="btn btn-sm ml-auto" *ngIf="UserSalesStage._id4" (click)="submitEditedStage(); UserSalesStage._id2 = false; UserSalesStage._id4 = false">
           <fa name="check"></fa>
         </button>
-
-        <button class="btn btn-sm ml-auto mr-2" *ngIf="UserSalesStage._id4" (click)="UserSalesStage._id2 = false; UserSalesStage._id4 = false">
-          <fa name="cross"></fa>
+        
+        <button class="btn btn-sm ml-auto " *ngIf="UserSalesStage._id4" (click)="UserSalesStage._id2 = false; UserSalesStage._id4 = false">
+          <fa name="times"></fa>
         </button>
 
         <button class="btn btn-sm ml-auto" *ngIf="UserSalesStage._id4">
-          <fa name="trash"></fa>
+          <fa name="trash" ></fa>
         </button>
         
         <button class="btn btn-sm ml-auto" *ngIf="!UserSalesStage._id2" (click)="addNewStageModal.show();">
@@ -228,7 +276,7 @@
 
                 </h4>
                 
-                <h4 class="ml-auto schedule" (click)="toCalender(Opportunity._id)">Schedule</h4>
+                <h4 class="ml-auto schedule" (click)="toScheduleActivity(Opportunity._id)">Schedule</h4>
               </div>
               
 
@@ -240,7 +288,7 @@
 </article>
 
 
-</section>
+</section> <!-- kanban_section-->
 
 
 
@@ -301,7 +349,7 @@
               formControlName="managerName" [class.is-invalid]="formManagerName.managerName.invalid && formManagerName.managerName.touched">
 
               <div class="input-group-append">
-                 <button [disabled]="!managerNameForm.valid" class="btn btn-sm" (click)="saveManagerName(); managerNameInput=!managerNameInput">Save</button>          
+                 <button [disabled]="!managerNameForm.valid" class="input-group-text btn btn-sm" (click)="saveManagerName(); managerNameInput=!managerNameInput">Save</button>          
               </div><!--input-group-append-->
             </div><!-- input-group -->
           </form>

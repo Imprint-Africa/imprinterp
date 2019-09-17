@@ -237,7 +237,7 @@ public myInterval: any;
 
     this.myInterval = setInterval(()=>{
       this.eventReminder();
-    }, 600000) // Ten minutes
+    }, 3600000) // On Hour
 
 
   }// ngOnInit -end
@@ -600,8 +600,11 @@ getUserSalesStages(){
 
 
 
+  toCalender(){
+    this.router.navigate(['/ngCalender'])
+  }
 
-  toCalender(id){
+  toScheduleActivity(id){
     localStorage.setItem('eventProjectId', id);
     this.router.navigate(['/ngCalender'])
   }
