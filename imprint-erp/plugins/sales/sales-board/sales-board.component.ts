@@ -540,22 +540,26 @@ getUserSalesStages(){
       clientData=>{
 
         if(clientData.email == ''){
-          this.mailToClientModal.hide();
+          // this.mailToClientModal.hide();
           this.notifyService.showWarning('Client has no mail', 'Warning!')
           setTimeout(()=>{
-            this.notifyService.showInfo('You might want to assigned and email', 'Info...')
+            this.notifyService.showInfo('You might want to assign an email', 'Info...')
           }, 3000)
         }
-        else{
-          this.mailToClientModal.show();
-          this.userService.getOneUser(localStorage.getItem('loggedUserID')).subscribe(
-            userData=>{
-              this.mailData = {
-                sender: userData.email,
-                reciever: clientData.email
-              }
-            }
-          )
+        else{   
+
+        let to = clientData.email;
+        window.location.href = "mailto:?to="+to;   
+
+          // this.mailToClientModal.show();
+          // this.userService.getOneUser(localStorage.getItem('loggedUserID')).subscribe(
+          //   userData=>{
+          //     this.mailData = {
+          //       sender: userData.email,
+          //       reciever: clientData.email
+          //     }
+          //   }
+          // )
         }
       }
     )
