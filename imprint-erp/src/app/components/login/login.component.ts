@@ -81,6 +81,7 @@ export class LoginComponent implements OnInit {
       
         window.localStorage.setItem("loggedUserToken", data.token);
         window.localStorage.setItem("loggedUserName", data.name);
+        window.localStorage.setItem("loggedUserEmail", data.email);
         window.localStorage.setItem("loggedUserID", data._id);
 
         

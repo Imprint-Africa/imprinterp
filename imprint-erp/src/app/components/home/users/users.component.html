@@ -9,7 +9,7 @@
 
 
 <section class="body-section d-flex">
-
+<ngx-spinner> <p>Loading...</p> </ngx-spinner>
 
 <article class="article-list col-md-8">
 
@@ -195,11 +195,12 @@
       <h4>Total users <span *ngIf="Users">{{Users.length}}</span></h4>
     </div>
 
-    <form class="form">
+    <form class="form" [formGroup]="inviteForm">
       <div class="form-group">
-        <input type="text" class="form-control">
+        <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+        formControlName="email"  [class.is-invalid]="formInvite.email.invalid && formInvite.email.touched" placeholder="Email">
       </div>
-      <button class="btn btn-sm">Invite</button>
+      <button [disabled]="!inviteForm.valid" class="btn btn-sm" (click)="inviteUser()">Invite</button>
     </form>
 
 

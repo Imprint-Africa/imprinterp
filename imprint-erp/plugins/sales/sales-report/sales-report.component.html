@@ -1,0 +1,200 @@
+<article class="main-article-wrap">
+
+<div class="style-section d-flex" [ngClass]="styleSectionStatus ? 'style-section d-flex' : 'style-section hide d-flex'">
+
+    <div class="col-2 style-div">
+        <div class="style-head">
+            <h4>Background Color</h4>
+        </div>
+        <div class="style-options">
+            <span class="badge bg-primary">.</span>
+            <span class="badge bg-info">.</span>
+            <span class="badge bg-warning">.</span>
+            <span class="badge bg-danger ">.</span>
+            <span class="badge bg-success"></span>
+            <span class="badge border border-info bg-light">.</span>
+            <span class="badge border border-info bg-secondary">.</span>
+        </div>
+    </div>
+
+    <div class="col-2 style-div">
+        <div class="style-head">
+            <h4>Area Color/Opacity</h4>
+        </div>
+        <div class="style-options">
+            <div>
+                <span class="badge bg-primary">.</span>
+                <span class="badge bg-warning">.</span>
+                <span class="badge bg-danger ">.</span>
+                <span class="badge bg-success"></span>
+                <span class="badge border border-info bg-light">.</span>
+                <span class="badge border border-info bg-secondary">.</span>
+            </div>
+
+            <div>
+                <div class="input-group">
+
+                    <div class="input-group-preppend">
+                        <h4 class="input-group-text">Opacity</h4>
+                    </div>
+                    <input type="number" min="0" max="1" step=".1" class="form-control form-control-sm" placeholder="">
+
+                </div>
+                
+            </div> 
+                
+        </div>
+    </div>
+
+    <div class="col-2 style-div">
+        <div class="style-head">
+            <h4>------</h4>
+        </div>
+        <div class="style-options">
+
+        </div>
+    </div>
+
+    <div class="col-2 style-div">
+        <div class="style-head">
+            <h4>------</h4>
+        </div>
+        <div class="style-options">
+
+        </div>
+    </div>
+    <div class="col-2 style-div">
+        <div class="style-head">
+            <h4>------</h4>
+        </div>
+        <div class="style-options">
+
+        </div>
+    </div>
+
+    <div class="col-2 style-div">
+        <div class="style-head">
+            <h4>------</h4>
+        </div>
+        <div class="style-options">
+
+        </div>
+    </div>
+
+</div>
+
+
+
+<section class="body-section d-flex">
+
+
+
+<div class="dataset-div col-2">
+
+    <h4>Datasets</h4>
+
+    <button class="btn btn-sm" (click)="setLabelGeneralsalesCategories()">GeneralPipeline</button>
+    <button class="btn btn-sm" (click)="setLabelCustomServices()">Services</button>
+    <button class="btn btn-sm" (click)="setLabelUserSalesStages()">Mypipeline</button>
+    <button class="btn btn-sm" (click)="setLabelClients()">Clients</button>
+
+    <h4>Metrics</h4>
+    <button class="btn btn-sm" (click)="setDatasetOpportunitys()">Opportunities</button>
+    <button class="btn btn-sm" (click)="setDatasetClientRevenue()">Revenue</button>
+    <button class="btn btn-sm" (click)="setDatasetTargetRevenue()">Target-Revenue</button>
+
+</div>
+
+<div class="visualize-div col-2">
+
+  <div class="set-div-wrap">
+    <h4>Horizontal</h4>
+    <div class="set">
+    </div>
+  </div>
+
+  <div class="set-div-wrap">
+    <h4>Vertical</h4>
+    <div class="set">
+
+    </div>
+  </div>
+
+  <div class="set-div-wrap">
+    <h4>Color By</h4>
+    <div class="set">
+
+    </div>
+  </div>
+
+  <div class="set-div-wrap">
+    <h4>Break</h4>
+    <div class="set">
+
+    </div>
+  </div>
+
+  <div class="set-div-wrap">
+    <h4>Size</h4>
+    <div class="set">
+
+    </div>
+  </div>
+
+  <div class="set-div-wrap">
+    <h4>Tooltip</h4>
+    <div class="set">
+
+    </div>
+  </div>
+
+</div>
+
+
+<div class="display-div col-6" [style.backgroundColor]="backgroundColor">
+
+    <canvas id="chart_canvas" *ngIf="chartType" baseChart class="chart"
+    [chartType]="chartType"
+    [labels]="chartLabels"
+    [datasets]="chartDatasets"
+    [options]="chartOptions"          
+    ></canvas>
+
+</div>
+
+
+<div class="gallary-div col-2">
+
+    
+    <div class="choose-color-div">
+        <button class="btn btn-sm btn-outline-info" (click)="styleSectionStatus=!styleSectionStatus">More Setting</button>
+    </div>
+
+    <div class="head-div">
+        <h4>Gallary</h4>
+    </div>
+
+    <div class="choose-chartType-div">
+
+        <button class="btn btn-sm" (click)="changeChartType('line')"><fa name="line-chart"></fa></button>
+        <button class="btn btn-sm" (click)="changeChartType('bar')"><fa name="bar-chart"></fa></button>
+        <button class="btn btn-sm" (click)="changeChartType('pie')"><fa name="pie-chart"></fa></button>
+        <button class="btn btn-sm" (click)="changeChartType('doughnut')"><fa name="area-chart"></fa></button>
+    
+    </div>
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+
+</article>

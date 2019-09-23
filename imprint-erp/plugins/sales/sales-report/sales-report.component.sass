@@ -1,0 +1,178 @@
+@import "src/styles.sass"
+
+    
+.main-article-wrap
+    border: solid 1px grayColor(g200)
+    border-radius: 5px
+    min-width: $desktop_md
+    height: 500px
+    background-color: grayColor(g100)
+    overflow-y: scroll
+    margin: 1em 0 0 0
+
+
+
+    
+.style-section
+    background-color: color(accent)
+    height: 10em
+    transition: 1s
+    -webkit-transition: 1s
+
+    &.hide
+        margin-bottom: -10em
+        opacity: 0
+
+
+    .style-div
+        border: solid 1px grayColor(g400)
+        border-radius: 0
+        padding: 0
+
+        .style-head
+            background-color: color(info)
+            padding: .5em
+            h4
+                font-size: 10px
+                font-family: Montserrat
+
+        .style-options
+            margin: .5em
+
+            span
+                margin: .3em
+                cursor: pointer
+                height: 1em
+                width: 1em
+                padding: 0
+                color: transparent
+                border-radius: 50%
+                box-shadow: 0 3px 3px rgba(0, 0, 0, .1)
+
+            .input-group
+                margin: .5em 0 0 0 
+
+                h4
+                    font-size: 10px
+                    font-family: Montserrat
+  
+
+                
+
+
+
+
+.body-section
+    height: 100%
+    width: 100%
+
+
+.body-section .dataset-div
+    height: 100%
+    width: 100%
+    border: solid 1px grayColor(g400)
+    border-radius: 5px
+    padding: .5em
+    display: flex
+    align-items: flex-start
+    flex-direction: column
+
+    h4
+        font-size: 12px
+        font-weight: bold
+        margin: .5em auto
+        color: brandColor(brandPrimary)
+    
+    button
+        font-size: 12px
+        width: 100%
+        margin: .5em auto
+        text-align: left
+
+        &:hover
+            border: solid 1px grayColor(g400)
+
+
+.body-section .visualize-div
+    height: 100%
+    width: 100%
+    border: solid 1px grayColor(g400)
+    border-radius: 5px
+    padding: .5em
+    display: flex
+    flex-direction: column
+    
+    .set-div-wrap
+        border: dashed 1px grayColor(g700)
+        // border-style: dotted
+        padding: .3em
+        background-color: white
+        margin: .5em 0 .5em 0
+        height: 5em
+        width: 100%
+
+        h4
+            font-size: 8px
+            font-family: Montserrat
+        
+        .set
+
+
+.body-section .display-div
+    height: 100%
+    width: 100%
+    // background-color: brandColor(brandInfo)
+    border: solid 1px darken(brandColor(brandInfo),15%)
+    border-radius: 5px
+    padding: .5em
+
+    canvas
+        max-width: 100%
+        max-height: 100%
+        margin: 0
+        background-color: transparent
+
+.body-section .gallary-div
+    height: 100%
+    width: 100%
+    border: solid 1px grayColor(g400)
+    border-radius: 5px
+    padding: .5em
+    text-align: center
+
+    .choose-color-div .btn 
+        font-size: 12px
+        font-family: Montserrat
+        margin: 0 0 .5em 0
+
+    .head-div
+        margin: 0 0 .5em 0
+        h4
+            font-size: 12px
+            font-family: Montserrat
+
+
+    .choose-chartType-div
+        display: flex
+        flex-direction: column
+
+        .btn
+            margin: .3em
+            border: solid 1px gray
+
+            fa[name=line-chart]
+                color: color(primary)
+                font-size: 14px
+            fa[name=bar-chart]
+                color: color(info)
+                font-size: 14px
+
+            fa[name=pie-chart]
+                color: color(warning)
+                font-size: 14px
+            fa[name=area-chart]
+                color: color(success)
+                font-size: 14px
+
+
+

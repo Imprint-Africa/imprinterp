@@ -26,6 +26,10 @@ header = new HttpHeaders().set(
   'Authorization', `Bearer ${window.localStorage.getItem("loggedUserToken")}`
 );
 
+registrationHeader = new HttpHeaders().set(
+  'Authorization', `Bearer ${window.localStorage.getItem("invitedUserToken")}`
+);
+
 
   constructor( private http: HttpClient ) { this.socket = io(this._urlGetEmit)  }
 
@@ -36,9 +40,12 @@ loginUser( loginData: User ) {
 
 
 registerUser( registrationData : User ) {
-  return this.http.post<any>(this._url + "register", registrationData, {headers : this.header})
+  return this.http.post<any>(this._url + "register", registrationData, {headers : this.registrationHeader})
 }
 
+inviteUser(inviteData: any){
+  return this.http.post<any>(this._url + "invite", inviteData, {headers : this.header})
+}
 
 listUsers() {
   return Observable.create((observer) =>{

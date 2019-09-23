@@ -153,9 +153,15 @@
   </div>
 
   <div class="nav-button-div">
-    <button class="btn btn-sm btn-outline-info">Kanban</button>
-    <button class="btn btn-sm btn-outline-info">List</button>
-    <button class="btn btn-sm btn-outline-info">Reports</button>
+    <button [ngClass]="kanbanSectionStatus ? 'btn btn-sm btn-warning' : 'btn btn-sm btn-outline-info'" 
+    (click)="kanbanSectionStatus=true; listSectionStatus=false; reportSectionStatus=false">Kanban</button>
+
+    <button [ngClass]="listSectionStatus ? 'btn btn-sm btn-warning' : 'btn btn-sm btn-outline-info'"
+    (click)="kanbanSectionStatus=false; listSectionStatus=true; reportSectionStatus=false">List</button>
+
+    <button [ngClass]="reportSectionStatus ? 'btn btn-sm btn-warning' : 'btn btn-sm btn-outline-info'"
+    (click)="kanbanSectionStatus=false; listSectionStatus=false; reportSectionStatus=true">Reports</button>
+
     <button class="btn btn-sm btn-outline-info" (click)="eventReminder()">Events Reminder</button>
     
   </div>
@@ -171,8 +177,9 @@
 
 
 
+
 <!-- kanban_section -->
-<section id="kanban_section" class="d-flex" *ngIf="UserSalesStages">
+<section id="kanban_section" class="d-flex" *ngIf="kanbanSectionStatus">
 
 
 
@@ -206,7 +213,7 @@
           <fa name="times"></fa>
         </button>
 
-        <button class="btn btn-sm ml-auto" *ngIf="UserSalesStage._id4">
+        <button class="btn btn-sm ml-auto" (click)="deleteUserSalesStage(UserSalesStage._id)" *ngIf="UserSalesStage._id4">
           <fa name="trash" ></fa>
         </button>
         
@@ -217,7 +224,7 @@
     </div>
     
     <div id="totals" class="clearfix text-center">
-      <h4 class="">$:<span>{{UserSalesStage.totalRevenue}}</span></h4>
+      <h4 class="">KSH:<span>{{UserSalesStage.totalRevenue}}</span></h4>
     </div>
 
     <div id="add_deal_div" class="clearfix text-center">
@@ -246,7 +253,7 @@
             <div class="card-info-div">
               <h4  class="clientN" (click)="seeClient(Opportunity.clientName); clientDetailModal.show()">{{ Opportunity.clientName}}</h4>
               <h4  class="projectN">{{ Opportunity.projectName}}</h4>
-              <h4  class="cost">$: {{ Opportunity.cost}}</h4>
+              <h4  class="cost">KSH: {{ Opportunity.cost}}</h4>
 
               <div  class="rateWarp clearfix">
                   <fa class="rate1" name="star" [ngClass]="Opportunity.priority >= '1' ? 'rateColor' : ''"></fa>
@@ -289,6 +296,47 @@
 
 
 </section> <!-- kanban_section-->
+
+
+
+
+
+
+
+
+<section class="list-section" *ngIf="listSectionStatus">
+
+ <div class="list-title">
+  
+  <div class="list-title-wrap"><h4>Client</h4></div>
+
+  <div class="list-title-wrap"><h4>Project</h4></div>
+
+  <div class="list-title-wrap"><h4>Stage</h4></div>
+
+  <div class="list-title-wrap"><h4>Revenue</h4></div>
+
+ </div>
+
+
+ <div class="list-item" *ngFor="let Opportunity of Opportunitys" [id]="Opportunity._id">
+
+  <div class="list-item-wrap"><h4>{{Opportunity.clientName}}</h4></div>
+
+  <div class="list-item-wrap"><h4>{{Opportunity.projectName}}</h4></div>
+
+  <div class="list-item-wrap"><h4>{{Opportunity.projectStatus}}</h4></div>
+
+  <div class="list-item-wrap"><h4>{{Opportunity.cost}}</h4></div>
+
+ </div>
+
+
+</section>
+
+
+
+
 
 
 
@@ -484,6 +532,40 @@
     </div><!-- /.modal-dialog -->
   </div><!-- /.modal -->
   
+
+
+
+
+<section [ngClass]="cardBeingDraged ? 'generate-sales-categories' : 'generate-sales-categories hide'">
+
+<div class="" *ngFor="let SalesCategory of SalesCategorys" [id]="SalesCategory._id"
+(dragover)="allowDrop($event)" (drop)="drop($event)"
+(dragenter)="highlightcategory($event)"
+[ngClass]="salesCatHoveredOnDrag === SalesCategory._id ? 'gen-category-div bg-success' : 'gen-category-div'" >
+
+  <h4 [id]="SalesCategory._id">{{SalesCategory.name}}</h4>
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+<section class="report-section" *ngIf="reportSectionStatus">
+
+
+
+  <router-outlet></router-outlet>
+
+
+</section>
+
+
 
 
 

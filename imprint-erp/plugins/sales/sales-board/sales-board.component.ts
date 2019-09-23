@@ -88,6 +88,8 @@ public mailData: any = [];
 
 public myInterval: any;
 
+public kanbanSectionStatus: boolean;
+
 
 
 
@@ -95,6 +97,8 @@ public myInterval: any;
   ngOnInit() {
 
     window.localStorage.setItem('ActiveNav', 'sales');
+
+    this.kanbanSectionStatus=true
 
     this.salesCategoryService.getAllSalesCategories().subscribe(
       data=>{
@@ -117,7 +121,7 @@ public myInterval: any;
       error=>{
         console.log('Cannot get all Opp projects')
       }
-    )// list opp Cat -end
+    )// get opp Cat -end
 
     this.customService.getAllServices().subscribe(
       data=>{
@@ -126,7 +130,7 @@ public myInterval: any;
       error=>{
         console.log('Cannot get all custom Service')
       }
-    )// list Custom Service Cat -end
+    )// get Custom Service Cat -end
 
 
     this.calenderEventService.getAllCalenderEvent().subscribe(
@@ -548,18 +552,13 @@ getUserSalesStages(){
         }
         else{   
 
-        let to = clientData.email;
-        window.location.href = "mailto:?to="+to;   
-
-          // this.mailToClientModal.show();
-          // this.userService.getOneUser(localStorage.getItem('loggedUserID')).subscribe(
-          //   userData=>{
-          //     this.mailData = {
-          //       sender: userData.email,
-          //       reciever: clientData.email
-          //     }
-          //   }
-          // )
+        // let to = clientData.email;
+        // window.location.href = "mailto:?to="+to;   
+          this.mailToClientModal.show();
+            this.mailData = {
+              sender: localStorage.getItem("loggedUserEmail"),
+              reciever: clientData.email
+            }
         }
       }
     )
@@ -578,7 +577,8 @@ getUserSalesStages(){
     this.clientService.sendMail(dataToBeSent).subscribe(
       data=>{
         this.spinnerServcice.spinStop()
-        this.notifyService.showSuccess('Mail Sent', 'Success')
+        this.notifyService.showSuccess('Mail Sent', 'Success');
+        this.mailToClientModal.hide();
       },
       error=>{
         this.spinnerServcice.spinStop()
@@ -678,6 +678,16 @@ getUserSalesStages(){
 
 
 
+  deleteUserSalesStage(id){
+    this.userSalesStageService.deleteStage(id).subscribe(
+      data=>{this.notifyService.showSuccess('Stage Deleted', 'Success'); this.getUserSalesStages();},
+      error=>{this.notifyService.showError('NOT Deleted', 'Failed')}
+    )
+
+  }
+
+
+
 
   clearNewClientForm(){
     this.clientInput.nativeElement.value = ''; 
@@ -725,52 +735,55 @@ drop(e){
   let CardId = e.dataTransfer.getData('text');
   let TargetId = e.target.id
 
-  // Get Target Info
-  this.userSalesStageService.getOneStage(TargetId).subscribe(
-    data=>{
+  this.UserSalesStages.forEach((stage)=>{
+    return stage._id === TargetId ? this.switchStage(CardId, stage) : '';
+  })
   
-      this.Opportunitys.forEach(opp=>{
-        if(opp._id === CardId){
-            
-          if(opp.projectStatus != data.name){
-           
-            let updateData = {
-                  projectStatus: data.name
-                }
-          
-                // Update
-                this.salesService.updateOppProject(CardId, updateData).subscribe(
-                  data=>{
+  this.SalesCategorys.forEach((stage)=>{
+    return stage._id === TargetId ? this.switchStage(CardId, stage) : '';
+  })
 
-                    this.cardBeingDraged = null;
-                    this.notifyService.showSuccess("Card Moved", "Success")
-                    setTimeout(() => {
-                      this.UpdateSalesCategories();
-                      this.UpdateUsersSalesStages();
-                    }, 1000);
-              
-                  },
-                  error=>{
-                    this.cardBeingDraged = null;
-                    this.notifyService.showError("Card did not move", "Error !")
-                  }
-                )
-                  
-          }
-
-        }
-
-      })
-
-
-
-      // ---
-    },
-    error=>{
-      console.log('Droped on the Wrong Place')
-    }
-  )
 }
+
+
+
+switchStage(CardId, data){
+
+  this.Opportunitys.forEach(opp=>{
+    if(opp._id === CardId){
+        
+      if(opp.projectStatus != data.name){
+       
+        let updateData = {
+              projectStatus: data.name
+            }
+      
+            // Update
+            this.salesService.updateOppProject(CardId, updateData).subscribe(
+              data=>{
+
+                this.cardBeingDraged = null;
+                this.notifyService.showSuccess("Card Moved", "Success")
+                setTimeout(() => {
+                  this.UpdateSalesCategories();
+                  this.UpdateUsersSalesStages();
+                }, 1000);
+          
+              },
+              error=>{
+                this.cardBeingDraged = null;
+                this.notifyService.showError("Card did not move", "Error !")
+              }
+            )
+              
+      }
+
+    }
+
+  })
+
+}
+
 
 
 

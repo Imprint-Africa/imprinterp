@@ -1,9 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
+import {ActivatedRoute, Router, ParamMap} from "@angular/router";
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { TeamsService } from 'src/app/shared/services/teams.service';
 import { UserService } from 'src/app/shared/services/user.service';
+import { SpinnerService } from 'src/app/shared/services/spinner.service';
 
 
 @Component({
@@ -21,7 +22,8 @@ export class RegisterComponent implements OnInit {
     private router: Router,
     private userService: UserService,
     private teamService: TeamsService,
-    private notifyService: NotificationService
+    private notifyService: NotificationService,
+    private spinnerServcice: SpinnerService
   ) {}
 
 
@@ -36,7 +38,8 @@ export class RegisterComponent implements OnInit {
   public hidePasswordIcon : boolean;
   public isDisabled: boolean;
   public Teams: any = [];
-
+  public InvitedEmail: any; 
+  public InvitedToken: any; 
 
 
 
@@ -76,21 +79,26 @@ export class RegisterComponent implements OnInit {
       }
     )
 
-    
-
-
+    this.route.paramMap.subscribe((params: ParamMap)=>{
+      this.InvitedEmail = params.get('email');
+      this.InvitedToken = params.get('token');
+      window.localStorage.setItem('invitedUserToken', params.get('token'))
+    })
 
     this.registrationForm=this.formBuilder.group({
 
       name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      role: ['', Validators.required],
+      email: this.InvitedEmail,
+      role: ['user', Validators.required],
       department: ['', Validators.required],
       password: ['', [Validators.required, Validators.minLength(4)]],
 
     });
+
+
     
-  }
+    
+  }// ngOnInit
 
    // conveniently get the values from the form fields
    get form() {return this.registrationForm.controls;}
@@ -102,8 +110,6 @@ export class RegisterComponent implements OnInit {
   // Form Submit Function
   onSubmit(){
 
-
-
     this.submitted=true;
     // stop here if the form is invalid
     if(this.registrationForm.invalid){
@@ -112,15 +118,39 @@ export class RegisterComponent implements OnInit {
 
     this.isDisabled = true;
 
+    this.spinnerServcice.spinStart()
+    // console.log(this.registrationForm.value)
+
     this.userService.registerUser(this.registrationForm.value).subscribe(
 
         data => { 
+            this.spinnerServcice.spinStop();
             this.notifyService.showSuccess(`User ${data.name} has been added`, "Success")
             this.formValues.resetForm(); 
             this.isDisabled = false;
+
+            // login
+            setTimeout(()=>{
+
+              window.localStorage.setItem("loggedUserToken", data.token);
+              window.localStorage.setItem("loggedUserName", data.name);
+              window.localStorage.setItem("loggedUserEmail", data.email);
+              window.localStorage.setItem("loggedUserID", data._id);
+      
+              
+              return  data.role === "admin" ? 
+                          (window.localStorage.setItem("permissionStatus", 'isAdmin') , this.router.navigate(['/dashboard'])):
+      
+                      data.role === "manager" ?
+                          (window.localStorage.setItem("permissionStatus", 'isManager') , this.router.navigate(['/dashboard'])):
+      
+                          (window.localStorage.setItem("permissionStatus", 'isUser') , this.router.navigate(['/projects']));
+
+            },2000)
             
         },
         error=>{ 
+            this.spinnerServcice.spinStop();
             this.notifyService.showError(error.error.msg, "Failed...")
             this.isDisabled = false;
            
@@ -147,5 +177,8 @@ export class RegisterComponent implements OnInit {
     this.togglePassword= "password";
   }
 
+  ngOnDestroy(){
+    localStorage.removeItem('invitedUserToken')
+  }
 
 }

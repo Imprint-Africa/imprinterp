@@ -18,12 +18,13 @@ import { FilterPipeModule } from 'ngx-filter-pipe';
 // components
 import { SalesBoardComponent } from './sales-board/sales-board.component';
 import { SalesEditComponent } from './sales-edit/sales-edit.component';
+import { SalesReportComponent } from './sales-report/sales-report.component';
 
 
 @NgModule({
 
 declarations: [
-    SalesBoardComponent, SalesEditComponent
+    SalesBoardComponent, SalesEditComponent, SalesReportComponent
         ],
 
   imports: [
@@ -47,7 +48,7 @@ declarations: [
       preventDuplicates: false,
     })
   ],
-  entryComponents: [SalesBoardComponent, SalesEditComponent]
+  entryComponents: [SalesBoardComponent, SalesEditComponent, SalesReportComponent]
 })
 export class SalesModule {}
 

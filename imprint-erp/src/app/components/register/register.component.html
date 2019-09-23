@@ -1,7 +1,8 @@
                             
 <section class="body_section">
+<ngx-spinner> <p>Loading...</p> </ngx-spinner>
 
-  <form #myForm='ngForm' [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="form">
+  <form #myForm='ngForm' [formGroup]="registrationForm" (ngSubmit)="onSubmit()" class="form" *ngIf="InvitedEmail">
 
 
         <div class="form-title">
@@ -36,38 +37,7 @@
 
 
 
-
-    <!-- Role -->
-    <div class="form-group">
-        
-            <div class="input-group input-group-sm mb-3">
-    
-                    <div class="input-group-prepend">
-                      <span class="input-group-text" id="inputGroup-sizing-sm"><fa name="address-card"></fa></span>
-                    </div>
-    
-                    <select aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-                    formControlName="role" class="form-control" [class.is-invalid]="form.role.invalid && form.role.touched" required>
-    
-                            <option id="selectPlaceholder" value="" disabled selected hidden >Role</option>
-                            <option value="user">Normal User</option>
-                            <option value="manager">Manager</option>
-                            <option value="admin">Admin</option>
-                    
-                    </select>   
-                        
-                    <div *ngIf="submitted && form.role.errors" class="invalid-feedback">
-                        <div *ngIf="form.role.errors.required"> Role is required</div>
-                    </div>
-            </div>
-    
-    
-    
-    
-        </div>
-    
-    
-    
+  
     
         <!-- Department -->
         <div class="form-group">
@@ -110,7 +80,7 @@
                 </div>
 
                 <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-                formControlName="email"  [class.is-invalid]="form.email.invalid && form.email.touched" placeholder="Email">
+                formControlName="email"  [class.is-invalid]="form.email.invalid && form.email.touched" value="InvitedEmail" placeholder="Email" readonly>
 
                 <div *ngIf="submitted && form.email.errors" class="invalid-feedback">
                         <div *ngIf="form.email.errors.required">Email is Required</div>   
@@ -153,7 +123,7 @@
         </div>
 
         <div class="btn-wrap">
-                <button type="submit" [disabled]="isDisabled" class="btn btn-sm btn-button-theme">Register</button>
+                <button type="submit"  [disabled]="!registrationForm.valid" class="btn btn-sm btn-button-theme">Register</button>
         </div>
   </form>
 

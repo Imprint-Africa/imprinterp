@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { faProjectDiagram, faUsers, faEdit, faShoppingCart, faDollarSign } from '@fortawesome/free-solid-svg-icons';
+import { faProjectDiagram, faUsers, faEdit, faShoppingCart, faDollarSign, faChartLine } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home',
@@ -26,6 +26,7 @@ public faUsers = faUsers;
 public faEdit = faEdit;
 public faShoppingCart = faShoppingCart;
 public faDollarSign = faDollarSign;
+public faChartLine = faChartLine;
 
 
 // Variables

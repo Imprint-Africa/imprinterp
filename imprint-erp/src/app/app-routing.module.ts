@@ -25,7 +25,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
 
   // Register
-  { path: 'register', component: RegisterComponent },
+  { path: 'register/:email/:token', component: RegisterComponent },
 
    // Users
   { path: 'users', component: HomeComponent, canActivate: [AuthGuard],

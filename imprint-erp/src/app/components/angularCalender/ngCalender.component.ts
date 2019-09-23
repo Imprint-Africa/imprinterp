@@ -36,6 +36,8 @@ import { UserService } from 'src/app/shared/services/user.service';
   
     public activeDayIsOpen: boolean;
     public calenderSectionStatus: boolean;
+
+    public myInterval;
   
 
 
@@ -53,6 +55,8 @@ import { UserService } from 'src/app/shared/services/user.service';
 
             return true
           }).map(e=>{return e});
+
+
       },
         error=>{console.log("cannot get all calender events on init")}
       )
@@ -87,6 +91,11 @@ import { UserService } from 'src/app/shared/services/user.service';
           console.log('Error listing Users')
         }
       )
+
+      this.myInterval = setInterval(()=>{
+        this.removePastEvent();
+      }, 3600000) // On Hour 3600000
+      
 
     }// ngOnInit
 
@@ -224,8 +233,28 @@ import { UserService } from 'src/app/shared/services/user.service';
     }
 
 
+    removePastEvent(){
+  
+      this.events.forEach(eventElement => {
+        let now = new Date;
+        let then = new Date(eventElement.end)
+
+        let diffInMS = (now.getTime() - then.getTime())
+
+        let diffInHours = Math.ceil(diffInMS / (1000 * 3600))
+
+        if (diffInHours > 24){
+          this.deleteEvent(eventElement)
+        }
+
+      });
+
+    }
+
+
     ngOnDestroy(){
-      localStorage.removeItem('eventProjectId')
+      localStorage.removeItem('eventProjectId');
+      clearInterval(this.myInterval);
     }
 
 

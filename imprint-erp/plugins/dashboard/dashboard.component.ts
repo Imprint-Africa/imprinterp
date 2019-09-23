@@ -123,9 +123,6 @@ public targetsOptions: any;
           error=>console.log('Error Getting SalesCategories')
           );
 
-    
-    
-
   }
 
 

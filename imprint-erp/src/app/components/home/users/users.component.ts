@@ -4,6 +4,7 @@ import { ModalDirective } from 'ngx-bootstrap/modal';
 import {FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { UserService } from 'src/app/shared/services/user.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
+import { SpinnerService } from 'src/app/shared/services/spinner.service';
 
 
 @Component({
@@ -20,7 +21,8 @@ export class UsersComponent implements OnInit {
     private router : Router,
     private formBuilder: FormBuilder,
     private userService : UserService,
-    private notifyService: NotificationService
+    private notifyService: NotificationService,
+    private spinnerServcice: SpinnerService
   ) { }
 
 
@@ -33,6 +35,7 @@ export class UsersComponent implements OnInit {
   public editNameForm: FormGroup;
   public editRoleForm: FormGroup;
   public editPasswordForm: FormGroup;
+  public inviteForm: FormGroup;
 
   public Users: Array<any>;
   public UserToBeEdited;
@@ -85,6 +88,10 @@ export class UsersComponent implements OnInit {
     this.editPasswordForm=this.formBuilder.group({
       password: ['', [Validators.required, Validators.minLength(4)]]
     })
+
+    this.inviteForm=this.formBuilder.group({
+      email: ['', [Validators.required, Validators.email]],
+    })
   
   }// ngOnInit()
 
@@ -93,6 +100,7 @@ export class UsersComponent implements OnInit {
   get formEditName(){ return this.editNameForm.controls;}
   get formEditRole(){ return this.editRoleForm.controls;}
   get formEditPassword(){ return this.editPasswordForm.controls;}
+  get formInvite(){ return this.inviteForm.controls;}
 
 
 
@@ -170,6 +178,27 @@ export class UsersComponent implements OnInit {
       },
       error=>{
         this.notifyService.showError('No Changes', 'Error');
+      }
+    )
+  }
+
+
+  inviteUser(){
+    this.spinnerServcice.spinStart();
+    let dataToBeSent = {
+      sender: localStorage.getItem("loggedUserEmail"),
+      reciever: this.inviteForm.value.email,
+      token: localStorage.getItem("loggedUserToken")
+    }
+    // console.log(dataToBeSent)
+    this.userService.inviteUser(dataToBeSent).subscribe(
+      data=>{
+        this.notifyService.showSuccess('Invitation Sent', 'Success');
+        this.spinnerServcice.spinStop();
+      },
+      error=>{
+        this.notifyService.showError('Not Sent', 'Error');
+        this.spinnerServcice.spinStop();
       }
     )
   }
