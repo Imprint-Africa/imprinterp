@@ -6,10 +6,10 @@
     </div>
 
     <div class="col-8 btn-wrap">
-      <button class="btn btn-sm btn-deals btn-info">Deals</button>
-      <button class="btn btn-sm btn-contacts btn-warning">Contacts</button>
-      <button class="btn btn-sm btn-companies btn-info">Companies</button>
-      <button class="btn btn-sm btn-products btn-success" (click)="toCalender()">Calender</button>
+      <button class="btn btn-sm btn-deals btn-outline-info">Deals</button>
+      <button class="btn btn-sm btn-contacts btn-outline-info">Clients</button>
+      <button class="btn btn-sm btn-companies btn-outline-info" (click)="listNoteModal.show()">Notes</button>
+      <button class="btn btn-sm btn-products btn-outline-info" (click)="toCalender()">Calender</button>
 
     </div>
     
@@ -266,6 +266,7 @@
             <div class="card-icon-div">
               <button class="btn btn-sm" (click)="mailFunction(Opportunity.clientName)"><fa name="envelope"></fa></button>
               <button class="btn btn-sm" (click)="spinToggle()"><fa name="phone"></fa></button>
+              <button class="btn btn-sm" (click)="writeAnote(Opportunity._id, Opportunity.clientName)"><fa name="book"></fa></button>
               <button class="btn btn-sm" (click)="toSalesEdit(Opportunity._id)"><fa name="pencil"></fa></button>
 
             </div><!-- .card-icon-div -->
@@ -487,7 +488,7 @@
     <div class="modal-dialog mailToClientModal modal-md" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Composing Mail To <span></span> </h4>
+          <h4 class="modal-title">Composing Mail To <span *ngIf="mailData">{{mailData.client}}</span> </h4>
           <button type="button" class="btn close" (click)="mailToClientModal.hide()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -517,10 +518,6 @@
                 formControlName="message" [class.is-invalid]="formSendMail.message.invalid && formSendMail.message.touched"></textarea>
 
               </div>
-
-
-
-
             </form>
   
         </div>
@@ -535,7 +532,7 @@
 
 
 
-
+<!-- 
 <section [ngClass]="cardBeingDraged ? 'generate-sales-categories' : 'generate-sales-categories hide'">
 
 <div class="" *ngFor="let SalesCategory of SalesCategorys" [id]="SalesCategory._id"
@@ -549,7 +546,119 @@
 
 
 
-</section>
+</section> -->
+
+
+
+
+
+
+<div bsModal #writeNoteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog writeNoteModal modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Composing Note About <span *ngIf="noteWriten">{{noteWriten.name}}</span> </h4>
+        <button type="button" class="btn close" (click)="writeNoteModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <form [formGroup]="writeNoteForm">
+
+            <div class="title">
+                <label for="">Title</label>
+                <input type="text" class="form-control form-control-sm"
+                formControlName="title" [class.is-invalid]="formWriteNote.title.invalid && formWriteNote.title.touched">
+            </div>
+
+            <div class="content">
+                <label for="">Content</label>
+                <textarea name="" id="" cols="30" rows="10"
+                formControlName="content" [class.is-invalid]="formWriteNote.content.invalid && formWriteNote.content.touched"></textarea>
+            </div>
+          </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-cancel" (click)="writeNoteModal.hide()">Cancel</button>
+        <button type="button" [disabled]="!writeNoteForm.valid" class="btn btn-confirm" (click)="submitNote();">Save</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+
+
+
+<div bsModal #listNoteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog listNoteModal modal-lg" role="document" *ngIf="SalesNotes">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">List of Notes</h4>
+        <button type="button" class="btn close" (click)="listNoteModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="head-div d-flex">
+          <h4>Title</h4>
+          <h4>Content</h4>
+          <h4>Written By</h4>
+
+        </div>
+
+        <div class="list-div d-flex" *ngFor="let note of SalesNotes" (click)="openNote(note._id);">
+          <h4 class="title">{{note.title}}</h4>
+          <h4 class="content">{{note.content}}</h4>
+          <h4 class="writtenBy">{{note.createdBy}}</h4>
+        </div> 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-close" (click)="listNoteModal.hide()">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
+
+
+
+<div bsModal #detailNoteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog detailNoteModal modal-lg" role="document" *ngIf="noteOpened">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Note Details</h4>
+        <button type="button" class="btn close" (click)="detailNoteModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="head-div">
+          <h4>{{noteOpened.title}}</h4>
+        </div>
+
+        <div class="content-div">
+          {{noteOpened.content}}
+        </div>
+
+        <blockquote class="blockquote">
+          <footer class="blockquote-footer">written by {{noteOpened.createdBy}} <span>{{noteOpened.createdAt | date:'medium' }}</span>  </footer>
+        </blockquote>
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-close" (click)="detailNoteModal.hide()">Close</button>
+        <button type="button" class="btn btn-edit" >Edit</button>
+        <button type="button" class="btn btn-delete" (click)="deleteNote(noteOpened._id);">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
 
 
 
@@ -557,12 +666,7 @@
 
 
 <section class="report-section" *ngIf="reportSectionStatus">
-
-
-
   <router-outlet></router-outlet>
-
-
 </section>
 
 

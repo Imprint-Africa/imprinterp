@@ -8,9 +8,10 @@ import { SalesCategoryService } from 'src/app/shared/services/sales-category.ser
 import { CustomaryService } from 'src/app/shared/services/customary.service';
 import { UserSalesStagesService } from 'src/app/shared/services/user-sales-stages.service';
 import { ClientService } from 'src/app/shared/services/client.service';
-import { UserService } from 'src/app/shared/services/user.service';
 import { SpinnerService } from 'src/app/shared/services/spinner.service';
 import { CalenderEventService } from 'src/app/shared/services/calenderEvent.service';
+import { SalesNoteService } from 'src/app/shared/services/sales-note.service';
+
 
 
 @Component({
@@ -30,9 +31,10 @@ export class SalesBoardComponent implements OnInit {
     private userSalesStageService: UserSalesStagesService,
     private customService: CustomaryService,
     private clientService: ClientService,
-    private userService: UserService,
+    private salesNoteService: SalesNoteService,
     private calenderEventService: CalenderEventService,
-    private spinnerServcice: SpinnerService
+    private spinnerServcice: SpinnerService,
+    
   ) { }
 
 
@@ -40,26 +42,29 @@ export class SalesBoardComponent implements OnInit {
 // Modal
 @ViewChild('addNewClientModal') public addNewClientModal: ModalDirective;
 @ViewChild('mailToClientModal') public mailToClientModal: ModalDirective;
+@ViewChild('writeNoteModal') public writeNoteModal: ModalDirective;
+@ViewChild('detailNoteModal') public detailNoteModal: ModalDirective;
+
 
 // Variables
-  @ViewChild('myNewOppForm') myNewOppFormValues;
-  @ViewChild('clientInput') clientInput: ElementRef
+@ViewChild('myNewOppForm') myNewOppFormValues;
+@ViewChild('clientInput') clientInput: ElementRef
 
 
-  
-  public newOppForm: FormGroup;
-  public newStageForm: FormGroup;
-  public changeStageNameForm: FormGroup;
-  public managerNameForm: FormGroup;
-  public phoneForm: FormGroup;
-  public altPhoneForm: FormGroup;
-  public emailForm: FormGroup;
-  public websiteForm: FormGroup;
-  public sendMailForm: FormGroup;
 
+public newOppForm: FormGroup;
+public newStageForm: FormGroup;
+public changeStageNameForm: FormGroup;
+public managerNameForm: FormGroup;
+public phoneForm: FormGroup;
+public altPhoneForm: FormGroup;
+public emailForm: FormGroup;
+public websiteForm: FormGroup;
+public sendMailForm: FormGroup;
+public writeNoteForm: FormGroup;
 
-  @Input() listIndex: number;
-  @Input() cardIndex: number;
+@Input() listIndex: number;
+@Input() cardIndex: number;
 
 
 // Status
@@ -70,27 +75,24 @@ public cardBeingDraged: any;
 
 
 
-
-
-
 // Binded Variables
 public SalesCategorys: any = [];
 public UserSalesStages: any = [];
-public Opportunitys: any = []; // the spelling is intentional
+public Opportunitys: any = [];
 public Projects: any = [];
 public Events: any = []; 
 public ProjectStatusToNewOpp: string;
 public idStageToBeEdited: any;
 public Tasks: any = [];
+public SalesNotes: any = [];
 
 public ClientOppened: any = [];
 public mailData: any = [];
-
 public myInterval: any;
-
 public kanbanSectionStatus: boolean;
-
-
+public noteWriten: any;
+public noteOpened: any;
+public files;
 
 
 
@@ -140,15 +142,12 @@ public kanbanSectionStatus: boolean;
       error=>{console.log("cannot get all calender events on init")}
     )// getAllCalenderEvent
 
-
-    this.calenderEventService.listCalenderEvent().subscribe(
+    this.salesNoteService.getAllNotes().subscribe(
       data=>{
-        this.Events = data;
+        this.SalesNotes = data;
       },
-      error=>{console.log("cannot get all calender events on init")}
-    )// listCalenderEvent
-
-
+      error=>{console.log("cannot get calender Sales Notes on init")}
+    )// list Sales Note
 
 
 
@@ -208,6 +207,14 @@ public kanbanSectionStatus: boolean;
       message: ['', Validators.required]
     })
 
+    this.writeNoteForm=this.formBuilder.group({
+      title: ['', Validators.required],
+      content: ['', Validators.required],
+      createdAt: [null],
+      createdBy: [localStorage.getItem('loggedUserName')],
+
+    })
+
     
 
     this.salesCategoryService.listSalesCategory().subscribe(
@@ -238,6 +245,22 @@ public kanbanSectionStatus: boolean;
       }
     )// list Custom Service Cat -end
 
+    
+    this.calenderEventService.listCalenderEvent().subscribe(
+      data=>{
+        this.Events = data;
+      },
+      error=>{console.log("cannot list calender events on init")}
+    )// listCalenderEvent
+
+    this.salesNoteService.listNotes().subscribe(
+      data=>{
+        this.SalesNotes = data;
+      },
+      error=>{console.log("cannot list calender Sales Notes on init")}
+    )// list Sales Note
+
+
 
     this.myInterval = setInterval(()=>{
       this.eventReminder();
@@ -260,7 +283,7 @@ public kanbanSectionStatus: boolean;
  get formEmail() {return this.emailForm.controls;}
  get formWebsite() {return this.websiteForm.controls;}
  get formSendMail() {return this.sendMailForm.controls;}
-
+ get formWriteNote() {return this.writeNoteForm.controls;}
 
 
 
@@ -280,8 +303,9 @@ getUserSalesStages(){
       if( data.length === 0 ){        
 
               let stage1 = { name: 'new leads', totalLeads: null, totalRevenue: null, userId: localStorage.getItem('loggedUserID') };
-              let stage2 = { name: 'proposed leads', totalLeads: null, totalRevenue: null, userId: localStorage.getItem('loggedUserID') };
-              let stage3 = { name: 'qualified leads', totalLeads: null, totalRevenue: null, userId: localStorage.getItem('loggedUserID') }           
+              let stage2 = { name: 'prospects', totalLeads: null, totalRevenue: null, userId: localStorage.getItem('loggedUserID') };
+              let stage3 = { name: 'qualified leads', totalLeads: null, totalRevenue: null, userId: localStorage.getItem('loggedUserID') };   
+              let stage4 = { name: 'customers', totalLeads: null, totalRevenue: null, userId: localStorage.getItem('loggedUserID') };         
 
               this.userSalesStageService.createStage(stage1).subscribe(
                 data=>{
@@ -291,10 +315,16 @@ getUserSalesStages(){
                       this.userSalesStageService.createStage(stage3).subscribe(
                         data=>{
 
-                          this.notifyService.showInfo('Defaults stages has been created.', 'Info');
-                          
-                          this.getUserSalesStages();
-
+                          this.userSalesStageService.createStage(stage4).subscribe(
+                            data=>{
+    
+                              this.notifyService.showInfo('Defaults stages has been created.', 'Info');
+                              
+                              this.getUserSalesStages();
+    
+                            },
+                            error=>{ console.log('Errror')}
+                          )
                         },
                         error=>{ console.log('Errror')}
                       )
@@ -542,7 +572,6 @@ getUserSalesStages(){
 
     this.clientService.getOneByName(client).subscribe(
       clientData=>{
-
         if(clientData.email == ''){
           // this.mailToClientModal.hide();
           this.notifyService.showWarning('Client has no mail', 'Warning!')
@@ -557,7 +586,8 @@ getUserSalesStages(){
           this.mailToClientModal.show();
             this.mailData = {
               sender: localStorage.getItem("loggedUserEmail"),
-              reciever: clientData.email
+              reciever: clientData.email,
+              client: clientData.companyName
             }
         }
       }
@@ -823,13 +853,72 @@ async eventReminder(){
       })
 
    },6000 * index)
-
-    
+ 
   });
 
 }
 
 
+writeAnote(id, name){
+  this.noteWriten = {
+    id: id,
+    name: name
+  };
+  this.writeNoteModal.show();
+
+}
+
+
+
+
+submitNote(){
+  let dataToBeSent = {
+    title: this.writeNoteForm.value.title,
+    content: this.writeNoteForm.value.content,
+    projectId: this.noteWriten.id,
+    createdAt: new Date(),
+    createdBy: this.writeNoteForm.value.createdBy,
+  }
+
+  // console.log(dataToBeSent)
+  this.salesNoteService.createNote(dataToBeSent).subscribe(
+    data=>{
+      this.notifyService.showSuccess('Note Saved', 'Success')
+      this.writeNoteModal.hide();
+      this.files;
+    },
+    error=>{
+      this.notifyService.showError('Did Not Save', 'Error')
+    }
+  )
+}
+
+
+openNote(id){
+  this.salesNoteService.getOneNote(id).subscribe(
+    data=>{
+      this.noteOpened = data;
+      this.detailNoteModal.show();
+    },
+    error=>{
+      this.notifyService.showError('Could Not Open', 'Error')
+      console.log(error);
+    }
+  )
+}
+
+deleteNote(id){
+  this.salesNoteService.deleteNote(id).subscribe(
+    data=>{
+      this.detailNoteModal.hide();
+      this.notifyService.showSuccess('Note Deleted', "Success")
+    },
+    error=>{
+      this.notifyService.showError('No changed', "error")
+    }
+  )
+
+}
 
 ngOnDestroy(){
   clearInterval(this.myInterval);

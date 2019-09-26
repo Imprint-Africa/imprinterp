@@ -39,6 +39,7 @@ import { UserSalesStagesService } from './shared/services/user-sales-stages.serv
 import { ClientService } from './shared/services/client.service';
 import { SpinnerService } from './shared/services/spinner.service';
 import { CalenderEventService } from './shared/services/calenderEvent.service';
+import { SalesNoteService } from './shared/services/sales-note.service';
 
 // Modules
 import { ProjectsSharedModule } from 'plugins/projects/projects.module';
@@ -94,7 +95,7 @@ import { ngCalenderComponent } from './components/angularCalender/ngCalender.com
 
   ],
   providers: [NotificationService, AuthGuard, UserService, SalesService, TeamsService, CustomaryService,
-              SalesCategoryService, ProjectsService, UserSalesStagesService, ClientService, SpinnerService, CalenderEventService ],
+              SalesCategoryService, ProjectsService, UserSalesStagesService, ClientService, SpinnerService, CalenderEventService, SalesNoteService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

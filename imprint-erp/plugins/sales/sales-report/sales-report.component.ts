@@ -2,8 +2,8 @@ import { Component, Input, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { faDiceD6, faNetworkWired} from '@fortawesome/free-solid-svg-icons';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
-import { faChartLine, faChartBar, faChartPie, faChartArea } from '@fortawesome/free-solid-svg-icons';
 
 import { SalesService } from 'src/app/shared/services/sales.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
@@ -39,6 +39,10 @@ export class SalesReportComponent implements OnInit {
     private spinnerServcice: SpinnerService
   ) { }
 
+public faDiceD6 = faDiceD6;
+public faNetworkWired = faNetworkWired;
+
+
 // data Variables
 public SalesCategorys: Array<any>
 public UserSalesStages: Array<any>
@@ -66,18 +70,33 @@ public labelTeams: Array<any>
 
 // DataSet Variables
 public datasetTargetRevenue;
-public datasetServiceRevenue;
-public datasetClientRevenue;
+public datasetRevenue;
 public datasetOpportunitys;
 // public labelCustomServices: Array<any>
 // public labelTeams: Array<any>
 
 
 // Chart Data Bind
+// Chart Data Bind
 public backgroundColor: string;
+public areaColor: string;
+public areaOpacity: number;
+public lineColor: string;
+public pointBorderColor: string;
+public displayX: boolean;
+public stackedX: boolean;
+public dispayGridLinesX: boolean
+public displayY: boolean;
+public stackedY: boolean;
+public dispayGridLinesY: boolean;
+public displayLegend: boolean;
+public legendPosition: string;
+public legendColor: string;
+
 public chartTypeValue: string;
 public chartLablesValue: any;
-public chartDatasetValue: any;
+public chartDatasetValue: any = [];
+
 
 
 
@@ -101,32 +120,6 @@ public brandLight= '#f0f3f5';
 public brandDark= '#2f353a';
 
 
-// Sales Chart Variables
-public salesType: string;
-public salesLabels: Array<any>;
-public salesDatasets: Array<any>;
-public salesOptions: any;
-
-
-// Revenue Chart Variables
-public revenueType: string;
-public revenueLabels: Array<any>;
-public revenueDatasets: Array<any>;
-public revenueOptions: any;
-
-// Clients Chart Variables
-public clientsType: string;
-public clientsLabels: Array<any>;
-public clientsDatasets: Array<any>;
-public clientsOptions: any;
-
-// Clients Chart Variables
-public targetsType: string;
-public targetsLabels: Array<any>;
-public targetsDatasets: Array<any>;
-public targetsOptions: any;
-
-
 
 ngOnInit() {
 
@@ -142,17 +135,35 @@ ngOnInit() {
                         this.userSalesStageService.getUserStages(localStorage.getItem('loggedUserID')).subscribe(
                             userSalesstagesData=>{
                                 this.UserSalesStages = userSalesstagesData;
-                                this.settingData()
                                 
-                                this.backgroundColor = this.brandInfo;
-                                this.chartTypeValue = 'line';
-                                this.chartLablesValue = this.labelClients;
-                                this.chartDatasetValue = this.datasetClientRevenue;
-
-                                this.chartFunction();
-    
                                 this.TotalExpectedRevenue = this.Opportunitys.reduce(function(previous, current){ return previous + current.cost}, 0)
-
+                                
+                                this.areaColor = this.brandInfo;
+                                this.areaOpacity = 50;
+                                this.lineColor = this.brandLight;
+                                this.pointBorderColor = this.brandDark;
+                            
+                                this.settingData().then(()=>{
+                                  this.chartTypeValue = 'line'
+                                  this.backgroundColor = this.brandLight;
+                                  this.chartLablesValue = this.labelCustomServices;
+                                  this.chartDatasetValue = [ ...this.chartDatasetValue, this.datasetOpportunitys ];
+                                  this.displayX = true;
+                                  this.stackedX = false;
+                                  this.dispayGridLinesX = false;
+                                  this.displayY = true;
+                                  this.stackedY = false;
+                                  this.dispayGridLinesY = true;
+                                  this.displayLegend = false;
+                                  this.legendPosition = 'top';
+                                  this.legendColor = this.brandDark;
+                            
+                                  // console.log(this.chartDatasetValue)
+                                  this.chartFunction();
+                                }).catch(()=>{
+                                  console.log('error in settingData function')
+                                })
+    
                             }, 
                             error=>{
                                 console.log('Error Getting User sales stages')
@@ -174,9 +185,8 @@ ngOnInit() {
 
 
   settingData(){
-
+    return new Promise((resolve, reject)=>{
     // Chart Lables
-    this.labelGeneralsalesCategories = this.SalesCategorys.filter(()=>{return true}).map((e)=>{return e.name});
     this.labelUserSalesStages = this.UserSalesStages.filter(()=>{return true}).map((e)=>{return e.name});
 
 
@@ -186,31 +196,31 @@ ngOnInit() {
 
 
     let ourTargetRevenueData = this.CustomServices.filter(()=>{return true}).map((e)=>{return e.targetRevenue});
-    this.datasetTargetRevenue = [{
+    this.datasetTargetRevenue = {
         label: 'Target Rev',
         data: ourTargetRevenueData,
-        backgroundColor: hexToRgba(getStyle('--info'), 70),
-        borderColor: getStyle('--dark'),
+        backgroundColor: hexToRgba(this.areaColor, this.areaOpacity),
+        borderColor: this.lineColor,
         borderWidth: 1,
         pointBackgroundColor: 'transparent',
         pointHoverBackgroundColor: 'transparent',
-        pointBorderColor: getStyle('--primary'),
+        pointBorderColor: this.pointBorderColor,
         pointHoverBorderColor: getStyle('--dark')
-      }]
+      }
 
 
-    this.datasetOpportunitys = [{
+    this.datasetOpportunitys = {
         label: 'Opportunty',
         data: this.UserSalesStages.filter(()=>{return true}).map((e)=>{return e.totalLeads}),
-        backgroundColor: 'transparent',
-        borderColor: 'white',
-        borderWidth: 0.5,
+        backgroundColor: hexToRgba(this.areaColor, this.areaOpacity),
+        borderColor: this.lineColor,
+        borderWidth: 1,
         pointBackgroundColor: 'transparent',
         pointHoverBackgroundColor: 'transparent',
-        pointBorderColor: 'white',
+        pointBorderColor: this.pointBorderColor,
         pointHoverBorderColor: getStyle('--dark')
       
-    }]
+    }
 
 
     let serviceData = []; 
@@ -224,40 +234,23 @@ ngOnInit() {
       serviceData.push(getTotalRevenue);
     });
       
-    this.datasetServiceRevenue = [{
+    this.datasetRevenue = {
         label: 'Revenue',
         data: serviceData,
-        backgroundColor: 'transparent',
-        borderColor: 'white',
-        borderWidth: 0.5,
+        backgroundColor: hexToRgba(this.areaColor, this.areaOpacity),
+        borderColor: this.lineColor,
+        borderWidth: 1,
         pointBackgroundColor: 'transparent',
         pointHoverBackgroundColor: 'transparent',
-        pointBorderColor: 'white',
+        pointBorderColor: this.pointBorderColor,
         pointHoverBorderColor: getStyle('--dark')
-      }];
+      };
 
 
-    let clientData = [];  
-    this.labelClients.forEach(client=>{
-        let getOpps = this.Opportunitys.filter(project=>{
-            return project.clientName === client ? true : false
-        }).map(e=>{return e});
-    
-        let getTotalRevenue = getOpps.reduce(function(previous, current){ return previous + current.cost}, 0)
-    
-        clientData.push(getTotalRevenue);
-    });
-           
-    this.datasetClientRevenue = [{
-        label: 'Revenue',
-        data: clientData,
-        backgroundColor: 'rgba(255,255,255,.2)',
-        borderColor: 'white',
-        borderWidth: 0.5,
-        hoverBackgroundColor: 'rgba(255,255,255,.2)',
-        hoverBorderColor: getStyle('--dark')
-        }];
 
+    resolve()
+
+  })// 
 
   }// 
 
@@ -276,7 +269,7 @@ ngOnInit() {
     this.chartLabels = this.chartLablesValue;
     
     this.chartDatasets = this.chartDatasetValue;
-    
+
     this.chartOptions = { 
       title:{
         display: false,
@@ -284,10 +277,10 @@ ngOnInit() {
         fontSize: 25
       },
       legend: {
-        display: false,
-        position: 'right',
+        display: this.displayLegend,
+        position: this.legendPosition,
         labels: {
-              fontColor: '#00e676'
+              fontColor: this.legendColor
             }
       },
       layout: {
@@ -298,11 +291,11 @@ ngOnInit() {
       },
       scales: {
         yAxes: [{
-            display: true,
-            stacked: true,
+            display: this.displayY,
+            stacked: this.stackedY,
             gridLines: {
                 drawBorder: true,
-                display: true
+                display: this.dispayGridLinesY
             },
             
             ticks: {
@@ -310,11 +303,11 @@ ngOnInit() {
             }
         }],
         xAxes: [{
-            display: true,
-            stacked: true,
+            display: this.displayX,
+            stacked: this.stackedX,
             gridLines: {
                 drawBorder: true,
-                display: false
+                display: this.dispayGridLinesX
             },
             ticks: {
               beginAtZero: false
@@ -343,44 +336,147 @@ ngOnInit() {
         this.chartTypeValue = chartType
         this.chartFunction();
     }
-    setLabelGeneralsalesCategories(){
-        this.chartLablesValue = this.labelGeneralsalesCategories;
-        this.chartFunction();
-    }
-    setLabelUserSalesStages(){
-        this.chartLablesValue = this.labelUserSalesStages;
-        this.chartFunction();
-    }
-    setLabelClients(){
-        this.chartLablesValue = this.labelClients;
-        this.chartFunction();
-    }
-    setLabelCustomServices(){
-        this.chartLablesValue = this.labelCustomServices;
-        this.chartFunction();
-    }
-
-    setDatasetTargetRevenue(){
-        this.chartDatasetValue = this.datasetTargetRevenue;
-        this.chartFunction();
-    }
-
-    setDatasetOpportunitys(){
-        this.chartDatasetValue = this.datasetOpportunitys;
-        this.chartFunction();
-    }
-
-    setDatasetClientRevenue(){
-        this.chartDatasetValue = this.datasetClientRevenue;
-        this.chartFunction();
-    }
-
-    // setDatasetServiceRevenue(){
-    //     this.chartDatasetValue = this.datasetServiceRevenue;
+    // setLabelGeneralsalesCategories(){
+    //     this.chartLablesValue = this.labelGeneralsalesCategories;
+    //     this.chartFunction();
+    // }
+    // setLabelUserSalesStages(){
+    //     this.chartLablesValue = this.labelUserSalesStages;
+    //     this.chartFunction();
+    // }
+    // setLabelClients(){
+    //     this.chartLablesValue = this.labelClients;
+    //     this.chartFunction();
+    // }
+    // setLabelCustomServices(){
+    //     this.chartLablesValue = this.labelCustomServices;
     //     this.chartFunction();
     // }
 
+    // setDatasetTargetRevenue(){
+    //     this.chartDatasetValue = this.datasetTargetRevenue;
+    //     this.chartFunction();
+    // }
+
+    // setDatasetOpportunitys(){
+    //     this.chartDatasetValue = this.datasetOpportunitys;
+    //     this.chartFunction();
+    // }
+
+
+    // changeChartType(chartType){
+    //   this.chartTypeValue = chartType
+    //   this.chartFunction();
+  // }
+
+  // Labels
+  setLabelCustomServices(){    
+      this.chartLablesValue = this.labelCustomServices;
+      this.chartFunction();
+  }
+
+  setLabelUserSalesStages(){
+    this.chartLablesValue = this.labelUserSalesStages;
+      this.chartFunction();
+  }
+
+  setLabelClients(){
+    this.chartLablesValue = this.labelClients;
+      this.chartFunction();
+  }
+
+  // Dataset
+  setDatasetOpportunitys(){
+    return this.chartDatasetValue.indexOf(this.datasetOpportunitys) === -1 ? 
+        (this.chartDatasetValue = [ ...this.chartDatasetValue, this.datasetOpportunitys ], this.chartFunction()) : ''
+  }
+
+  setDatasetRevenue(){
+    return this.chartDatasetValue.indexOf(this.datasetRevenue) === -1 ? 
+        (this.chartDatasetValue = [ ...this.chartDatasetValue, this.datasetRevenue ], this.chartFunction()) : ''
+  }
+
+  setDatasetTargetRevenue(){
+    return this.chartDatasetValue.indexOf(this.datasetTargetRevenue) === -1 ? 
+      (this.chartDatasetValue = [ ...this.chartDatasetValue, this.datasetTargetRevenue ], this.chartFunction()) : ''
+  }
+  
+
+  removeDatasetOpportunitys(){
+    this.chartDatasetValue = this.chartDatasetValue.filter(element => element !== this.datasetOpportunitys); this.chartFunction();
+  }
+  
+  removeDatasetRevenue(){
+    this.chartDatasetValue = this.chartDatasetValue.filter(element => element !== this.datasetRevenue), this.chartFunction();
+  }
+
+  removeDatasetTargetRevenue(){  
+  this.chartDatasetValue = this.chartDatasetValue.filter(element => element !== this.datasetRevenue), this.chartFunction();
+  }
+
+  removeAllDataSets(){
+    this.chartDatasetValue = []; this.chartFunction(); 
+  }
+
   
   
+  // Styling Functions
+  bgToPrimary(){this.backgroundColor=this.brandPrimary;}
+  bgToInfo(){this.backgroundColor=this.brandInfo;}
+  bgToWarning(){this.backgroundColor=this.brandWarning;}
+  bgToSuccess(){this.backgroundColor=this.brandSuccess;}
+  bgToDanger(){this.backgroundColor=this.brandDanger;}
+  bgToLight(){this.backgroundColor=this.brandLight;}
+  bgToSecondary(){this.backgroundColor=this.brandSecondary;}
+
+  areaToPrimary(){this.areaColor=this.brandPrimary; this.settingData().then(()=>{} )};
+  areaToInfo(){ this.areaColor=this.brandInfo;  this.settingData().then(()=>{} )};
+  areaToWarning(){this.areaColor=this.brandWarning;  this.settingData().then(()=>{} )};
+  areaToSuccess(){this.areaColor=this.brandSuccess;  this.settingData().then(()=> {} )}
+  areaToDanger(){this.areaColor=this.brandDanger; this.settingData().then(()=> {} )}
+  areaToLight(){this.areaColor=this.brandLight; this.settingData().then(()=>{})}
+  areaToSecondary(){this.areaColor=this.brandSecondary; this.settingData().then(()=> {})}
+
+  areaOpacityChanged(){ this.settingData().then(()=>{this.chartFunction()})}
+
+  lineToPrimary(){this.lineColor=this.colorPrimary; this.settingData().then(()=>{}) };
+  lineToInfo(){ this.lineColor=this.colorInfo;  this.settingData().then(()=>{} )};
+  lineToWarning(){this.lineColor=this.brandWarning;  this.settingData().then(()=>{})}
+  lineToSuccess(){this.lineColor=this.brandSuccess;  this.settingData().then(()=>{})}
+  lineToDanger(){this.lineColor=this.brandDanger; this.settingData().then(()=>{})}
+  lineToLight(){this.lineColor=this.brandLight; this.settingData().then(()=>{})}
+  lineToSecondary(){this.lineColor=this.brandSecondary; this.settingData().then(()=>{})}
+  
+  pointToPrimary(){this.pointBorderColor=this.colorPrimary; this.settingData().then(()=>{})}
+  pointToInfo(){ this.pointBorderColor=this.colorInfo;  this.settingData().then(()=>{})}
+  pointToWarning(){this.pointBorderColor=this.brandWarning;  this.settingData().then(()=>{})}
+  pointToSuccess(){this.pointBorderColor=this.brandSuccess;  this.settingData().then(()=> {})}
+  pointToDanger(){this.pointBorderColor=this.brandDanger; this.settingData().then(()=> {})}
+  pointToLight(){this.pointBorderColor=this.brandLight; this.settingData().then(()=>{})}
+  pointToSecondary(){this.pointBorderColor=this.brandSecondary; this.settingData().then(()=>{})}
+
+  displayYaxis(){ this.displayY = !this.displayY; this.chartFunction()}
+  stackedYaxis(){ this.stackedY = !this.stackedY ; this.chartFunction()}
+  linegridYaxis(){ this.dispayGridLinesY= !this.dispayGridLinesY; this.chartFunction()}
+
+  displayXaxis(){this.displayX = !this.displayX; this.chartFunction()}
+  stackedXaxis(){ this.stackedX = !this.stackedX ; this.chartFunction()}
+  linegridXaxis(){this.dispayGridLinesY = !this.dispayGridLinesY ; this.chartFunction()}
+
+  displayLegendFunction(){this.displayLegend = !this.displayLegend ; this.chartFunction()}
+  displayLegendTop(){this.legendPosition = 'top'; this.chartFunction()}
+  displayLegendRight(){this.legendPosition = 'right'; this.chartFunction()}
+  displayLegendBottom(){this.legendPosition = 'bottom'; this.chartFunction()}
+  displayLegendLeft(){this.legendPosition = 'left'; this.chartFunction()}
+
+  legendToPrimary(){this.legendColor = this.brandPrimary; this.chartFunction}
+  legendToInfo(){this.legendColor = this.brandInfo; this.chartFunction}
+  legendToWarning(){this.legendColor = this.brandWarning; this.chartFunction}
+  legendToSuccess(){this.legendColor = this.brandSuccess; this.chartFunction}
+  legendToDanger(){this.legendColor = this.brandDanger; this.chartFunction}
+  legendToLight(){this.legendColor = this.brandLight; this.chartFunction}
+  legendToSecondary(){this.legendColor = this.brandSecondary; this.chartFunction}
+
+
   
 }// End of Class SalesReportComponent

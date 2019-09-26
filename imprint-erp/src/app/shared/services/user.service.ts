@@ -5,11 +5,9 @@ import { Observable } from 'rxjs';
 import { User } from "../models/user";
 
 
-
 @Injectable({
   providedIn: 'root'
 })
-
 
 
 export class UserService {
@@ -19,7 +17,6 @@ _url: string = "http://localhost:3000/api/user/";
 _urlGetEmit: string = "http://127.0.0.1:3000/";
 
 private socket;
-
 
 
 header = new HttpHeaders().set(
@@ -43,9 +40,11 @@ registerUser( registrationData : User ) {
   return this.http.post<any>(this._url + "register", registrationData, {headers : this.registrationHeader})
 }
 
+
 inviteUser(inviteData: any){
   return this.http.post<any>(this._url + "invite", inviteData, {headers : this.header})
 }
+
 
 listUsers() {
   return Observable.create((observer) =>{
@@ -74,8 +73,6 @@ updateUsers(id, data: any) {
 deleteUser(id) {
   return this.http.delete<any>(this._url + "delete/" + id, {headers : this.header})
 }
-
-
 
 
 //

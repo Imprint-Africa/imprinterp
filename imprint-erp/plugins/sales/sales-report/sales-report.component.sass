@@ -13,14 +13,15 @@
 
 
     
+   
 .style-section
     background-color: color(accent)
-    height: 10em
+    height: 8em
     transition: 1s
     -webkit-transition: 1s
 
     &.hide
-        margin-bottom: -10em
+        margin-bottom: -8em
         opacity: 0
 
 
@@ -31,13 +32,16 @@
 
         .style-head
             background-color: color(info)
-            padding: .5em
+            padding: .1em .5em .1em .5em  
             h4
                 font-size: 10px
                 font-family: Montserrat
+                color: white
 
         .style-options
             margin: .5em
+            display: flex
+            flex-direction: column
 
             span
                 margin: .3em
@@ -49,25 +53,38 @@
                 border-radius: 50%
                 box-shadow: 0 3px 3px rgba(0, 0, 0, .1)
 
+            .btn
+                font-size: 10px
+                padding: .2em
+                font-family: Montserrat
+
             .input-group
                 margin: .5em 0 0 0 
 
-                h4
+                label
+                    font-size: 12px
+                    margin: 0 .5em 0 0 
+
+
+                input
                     font-size: 10px
                     font-family: Montserrat
-  
+                    border: solid 1px grayColor(g100)
+
+                    &:focus
+                      border: solid 1px grayColor(g100)
 
                 
 
 
 
 
-.body-section
+.graph-section
     height: 100%
     width: 100%
 
 
-.body-section .dataset-div
+.graph-section .dataset-div
     height: 100%
     width: 100%
     border: solid 1px grayColor(g400)
@@ -77,14 +94,27 @@
     align-items: flex-start
     flex-direction: column
 
-    h4
-        font-size: 12px
-        font-weight: bold
-        margin: .5em auto
-        color: brandColor(brandPrimary)
-    
+    // h4
+    //     padding: .1em 1em .1em 1em
+    //     margin: 0
+    //     width: 100%
+    //     text-align: left
+    //     font-size: 12px
+    //     font-weight: bold
+    //     margin: .1em auto
+    //     color: brandColor(brandPrimary)
+
+    //     fa-icon.faDiceD6   
+    //         font-size: 12px
+    //         color: brandColor(brandSuccess)
+
+    //     fa-icon.faNetworkWired
+    //         font-size: 10px
+    //         color: saddlebrown
+
     button
-        font-size: 12px
+        padding: .5em 1em .5em 1em
+        font-size: 10px
         width: 100%
         margin: .5em auto
         text-align: left
@@ -92,8 +122,25 @@
         &:hover
             border: solid 1px grayColor(g400)
 
+        fa-icon.faDiceD6     
+            font-size: 12px
+            color: brandColor(brandSuccess)
 
-.body-section .visualize-div
+        fa-icon.faNetworkWired
+            font-size: 10px
+            color: saddlebrown
+
+    fa[name=eraser]
+        color: grayColor(g700)
+        cursor: pointer
+        font-size: 10px
+
+        &:hover
+            color: color(primary)
+
+
+
+.graph-section .visualize-div
     height: 100%
     width: 100%
     border: solid 1px grayColor(g400)
@@ -118,7 +165,7 @@
         .set
 
 
-.body-section .display-div
+.graph-section .display-div
     height: 100%
     width: 100%
     // background-color: brandColor(brandInfo)
@@ -132,7 +179,7 @@
         margin: 0
         background-color: transparent
 
-.body-section .gallary-div
+.graph-section .gallary-div
     height: 100%
     width: 100%
     border: solid 1px grayColor(g400)

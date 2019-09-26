@@ -18,16 +18,11 @@ _urlGetEmit: string = "http://127.0.0.1:3000/";
 private socket;
 
 
-
 header = new HttpHeaders().set(
   'Authorization', `Bearer ${window.localStorage.getItem("loggedUserToken")}`
 );
 
-
-
   constructor( private http: HttpClient ) { this.socket = io(this._urlGetEmit)  }
-
-
 
 
 addOppProject( oppProjectsData : oppProject ) {
@@ -44,7 +39,6 @@ listOppProject() {
 }
 
 
-
 getAllOppProject() {
   return this.http.get<any>(this._url + "getAll/", {headers : this.header})
 }
@@ -55,13 +49,9 @@ getOppProject(id) {
 }
 
 
-
-
 updateOppProject(id, data: any) {
   return this.http.put<any>(this._url + "update/" + id, data, {headers : this.header})
 }
-
-
 
 
 deleteOppProject(id) {

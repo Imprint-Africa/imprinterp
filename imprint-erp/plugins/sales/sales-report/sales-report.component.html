@@ -2,109 +2,164 @@
 
 <div class="style-section d-flex" [ngClass]="styleSectionStatus ? 'style-section d-flex' : 'style-section hide d-flex'">
 
-    <div class="col-2 style-div">
-        <div class="style-head">
-            <h4>Background Color</h4>
-        </div>
-        <div class="style-options">
-            <span class="badge bg-primary">.</span>
-            <span class="badge bg-info">.</span>
-            <span class="badge bg-warning">.</span>
-            <span class="badge bg-danger ">.</span>
-            <span class="badge bg-success"></span>
-            <span class="badge border border-info bg-light">.</span>
-            <span class="badge border border-info bg-secondary">.</span>
-        </div>
-    </div>
-
-    <div class="col-2 style-div">
-        <div class="style-head">
-            <h4>Area Color/Opacity</h4>
-        </div>
-        <div class="style-options">
-            <div>
-                <span class="badge bg-primary">.</span>
-                <span class="badge bg-warning">.</span>
-                <span class="badge bg-danger ">.</span>
-                <span class="badge bg-success"></span>
-                <span class="badge border border-info bg-light">.</span>
-                <span class="badge border border-info bg-secondary">.</span>
-            </div>
-
-            <div>
-                <div class="input-group">
-
-                    <div class="input-group-preppend">
-                        <h4 class="input-group-text">Opacity</h4>
-                    </div>
-                    <input type="number" min="0" max="1" step=".1" class="form-control form-control-sm" placeholder="">
-
+        <div class="col-2 style-div">
+                <div class="style-head">
+                    <h4>Background Color</h4>
                 </div>
-                
-            </div> 
-                
-        </div>
-    </div>
-
-    <div class="col-2 style-div">
-        <div class="style-head">
-            <h4>------</h4>
-        </div>
-        <div class="style-options">
-
-        </div>
-    </div>
-
-    <div class="col-2 style-div">
-        <div class="style-head">
-            <h4>------</h4>
-        </div>
-        <div class="style-options">
-
-        </div>
-    </div>
-    <div class="col-2 style-div">
-        <div class="style-head">
-            <h4>------</h4>
-        </div>
-        <div class="style-options">
-
-        </div>
-    </div>
-
-    <div class="col-2 style-div">
-        <div class="style-head">
-            <h4>------</h4>
-        </div>
-        <div class="style-options">
-
-        </div>
-    </div>
+                <div class="style-options">
+                  <div class="w-100">
+                    <span class="badge bg-primary" (click)="bgToPrimary()">.</span>
+                    <span class="badge bg-info" (click)="bgToInfo()">.</span>
+                    <span class="badge bg-warning" (click)="bgToWarning()">.</span>
+                    <span class="badge bg-danger" (click)="bgToDanger()">.</span>
+                    <span class="badge bg-success" (click)="bgToSuccess()">.</span>
+                    <span class="badge border border-info bg-light" (click)="bgToLight()">.</span>
+                    <span class="badge border border-info bg-secondary" (click)="bgToSecondary()">.</span>
+                  </div>
+                </div>
+            </div>
+        
+            <div class="col-2 style-div">
+                <div class="style-head">
+                    <h4>Area Color/Opacity</h4>
+                </div>
+                <div class="style-options">
+                    <div class="w-100">
+                      <span class="badge bg-primary" (click)="areaToPrimary()">.</span>
+                      <span class="badge bg-info" (click)="areaToInfo()">.</span>
+                      <span class="badge bg-warning" (click)="areaToWarning()">.</span>
+                      <span class="badge bg-danger" (click)="areaToDanger()">.</span>
+                      <span class="badge bg-success" (click)="areaToSuccess()">.</span>
+                      <span class="badge border border-info bg-light" (click)="areaToLight()">.</span>
+                      <span class="badge border border-info bg-secondary" (click)="areaToSecondary()">.</span>
+                    </div>
+        
+                    <div>
+                        <div class="input-group d-flex">
+        
+                            <label for="">Opacity</label>
+                            <input type="number" [(ngModel)]="areaOpacity" (change)="areaOpacityChanged()" min="0" max="100" step="10" class="form-control form-control-sm" placeholder="">
+        
+                        </div>
+                        
+                    </div> 
+                        
+                </div>
+            </div>
+        
+            <div class="col-2 style-div">
+                <div class="style-head">
+                    <h4>Line/Point</h4>
+                </div>
+                <div class="style-options">
+                  <div class="w-100">
+                      <span class="badge bg-primary" (click)="lineToPrimary()">.</span>
+                      <span class="badge bg-info" (click)="lineToInfo()">.</span>
+                      <span class="badge bg-warning" (click)="lineToWarning()">.</span>
+                      <span class="badge bg-danger" (click)="lineToDanger()">.</span>
+                      <span class="badge bg-success" (click)="lineToSuccess()">.</span>
+                      <span class="badge border border-info bg-light" (click)="lineToLight()">.</span>
+                      <span class="badge border border-info bg-secondary" (click)="lineToSecondary()">.</span>
+                  </div>
+      
+                  <div class="w-100 ">
+                    <span class="badge bg-primary" (click)="pointToPrimary()">.</span>
+                    <span class="badge bg-info" (click)="pointToInfo()">.</span>
+                    <span class="badge bg-warning" (click)="pointToWarning()">.</span>
+                    <span class="badge bg-danger" (click)="pointToDanger()">.</span>
+                    <span class="badge bg-success" (click)="pointToSuccess()">.</span>
+                    <span class="badge border border-info bg-light" (click)="pointToLight()">.</span>
+                    <span class="badge border border-info bg-secondary" (click)="pointToSecondary()">.</span>
+                  </div>
+                </div>
+            </div>
+        
+            <div class="col-2 style-div">
+                <div class="style-head">
+                    <h4>Y-axis</h4>
+                </div>
+                <div class="style-options">
+                    <button class="btn btn-sm btn-outline-primary" (click)="displayYaxis()">Display</button>
+                    <button class="btn btn-sm btn-outline-warning" (click)="stackedYaxis()">Stacked</button>
+                    <button class="btn btn-sm btn-outline-success" (click)="linegridYaxis()">LineGrid</button>
+                </div>
+            </div>
+            <div class="col-2 style-div">
+                <div class="style-head">
+                    <h4>X-axis</h4>
+                </div>
+                <div class="style-options">
+                    <button class="btn btn-sm btn-outline-primary"(click)="displayXaxis()">Display</button>
+                    <button class="btn btn-sm btn-outline-warning"(click)="stackedXaxis()">Stacked</button>
+                    <button class="btn btn-sm btn-outline-success"(click)="linegridXaxis()">LineGrid</button>
+                </div>
+            </div>
+        
+            <div class="col-2 style-div">
+                <div class="style-head">
+                    <h4>Legend</h4>
+                </div>
+                <div class="style-options">
+                  <button class="btn btn-sm btn-outline-primary" (click)="displayLegendFunction()">Display</button>
+                  <div class="w-100">
+                    <span class="badge text-info" (click)="displayLegendTop()">T</span>
+                    <span class="badge text-info"(click)="displayLegendRight()">R</span>
+                    <span class="badge text-info"(click)="displayLegendBottom()">B</span>
+                    <span class="badge text-info"(click)="displayLegendLeft()">L</span>
+                  </div>
+                  <div class="w-100">
+                    <span class="badge bg-primary" (click)="legendToPrimary()">.</span>
+                    <span class="badge bg-info" (click)="legendToInfo()">.</span>
+                    <span class="badge bg-warning" (click)="legendToWarning()">.</span>
+                    <span class="badge bg-danger" (click)="legendToDanger()">.</span>
+                    <span class="badge bg-success" (click)="legendToSuccess()">.</span>
+                    <span class="badge border border-info bg-light" (click)="legendToLight()">.</span>
+                    <span class="badge border border-info bg-secondary" (click)="legendToSecondary()">.</span>
+                  </div>
+                </div>
+            </div>
+        
 
 </div>
 
 
 
-<section class="body-section d-flex">
+<section class="graph-section d-flex">
 
 
+<div class="dataset-div col-3">
 
-<div class="dataset-div col-2">
 
-    <h4>Datasets</h4>
+    <!-- Datasets -->
+    <button class="btn btn-sm'" (click)="setLabelCustomServices()"><fa-icon class="faDiceD6" [icon]="faDiceD6"></fa-icon>&nbsp;&nbsp;Services</button>
 
-    <button class="btn btn-sm" (click)="setLabelGeneralsalesCategories()">GeneralPipeline</button>
-    <button class="btn btn-sm" (click)="setLabelCustomServices()">Services</button>
-    <button class="btn btn-sm" (click)="setLabelUserSalesStages()">Mypipeline</button>
-    <button class="btn btn-sm" (click)="setLabelClients()">Clients</button>
+    <button class="btn btn-sm'" (click)="setLabelUserSalesStages()"><fa-icon class="faDiceD6" [icon]="faDiceD6"></fa-icon>&nbsp;&nbsp;Mypipeline</button>
 
-    <h4>Metrics</h4>
-    <button class="btn btn-sm" (click)="setDatasetOpportunitys()">Opportunities</button>
-    <button class="btn btn-sm" (click)="setDatasetClientRevenue()">Revenue</button>
-    <button class="btn btn-sm" (click)="setDatasetTargetRevenue()">Target-Revenue</button>
+    <button class="btn btn-sm'" (click)="setLabelClients()"><fa-icon class="faDiceD6" [icon]="faDiceD6"></fa-icon>&nbsp;&nbsp;Clients</button>
+
+    <!-- Metrics -->
+    <div class="d-flex w-100">
+    <button class="btn btn-sm" (click)="setDatasetOpportunitys()"><fa-icon class="faNetworkWired" [icon]="faNetworkWired"></fa-icon>&nbsp;&nbsp;Opportunities</button>
+    <fa class="ml-4 mt-auto mb-auto mr-auto " name="eraser" (click)="removeDatasetOpportunitys()"></fa>
+    </div>
+
+    <div class="d-flex w-100">
+    <button class="btn btn-sm" (click)="setDatasetRevenue()"><fa-icon class="faNetworkWired" [icon]="faNetworkWired"></fa-icon>&nbsp;&nbsp;Revenue</button>
+    <fa class="ml-4 mt-auto mb-auto mr-auto " name="eraser" (click)="removeDatasetRevenue()"></fa>
+    </div>
+
+    <div class="d-flex w-100">
+    <button class="btn btn-sm" (click)="setDatasetTargetRevenue()"><fa-icon class="faNetworkWired" [icon]="faNetworkWired"></fa-icon>&nbsp;&nbsp;Target-Revenue</button>
+    <fa class="ml-4 mt-auto mb-auto mr-auto " name="eraser" (click)="removeDatasetTargetRevenue()"></fa>
+    </div>
+
+    <div class="d-flex w-100">
+      <button class="btn btn-sm " name="eraser" (click)="removeAllDataSets()">Clear</button>
+    </div>
+
 
 </div>
-
+<!-- 
 <div class="visualize-div col-2">
 
   <div class="set-div-wrap">
@@ -148,10 +203,10 @@
     </div>
   </div>
 
-</div>
+</div> -->
 
 
-<div class="display-div col-6" [style.backgroundColor]="backgroundColor">
+<div class="display-div col-7" [style.backgroundColor]="backgroundColor">
 
     <canvas id="chart_canvas" *ngIf="chartType" baseChart class="chart"
     [chartType]="chartType"
@@ -167,7 +222,7 @@
 
     
     <div class="choose-color-div">
-        <button class="btn btn-sm btn-outline-info" (click)="styleSectionStatus=!styleSectionStatus">More Setting</button>
+        <button class="btn btn-sm btn-outline-info" (click)="styleSectionStatus=!styleSectionStatus">Styling</button>
     </div>
 
     <div class="head-div">
@@ -189,12 +244,6 @@
 
 
 </section>
-
-
-
-
-
-
 
 
 </article>

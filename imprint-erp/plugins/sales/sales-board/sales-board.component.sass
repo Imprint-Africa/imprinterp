@@ -120,7 +120,7 @@
     border-radius: 5px
     background-color: brandColor(brandSecondary)
     margin: 0
-    padding: .5em 1em .5em 1em
+    padding: 0 1em 0 1em
 
     .currentTitle-div
         width: 25%
@@ -161,8 +161,6 @@
             width: 7em
             margin: auto
             font-size: 10px
-
-
 
 
 
@@ -391,15 +389,14 @@
                             margin: 0
                             float: right      
                             width: fit-content
-                            padding: 0 .5em .5em 1em
+                            padding: 0 .5em 0 1em
                             
                             &:hover
                                 fa
                                     color: brandColor(brandPrimary)
-                                    zoom: 1.1
-
                             fa
                                 font-size: 10px
+                                margin: 0
                                 color: brandColor(brandSecondary)
 
                 .card-footer
@@ -655,12 +652,14 @@
                 margin: 0 1em 1em 0
                 
                 h4
-                    font-size: 10px
+                    font-size: 12px
+                    font-family: Montserrat
                     width: 60px
                     margin: 0 0 0 0 
                 
                 h5 
-                    font-size: 10px
+                    font-size: 12px
+                    font-family: Montserrat
                     margin: 0
                     padding: 0
 
@@ -669,13 +668,13 @@
                 align-items: stretch
 
                 h4
-                    font-size: 10px
+                    font-size: 12px
                     font-family: Montserrat
                     width: 60px
                     margin: auto 1em auto 0
 
                 input
-                    font-size: 10px
+                    font-size: 12px
                     font-family: Montserrat
                     margin: auto 0
 
@@ -687,14 +686,11 @@
                 margin: 1em 0 1em 0
                 
                 textarea
+                    border-radius: 5px
+                    font-size: 12px
+                    font-family: Montserrat
                     background-color: grayColor(g100)
                     width: 100%
-
-
-
-
-
-
 
     .modal-footer
         .btn-cancel
@@ -705,6 +701,192 @@
             background-color: brandColor(brandSuccess)
             font-size: 10px
             font-family: Montserrat
+
+.writeNoteModal
+    .modal-header
+        background-color: brandColor(brandPrimary)
+        .modal-title
+            font-size: 15px
+            font-family: Montserrat
+
+            span
+                margin: 0 .5em 0 .5em
+                color: white
+                text-transform: uppercase
+            
+
+    .modal-body
+        font-size: 12px
+        font-family: Montserrat
+        
+        form
+            label
+                font-size: 12px
+                font-family: Montserrat
+                color: brandColor(brandPrimary)
+
+            input
+                font-size: 12px
+                font-family: Montserrat
+                margin: auto 0
+
+            
+            textarea
+                border-radius: 5px
+                font-size: 12px
+                font-family: Montserrat
+                background-color: grayColor(g100)
+                width: 100%
+
+    .modal-footer
+        .btn-cancel
+            background-color: brandColor(brandSecondary)
+            font-size: 10px
+            font-family: Montserrat
+        .btn-confirm
+            background-color: brandColor(brandSuccess)
+            font-size: 10px
+            font-family: Montserrat
+
+
+
+.listNoteModal
+    .modal-header
+        background-color: brandColor(brandPrimary)
+        .modal-title
+            font-size: 15px
+            font-family: Montserrat
+
+            span
+                margin: 0 .5em 0 .5em
+                color: white
+                text-transform: uppercase
+            
+
+    .modal-body
+        font-size: 12px
+        font-family: Montserrat
+        
+        .head-div
+            background-color: brandColor(brandSecondary)
+            font-size: 14px
+            font-family: Montserrat
+            color: color(Primary)
+            padding: 1em .5em 1em .5em
+
+            h4
+                font-size: 12px
+                font-family: Montserrat
+                margin: auto 0
+                width: 100%
+
+        .list-div  
+            margin: .2em 0 .2em 0        
+            padding: 1em .5em 1em .5em
+            cursor: pointer
+
+            &:hover
+                border: solid 1px brandColor(brandInfo)
+            .title
+                font-size: 12px
+                font-family: Montserrat
+                color: brandColor(brandPrimary)
+                width: 100%
+            
+            .content
+                font-size: 10px
+                font-family: Montserrat
+                margin: auto 2em auto 0
+                width: 100%
+                white-space: nowrap
+                overflow: hidden !important
+                text-overflow: ellipsis
+
+            .writtenBy
+                font-size: 10px
+                font-family: Montserrat
+                // color: brandColor(brandSecondary)
+                font-style: italic
+                width: 100%
+
+    .modal-footer
+        .btn-close
+            background-color: brandColor(brandWarning)
+            font-size: 10px
+            font-family: Montserrat
+
+
+.detailNoteModal
+    .modal-header
+        background-color: brandColor(brandPrimary)
+        .modal-title
+            font-size: 15px
+            font-family: Montserrat
+            text-align: center
+
+    .modal-body
+        font-size: 12px
+        font-family: Montserrat
+        
+        .head-div
+            text-align: center            
+            padding: 1em .5em 1em .5em
+
+            h4
+                font-size: 12px
+                font-family: Montserrat
+                color: color(primary)
+                margin: auto 0
+            h5
+                font-size: 12px
+                font-family: Montserrat
+                margin: auto 0
+        .content-div
+            margin: 0 1em 0 1em
+            padding: 1em
+            font-size: 12px
+            font-family: Montserrat
+            border-radius: 5px
+            min-height: 5em
+            border: solid 1px grayColor(g200)
+
+            
+        
+        .blockquote
+            margin: 0 1em 0 1em
+            padding: 1em
+
+            .blockquote-footer
+                font-size: 10px
+                font-family: Montserrat
+                color: color(info)
+                font-style: italic
+
+                span
+                    font-size: 10px
+                    font-family: Montserrat
+                    color: color(warning)
+                    font-style: italic
+
+    .modal-footer
+        .btn-close
+            background-color: brandColor(brandSecondary)
+            font-size: 10px
+            font-family: Montserrat
+
+        .btn-edit
+            background-color: brandColor(brandPrimary)
+            font-size: 10px
+            font-family: Montserrat
+
+        .btn-delete
+            background-color: brandColor(brandDanger)
+            font-size: 10px
+            font-family: Montserrat
+
+
+
+
 
 
 
