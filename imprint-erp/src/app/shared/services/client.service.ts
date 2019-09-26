@@ -13,8 +13,10 @@ import { Observable } from 'rxjs';
 export class ClientService {
 
 
-  _url: string = "http://localhost:3000/api/clients/";
-  _urlGetEmit: string = "http://127.0.0.1:3000/";
+  // _url: string = "http://localhost:3000/api/clients/";
+  // _urlGetEmit: string = "http://127.0.0.1:3000/";
+  _url: string = "http://18.185.62.101:4201/api/clients/";
+  _urlGetEmit: string = "http://18.185.62.101:4201/";
 
   private socket;
 
