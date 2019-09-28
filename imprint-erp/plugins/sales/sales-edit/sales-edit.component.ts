@@ -40,6 +40,7 @@ public costPriorForm: FormGroup;
 public listClickedStatus;
 public taskDetailsStatus;
 public taskClickedTeamStatus;
+public projectCalenderStatus;
 
 
 // Binded Variables

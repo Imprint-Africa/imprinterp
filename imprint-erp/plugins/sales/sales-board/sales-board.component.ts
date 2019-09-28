@@ -73,6 +73,14 @@ public salesCatHoveredOnDrag: any;
 public cardHoveredOnDrag: any;
 public cardBeingDraged: any;
 
+//--
+public listSectionStatus;
+public reportSectionStatus;
+public managerNameInput;
+public phoneInput;
+public altPhoneInput;
+public emailInput;
+public websiteInput;
 
 
 // Binded Variables

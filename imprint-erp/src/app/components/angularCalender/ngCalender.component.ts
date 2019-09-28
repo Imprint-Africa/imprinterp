@@ -26,6 +26,11 @@ import { UserService } from 'src/app/shared/services/user.service';
 
     @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
+    //status
+    public allEventsSectionStatus;
+    public editEventsSectionStatus;
+
+
     public view: CalendarView = CalendarView.Month;
     public CalendarView = CalendarView;
     public viewDate: Date = new Date();

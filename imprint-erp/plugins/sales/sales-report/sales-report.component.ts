@@ -42,6 +42,8 @@ export class SalesReportComponent implements OnInit {
 public faDiceD6 = faDiceD6;
 public faNetworkWired = faNetworkWired;
 
+// status
+public styleSectionStatus;
 
 // data Variables
 public SalesCategorys: Array<any>
