@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { NgxSpinnerService } from "ngx-spinner";
+import { NgxSpinnerService } from 'ngx-spinner';
 
 
 @Injectable({
@@ -13,14 +13,14 @@ export class SpinnerService {
   constructor( private spinner: NgxSpinnerService ) { }
 
 
-spinStart(){
+spinStart() {
     this.spinner.show();
 }
 
-spinStop(){
+spinStop() {
     this.spinner.hide();
 }
 
 
- 
+
 }

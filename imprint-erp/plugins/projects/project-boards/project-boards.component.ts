@@ -14,14 +14,15 @@ export class ProjectBoardsComponent implements OnInit {
   constructor(
     private calendar: NgbCalendar,
     private projectsService: ProjectsService,
-    private router : Router,
+    private router: Router,
     private notifyService: NotificationService
   ) { }
-
+// tslint:disable: prefer-const
+// tslint:disable: object-literal-shorthand
 
 
   // variables
-  public Projects : any = [];
+  public Projects: any = [];
 
 
 
@@ -34,35 +35,37 @@ export class ProjectBoardsComponent implements OnInit {
     window.localStorage.setItem('ActiveNav', 'projects');
 
     this.projectsService.getAllProject().subscribe(
-      data=>{
+      data => {
         this.Projects = data;
-        this.Projects.forEach(project=>{
+        this.Projects.forEach(project => {
           let convertingToNgbDate = new Date(project.projectStartDate);
-          project.projectStartDate = new NgbDate(convertingToNgbDate.getUTCFullYear(), convertingToNgbDate.getUTCMonth() + 1, convertingToNgbDate.getUTCDate());
+          project.projectStartDate = new NgbDate(convertingToNgbDate.getUTCFullYear(),
+           convertingToNgbDate.getUTCMonth() + 1, convertingToNgbDate.getUTCDate());
           project.projectEndDate = this.calendar.getNext(project.projectStartDate, 'd', project.projectDuration);
-        })
-        
+        });
+
       },
-      error=>{
-        console.log('Could get all Projects')
+      error => {
+        console.log('Could get all Projects');
       }
-    )
+    );
 
     // Project Lists
     this.projectsService.listProject().subscribe(
-      data=>{
+      data => {
         this.Projects = data;
-        this.Projects.forEach(project=>{
+        this.Projects.forEach(project => {
           let convertingToNgbDate = new Date(project.projectStartDate);
-          project.projectStartDate = new NgbDate(convertingToNgbDate.getUTCFullYear(), convertingToNgbDate.getUTCMonth() + 1, convertingToNgbDate.getUTCDate());
+          project.projectStartDate = new NgbDate(convertingToNgbDate.getUTCFullYear(),
+           convertingToNgbDate.getUTCMonth() + 1, convertingToNgbDate.getUTCDate());
           project.projectEndDate = this.calendar.getNext(project.projectStartDate, 'd', project.projectDuration);
-        })
-        
+        });
+
       },
-      error=>{
+      error => {
         console.log('could not list projects');
       }
-    )
+    );
 
 
   }
@@ -74,10 +77,10 @@ export class ProjectBoardsComponent implements OnInit {
 
 // to modify
 
-toModifyCard(id){
+toModifyCard(id) {
 
   window.localStorage.setItem('projectOnEditId', id);
-  this.router.navigate(['projects/project_update'])
+  this.router.navigate(['projects/project_update']);
 
 
 }

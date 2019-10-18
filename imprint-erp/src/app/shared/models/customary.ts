@@ -1,11 +1,10 @@
 export class CustomService {
 
-    serviceName : String;
-    task : [{
-        taskName: String;
-        assignedTeam: String;
+    serviceName: string;
+    task: [{
+        taskName: string;
+        assignedTeam: string;
     }];
-    targetRevenue : Number;
+    targetRevenue: number;
 
   }
-  

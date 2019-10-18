@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ActivatedRoute, Router} from "@angular/router";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { UserService } from 'src/app/shared/services/user.service';
 
@@ -18,13 +18,13 @@ export class LoginComponent implements OnInit {
   @ViewChild('myForm') formValues;
 
   public loginForm: FormGroup;
-  public loading=false;
-  public submitted=false;
+  public loading = false;
+  public submitted = false;
   public returnUrl: string;
   public loginError: string;
 
   public email;
-  public togglePassword= "password";
+  public togglePassword = 'password';
   public showPasswordIcon;
   public hidePasswordIcon;
 
@@ -41,36 +41,39 @@ export class LoginComponent implements OnInit {
 
   ) {}
 
+  // tslint:disable: prefer-const
+  // tslint:disable: object-literal-shorthand
+
   ngOnInit() {
 
     this.showPasswordIcon = false;
     this.hidePasswordIcon = true;
-    this.togglePassword= "password";
+    this.togglePassword = 'password';
 
-    this.loginForm=this.formBuilder.group({
+    this.loginForm = this.formBuilder.group({
       email: ['', [ Validators.required, Validators.email]],
       password: ['', Validators.required],
     });
 
-    
+
     // return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
   }
 
 
   // conveniently get the values from the form fields
-  get form() {return this.loginForm.controls;}
+  get form() {return this.loginForm.controls; }
 
 
 
 
   // On submit
 
-  onSubmit(){
-    
-    this.submitted=true;
+  onSubmit() {
+
+    this.submitted = true;
     // stop here if the form is invalid
-    if(this.loginForm.invalid){
+    if (this.loginForm.invalid) {
       return;
     }
     this.loading = true;
@@ -78,42 +81,42 @@ export class LoginComponent implements OnInit {
 
     this.userService.loginUser(this.loginForm.value).subscribe(
       data => {
-      
-        window.localStorage.setItem("loggedUserToken", data.token);
-        window.localStorage.setItem("loggedUserName", data.name);
-        window.localStorage.setItem("loggedUserEmail", data.email);
-        window.localStorage.setItem("loggedUserID", data._id);
 
-        
-        return  data.role === "admin" ? 
-                    (window.localStorage.setItem("permissionStatus", 'isAdmin') , this.router.navigate(['/dashboard'])):
+        window.localStorage.setItem('loggedUserToken', data.token);
+        window.localStorage.setItem('loggedUserName', data.name);
+        window.localStorage.setItem('loggedUserEmail', data.email);
+        window.localStorage.setItem('loggedUserID', data._id);
 
-                data.role === "manager" ?
-                    (window.localStorage.setItem("permissionStatus", 'isManager') , this.router.navigate(['/dashboard'])):
 
-                    (window.localStorage.setItem("permissionStatus", 'isUser') , this.router.navigate(['/projects'])); 
+        return  data.role === 'admin' ?
+                    (window.localStorage.setItem('permissionStatus', 'isAdmin') , this.router.navigate(['/dashboard'])) :
+
+                data.role === 'manager' ?
+                    (window.localStorage.setItem('permissionStatus', 'isManager') , this.router.navigate(['/dashboard'])) :
+
+                    (window.localStorage.setItem('permissionStatus', 'isUser') , this.router.navigate(['/projects']));
 
       },
       error => {
-        this.notifyService.showError(error.error.message, "Access Restricted..")
+        this.notifyService.showError(error.error.message, 'Access Restricted..');
         this.loading = false;
       }
-    )
+    );
 
  }
 
 
 // Password Toogle Functions
-showPassword(){
+showPassword() {
   this.showPasswordIcon = true;
   this.hidePasswordIcon = false;
-  this.togglePassword= "text";
+  this.togglePassword = 'text';
 }
 
-hidePassword(){
+hidePassword() {
   this.showPasswordIcon = false;
   this.hidePasswordIcon = true;
-  this.togglePassword= "password";
+  this.togglePassword = 'password';
 }
 
 

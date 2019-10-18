@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { faProjectDiagram, faUsers, faEdit, faShoppingCart, faDollarSign, faChartLine } from '@fortawesome/free-solid-svg-icons';
 
@@ -9,16 +9,15 @@ import { faProjectDiagram, faUsers, faEdit, faShoppingCart, faDollarSign, faChar
 })
 
 
-export class HomeComponent implements OnInit {
-
-
-
-
+export class HomeComponent implements OnInit, OnDestroy {
 
   // constructor
   constructor(
-    private router : Router
+    private router: Router
   ) {  }
+
+// tslint:disable: prefer-const
+// tslint:disable: object-literal-shorthand
 
 // Icons
 public faProjectDiagram = faProjectDiagram;
@@ -34,9 +33,9 @@ public loggedUserName: string;
 public sideBarStatus: boolean;
 
 // permisions
-public toAdmin: boolean = false;
-public toAdminManager: boolean = false;
-public toAdminManagerUser: boolean = false;
+public toAdmin = false;
+public toAdminManager = false;
+public toAdminManagerUser = false;
 
 // Active side navbar status
 public dashboardNavBarActive: boolean;
@@ -53,23 +52,21 @@ public myInterval: any;
   // Initialise
   ngOnInit() {
     this.sideBarStatus = false;
-    this.loggedUserName = window.localStorage.getItem("loggedUserName");
+    this.loggedUserName = window.localStorage.getItem('loggedUserName');
 
-    if (window.localStorage.getItem("permissionStatus") === 'isAdmin'){
-        this.toAdmin= true;
-        this.toAdminManagerUser= true;
-        this.toAdminManager= true;
-    }
-    else if(window.localStorage.getItem("permissionStatus") === 'isManager'){
-        this.toAdminManager= true;
-        this.toAdminManagerUser= true;
-    }
-    else if(window.localStorage.getItem("permissionStatus") === 'isUser'){
-        this.toAdminManagerUser= true;
+    if (window.localStorage.getItem('permissionStatus') === 'isAdmin') {
+        this.toAdmin = true;
+        this.toAdminManagerUser = true;
+        this.toAdminManager = true;
+    } else if (window.localStorage.getItem('permissionStatus') === 'isManager') {
+        this.toAdminManager = true;
+        this.toAdminManagerUser = true;
+    } else if (window.localStorage.getItem('permissionStatus') === 'isUser') {
+        this.toAdminManagerUser = true;
     }
 
 
-    this.myInterval = setInterval(()=>{
+    this.myInterval = setInterval(() => {
       this.CheckActiveNavBar();
     }, 700);
 
@@ -78,13 +75,13 @@ public myInterval: any;
 // ---
 
 
-CheckActiveNavBar(){
+CheckActiveNavBar() {
 
-  if(window.localStorage.getItem('ActiveNav') === 'dashboard') {this.dashboardNavBarActive = true}
-  if(window.localStorage.getItem('ActiveNav') === 'projects'){this.projectsNavBarActive = true }
-  if(window.localStorage.getItem('ActiveNav') === 'sales'){this.salesNavBarActive = true}
-  if(window.localStorage.getItem('ActiveNav') === 'editorial'){this.editorialNavBarActive = true}
-  if(window.localStorage.getItem('ActiveNav') === 'users') {this.usersNavBarActive = true}
+  if (window.localStorage.getItem('ActiveNav') === 'dashboard') {this.dashboardNavBarActive = true; }
+  if (window.localStorage.getItem('ActiveNav') === 'projects') {this.projectsNavBarActive = true; }
+  if (window.localStorage.getItem('ActiveNav') === 'sales') {this.salesNavBarActive = true; }
+  if (window.localStorage.getItem('ActiveNav') === 'editorial') {this.editorialNavBarActive = true; }
+  if (window.localStorage.getItem('ActiveNav') === 'users') {this.usersNavBarActive = true; }
 }
 
 
@@ -97,42 +94,42 @@ CheckActiveNavBar(){
 
 
 
- //Navigate
- navToDashboard(){
+ // Navigate
+ navToDashboard() {
    this.router.navigate(['/dashboard']);
  }
- navToProjects(){
+ navToProjects() {
   this.router.navigate(['/projects']);
  }
- navToSales(){
+ navToSales() {
   this.router.navigate(['/sales']);
  }
- navToUsers(){
+ navToUsers() {
   this.router.navigate(['/users']);
  }
 
- navToProjTaskTeam(){
+ navToProjTaskTeam() {
   this.router.navigate(['/editorial']);
  }
 
 
 // Log out
-  logout(){
-    window.localStorage.removeItem("loggedUserToken");
-    window.localStorage.removeItem("loggedUserName");
-    window.localStorage.removeItem("permissionStatus");
-    window.localStorage.removeItem("loggedUserID");
+  logout() {
+    window.localStorage.removeItem('loggedUserToken');
+    window.localStorage.removeItem('loggedUserName');
+    window.localStorage.removeItem('permissionStatus');
+    window.localStorage.removeItem('loggedUserID');
     this.router.navigate(['/login']);
   }
 
 
 
 
-  // On Destroy
-ngOnDestroy(){
-  clearInterval(this.myInterval);
+    // On Destroy
+  ngOnDestroy() {
+    clearInterval(this.myInterval);
 
-}
+  }
 
 
 

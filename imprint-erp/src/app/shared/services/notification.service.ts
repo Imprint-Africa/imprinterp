@@ -8,14 +8,14 @@ import { ToastrService } from 'ngx-toastr';
 
 
 export class NotificationService {
-
+ // tslint:disable: variable-name
 
   constructor( private toastr: ToastrService ) { }
 
 
 showSuccess(message, title) {
   this.toastr.success(message, title);
-} 
+}
 
 
 showInfo(message, title) {
@@ -32,5 +32,5 @@ showError(message, title) {
   this.toastr.error(message, title);
 }
 
- 
+
 }

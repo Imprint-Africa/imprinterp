@@ -1,20 +1,21 @@
+// tslint:disable-next-line: class-name
 export class oppProject {
-    projectName : String;
-    clientName: String;
-    projectManager: String;
+    projectName : string;
+    clientName: string;
+    projectManager: string;
     task : [{
-        taskName: String;
-        assignedTeam: String;
-        assignedUser: String;
-        taskStatus: String;
-        taskDuration: Number;
+        taskName: string;
+        assignedTeam: string;
+        assignedUser: string;
+        taskStatus: string;
+        taskDuration: number;
         taskStartDate: Date;
         taskEndDate: Date;
     }];
-    cost: Number;
-    priority: Number;
-    projectStatus: String;
-    projectDuration: Number;
+    cost: number;
+    priority: number;
+    projectStatus: string;
+    projectDuration: number;
     projectStartDate: Date;
     projectEndDate: Date;
   }

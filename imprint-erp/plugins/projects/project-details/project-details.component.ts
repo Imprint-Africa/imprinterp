@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { ProjectsService } from 'src/app/shared/services/projects.service';
 import { TeamsService } from 'src/app/shared/services/teams.service';
@@ -30,10 +30,12 @@ export class ProjectDetailsComponent implements OnInit {
     private formBuilder: FormBuilder,
     private projectsService: ProjectsService,
     private teamsService: TeamsService,
-    private router : Router,
+    private router: Router,
     private notifyService: NotificationService,
     // private gantt: GanttComponent
   ) { }
+  // tslint:disable: prefer-const
+// tslint:disable: object-literal-shorthand
 
 @ViewChild(GanttComponent) gantt;
 
@@ -49,58 +51,59 @@ public oppennedProject;
   ngOnInit() {
 
      // ckeck if project exists
-     if(window.localStorage.getItem('projectOnEditId')){
+     if (window.localStorage.getItem('projectOnEditId')) {
 
       window.localStorage.setItem('ActiveNav', 'projects');
 
 
 
         // load the Project on Initialization
-        this.projectsService.getProject(window.localStorage.getItem('projectOnEditId')).subscribe(
-          data=>{ 
+      this.projectsService.getProject(window.localStorage.getItem('projectOnEditId')).subscribe(
+          data => {
             this.gantt.ngOnInit();
             this.oppennedProject = data;
 
             // converting Project's Date to NgbDate
             let convertingToNgbDate = new Date(data.projectStartDate);
-            this.oppennedProject.projectStartDate = new NgbDate(convertingToNgbDate.getUTCFullYear(), convertingToNgbDate.getUTCMonth() + 1, convertingToNgbDate.getUTCDate());
+            this.oppennedProject.projectStartDate = new NgbDate(convertingToNgbDate.getUTCFullYear(),
+             convertingToNgbDate.getUTCMonth() + 1, convertingToNgbDate.getUTCDate());
             this.oppennedProject.projectEndDate = this.calendar.getNext(data.projectStartDate, 'd', data.projectDuration);
 
             // converting task dates to NgbDate
-            this.oppennedProject.task.forEach((task)=>{
-            
+            this.oppennedProject.task.forEach((task) => {
+
               let taskStartDates = new Date(task.taskStartDate);
-              task.taskStartDate = new NgbDate(taskStartDates.getUTCFullYear(), taskStartDates.getUTCMonth() + 1, taskStartDates.getUTCDate());
+              task.taskStartDate = new NgbDate(taskStartDates.getUTCFullYear(), taskStartDates.getUTCMonth()
+               + 1, taskStartDates.getUTCDate());
               task.taskEndDate = this.calendar.getNext(task.taskStartDate, 'd', task.taskDuration);
-      
-            })
+
+            });
 
           },
-          error=>{
+          error => {
             console.log('Error');
           }
-        )
-
-        
+        );
 
 
-     }
-     else{
+
+
+     } else {
       this.router.navigate(['/projects']);
     }
 
-// ---- 
+// ----
   }
 
 
 
 
 
-moveBackToTeams(){
+moveBackToTeams() {
   this.router.navigate(['projects/project_update']);
 }
-  
-toEditProject(){
+
+toEditProject() {
   this.router.navigate(['projects/project_edit']);
 }
 
@@ -111,5 +114,5 @@ toEditProject(){
 
 
 
-// === END ==  
+// === END ==
 }

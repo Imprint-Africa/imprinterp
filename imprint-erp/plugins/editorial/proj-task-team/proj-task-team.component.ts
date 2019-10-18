@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
-import {FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { TeamsService } from 'src/app/shared/services/teams.service';
 import { CustomaryService } from 'src/app/shared/services/customary.service';
@@ -19,13 +19,14 @@ export class ProjTaskTeamComponent implements OnInit {
   // Constructor
   constructor(
     private formBuilder: FormBuilder,
-    private router : Router,
+    private router: Router,
     private notifyService: NotificationService,
     private teamsService: TeamsService,
     private customService: CustomaryService,
     private salesCategoryService: SalesCategoryService
   ) { }
-
+// tslint:disable: prefer-const
+// tslint:disable: object-literal-shorthand
 
 // Modal
 @ViewChild('editTeamModal') public editTeamModal: ModalDirective;
@@ -65,7 +66,7 @@ public editSalesCatForm: FormGroup;
 
 
 // Binded Variables
-public Teams : any = [];
+public Teams: any = [];
 public SalesCategorys: any = [];
 public namedCustomService: string;
 public namedTargetRevenue: number;
@@ -91,49 +92,49 @@ public salesCategoryToBeDeleted;
           window.localStorage.setItem('ActiveNav', 'editorial');
 
             // status
-          this.previewSectionStatus= false;
-          this.customServiceSectionStatus= true;
-          this.customServiceFormStatus= true;
-          this.addTaskSectionStatus= false;
-          this.defineTaskFormStatus= false;
-          this.listAddSalesCategoryStatus= false;
-          this.listAddTeamStatus=false;
-          this.listStatus=true;
+          this.previewSectionStatus = false;
+          this.customServiceSectionStatus = true;
+          this.customServiceFormStatus = true;
+          this.addTaskSectionStatus = false;
+          this.defineTaskFormStatus = false;
+          this.listAddSalesCategoryStatus = false;
+          this.listAddTeamStatus = false;
+          this.listStatus = true;
 
 
 
           // load
           this.teamsService.getAllTeams().subscribe(
-            data=>{
+            data => {
                 this.Teams = data;
             },
-            error=>{
-              console.log('Cannot get all teams')
+            error => {
+              console.log('Cannot get all teams');
             }
-          )
+          );
 
           this.salesCategoryService.getAllSalesCategories().subscribe(
-            data=>{
+            data => {
                 this.SalesCategorys = data;
             },
-            error=>{
-              console.log('Cannot get all Categoris')
+            error => {
+              console.log('Cannot get all Categoris');
             }
-          )
+          );
 
           this.customService.getAllServices().subscribe(
-            data=>{
+            data => {
                 this.Services = data;
             },
-            error=>{
-              console.log('Cannot get all Services')
+            error => {
+              console.log('Cannot get all Services');
             }
-          )
-          
+          );
+
 
 
           // Add new Team
-          this.addNewTeamForm=this.formBuilder.group({
+          this.addNewTeamForm = this.formBuilder.group({
             teamName: ['', Validators.required]
           });
 
@@ -141,19 +142,19 @@ public salesCategoryToBeDeleted;
 
           // List Teams
           this.teamsService.listTeams().subscribe(
-            data=>{
+            data => {
                 this.Teams = data;
             },
-            error=>{
-              console.log(error)
+            error => {
+              console.log(error);
             }
-          )
+          );
 
 
 
 
           // Add Sales Category
-          this.addSalesCategoryForm=this.formBuilder.group({
+          this.addSalesCategoryForm = this.formBuilder.group({
             name: ['', Validators.required]
           });
 
@@ -161,56 +162,56 @@ public salesCategoryToBeDeleted;
 
           // List Sales category
           this.salesCategoryService.listSalesCategory().subscribe(
-            data=>{
+            data => {
                 this.SalesCategorys = data;
             },
-            error=>{
-              console.log(error)
+            error => {
+              console.log(error);
             }
-          )
+          );
 
 
 
           // Add new Custom Service Form
-          this.customServiceForm=this.formBuilder.group({
+          this.customServiceForm = this.formBuilder.group({
             customServiceName: ['', Validators.required],
             targetRevenue: [null, Validators.required]
           });
 
           // define Tasks
-          this.defineTaskForm=this.formBuilder.group({
+          this.defineTaskForm = this.formBuilder.group({
             taskName: ['', Validators.required],
             assignedTeam: ['', Validators.required]
           });
 
 
-          // List custom services 
+          // List custom services
           this.customService.listServices().subscribe(
-            data=>{
+            data => {
                 this.Services = data;
             },
-            error=>{
-              console.log(error)
+            error => {
+              console.log(error);
             }
-          )
+          );
 
 
-          this.editServiceForm=this.formBuilder.group({
+          this.editServiceForm = this.formBuilder.group({
             serviceName: ['', Validators.required],
             targetRevenue: ['', Validators.required],
             task: {
               taskName: ['', Validators.required],
               assignedTeam: ['', Validators.required]
             }
-          })
+          });
 
-          this.editTeamForm=this.formBuilder.group({
+          this.editTeamForm = this.formBuilder.group({
             name: ['', Validators.required]
-          })
+          });
 
-          this.editSalesCatForm=this.formBuilder.group({
+          this.editSalesCatForm = this.formBuilder.group({
             name: ['', Validators.required]
-          })
+          });
 
 
 
@@ -218,13 +219,13 @@ public salesCategoryToBeDeleted;
 
 
  // conveniently get the values from the form fields
-get formAddNewTeam() {return this.addNewTeamForm.controls;}
-get formAddSalesCategory() {return this.addSalesCategoryForm.controls;}
-get formCustomService() {return this.customServiceForm.controls;}
-get formAddTask(){ return this.defineTaskForm.controls;}
-get formEditService(){ return this.editServiceForm.controls;}
-get formEditTeam(){ return this.editTeamForm.controls;}
-get formSalesCatTeam(){ return this.editSalesCatForm.controls;}
+get formAddNewTeam() {return this.addNewTeamForm.controls; }
+get formAddSalesCategory() {return this.addSalesCategoryForm.controls; }
+get formCustomService() {return this.customServiceForm.controls; }
+get formAddTask() { return this.defineTaskForm.controls; }
+get formEditService() { return this.editServiceForm.controls; }
+get formEditTeam() { return this.editTeamForm.controls; }
+get formSalesCatTeam() { return this.editSalesCatForm.controls; }
 
 
 
@@ -233,17 +234,17 @@ get formSalesCatTeam(){ return this.editSalesCatForm.controls;}
 
 
 // Open Team Form
-openTeamForm(){
+openTeamForm() {
 
-  this.previewSectionStatus= false;
-  this.customServiceSectionStatus= false;
-  this.customServiceFormStatus= false;
+  this.previewSectionStatus = false;
+  this.customServiceSectionStatus = false;
+  this.customServiceFormStatus = false;
   this.addTaskSectionStatus = false;
-  this.defineTaskFormStatus= false;
-  this.listAddTeamStatus= !this.listAddTeamStatus;
-  this.listAddSalesCategoryStatus= false;
-  this.listStatus=false;
-  setTimeout(()=>{ this.listStatus=true; }, 1000)
+  this.defineTaskFormStatus = false;
+  this.listAddTeamStatus = !this.listAddTeamStatus;
+  this.listAddSalesCategoryStatus = false;
+  this.listStatus = false;
+  setTimeout(() => { this.listStatus = true; }, 1000);
 
 }
 
@@ -256,31 +257,31 @@ openTeamForm(){
 
 
 // Add Team
-addTeam(){
+addTeam() {
 
-  this.previewSectionStatus= false;
-  this.customServiceSectionStatus= false;
-  this.customServiceFormStatus= false;
+  this.previewSectionStatus = false;
+  this.customServiceSectionStatus = false;
+  this.customServiceFormStatus = false;
   this.addTaskSectionStatus = false;
-  this.defineTaskFormStatus= false;
-  this.listAddTeamStatus= true;
-  this.listAddSalesCategoryStatus= false;
-  this.listStatus=false;
-  setTimeout(()=>{ this.listStatus=true; }, 1000)
+  this.defineTaskFormStatus = false;
+  this.listAddTeamStatus = true;
+  this.listAddSalesCategoryStatus = false;
+  this.listStatus = false;
+  setTimeout(() => { this.listStatus = true; }, 1000);
 
   let convertedData = {
                       name: this.addNewTeamForm.value.teamName.toLowerCase()
-                    }
+                    };
 
   this.teamsService.createTeam(convertedData).subscribe(
-    data=>{ 
-      this.notifyService.showSuccess(`Team ${data.name} has been added`, "Success");
+    data => {
+      this.notifyService.showSuccess(`Team ${data.name} has been added`, 'Success');
       this.myAddTeamFormValues.resetForm();
     },
-    error=>{ 
-      this.notifyService.showError(error.error.message, "Failed...");
+    error => {
+      this.notifyService.showError(error.error.message, 'Failed...');
     }
-  )
+  );
 
 }
 
@@ -293,17 +294,17 @@ addTeam(){
 
 
 // Open Sales Cat Foem
-openSalesCatForm(){
+openSalesCatForm() {
 
-  this.previewSectionStatus= false;
-  this.customServiceSectionStatus= false;
-  this.customServiceFormStatus= false;
+  this.previewSectionStatus = false;
+  this.customServiceSectionStatus = false;
+  this.customServiceFormStatus = false;
   this.addTaskSectionStatus = false;
-  this.defineTaskFormStatus= false;
-  this.listAddTeamStatus= false;
-  this.listAddSalesCategoryStatus= !this.listAddSalesCategoryStatus;
-  this.listStatus=false;
-  setTimeout(()=>{ this.listStatus=true; }, 1000)
+  this.defineTaskFormStatus = false;
+  this.listAddTeamStatus = false;
+  this.listAddSalesCategoryStatus = !this.listAddSalesCategoryStatus;
+  this.listStatus = false;
+  setTimeout(() => { this.listStatus = true; }, 1000);
 
 }
 
@@ -317,33 +318,33 @@ openSalesCatForm(){
 
 
 // Add Sales Category
-addSalesCategory(){
+addSalesCategory() {
 
-  this.previewSectionStatus= false;
-  this.customServiceSectionStatus= false;
-  this.customServiceFormStatus= false;
+  this.previewSectionStatus = false;
+  this.customServiceSectionStatus = false;
+  this.customServiceFormStatus = false;
   this.addTaskSectionStatus = false;
-  this.defineTaskFormStatus= false;
-  this.listAddTeamStatus= false;
-  this.listAddSalesCategoryStatus=true;
-  this.listStatus=false;
-  setTimeout(()=>{ this.listStatus=true; }, 1000)
+  this.defineTaskFormStatus = false;
+  this.listAddTeamStatus = false;
+  this.listAddSalesCategoryStatus = true;
+  this.listStatus = false;
+  setTimeout(() => { this.listStatus = true; }, 1000);
 
   let convertedData = {
                       name: this.addSalesCategoryForm.value.name.toLowerCase(),
                       totalLeads: 0,
                       totalRevenue: 0
-                    }
+                    };
 
   this.salesCategoryService.addSalesCategory(convertedData).subscribe(
-    data=>{ 
-      this.notifyService.showSuccess(`Category ${data.name} has been added`, "Success");
+    data => {
+      this.notifyService.showSuccess(`Category ${data.name} has been added`, 'Success');
       this.myAddSalesCategoryFormValues.resetForm();
     },
-    error=>{ 
-      this.notifyService.showError(error.error.message, "Failed...");
+    error => {
+      this.notifyService.showError(error.error.message, 'Failed...');
     }
-  )
+  );
 
 }
 
@@ -358,19 +359,19 @@ addSalesCategory(){
 
 
 // Add New Customary Service
-openCustomServiceForm(){
-  this.previewSectionStatus= false;
+openCustomServiceForm() {
+  this.previewSectionStatus = false;
   this.customServiceSectionStatus = !this.customServiceSectionStatus;
   this.customServiceFormStatus = !this.customServiceFormStatus;
-  this.addTaskSectionStatus= false;
-  this.defineTaskFormStatus= false;
-  this.listAddTeamStatus=false;
-  this.listAddSalesCategoryStatus=false;
-  this.listStatus=false;
+  this.addTaskSectionStatus = false;
+  this.defineTaskFormStatus = false;
+  this.listAddTeamStatus = false;
+  this.listAddSalesCategoryStatus = false;
+  this.listStatus = false;
   this.customServiceInputField.nativeElement.focus();
-  setTimeout(()=>{ this.listStatus=true; }, 1000)
+  setTimeout(() => { this.listStatus = true; }, 1000);
 
-}  
+}
 
 
 
@@ -378,23 +379,23 @@ openCustomServiceForm(){
 
 
 // Move to task Form
-moveToTaskForm(){
+moveToTaskForm() {
 
-  this.previewSectionStatus= false;
-  this.customServiceSectionStatus= false;
-  this.customServiceFormStatus= false;
-  this.addTaskSectionStatus= true;
-  this.defineTaskFormStatus= true;
-  this.listAddTeamStatus= false;
-  this.listAddSalesCategoryStatus=false;
-  this.listStatus=false;
+  this.previewSectionStatus = false;
+  this.customServiceSectionStatus = false;
+  this.customServiceFormStatus = false;
+  this.addTaskSectionStatus = true;
+  this.defineTaskFormStatus = true;
+  this.listAddTeamStatus = false;
+  this.listAddSalesCategoryStatus = false;
+  this.listStatus = false;
 
   this.namedCustomService = this.customServiceForm.value.customServiceName.toLowerCase();
   this.namedTargetRevenue = this.customServiceForm.value.targetRevenue;
   this.myCustomServiceFormValues.resetForm();
   this.taskField.nativeElement.focus();
 
-  setTimeout(()=>{ this.listStatus=true; }, 1000)
+  setTimeout(() => { this.listStatus = true; }, 1000);
 
 
 }
@@ -403,40 +404,40 @@ moveToTaskForm(){
 
 
 // Save add another tasks
-addAnotherTask(){
+addAnotherTask() {
 
-  this.previewSectionStatus= true;
-  this.customServiceSectionStatus= false;
-  this.customServiceFormStatus= false;
-  this.addTaskSectionStatus= true;
-  this.defineTaskFormStatus= true;
-  this.listAddTeamStatus= false;
-  this.listAddSalesCategoryStatus=false;
-  this.listStatus=false;
+  this.previewSectionStatus = true;
+  this.customServiceSectionStatus = false;
+  this.customServiceFormStatus = false;
+  this.addTaskSectionStatus = true;
+  this.defineTaskFormStatus = true;
+  this.listAddTeamStatus = false;
+  this.listAddSalesCategoryStatus = false;
+  this.listStatus = false;
 
   this.Tasks.push(this.defineTaskForm.value);
   // this.mydefineTaskFormValues.resetForm();
   this.taskField.nativeElement.value = '';
   this.taskField.nativeElement.focus();
 
-  setTimeout(()=>{ this.listStatus=true; }, 1000);
+  setTimeout(() => { this.listStatus = true; }, 1000);
 
 }
 
 
 
 // Save and close Project Form
-saveAndClose(){
+saveAndClose() {
 
-  this.previewSectionStatus= false;
-  this.customServiceSectionStatus= false;
-  this.customServiceFormStatus= false;
-  this.addTaskSectionStatus= false;
-  this.defineTaskFormStatus= false;
-  this.listAddTeamStatus=false;
-  this.listAddSalesCategoryStatus=false;
-  this.listStatus=false;
-  setTimeout(()=>{ this.listStatus=true; }, 1000);
+  this.previewSectionStatus = false;
+  this.customServiceSectionStatus = false;
+  this.customServiceFormStatus = false;
+  this.addTaskSectionStatus = false;
+  this.defineTaskFormStatus = false;
+  this.listAddTeamStatus = false;
+  this.listAddSalesCategoryStatus = false;
+  this.listStatus = false;
+  setTimeout(() => { this.listStatus = true; }, 1000);
 
   this.Tasks.push(this.defineTaskForm.value);
 
@@ -445,19 +446,19 @@ saveAndClose(){
     task: this.Tasks,
     targetRevenue: this.namedTargetRevenue
 
-  }
+  };
 
   this.mydefineTaskFormValues.resetForm();
 
   this.customService.createService(convertedData).subscribe(
-    data=>{
-      this.notifyService.showSuccess(`Service ${data.serviceName} has been added`, "Success");
+    data => {
+      this.notifyService.showSuccess(`Service ${data.serviceName} has been added`, 'Success');
     },
-    error=>{
-      this.notifyService.showError(error.error.message, "Failed..."); 
+    error => {
+      this.notifyService.showError(error.error.message, 'Failed...');
     }
 
-  )
+  );
 
 }
 
@@ -468,7 +469,7 @@ saveAndClose(){
 
 
 // Edit Custom Service
-editCustomService(id){
+editCustomService(id) {
 
   window.localStorage.setItem('IdServiceTobeEdited', id);
   this.router.navigate(['editorial/custom_service_edit']);
@@ -477,44 +478,44 @@ editCustomService(id){
 }
 
 
-identifyTeamToBeEdited(team){
+identifyTeamToBeEdited(team) {
   this.teamToBeEdited = team;
 }
 
 
-editTeam(){
+editTeam() {
 
   let data = this.editTeamForm.value.name.toLowerCase();
 
   this.teamsService.updateTeam(this.teamToBeEdited._id, {name: data}).subscribe(
-    data=>{
+    dataUpdatedTem => {
       this.notifyService.showSuccess('Team Updated', 'Success');
     },
-    error=>{
+    error => {
       this.notifyService.showError('Not Updated..', 'Error');
     }
-    
-  )
+
+  );
 }
 
 
 
-identifyTeamToBeDeleted(team){
+identifyTeamToBeDeleted(team) {
   this.teamToBeDeleted = team;
 }
 
 
-deleteTeam(){
+deleteTeam() {
 
   this.teamsService.deleteTeam(this.teamToBeDeleted._id).subscribe(
-    data=>{
+    data => {
       this.notifyService.showSuccess('Team Delete', 'Success');
     },
-    error=>{
+    error => {
       this.notifyService.showError('Not Deleted..', 'Error');
     }
-    
-  )
+
+  );
 
 }
 
@@ -522,50 +523,49 @@ deleteTeam(){
 
 
 
-identifySalesCatBeEdited(salesCat){
-  this.salesCategoryToBeEdited= salesCat;
+identifySalesCatBeEdited(salesCat) {
+  this.salesCategoryToBeEdited = salesCat;
 }
 
 
-editSalesCategory(){
+editSalesCategory() {
 
   let data = this.editSalesCatForm.value.name.toLowerCase();
 
   this.salesCategoryService.updateSaleCategory(this.salesCategoryToBeEdited._id, {name: data}).subscribe(
-    data=>{
+    dataUpdatedSalCat => {
       this.notifyService.showSuccess('Sales Category Updated', 'Success');
     },
-    error=>{
+    error => {
       this.notifyService.showError('Not Updated..', 'Error');
     }
-    
-  )
+
+  );
 }
 
 
 
-identifySalesCatToBeDeleted(salesCat){
+identifySalesCatToBeDeleted(salesCat) {
   this.salesCategoryToBeDeleted = salesCat;
 }
 
 
-deleteSalesCategory(){
+deleteSalesCategory() {
 
   this.salesCategoryService.deleteSaleCategory(this.salesCategoryToBeDeleted._id).subscribe(
-    data=>{
+    data => {
       this.notifyService.showSuccess('Sales Category Delete', 'Success');
     },
-    error=>{
+    error => {
       this.notifyService.showError('Not Deleted..', 'Error');
     }
-    
-  )
+
+  );
 
 }
 
 
 
 
-// === End === 
-}
-// === End ==
+
+}// === End;

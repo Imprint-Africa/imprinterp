@@ -1,3 +1,3 @@
 export class SalesCategory {
-    name : String;
+    name: string;
   }

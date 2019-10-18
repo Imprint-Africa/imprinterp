@@ -12,10 +12,10 @@ const routes: Routes = [
 
     {path: 'projects', component: HomeComponent, canActivate: [AuthGuard],
         children: [
-            { path: "", component: ProjectBoardsComponent },
-            { path: "project_update", component: UpdateProjectComponent },
-            { path: "project_details", component: ProjectDetailsComponent },
-            { path: "project_edit", component: EditProjectComponent }
+            { path: '', component: ProjectBoardsComponent },
+            { path: 'project_update', component: UpdateProjectComponent },
+            { path: 'project_details', component: ProjectDetailsComponent },
+            { path: 'project_edit', component: EditProjectComponent }
         ]
     },
 

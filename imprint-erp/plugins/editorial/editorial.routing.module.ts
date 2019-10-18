@@ -10,8 +10,8 @@ const routes: Routes = [
 
     {path: 'editorial', component: HomeComponent, canActivate: [AuthGuard],
         children: [
-            { path: "", component: ProjTaskTeamComponent },
-            { path: "custom_service_edit", component: CustomServiceEditComponent }
+            { path: '', component: ProjTaskTeamComponent },
+            { path: 'custom_service_edit', component: CustomServiceEditComponent }
         ]
     },
 

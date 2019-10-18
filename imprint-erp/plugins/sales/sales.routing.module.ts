@@ -10,8 +10,8 @@ const routes: Routes = [
 
     {path: 'sales', component: HomeComponent, canActivate: [AuthGuard],
         children: [
-            { path: "", component: SalesBoardComponent, children: [ { path: '', component: SalesReportComponent }] },
-            { path: "sales_edit", component: SalesEditComponent },
+            { path: '', component: SalesBoardComponent, children: [ { path: '', component: SalesReportComponent }] },
+            { path: 'sales_edit', component: SalesEditComponent },
         ]
     },
 

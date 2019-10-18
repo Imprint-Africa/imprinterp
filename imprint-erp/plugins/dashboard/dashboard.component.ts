@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { faProjectDiagram, faUsers, faEdit, faShoppingCart, faDollarSign, faCloudDownloadAlt } from '@fortawesome/free-solid-svg-icons';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
@@ -13,7 +13,7 @@ import { CustomaryService } from 'src/app/shared/services/customary.service';
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.sass']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
 
   constructor(
     private salesService: SalesService,
@@ -22,6 +22,8 @@ export class DashboardComponent implements OnInit {
     private teamsService: TeamsService,
     private customService: CustomaryService,
   ) { }
+// tslint:disable: prefer-const
+// tslint:disable: object-literal-shorthand
 
   // Icons
 public faProjectDiagram = faProjectDiagram;
@@ -32,17 +34,17 @@ public faDollarSign = faDollarSign;
 public faCloudDownloadAlt = faCloudDownloadAlt;
 
 
- 
-radioModel: string = 'Month';
+
+radioModel = 'Month';
 public myInterval: any;
 
 // data Variables
-public SalesCategorys: Array<any>
-public Opportunitys: Array<any>
-public Projects: Array<any>
-public TotalProjectsRevenue
-public CustomServices: Array<any>
-public Teams: Array<any>
+public SalesCategorys: Array<any>;
+public Opportunitys: Array<any>;
+public Projects: Array<any>;
+public TotalProjectsRevenue;
+public CustomServices: Array<any>;
+public Teams: Array<any>;
 
 
 
@@ -82,45 +84,46 @@ public targetsOptions: any;
 
     window.localStorage.setItem('ActiveNav', 'dashboard');
 
-      this.salesCategoryService.getAllSalesCategories().subscribe(
-          categoryData=>{this.SalesCategorys = categoryData;
+    this.salesCategoryService.getAllSalesCategories().subscribe(
+          categoryData => {this.SalesCategorys = categoryData;
 
-            this.salesService.getAllOppProject().subscribe(
-              oppData=>{this.Opportunitys = oppData;
+                           this.salesService.getAllOppProject().subscribe(
+              oppData => {this.Opportunitys = oppData;
 
-                this.projectsService.getAllProject().subscribe(
-                  projectData=>{this.Projects = projectData;
+                          this.projectsService.getAllProject().subscribe(
+                  projectData => {this.Projects = projectData;
 
-                    this.customService.getAllServices().subscribe(
-                      servicesData=>{this.CustomServices = servicesData;
+                                  this.customService.getAllServices().subscribe(
+                      servicesData => {this.CustomServices = servicesData;
 
-                          this.teamsService.getAllTeams().subscribe(
-                            teamsDate=>{this.Teams = teamsDate;
-                                             
-                                this.salesChartFunction();
-                                this.projectsChartFunction();
-                                this.revenueChartFunction();
-                                this.clientsChartFunction();
-                                this.targetsChartFunction();
+                                       this.teamsService.getAllTeams().subscribe(
+                            teamsDate => {this.Teams = teamsDate;
 
-                                this.TotalProjectsRevenue = this.Projects.reduce(function(previous, current){ return previous + current.cost}, 0)
+                                          this.salesChartFunction();
+                                          this.projectsChartFunction();
+                                          this.revenueChartFunction();
+                                          this.clientsChartFunction();
+                                          this.targetsChartFunction();
+
+                                          this.TotalProjectsRevenue = this.Projects.reduce((previous, current) =>
+                                          previous + current.cost, 0);
 
                             },
-                            error=>console.log('Error Getting Error')
-                          )
+                            error => console.log('Error Getting Error')
+                          );
                       },
-                      error=>console.log('Error Getting CustomServices')
-                    )   
+                      error => console.log('Error Getting CustomServices')
+                    );
 
                   },
-                  error=>console.log('Error Getting Projects')
+                  error => console.log('Error Getting Projects')
                 );
-              
+
               },
-              error=>console.log('Error Getting Opportunities')
+              error => console.log('Error Getting Opportunities')
             );
           },
-          error=>console.log('Error Getting SalesCategories')
+          error => console.log('Error Getting SalesCategories')
           );
 
   }
@@ -132,15 +135,15 @@ public targetsOptions: any;
 
 
 
-salesChartFunction(){
+salesChartFunction() {
 
   this.salesType = 'line';
 
-  this.salesLabels = this.SalesCategorys.filter(()=>{return true}).map((e)=>{return e.name});
-  
+  this.salesLabels = this.SalesCategorys.filter(() => true).map((e) => e.name);
+
   this.salesDatasets = [{
       label: 'Opportunty',
-      data: this.SalesCategorys.filter(()=>{return true}).map((e)=>{return e.totalLeads}),
+      data: this.SalesCategorys.filter(() => true).map((e) => e.totalLeads),
       backgroundColor: 'transparent',
       borderColor: 'white',
       borderWidth: 0.5,
@@ -149,9 +152,9 @@ salesChartFunction(){
       pointBorderColor: 'white',
       pointHoverBorderColor: getStyle('--dark')
     }];
-  
-  this.salesOptions = { 
-    title:{
+
+  this.salesOptions = {
+    title: {
       display: false,
       text: 'Sales',
       fontSize: 25
@@ -203,8 +206,8 @@ salesChartFunction(){
             font: { weight: 'bold'}
         }
     }
-  }
-  
+  };
+
 }
 
 
@@ -212,22 +215,22 @@ salesChartFunction(){
 
 
 
-projectsChartFunction(){
+projectsChartFunction() {
 
   this.projectsType = 'line';
 
-  this.projectsLabels = this.CustomServices.filter(()=>{return true}).map((e)=>{return e.serviceName});
+  this.projectsLabels = this.CustomServices.filter(() => true).map((e) => e.serviceName);
 
   let ourData = [];
 
-  this.projectsLabels.forEach(service=>{
-    let getNumber = this.Projects.filter(project=>{
-        return project.projectName === service ? true : false
-    }).map(e=>{return e}).length;
+  this.projectsLabels.forEach(service => {
+    let getNumber = this.Projects.filter(project => {
+        return project.projectName === service ? true : false;
+    }).map(e => e).length;
 
     ourData.push(getNumber);
   });
-  
+
   this.projectsDatasets = [{
       label: 'Clients',
       data: ourData,
@@ -239,9 +242,9 @@ projectsChartFunction(){
       pointBorderColor: 'white',
       pointHoverBorderColor: getStyle('--dark')
     }];
-  
-  this.projectsOptions = { 
-    title:{
+
+  this.projectsOptions = {
+    title: {
       display: false,
       text: 'Sales',
       fontSize: 25
@@ -293,38 +296,38 @@ projectsChartFunction(){
             font: { weight: 'bold'}
         }
     }
-  }
-  
+  };
+
 
 
 
 }
-//--
+// --
 
 
 
 
 
 
-revenueChartFunction(){
+revenueChartFunction() {
 
   this.revenueType = 'line';
 
-  this.revenueLabels = this.CustomServices.filter(()=>{return true}).map((e)=>{return e.serviceName});
+  this.revenueLabels = this.CustomServices.filter(() => true).map((e) => e.serviceName);
 
   let ourData = [];
 
-  this.projectsLabels.forEach(service=>{
-    let getProjects = this.Projects.filter(project=>{
-        return project.projectName === service ? true : false
-    }).map(e=>{return e});
+  this.projectsLabels.forEach(service => {
+    let getProjects = this.Projects.filter(project => {
+        return project.projectName === service ? true : false;
+    }).map(e => e);
 
-    let getTotalRevenue = getProjects.reduce(function(previous, current){ return previous + current.cost}, 0)
+    let getTotalRevenue = getProjects.reduce((previous, current) => previous + current.cost, 0);
 
     ourData.push(getTotalRevenue);
   });
-  
-  
+
+
   this.revenueDatasets = [{
       label: 'Revenue',
       data: ourData,
@@ -336,9 +339,9 @@ revenueChartFunction(){
       pointBorderColor: 'white',
       pointHoverBorderColor: getStyle('--dark')
     }];
-  
-  this.revenueOptions = { 
-    title:{
+
+  this.revenueOptions = {
+    title: {
       display: false,
       text: 'Sales',
       fontSize: 25
@@ -390,35 +393,35 @@ revenueChartFunction(){
             font: { weight: 'bold'}
         }
     }
-  }
+  };
 
 
 }
 // ---
 
 
-clientsChartFunction(){
+clientsChartFunction() {
 
   this.clientsType = 'bar';
 
   // Get Get Clients
-  let getOurClients =  this.Projects.filter(()=>{ return true}).map(e=>{return e.clientName});
+  let getOurClients =  this.Projects.filter(() => true).map(e => e.clientName);
 
   this.clientsLabels = Array.from(new Set(getOurClients));
 
   let ourData = [];
 
-  this.clientsLabels.forEach(client=>{
-    let getProjects = this.Projects.filter(project=>{
-        return project.clientName === client ? true : false
-    }).map(e=>{return e});
+  this.clientsLabels.forEach(client => {
+    let getProjects = this.Projects.filter(project => {
+        return project.clientName === client ? true : false;
+    }).map(e => e);
 
-    let getTotalRevenue = getProjects.reduce(function(previous, current){ return previous + current.cost}, 0)
+    let getTotalRevenue = getProjects.reduce((previous, current) => previous + current.cost, 0);
 
     ourData.push(getTotalRevenue);
   });
-  
-  
+
+
   this.clientsDatasets = [{
       label: 'Revenue',
       data: ourData,
@@ -428,9 +431,9 @@ clientsChartFunction(){
       hoverBackgroundColor: 'rgba(255,255,255,.2)',
       hoverBorderColor: getStyle('--dark')
     }];
-  
-  this.clientsOptions = { 
-    title:{
+
+  this.clientsOptions = {
+    title: {
       display: false,
       text: 'Sales',
       fontSize: 25
@@ -482,7 +485,7 @@ clientsChartFunction(){
             font: { weight: 'bold'}
         }
     }
-  }
+  };
 
 }
 // --
@@ -493,39 +496,39 @@ clientsChartFunction(){
 
 
 
-targetsChartFunction(){
+targetsChartFunction() {
 
   this.targetsType = 'line';
 
 
-  this.targetsLabels = this.CustomServices.filter(()=>{return true}).map((e)=>{return e.serviceName});
+  this.targetsLabels = this.CustomServices.filter(() => true).map((e) => e.serviceName);
 
   let ourProjectNumberData = [];
 
-  this.targetsLabels.forEach(service=>{
-    let getNumber = this.Projects.filter(project=>{
-        return project.projectName === service ? true : false
-    }).map(e=>{return e}).length;
+  this.targetsLabels.forEach(service => {
+    let getNumber = this.Projects.filter(project => {
+        return project.projectName === service ? true : false;
+    }).map(e => e).length;
 
     ourProjectNumberData.push(getNumber);
   });
-  
+
 
   let ourProjectRevenueData = [];
 
-  this.targetsLabels.forEach(service=>{
-    let getProjects = this.Projects.filter(project=>{
-        return project.projectName === service ? true : false
-    }).map(e=>{return e});
+  this.targetsLabels.forEach(service => {
+    let getProjects = this.Projects.filter(project => {
+        return project.projectName === service ? true : false;
+    }).map(e => e);
 
-    let getTotalRevenue = getProjects.reduce(function(previous, current){ return previous + current.cost}, 0)
+    let getTotalRevenue = getProjects.reduce((previous, current) => previous + current.cost, 0);
 
     ourProjectRevenueData.push(getTotalRevenue);
   });
 
 
-  let ourTargetRevenueData = this.CustomServices.filter(()=>{return true}).map((e)=>{return e.targetRevenue});
-  
+  let ourTargetRevenueData = this.CustomServices.filter(() => true).map((e) => e.targetRevenue);
+
   this.targetsDatasets = [
 
     {
@@ -550,12 +553,12 @@ targetsChartFunction(){
       pointBorderColor: getStyle('--primary'),
       pointHoverBorderColor: getStyle('--dark')
     }
-  
-  
+
+
   ];
-  
-  this.targetsOptions = { 
-    title:{
+
+  this.targetsOptions = {
+    title: {
       display: false,
       text: 'Sales',
       fontSize: 25
@@ -607,7 +610,7 @@ targetsChartFunction(){
             font: { weight: 'bold'}
         }
     }
-  }
+  };
 
 }
 
@@ -619,7 +622,7 @@ targetsChartFunction(){
 
 
 // On Destroy
-ngOnDestroy(){
+ngOnDestroy() {
   clearInterval(this.myInterval);
 }
 

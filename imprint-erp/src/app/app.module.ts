@@ -1,23 +1,23 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { ModalModule } from "ngx-bootstrap";
+import { ModalModule } from 'ngx-bootstrap';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { SidebarModule } from "ng-sidebar";
-import { ReactiveFormsModule} from "@angular/forms";
+import { SidebarModule } from 'ng-sidebar';
+import { ReactiveFormsModule} from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { NgbModule, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { ToastrModule } from "ngx-toastr";
-import { HttpClientModule } from "@angular/common/http";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+import { HttpClientModule } from '@angular/common/http';
 import { ChartsModule } from 'ng2-charts';
-import { NgxSpinnerModule } from "ngx-spinner";
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { FilterPipeModule } from 'ngx-filter-pipe'
+import { FilterPipeModule } from 'ngx-filter-pipe';
 
 // Components
 import { AppComponent } from './app.component';
@@ -47,7 +47,7 @@ import { EditorialSharedModule } from 'plugins/editorial/editorial.module';
 import { SalesSharedModule } from 'plugins/sales/sales.module';
 import { DashboardSharedModule } from 'plugins/dashboard/dashboard.module';
 import { NotFoundComponent } from './components/notFound/notFound.component';
-import { ngCalenderComponent } from './components/angularCalender/ngCalender.component';
+import { NgCalenderComponent } from './components/angularCalender/ngCalender.component';
 
 @NgModule({
   declarations: [
@@ -57,8 +57,7 @@ import { ngCalenderComponent } from './components/angularCalender/ngCalender.com
     HomeComponent,
     UsersComponent,
     NotFoundComponent,
-    ngCalenderComponent
-    
+    NgCalenderComponent
   ],
   imports: [
     BrowserModule,
@@ -95,7 +94,8 @@ import { ngCalenderComponent } from './components/angularCalender/ngCalender.com
 
   ],
   providers: [NotificationService, AuthGuard, UserService, SalesService, TeamsService, CustomaryService,
-              SalesCategoryService, ProjectsService, UserSalesStagesService, ClientService, SpinnerService, CalenderEventService, SalesNoteService],
+              SalesCategoryService, ProjectsService, UserSalesStagesService, ClientService, SpinnerService,
+               CalenderEventService, SalesNoteService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

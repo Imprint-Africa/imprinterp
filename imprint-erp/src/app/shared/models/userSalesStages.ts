@@ -1,7 +1,6 @@
 export class Stage {
-    name : String;
-    totalLeads : Number;
-    totalRevenue : Number;
-    userId: any
+    name: string;
+    totalLeads: number;
+    totalRevenue: number;
+    userId: any;
   }
-  

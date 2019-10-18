@@ -8,7 +8,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
 import { UsersComponent } from './components/home/users/users.component';
 import { NotFoundComponent } from './components/notFound/notFound.component';
-import { ngCalenderComponent } from './components/angularCalender/ngCalender.component';
+import { NgCalenderComponent } from './components/angularCalender/ngCalender.component';
 
 // Modules
 import { ProjectsSharedModule } from 'plugins/projects/projects.module';
@@ -21,7 +21,7 @@ import { DashboardSharedModule } from 'plugins/dashboard/dashboard.module';
 const routes: Routes = [
 
   // Login
-  { path: "", redirectTo: "login", pathMatch: "full" },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
 
   // Register
@@ -29,27 +29,27 @@ const routes: Routes = [
 
    // Users
   { path: 'users', component: HomeComponent, canActivate: [AuthGuard],
-     children: [{ path: "", component: UsersComponent}]
+     children: [{ path: '', component: UsersComponent}]
   },
 
   // Users
   { path: 'ngCalender', component: HomeComponent, canActivate: [AuthGuard],
-     children: [{ path: "", component: ngCalenderComponent}]
+     children: [{ path: '', component: NgCalenderComponent}]
   },
 
     // Project Module
-  { path: "projects", loadChildren: 'plugins/projects/projects.module#ProjectsSharedModule'},
+  { path: 'projects', loadChildren: 'plugins/projects/projects.module#ProjectsSharedModule'},
 
     // Editorial Module
-  { path: "editorial", loadChildren: 'plugins/editorial/editorial.module#EditorialSharedModule'},
+  { path: 'editorial', loadChildren: 'plugins/editorial/editorial.module#EditorialSharedModule'},
 
   // Sales Module
-  { path: "sales", loadChildren: 'plugins/sales/sales.module#SalesSharedModule'}, 
+  { path: 'sales', loadChildren: 'plugins/sales/sales.module#SalesSharedModule'},
 
    // Dashboard Module
-  { path: "dashboard", loadChildren: 'plugins/dashboard/dashboard.module#DashboardSharedModule'}, 
+  { path: 'dashboard', loadChildren: 'plugins/dashboard/dashboard.module#DashboardSharedModule'},
 
-  { path: "**", component: NotFoundComponent}
+  { path: '**', component: NotFoundComponent}
 
 ];
 

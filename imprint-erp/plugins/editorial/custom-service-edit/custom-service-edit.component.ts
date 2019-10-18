@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { TeamsService } from 'src/app/shared/services/teams.service';
 import { CustomaryService } from 'src/app/shared/services/customary.service';
@@ -20,19 +20,21 @@ export class CustomServiceEditComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private router : Router,
+    private router: Router,
     private notifyService: NotificationService,
     private teamsService: TeamsService,
     private customService: CustomaryService,
   ) { }
+// tslint:disable: prefer-const
+// tslint:disable: object-literal-shorthand
 
 // Modal
 @ViewChild('dangerModal') public dangerModal: ModalDirective;
 
 // permisions
-public toAdmin: boolean = false;
-public toAdminManager: boolean = false;
-public toAdminManagerUser: boolean = false;
+public toAdmin = false;
+public toAdminManager = false;
+public toAdminManagerUser = false;
 
 public serviceNameForm: FormGroup;
 public targetRevenueForm: FormGroup;
@@ -40,7 +42,7 @@ public taskForm: FormGroup;
 
 
 public serviceTobeEdited;
-public Teams : any = [];
+public Teams: any = [];
 
 public taskNameInputValue: string;
 public assignedTeamInputValue: string;
@@ -49,51 +51,50 @@ public assignedTeamInputValue: string;
 
   ngOnInit() {
 
-    if(!window.localStorage.getItem('IdServiceTobeEdited')){
+    if (!window.localStorage.getItem('IdServiceTobeEdited')) {
       this.router.navigate(['/editorial']);
-    }
-    else if(window.localStorage.getItem('IdServiceTobeEdited')){
+    } else if (window.localStorage.getItem('IdServiceTobeEdited')) {
       window.localStorage.setItem('ActiveNav', 'editorial');
 
-      if (window.localStorage.getItem("permissionStatus") === 'isAdmin'){
-        this.toAdmin= true;
+      if (window.localStorage.getItem('permissionStatus') === 'isAdmin') {
+        this.toAdmin = true;
       }
 
 
             // List Teams
       this.teamsService.listTeams().subscribe(
-        data=>{
+        data => {
             this.Teams = data;
         },
-        error=>{
-          console.log(error)
+        error => {
+          console.log(error);
         }
-      )
+      );
 
 
       this.customService.getOneService(window.localStorage.getItem('IdServiceTobeEdited')).subscribe(
-        data=>{
+        data => {
             this.serviceTobeEdited = data;
             this.notifyService.showInfo(`${data.serviceName} service is openned.`, 'Info');
         },
-        error=>{
-          console.log('Error')
+        error => {
+          console.log('Error');
           this.notifyService.showError(`Request Error`, 'Error');
         }
-      ) 
+      );
 
 
 
 
-      this.serviceNameForm=this.formBuilder.group({
+      this.serviceNameForm = this.formBuilder.group({
         serviceName: ['', Validators.required],
       });
 
-      this.targetRevenueForm=this.formBuilder.group({
+      this.targetRevenueForm = this.formBuilder.group({
         targetRevenue: ['', Validators.required],
       });
 
-      this.taskForm=this.formBuilder.group({
+      this.taskForm = this.formBuilder.group({
         taskName: ['', Validators.required],
         assignedTeam: ['', Validators.required]
       });
@@ -103,30 +104,31 @@ public assignedTeamInputValue: string;
     }
 // ---
   }
- 
-  
-
-
-get formChangeServiceName() {return this.serviceNameForm.controls;}
-get formChangeTargetRevenue() {return this.targetRevenueForm.controls;}
-get formChangeTasks() {return this.taskForm.controls;}
 
 
 
 
+get formChangeServiceName() {return this.serviceNameForm.controls; }
+get formChangeTargetRevenue() {return this.targetRevenueForm.controls; }
+get formChangeTasks() {return this.taskForm.controls; }
 
 
-submitServiceNameChange(){
-  
-  this.customService.updateServices(window.localStorage.getItem('IdServiceTobeEdited'), {serviceName: this.serviceNameForm.value.serviceName.toLowerCase()}).subscribe(
-    data=>{
+
+
+
+
+submitServiceNameChange() {
+
+  this.customService.updateServices(window.localStorage.getItem('IdServiceTobeEdited'),
+   {serviceName: this.serviceNameForm.value.serviceName.toLowerCase()}).subscribe(
+    data => {
       this.serviceTobeEdited = data;
       this.notifyService.showSuccess('Servcce Name Changed', 'Success');
     },
-    error=>{
+    error => {
       this.notifyService.showError('Service Not Changed', 'Error');
     }
-  )
+  );
 
 }
 
@@ -135,46 +137,47 @@ submitServiceNameChange(){
 
 
 
-submitTargetRevenueChange(){
+submitTargetRevenueChange() {
 
-  this.customService.updateServices(window.localStorage.getItem('IdServiceTobeEdited'), {targetRevenue: this.targetRevenueForm.value.targetRevenue}).subscribe(
-    data=>{
+  this.customService.updateServices(window.localStorage.getItem('IdServiceTobeEdited'),
+   {targetRevenue: this.targetRevenueForm.value.targetRevenue}).subscribe(
+    data => {
       this.serviceTobeEdited = data;
       this.notifyService.showSuccess('Revenue Chenged', 'Success');
     },
-    error=>{
+    error => {
       this.notifyService.showError('Revenue Not Changed', 'Error');
     }
-  )
+  );
 
 }
 
 
 
 
-submitTaskNameChange(id){
+submitTaskNameChange(id) {
   let taskToBeUpdated = [];
 
-  this.serviceTobeEdited.task.forEach((task)=>{
-    if(task._id === id){ 
+  this.serviceTobeEdited.task.forEach((task) => {
+    if (task._id === id) {
       task.taskName = this.taskForm.value.taskName.toLowerCase();
     }
     let structuredDate = {
       taskName: task.taskName,
       assignedTeam: task.assignedTeam,
-    }
+    };
     taskToBeUpdated.push(structuredDate);
   });
 
   this.customService.updateServices(window.localStorage.getItem('IdServiceTobeEdited'), {task: taskToBeUpdated}).subscribe(
-    data=>{
+    data => {
       this.serviceTobeEdited = data;
       this.notifyService.showSuccess('Task Updated', 'Success');
     },
-    error=>{
+    error => {
       this.notifyService.showError('Task Not Changed', 'Error');
     }
-  )
+  );
 
 }
 
@@ -183,30 +186,30 @@ submitTaskNameChange(id){
 
 
 
-submitAssignedTeamChange(id){
+submitAssignedTeamChange(id) {
 
   let taskToBeUpdated = [];
 
-  this.serviceTobeEdited.task.forEach((task)=>{
-    if(task._id === id){ 
+  this.serviceTobeEdited.task.forEach((task) => {
+    if (task._id === id) {
       task.assignedTeam = this.taskForm.value.assignedTeam;
     }
     let structuredDate = {
       taskName: task.taskName,
       assignedTeam: task.assignedTeam,
-    }
+    };
     taskToBeUpdated.push(structuredDate);
   });
 
   this.customService.updateServices(window.localStorage.getItem('IdServiceTobeEdited'), {task: taskToBeUpdated}).subscribe(
-    data=>{
+    data => {
       this.serviceTobeEdited = data;
       this.notifyService.showSuccess('Task Updated', 'Success');
     },
-    error=>{
+    error => {
       this.notifyService.showError('Task Not Changed', 'Error');
     }
-  )
+  );
 
 }
 
@@ -216,21 +219,21 @@ submitAssignedTeamChange(id){
 
 
 
-deleteService(){
+deleteService() {
 
   this.customService.deleteService(window.localStorage.getItem('IdServiceTobeEdited')).subscribe(
-    data=>{
+    data => {
       this.notifyService.showSuccess('Service Deleted', 'Success');
       window.localStorage.removeItem('IdServiceTobeEdited');
-      setTimeout(()=>{
-        this.router.navigate(['/editorial'])
+      setTimeout(() => {
+        this.router.navigate(['/editorial']);
       }, 3000);
     },
-    error=>{
-      this.notifyService.showError('Not Deleted', "Error");
+    error => {
+      this.notifyService.showError('Not Deleted', 'Error');
     }
-  )
-   
+  );
+
  }
 
 

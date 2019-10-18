@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy, ViewChild, TemplateRef, OnInit, OnDestroy } from '@angular/core';
 import { startOfDay, endOfDay, subDays, addDays, endOfMonth, isSameDay, isSameMonth, addHours } from 'date-fns';
 import { Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -7,26 +7,27 @@ import { CalenderEventService } from 'src/app/shared/services/calenderEvent.serv
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { UserService } from 'src/app/shared/services/user.service';
 
-  
-  
-  @Component({
-    selector: 'ngCalenderComponent',
-    // changeDetection: ChangeDetectionStrategy.OnPush,
-    styleUrls: ['./ngCalender.component.sass'],
-    templateUrl: './ngCalender.component.html'
-  })
-  export class ngCalenderComponent implements OnInit {
 
-    constructor(private modal: NgbModal,
-      private calenderEventService: CalenderEventService,
-      private userServices: UserService,
-      private notifyService: NotificationService
-    ) {}
+@Component({
+  selector: 'app-ng-calender-component',
+  // changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrls: ['./ngCalender.component.sass'],
+  templateUrl: './ngCalender.component.html'
+})
+export class NgCalenderComponent implements OnInit, OnDestroy {
 
+  constructor(private modal: NgbModal,
+              private calenderEventService: CalenderEventService,
+              private userServices: UserService,
+              private notifyService: NotificationService
+  ) {}
+
+// tslint:disable: prefer-const
+// tslint:disable: object-literal-shorthand
 
     @ViewChild('modalContent') modalContent: TemplateRef<any>;
 
-    //status
+    // status
     public allEventsSectionStatus;
     public editEventsSectionStatus;
 
@@ -35,77 +36,77 @@ import { UserService } from 'src/app/shared/services/user.service';
     public CalendarView = CalendarView;
     public viewDate: Date = new Date();
     public refresh: Subject<any> = new Subject();
-  
+
     public events: any = [];
     public Users: any = [];
-  
+
     public activeDayIsOpen: boolean;
     public calenderSectionStatus: boolean;
 
     public myInterval;
-  
 
 
 
-    ngOnInit(){
+
+    ngOnInit() {
 
       this.activeDayIsOpen = false;
       this.calenderSectionStatus = true;
 
       this.calenderEventService.getAllCalenderEvent().subscribe(
-        data=>{
-          this.events = data.filter(e=>{
+        data => {
+          this.events = data.filter(e => {
             e.start = new Date(e.start);
             e.end = new Date(e.end);
 
-            return true
-          }).map(e=>{return e});
+            return true;
+          }).map(e => e);
 
 
       },
-        error=>{console.log("cannot get all calender events on init")}
-      )
+        error => {console.log('cannot get all calender events on init'); }
+      );
 
       this.userServices.getAllUsers().subscribe(
-        data=>{
+        data => {
             this.Users = data;
         },
-        error=>{
-          console.log('Error getting Users')
+        error => {
+          console.log('Error getting Users');
         }
-      )
+      );
 
 
       this.calenderEventService.listCalenderEvent().subscribe(
-        data=>{
-          this.events = data.filter(e=>{
+        data => {
+          this.events = data.filter(e => {
             e.start = new Date(e.start);
             e.end = new Date(e.end);
 
-            return true
-          }).map(e=>{return e});  
+            return true;
+          }).map(e => e);
         },
-        error=>{console.log("cannot get all calender events on init")}
-      )
+        error => {console.log('cannot get all calender events on init'); }
+      );
 
       this.userServices.listUsers().subscribe(
-        data=>{
+        data => {
             this.Users = data;
         },
-        error=>{
-          console.log('Error listing Users')
+        error => {
+          console.log('Error listing Users');
         }
-      )
+      );
 
-      this.myInterval = setInterval(()=>{
+      this.myInterval = setInterval(() => {
         this.removePastEvent();
-      }, 3600000) // On Hour 3600000
-      
+      }, 3600000); // On Hour 3600000
+
 
     }// ngOnInit
 
 
-  
+
     dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
       if (isSameMonth(date, this.viewDate)) {
         if (
@@ -119,7 +120,7 @@ import { UserService } from 'src/app/shared/services/user.service';
         this.viewDate = date;
       }
     }
-  
+
 
 
 
@@ -130,16 +131,16 @@ import { UserService } from 'src/app/shared/services/user.service';
         }: CalendarEventTimesChangedEvent): void {
               this.events = this.events.map(iEvent => {
                 if (iEvent === event) {
-                  let updatedEvent ={
+                  let updatedEvent = {
                     ...event,
                     start: newStart,
                     end: newEnd
                   };
-                  this.saveEditEvent(updatedEvent)
+                  this.saveEditEvent(updatedEvent);
 
                   return updatedEvent;
                 }
-                
+
                 return iEvent;
               });
               }
@@ -170,19 +171,19 @@ import { UserService } from 'src/app/shared/services/user.service';
 
 
 
-    submitNewEvent(){
+    submitNewEvent() {
       let eventAssignedToProject;
 
-      if(localStorage.getItem('eventProjectId')){
-        eventAssignedToProject = localStorage.getItem('eventProjectId')
+      if (localStorage.getItem('eventProjectId')) {
+        eventAssignedToProject = localStorage.getItem('eventProjectId');
       }
-      if(!localStorage.getItem('eventProjectId')){
-        eventAssignedToProject = null
+      if (!localStorage.getItem('eventProjectId')) {
+        eventAssignedToProject = null;
       }
-       
 
-      this.events.forEach((e, idx, array)=>{
-        if (idx === array.length - 1){ 
+
+      this.events.forEach((e, idx, array) => {
+        if (idx === array.length - 1) {
           let i = {
             title: e.title,
             assignedUser: e.assignedUser,
@@ -193,63 +194,63 @@ import { UserService } from 'src/app/shared/services/user.service';
             allDay: e.allDay,
             draggable: e.draggable,
             resizable:  e.resizable
-            }      
-            this.saveToDatabase(i);
+            };
+          this.saveToDatabase(i);
         }
       });
     }
 
-    saveToDatabase(dataToSend){
+    saveToDatabase(dataToSend) {
 
       this.calenderEventService.addCalenderEvent(dataToSend).subscribe(
-        data=>{ this.notifyService.showSuccess("New Event Added", 'Success'); },
-        error=>{ this.notifyService.showError("Not Added", "Error"); }
-      )
+        data => { this.notifyService.showSuccess('New Event Added', 'Success'); },
+        error => { this.notifyService.showError('Not Added', 'Error'); }
+      );
     }// SaveToDatabase
 
 
 
-    saveEditEvent(e){
-   
+    saveEditEvent(e) {
+
       this.calenderEventService.updateCalenderEvent(e._id, e).subscribe(
-        data=>{ this.notifyService.showSuccess("Event Edited", 'Success'); },
-        error=>{ this.notifyService.showError("Not edited", "Error"); }
-      )
+        data => { this.notifyService.showSuccess('Event Edited', 'Success'); },
+        error => { this.notifyService.showError('Not edited', 'Error'); }
+      );
     }
 
     cancelEvent(eventToCancel) {
       this.events = this.events.filter(event => event !== eventToCancel);
     }
-  
+
     deleteEvent(eventToDelete) {
       this.events = this.events.filter(event => event !== eventToDelete);
       this.calenderEventService.deleteCalenderEvent(eventToDelete._id).subscribe(
-        data=>{ this.notifyService.showSuccess("Event Deleted", 'Success'); },
-        error=>{ this.notifyService.showError("Not Deleted", "Error"); }
-      )
+        data => { this.notifyService.showSuccess('Event Deleted', 'Success'); },
+        error => { this.notifyService.showError('Not Deleted', 'Error'); }
+      );
     }
-  
+
     setView(view: CalendarView) {
       this.view = view;
     }
-  
+
     closeOpenMonthViewDay() {
       this.activeDayIsOpen = false;
     }
 
 
-    removePastEvent(){
-  
+    removePastEvent() {
+
       this.events.forEach(eventElement => {
-        let now = new Date;
-        let then = new Date(eventElement.end)
+        let now = new Date();
+        let then = new Date(eventElement.end);
 
-        let diffInMS = (now.getTime() - then.getTime())
+        let diffInMS = (now.getTime() - then.getTime());
 
-        let diffInHours = Math.ceil(diffInMS / (1000 * 3600))
+        let diffInHours = Math.ceil(diffInMS / (1000 * 3600));
 
-        if (diffInHours > 24){
-          this.deleteEvent(eventElement)
+        if (diffInHours > 24) {
+          this.deleteEvent(eventElement);
         }
 
       });
@@ -257,11 +258,10 @@ import { UserService } from 'src/app/shared/services/user.service';
     }
 
 
-    ngOnDestroy(){
+    ngOnDestroy() {
       localStorage.removeItem('eventProjectId');
       clearInterval(this.myInterval);
     }
 
 
   }// End Of Class
-  

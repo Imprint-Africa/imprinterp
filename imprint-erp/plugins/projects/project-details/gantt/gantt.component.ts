@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ProjectsService } from 'src/app/shared/services/projects.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 
-import "dhtmlx-gantt";
+import 'dhtmlx-gantt';
 
 @Component({
   encapsulation: ViewEncapsulation.None,
@@ -19,15 +19,16 @@ export class GanttComponent implements OnInit {
   constructor(
     private projectsService: ProjectsService,
     private notifyService: NotificationService
-  ) { gantt.config.columns = [];}
+  ) { gantt.config.columns = []; }
+
+// tslint:disable: prefer-const
+// tslint:disable: object-literal-shorthand
 
 
 
 
 
-
-
-@ViewChild("gantt_here") ganttContainer: ElementRef;
+@ViewChild('gantt_here') ganttContainer: ElementRef;
 public oppennedProject;
 
 

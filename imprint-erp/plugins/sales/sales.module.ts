@@ -2,16 +2,16 @@ import { NgModule, ModuleWithProviders } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { SidebarModule } from "ng-sidebar";
-import { ReactiveFormsModule} from "@angular/forms";
+import { SidebarModule } from 'ng-sidebar';
+import { ReactiveFormsModule} from '@angular/forms';
 import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { ToastrModule } from "ngx-toastr";
-import { HttpClientModule } from "@angular/common/http";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ToastrModule } from 'ngx-toastr';
+import { HttpClientModule } from '@angular/common/http';
 import { ChartsModule } from 'ng2-charts';
-import { ModalModule } from "ngx-bootstrap";
-import { NgxSpinnerModule } from "ngx-spinner";
+import { ModalModule } from 'ngx-bootstrap';
+import { NgxSpinnerModule } from 'ngx-spinner';
 import { SalesRoutingModule } from './sales.routing.module';
 import { FilterPipeModule } from 'ngx-filter-pipe';
 
@@ -53,11 +53,11 @@ declarations: [
 export class SalesModule {}
 
 @NgModule({})
-export class SalesSharedModule{
+export class SalesSharedModule {
   static forRoot(): ModuleWithProviders {
     return {
       ngModule: SalesModule,
       providers: []
-    }
+    };
   }
 }

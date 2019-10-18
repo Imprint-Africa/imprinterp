@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Router } from '@angular/router';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 import { ProjectsService } from 'src/app/shared/services/projects.service';
 import { TeamsService } from 'src/app/shared/services/teams.service';
@@ -23,13 +23,14 @@ export class EditProjectComponent implements OnInit {
     constructor(
       private calendar: NgbCalendar,
       private formBuilder: FormBuilder,
-      private router : Router,
+      private router: Router,
       private userService: UserService,
       private teamsService: TeamsService,
       private projectService: ProjectsService,
       private notifyService: NotificationService
-    ) { 
-    }
+    ) { }
+// tslint:disable: prefer-const
+// tslint:disable: object-literal-shorthand
 
 // Modal
 @ViewChild('dangerModal') public dangerModal: ModalDirective;
@@ -63,7 +64,7 @@ public totalSelectedTasks: number;
 public totalTeams: number;
 public totalSelectedTeams: number;
 public Users: any = [];
-public Teams : any = [];
+public Teams: any = [];
 public totalProjectAssignedUsers: number;
 
 
@@ -90,34 +91,33 @@ public taskMaxDate;
   ngOnInit() {
 
     // ckeck if project exists
-    if(window.localStorage.getItem('projectOnEditId')){
+    if (window.localStorage.getItem('projectOnEditId')) {
 
       window.localStorage.setItem('ActiveNav', 'projects');
 
           // Get The project For Editing
-          this.projectService.getProject(window.localStorage.getItem('projectOnEditId')).subscribe(
+      this.projectService.getProject(window.localStorage.getItem('projectOnEditId')).subscribe(
 
-            data=>{
+            data => {
 
               this.setData(data);
-            
+
               this.convertDatesToNgbDates(data);
 
-  
-              let clientName = data.clientName.toUpperCase()
-              let projectName = data.projectName.toUpperCase()
-              this.notifyService.showInfo(`${clientName} ${projectName} project is opened`, "Info...")
-  
+
+              let clientName = data.clientName.toUpperCase();
+              let projectName = data.projectName.toUpperCase();
+              this.notifyService.showInfo(`${clientName} ${projectName} project is opened`, 'Info...');
+
             },
-  
-            error=>{
+
+            error => {
               console.log(error);
             }
-  
-          )
 
-        }
-        else{
+          );
+
+        } else {
           this.router.navigate(['/projects']);
         }
 
@@ -125,20 +125,20 @@ public taskMaxDate;
 
 
                   // Pass form values
-          this.costPriorForm=this.formBuilder.group({
+    this.costPriorForm = this.formBuilder.group({
             cost: [null, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],
             priority: null
           });
 
-          this.projectManagerForm=this.formBuilder.group({
+    this.projectManagerForm = this.formBuilder.group({
             projectManager: ['', Validators.required],
           });
 
-          this.assignedUserForm=this.formBuilder.group({
+    this.assignedUserForm = this.formBuilder.group({
             assignedUser: ['', Validators.required],
           });
 
-          this.addTaskForm=this.formBuilder.group({
+    this.addTaskForm = this.formBuilder.group({
               taskName: ['', Validators.required],
               assignedTeam: ['', Validators.required],
               assignedUser: ['', Validators.required],
@@ -147,26 +147,26 @@ public taskMaxDate;
               taskStartDate: [null],
               taskEndDate: [null],
             });
-    
+
           // List Teams
-          this.teamsService.listTeams().subscribe(
-            data=>{
+    this.teamsService.listTeams().subscribe(
+            data => {
                 this.Teams = data;
             },
-            error=>{
-              console.log(error)
+            error => {
+              console.log(error);
             }
-          )
+          );
 
           // List Users
-          this.userService.listUsers().subscribe(
-            data=>{
+    this.userService.listUsers().subscribe(
+            data => {
                 this.Users = data;
             },
-            error=>{
+            error => {
                 console.log('Error in getting Users');
             }
-          )
+          );
 
     //
   }
@@ -174,31 +174,31 @@ public taskMaxDate;
 
 
  // conveniently get the values from the form fields
- get formProjectManager() {return this.projectManagerForm.controls;}
- get formAssignedUser() {return this.assignedUserForm.controls;}
- get formAddTask(){ return this.addTaskForm.controls;}
- get formCostPrior() {return this.costPriorForm.controls;}
+ get formProjectManager() {return this.projectManagerForm.controls; }
+ get formAssignedUser() {return this.assignedUserForm.controls; }
+ get formAddTask() { return this.addTaskForm.controls; }
+ get formCostPrior() {return this.costPriorForm.controls; }
 
 
 
- toDetails(){
+ toDetails() {
    this.router.navigate(['projects/project_details']);
  }
 
- toTeams(){
+ toTeams() {
   this.router.navigate(['projects/project_update']);
 }
 
 
 
 // Toogle calender
-taskDetailsToggle(id){
+taskDetailsToggle(id) {
   this.listClickedStatus = id;
   this.taskDetailsStatus = !this.taskDetailsStatus;
 
-  this.OpennedProject.task.forEach(task=>{
-    return this.listClickedStatus === task._id ? this.taskClickedTeamStatus = task.assignedTeam : ''
-  })
+  this.OpennedProject.task.forEach(task => {
+    return this.listClickedStatus === task._id ? this.taskClickedTeamStatus = task.assignedTeam : '';
+  });
 }
 
 
@@ -206,33 +206,33 @@ taskDetailsToggle(id){
 
 
 
-setData(data){
+setData(data) {
 
-  
+
   this.OpennedProject = data;
   this.projPriority = data.priority;
 
   this.totalTasks = data.task.length;
 
 
-  let getInvolvedTeam =  data.task.filter(task=>{ return true}).map(task=>{return task.assignedTeam});
+  let getInvolvedTeam =  data.task.filter(task => true).map(task => task.assignedTeam);
   this.totalTeams = Array.from(new Set(getInvolvedTeam)).length;
 
-  let getInvolvedUsers =  data.task.filter(task=>{ return task.assignedUser === ''? false: true}).map(task=>{return task.assignedUser});
-  
+  let getInvolvedUsers =  data.task.filter(task => task.assignedUser === '' ? false : true).map(task => task.assignedUser);
+
   this.totalProjectAssignedUsers = Array.from(new Set(getInvolvedUsers)).length;
 
 }
 
-convertDatesToNgbDates(data){
+convertDatesToNgbDates(data) {
 
     // set Dates
-    if(data.projectDuration === null){
+    if (data.projectDuration === null) {
       this.projectFromDate = this.calendar.getToday();
       this.taskMinDate = this.projectFromDate;
       this.taskMaxDate = this.calendar.getNext(this.taskMinDate, 'd', 7);
-      this.projectToDate = null;           
-    }else{
+      this.projectToDate = null;
+    } else {
       // converting project date to NgbDate
       let startdates = new Date(data.projectStartDate);
       this.projectFromDate = new NgbDate(startdates.getUTCFullYear(), startdates.getUTCMonth() + 1, startdates.getUTCDate());
@@ -243,16 +243,16 @@ convertDatesToNgbDates(data){
       this.taskMaxDate = this.projectToDate;
 
       // converting task date to NgbDate
-      this.OpennedProject.task.forEach((task)=>{
-        if (task.taskDuration){
+      this.OpennedProject.task.forEach((task) => {
+        if (task.taskDuration) {
         let taskStartDates = new Date(task.taskStartDate);
         task.taskStartDate = new NgbDate(taskStartDates.getUTCFullYear(), taskStartDates.getUTCMonth() + 1, taskStartDates.getUTCDate());
         task.taskEndDate = this.calendar.getNext(task.taskStartDate, 'd', task.taskDuration);
         }
-      })
+      });
 
     }
-                   
+
 
 }
 
@@ -269,7 +269,8 @@ onProjectDateSelection(date: NgbDate) {
 }
 
 isProjectDateHovered(date: NgbDate) {
-return this.projectFromDate && !this.projectToDate && this.projectHoveredDate && date.after(this.projectFromDate) && date.before(this.projectHoveredDate);
+return this.projectFromDate && !this.projectToDate && this.projectHoveredDate &&
+ date.after(this.projectFromDate) && date.before(this.projectHoveredDate);
 }
 
 isProjectDateInside(date: NgbDate) {
@@ -277,7 +278,8 @@ return date.after(this.projectFromDate) && date.before(this.projectToDate);
 }
 
 isProjectDateRange(date: NgbDate) {
-return date.equals(this.projectFromDate) || date.equals(this.projectToDate) || this.isProjectDateInside(date) || this.isProjectDateHovered(date);
+return date.equals(this.projectFromDate) || date.equals(this.projectToDate) ||
+ this.isProjectDateInside(date) || this.isProjectDateHovered(date);
 }
 
 isProjectDateBeforeMinDate(date: NgbDate) {
@@ -292,27 +294,27 @@ isProjectDateBeforeMinDate(date: NgbDate) {
 // Save Project dates and Duration
 
 
-saveProjectDurationDates(){
+saveProjectDurationDates() {
 
   let dataToBeSent = {
     projectDuration: this.projectDuration,
-    projectStartDate: new Date(this.projectFromDate.year, this.projectFromDate.month -1, this.projectFromDate.day + 1),
-    projectEndDate: new Date(this.projectToDate.year, this.projectToDate.month -1, this.projectToDate.day + 1)
-  }
+    projectStartDate: new Date(this.projectFromDate.year, this.projectFromDate.month - 1, this.projectFromDate.day + 1),
+    projectEndDate: new Date(this.projectToDate.year, this.projectToDate.month - 1, this.projectToDate.day + 1)
+  };
 
   this.projectService.updateProject(window.localStorage.getItem('projectOnEditId'), dataToBeSent).subscribe(
-    data=>{
-      
-      this.setData(data);          
+    data => {
+
+      this.setData(data);
       this.convertDatesToNgbDates(data);
 
       this.notifyService.showSuccess('Dates Changes Saved', 'Success');
     },
-    error=>{
+    error => {
       this.notifyService.showError('No Changes are Saved', 'Error');
 
     }
-  )
+  );
 }
 
 
@@ -321,21 +323,21 @@ saveProjectDurationDates(){
 
 
 
-submitProjectManager(){
+submitProjectManager() {
 
   this.projectService.updateProject(window.localStorage.getItem('projectOnEditId'), this.projectManagerForm.value).subscribe(
-    data=>{
+    data => {
       this.OpennedProject = data;
 
-      this.setData(data);          
+      this.setData(data);
       this.convertDatesToNgbDates(data);
 
-      this.notifyService.showSuccess("Changes Saved", "Success")
+      this.notifyService.showSuccess('Changes Saved', 'Success');
     },
-    error=>{
-      this.notifyService.showError("Changes Not saved", "Error !")
+    error => {
+      this.notifyService.showError('Changes Not saved', 'Error !');
     }
-  )
+  );
 
 }
 
@@ -379,70 +381,70 @@ return date.before(this.taskMinDate) || date.after(this.taskMaxDate);
 
 
 // Save Changes on Tasks
-changeTasksDurationDates(){
-this.OpennedProject.task.forEach((t)=>{
+changeTasksDurationDates() {
+this.OpennedProject.task.forEach((t) => {
 
-  if (this.listClickedStatus === t._id){
+  if (this.listClickedStatus === t._id) {
         t.taskDuration = this.taskDuration;
-        t.taskStartDate = new Date(this.taskFromDate.year, this.taskFromDate.month -1, this.taskFromDate.day +1);
-        t.taskEndDate = new Date(this.taskToDate.year, this.taskToDate.month -1, this.taskToDate.day +1);
-        
+        t.taskStartDate = new Date(this.taskFromDate.year, this.taskFromDate.month - 1, this.taskFromDate.day + 1);
+        t.taskEndDate = new Date(this.taskToDate.year, this.taskToDate.month - 1, this.taskToDate.day + 1);
+
   }
-  if (t._id != this.listClickedStatus && t.taskDuration){
-    t.taskStartDate = new Date(t.taskStartDate.year, t.taskStartDate.month -1, t.taskStartDate.day +1);
-    t.taskEndDate = new Date(t.taskEndDate.year, t.taskEndDate.month -1, t.taskEndDate.day + 1);
+  if (t._id !== this.listClickedStatus && t.taskDuration) {
+    t.taskStartDate = new Date(t.taskStartDate.year, t.taskStartDate.month - 1, t.taskStartDate.day + 1);
+    t.taskEndDate = new Date(t.taskEndDate.year, t.taskEndDate.month - 1, t.taskEndDate.day + 1);
   }
 
-})
+});
 
 
 this.projectService.updateProject(window.localStorage.getItem('projectOnEditId'), {task : this.OpennedProject.task}).subscribe(
-  data=>{
+  data => {
 
-    this.setData(data);          
+    this.setData(data);
     this.convertDatesToNgbDates(data);
 
     this.notifyService.showSuccess('Task Updated', 'Success');
     this.taskDetailsStatus = !this.taskDetailsStatus;
   },
-  error=>{
+  error => {
     this.notifyService.showError('Task Not Updated', 'Error');
 
   }
-)
+);
 
 }
 
 
 
-changeAssignedUser(){
+changeAssignedUser() {
 
-  this.OpennedProject.task.forEach((t)=>{
+  this.OpennedProject.task.forEach((t) => {
 
-    if (this.listClickedStatus === t._id){
-          t.assignedUser = this.assignedUserForm.value.assignedUser
-          t.taskStartDate = new Date(t.taskStartDate.year, t.taskStartDate.month -1, t.taskStartDate.day +1);
-          t.taskEndDate = new Date(t.taskEndDate.year, t.taskEndDate.month -1, t.taskEndDate.day + 1);
-          
+    if (this.listClickedStatus === t._id) {
+          t.assignedUser = this.assignedUserForm.value.assignedUser;
+          t.taskStartDate = new Date(t.taskStartDate.year, t.taskStartDate.month - 1, t.taskStartDate.day + 1);
+          t.taskEndDate = new Date(t.taskEndDate.year, t.taskEndDate.month - 1, t.taskEndDate.day + 1);
+
     }
-    if (t._id != this.listClickedStatus && t.taskDuration){
-      t.taskStartDate = new Date(t.taskStartDate.year, t.taskStartDate.month -1, t.taskStartDate.day +1);
-      t.taskEndDate = new Date(t.taskEndDate.year, t.taskEndDate.month -1, t.taskEndDate.day + 1);
+    if (t._id !== this.listClickedStatus && t.taskDuration) {
+      t.taskStartDate = new Date(t.taskStartDate.year, t.taskStartDate.month - 1, t.taskStartDate.day + 1);
+      t.taskEndDate = new Date(t.taskEndDate.year, t.taskEndDate.month - 1, t.taskEndDate.day + 1);
     }
-  
+
   });
-  
-  this.projectService.updateProject(window.localStorage.getItem('projectOnEditId'), {task : this.OpennedProject.task}).subscribe(
-    data=>{
 
-      this.setData(data);          
+  this.projectService.updateProject(window.localStorage.getItem('projectOnEditId'), {task : this.OpennedProject.task}).subscribe(
+    data => {
+
+      this.setData(data);
       this.convertDatesToNgbDates(data);
 
       this.notifyService.showSuccess('Task Updated', 'Success');
-    },error=>{
+    }, error => {
       this.notifyService.showError('Task Not Updated', 'Success');
     }
-  )
+  );
 
 
 }
@@ -455,34 +457,34 @@ changeAssignedUser(){
 
 
 
-addTask(){
+addTask() {
   this.addTaskForm.value.taskDuration = this.taskDuration;
   this.addTaskForm.value.taskStartDate = this.taskFromDate;
   this.addTaskForm.value.taskEndDate = this.taskToDate;
 
   this.OpennedProject.task.push(this.addTaskForm.value);
 
-  let dataToBeUpdated = this.OpennedProject.task.filter(t=>{
-    t.taskStartDate = new Date(t.taskStartDate.year, t.taskStartDate.month -1, t.taskStartDate.day +1);
-    t.taskEndDate = new Date(t.taskEndDate.year, t.taskEndDate.month -1, t.taskEndDate.day + 1);
+  let dataToBeUpdated = this.OpennedProject.task.filter(t => {
+    t.taskStartDate = new Date(t.taskStartDate.year, t.taskStartDate.month - 1, t.taskStartDate.day + 1);
+    t.taskEndDate = new Date(t.taskEndDate.year, t.taskEndDate.month - 1, t.taskEndDate.day + 1);
 
     return true;
-  }).map(e=>{return e});
+  }).map(e => e);
 
   this.projectService.updateProject(window.localStorage.getItem('projectOnEditId'), {task: dataToBeUpdated}).subscribe(
-    data=>{
+    data => {
 
-      
-      this.setData(data);          
+
+      this.setData(data);
       this.convertDatesToNgbDates(data);
 
 
       this.notifyService.showSuccess('Task Added', 'Success');
     },
-    error=>{
+    error => {
       this.notifyService.showError('Could Not Add Task', 'Error !!');
     }
-  )
+  );
 
 }
 
@@ -498,7 +500,7 @@ addTask(){
 
 
 // Set priority
-selectPriority(num){
+selectPriority(num) {
 this.projPriority = num;
 }
 
@@ -506,21 +508,21 @@ this.projPriority = num;
 
 
 
-// Save Changes 
+// Save Changes
 
-saveRevenuePrioroty(){
+saveRevenuePrioroty() {
 
 
 this.costPriorForm.value.priority = this.projPriority;
 
 this.projectService.updateProject(window.localStorage.getItem('projectOnEditId'), this.costPriorForm.value).subscribe(
-  data=>{
-    this.notifyService.showSuccess("Changes Saved", "Success")
+  data => {
+    this.notifyService.showSuccess('Changes Saved', 'Success');
   },
-  error=>{
-    this.notifyService.showError("Changes Not saved", "Error !")
+  error => {
+    this.notifyService.showError('Changes Not saved', 'Error !');
   }
-)
+);
 
 
 }
@@ -532,21 +534,21 @@ this.projectService.updateProject(window.localStorage.getItem('projectOnEditId')
 
 
 
-deleteProject(){
+deleteProject() {
 
  this.projectService.deleteProject(window.localStorage.getItem('projectOnEditId')).subscribe(
-   data=>{
+   data => {
      this.notifyService.showSuccess('Project Deleted', 'Success');
      window.localStorage.removeItem('projectOnEditId');
-     setTimeout(()=>{
-       this.router.navigate(['/projects'])
+     setTimeout(() => {
+       this.router.navigate(['/projects']);
      }, 3000);
    },
-   error=>{
-     this.notifyService.showError('Not Deleted', "Error");
+   error => {
+     this.notifyService.showError('Not Deleted', 'Error');
    }
- )
-  
+ );
+
 }
 
 

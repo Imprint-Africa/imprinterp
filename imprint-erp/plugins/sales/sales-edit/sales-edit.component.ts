@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgbCalendar, NgbDate } from '@ng-bootstrap/ng-bootstrap';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import { SalesService } from 'src/app/shared/services/sales.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { ProjectsService } from 'src/app/shared/services/projects.service';
@@ -12,21 +12,21 @@ import { UserService } from 'src/app/shared/services/user.service';
   templateUrl: './sales-edit.component.html',
   styleUrls: ['./sales-edit.component.sass'],
 })
-export class SalesEditComponent implements OnInit {
+export class SalesEditComponent implements OnInit, OnDestroy {
 
 
   // Constructor
   constructor(
     private calendar: NgbCalendar,
     private formBuilder: FormBuilder,
-    private router : Router,
+    private router: Router,
     private userService: UserService,
     private salesService: SalesService,
     private projectService: ProjectsService,
     private notifyService: NotificationService
-  ) { 
-  }
-
+  ) {}
+// tslint:disable: prefer-const
+// tslint:disable: object-literal-shorthand
 
 // Variables
 public projectManagerForm: FormGroup;
@@ -92,114 +92,111 @@ public taskMaxDate;
     this.taskToDate = null;
 
 
-    if(window.localStorage.getItem('salesEditItemId')){
+    if (window.localStorage.getItem('salesEditItemId')) {
 
     // Get The project For Editing
         this.salesService.getOppProject(window.localStorage.getItem('salesEditItemId')).subscribe(
 
-          data=>{
+          data => {
 
 
             this.setdata(data);
 
-                
-
             // set Dates
-            if(data.projectDuration === null){
+            if (data.projectDuration === null) {
               this.projectFromDate = this.calendar.getToday();
               this.taskMinDate = this.projectFromDate;
               this.taskMaxDate = this.calendar.getNext(this.taskMinDate, 'd', 7);
-              this.projectToDate = null;           
-            }else{
+              this.projectToDate = null;
+            } else {
               this.convertDatesToNgbDates(data);
 
             }
-                    
 
-            let clientName = data.clientName.toUpperCase()
-            let projectName = data.projectName.toUpperCase()
-            this.notifyService.showInfo(`${clientName} ${projectName} project is opened`, "Info...")
+            let clientName = data.clientName.toUpperCase();
+            let projectName = data.projectName.toUpperCase();
+            this.notifyService.showInfo(`${clientName} ${projectName} project is opened`, 'Info...');
 
           },
 
-          error=>{
+          error => {
             console.log(error);
           }
 
-        )
-        
-        }else{
+        );
+
+        } else {
           this.router.navigate(['/sales']);
         }
 
 
       // Pass form values
-      this.costPriorForm=this.formBuilder.group({
+    this.costPriorForm = this.formBuilder.group({
         cost: [null, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],
         priority: null
       });
 
-      this.projectManagerForm=this.formBuilder.group({
+    this.projectManagerForm = this.formBuilder.group({
         projectManager: ['', Validators.required],
       });
 
-      this.assignedUserForm=this.formBuilder.group({
+    this.assignedUserForm = this.formBuilder.group({
         assignedUser: ['', Validators.required],
       });
-    
 
-      this.userService.listUsers().subscribe(
-        data=>{
+
+    this.userService.listUsers().subscribe(
+        data => {
             this.Users = data;
         },
-        error=>{
+        error => {
             console.log('Error in getting Users');
         }
-      )
-    
+      );
 
 
 
-//  -----   
+
+//  -----
   }
 // -----
 
 
 
  // conveniently get the values from the form fields
- get formProjectManager() {return this.projectManagerForm.controls;}
- get formAssignedUser() {return this.assignedUserForm.controls;}
- get formCostPrior() {return this.costPriorForm.controls;}
+ get formProjectManager() {return this.projectManagerForm.controls; }
+ get formAssignedUser() {return this.assignedUserForm.controls; }
+ get formCostPrior() {return this.costPriorForm.controls; }
 
 
 
-setdata(data){
+setdata(data) {
 
   this.OpennedProject = data;
   this.projPriority = data.priority;
 
   this.totalTasks = data.task.length;
-  this.totalSelectedTasks = data.task.filter((task)=>{
-    return task.taskStatus === 'checked' ? true : false
-  }).map(task=>{return task}).length;
+  this.totalSelectedTasks = data.task.filter((task) => {
+    return task.taskStatus === 'checked' ? true : false;
+  }).map(task => task).length;
 
 
-  let getInvolvedTeam =  data.task.filter(task=>{ return true}).map(task=>{return task.assignedTeam});
+  let getInvolvedTeam =  data.task.filter(task => true).map(task => task.assignedTeam);
   this.totalTeams = Array.from(new Set(getInvolvedTeam)).length;
 
-  let getSelectedInvolvedTeam =  data.task.filter((task)=>{
-    return task.taskStatus === 'checked' ? true : false
-  }).map(task=>{return task.assignedTeam});
+  let getSelectedInvolvedTeam =  data.task.filter((task) => {
+    return task.taskStatus === 'checked' ? true : false;
+  }).map(task => task.assignedTeam);
 
   this.totalSelectedTeams = Array.from(new Set(getSelectedInvolvedTeam)).length;
 
-  let getInvolvedUsers =  data.task.filter(task=>{ return task.assignedUser === ''? false: true}).map(task=>{return task.assignedUser});
+  let getInvolvedUsers =  data.task.filter(task => task.assignedUser === '' ? false : true).map(task => task.assignedUser);
   this.totalProjectAssignedUsers = Array.from(new Set(getInvolvedUsers)).length;
 
 }
 
 
-convertDatesToNgbDates(data){
+convertDatesToNgbDates(data) {
     this.OpennedProject = data;
     // converting project date to NgbDate
     let startdates = new Date(data.projectStartDate);
@@ -211,13 +208,13 @@ convertDatesToNgbDates(data){
     this.taskMaxDate = this.projectToDate;
 
     // converting task date to NgbDate
-    this.OpennedProject.task.forEach((task)=>{
-      if (task.taskDuration){
+    this.OpennedProject.task.forEach((task) => {
+      if (task.taskDuration) {
       let taskStartDates = new Date(task.taskStartDate);
       task.taskStartDate = new NgbDate(taskStartDates.getUTCFullYear(), taskStartDates.getUTCMonth() + 1, taskStartDates.getUTCDate());
       task.taskEndDate = this.calendar.getNext(task.taskStartDate, 'd', task.taskDuration);
       }
-    })
+    });
 
 }
 
@@ -225,13 +222,13 @@ convertDatesToNgbDates(data){
 
 
 // Toogle calender
-taskDetailsToggle(id){
+taskDetailsToggle(id) {
   this.listClickedStatus = id;
   this.taskDetailsStatus = !this.taskDetailsStatus;
 
-  this.OpennedProject.task.forEach(task=>{
-    return this.listClickedStatus === task._id ? this.taskClickedTeamStatus = task.assignedTeam : ''
-  })
+  this.OpennedProject.task.forEach(task => {
+    return this.listClickedStatus === task._id ? this.taskClickedTeamStatus = task.assignedTeam : '';
+  });
 }
 
 
@@ -251,7 +248,8 @@ onProjectDateSelection(date: NgbDate) {
 }
 
 isProjectDateHovered(date: NgbDate) {
-return this.projectFromDate && !this.projectToDate && this.projectHoveredDate && date.after(this.projectFromDate) && date.before(this.projectHoveredDate);
+return this.projectFromDate && !this.projectToDate && this.projectHoveredDate && date.after(this.projectFromDate)
+&& date.before(this.projectHoveredDate);
 }
 
 isProjectDateInside(date: NgbDate) {
@@ -259,7 +257,8 @@ return date.after(this.projectFromDate) && date.before(this.projectToDate);
 }
 
 isProjectDateRange(date: NgbDate) {
-return date.equals(this.projectFromDate) || date.equals(this.projectToDate) || this.isProjectDateInside(date) || this.isProjectDateHovered(date);
+return date.equals(this.projectFromDate) || date.equals(this.projectToDate) || this.isProjectDateInside(date) ||
+this.isProjectDateHovered(date);
 }
 
 isProjectDateBeforeMinDate(date: NgbDate) {
@@ -272,26 +271,26 @@ isProjectDateBeforeMinDate(date: NgbDate) {
 
 
 // Save Project dates and Duration
-saveProjectDurationDates(){
+saveProjectDurationDates() {
 
   let dataToBeSent = {
     projectDuration: this.projectDuration,
-    projectStartDate: new Date(this.projectFromDate.year, this.projectFromDate.month -1, this.projectFromDate.day + 1),
-    projectEndDate: new Date(this.projectToDate.year, this.projectToDate.month -1, this.projectToDate.day + 1)
-  }
+    projectStartDate: new Date(this.projectFromDate.year, this.projectFromDate.month - 1, this.projectFromDate.day + 1),
+    projectEndDate: new Date(this.projectToDate.year, this.projectToDate.month - 1, this.projectToDate.day + 1)
+  };
 
   this.salesService.updateOppProject(window.localStorage.getItem('salesEditItemId'), dataToBeSent).subscribe(
-    data=>{
+    data => {
       this.setdata(data);
       this.convertDatesToNgbDates(data);
 
       this.notifyService.showSuccess('Dates Changes Saved', 'Success');
     },
-    error=>{
+    error => {
       this.notifyService.showError('No Changes are Saved', 'Error');
 
     }
-  )
+  );
 }
 
 
@@ -300,20 +299,20 @@ saveProjectDurationDates(){
 
 
 
-submitProjectManager(){
+submitProjectManager() {
 
   this.salesService.updateOppProject(window.localStorage.getItem('salesEditItemId'), this.projectManagerForm.value).subscribe(
-    data=>{
-      
+    data => {
+
       this.setdata(data);
       this.convertDatesToNgbDates(data);
 
-      this.notifyService.showSuccess("Changes Saved", "Success")
+      this.notifyService.showSuccess('Changes Saved', 'Success');
     },
-    error=>{
-      this.notifyService.showError("Changes Not saved", "Error !")
+    error => {
+      this.notifyService.showError('Changes Not saved', 'Error !');
     }
-  )
+  );
 
 }
 
@@ -334,7 +333,8 @@ onTaskDateSelection(date: NgbDate) {
 }
 
 isTaskDateHovered(date: NgbDate) {
-  return this.taskFromDate && !this.taskToDate && this.taskHoveredDate && date.after(this.taskFromDate) && date.before(this.taskHoveredDate);
+  return this.taskFromDate && !this.taskToDate && this.taskHoveredDate && date.after(this.taskFromDate) &&
+   date.before(this.taskHoveredDate);
 }
 
 isTaskDateInside(date: NgbDate) {
@@ -355,26 +355,26 @@ isTaskDateOutSide(date: NgbDate) {
 
 
 // Save Changes on Tasks
-saveTasksDurationDates(){
-  this.OpennedProject.task.forEach((t)=>{
-  
-    if (this.listClickedStatus === t._id){
+saveTasksDurationDates() {
+  this.OpennedProject.task.forEach((t) => {
+
+    if (this.listClickedStatus === t._id) {
           t.taskDuration = this.taskDuration,
-          t.taskStartDate = new Date(this.taskFromDate.year, this.taskFromDate.month -1, this.taskFromDate.day +1);
-          t.taskEndDate = new Date(this.taskToDate.year, this.taskToDate.month -1, this.taskToDate.day +1);
+          t.taskStartDate = new Date(this.taskFromDate.year, this.taskFromDate.month - 1, this.taskFromDate.day + 1);
+          t.taskEndDate = new Date(this.taskToDate.year, this.taskToDate.month - 1, this.taskToDate.day + 1);
           t.taskStatus = 'checked';
-          
+
     }
-    if (t._id != this.listClickedStatus && t.taskDuration){
-      t.taskStartDate = new Date(t.taskStartDate.year, t.taskStartDate.month -1, t.taskStartDate.day +1);
-      t.taskEndDate = new Date(t.taskEndDate.year, t.taskEndDate.month -1, t.taskEndDate.day + 1);
+    if (t._id !== this.listClickedStatus && t.taskDuration) {
+      t.taskStartDate = new Date(t.taskStartDate.year, t.taskStartDate.month - 1, t.taskStartDate.day + 1);
+      t.taskEndDate = new Date(t.taskEndDate.year, t.taskEndDate.month - 1, t.taskEndDate.day + 1);
     }
 
-  })
+  });
 
 
   this.salesService.updateOppProject(window.localStorage.getItem('salesEditItemId'), {task : this.OpennedProject.task}).subscribe(
-    data=>{
+    data => {
 
       this.setdata(data);
       this.convertDatesToNgbDates(data);
@@ -382,11 +382,11 @@ saveTasksDurationDates(){
       this.notifyService.showSuccess('Task Updated', 'Success');
       this.taskDetailsStatus = !this.taskDetailsStatus;
     },
-    error=>{
+    error => {
       this.notifyService.showError('Task Not Updated', 'Error');
 
     }
-  )
+  );
 
 }
 
@@ -394,40 +394,40 @@ saveTasksDurationDates(){
 
 
 
-changeAssignedUser(){
+changeAssignedUser() {
 
-  this.OpennedProject.task.forEach((t)=>{
+  this.OpennedProject.task.forEach((t) => {
 
-    if (this.listClickedStatus === t._id){
-          t.assignedUser = this.assignedUserForm.value.assignedUser
+    if (this.listClickedStatus === t._id) {
+          t.assignedUser = this.assignedUserForm.value.assignedUser;
 
-          if(t.taskDuration){
-            t.taskStartDate = new Date(t.taskStartDate.year, t.taskStartDate.month -1, t.taskStartDate.day +1);
-            t.taskEndDate = new Date(t.taskEndDate.year, t.taskEndDate.month -1, t.taskEndDate.day + 1);
+          if (t.taskDuration) {
+            t.taskStartDate = new Date(t.taskStartDate.year, t.taskStartDate.month - 1, t.taskStartDate.day + 1);
+            t.taskEndDate = new Date(t.taskEndDate.year, t.taskEndDate.month - 1, t.taskEndDate.day + 1);
           }
     }
-    if (t._id != this.listClickedStatus && t.taskDuration){
-      t.taskStartDate = new Date(t.taskStartDate.year, t.taskStartDate.month -1, t.taskStartDate.day +1);
-      t.taskEndDate = new Date(t.taskEndDate.year, t.taskEndDate.month -1, t.taskEndDate.day + 1);
+    if (t._id !== this.listClickedStatus && t.taskDuration) {
+      t.taskStartDate = new Date(t.taskStartDate.year, t.taskStartDate.month - 1, t.taskStartDate.day + 1);
+      t.taskEndDate = new Date(t.taskEndDate.year, t.taskEndDate.month - 1, t.taskEndDate.day + 1);
     }
-  
+
   });
-  
+
   this.salesService.updateOppProject(window.localStorage.getItem('salesEditItemId'), {task : this.OpennedProject.task}).subscribe(
-    data=>{
+    data => {
 
       this.convertDatesToNgbDates(data);
 
-      let getInvolvedUsers =  data.task.filter(task=>{ return task.assignedUser === ''? false: true}).map(task=>{return task.assignedUser});
+      let getInvolvedUsers =  data.task.filter(task => task.assignedUser === '' ? false : true).map(task => task.assignedUser);
       this.totalProjectAssignedUsers = Array.from(new Set(getInvolvedUsers)).length;
 
 
       this.taskDetailsStatus = !this.taskDetailsStatus;
       this.notifyService.showSuccess('Task Updated', 'Success');
-    },error=>{
+    }, error => {
       this.notifyService.showError('Task Not Updated', 'Success');
     }
-  )
+  );
 
 
 }
@@ -441,7 +441,7 @@ changeAssignedUser(){
 
 
 // Set priority
-selectPriority(num){
+selectPriority(num) {
   this.projPriority = num;
 }
 
@@ -449,28 +449,28 @@ selectPriority(num){
 
 
 
-// Save Changes 
+// Save Changes
 
-saveRevenuePrioroty(){
+saveRevenuePrioroty() {
 
 
   this.costPriorForm.value.priority = this.projPriority;
 
   this.salesService.updateOppProject(window.localStorage.getItem('salesEditItemId'), this.costPriorForm.value).subscribe(
-    data=>{
-      this.notifyService.showSuccess("Changes Saved", "Success")
+    data => {
+      this.notifyService.showSuccess('Changes Saved', 'Success');
     },
-    error=>{
-      this.notifyService.showError("Changes Not saved", "Error !")
+    error => {
+      this.notifyService.showError('Changes Not saved', 'Error !');
     }
-  )
- 
+  );
+
 
 }
 
 
-discardChanges(){
-  this.router.navigate(['/sales'])
+discardChanges() {
+  this.router.navigate(['/sales']);
 }
 
 
@@ -478,60 +478,60 @@ discardChanges(){
 
 
 // Loanchproject
-lauchProject(){
+lauchProject() {
 
   this.salesService.getOppProject(window.localStorage.getItem('salesEditItemId')).subscribe(
-    data=>{
+    data => {
 
       let newProject = {
         clientName : data.clientName,
         projectName: data.projectName,
         projectManager: data.projectManager,
-        task : data.task.filter((task)=>{
+        task : data.task.filter((task) => {
                           return task.taskStatus === 'checked';
-                      }).map(task =>{return task}),
+                      }).map(task => task),
         cost: data.cost,
         priority: data.priority,
-        projectStatus : 'active',   
+        projectStatus : 'active',
         progress: 0,
         projectDuration: data.projectDuration,
         projectStartDate: data.projectStartDate,
         projectEndDate: data.projectEndDate,
-      }        
-      
+      };
+
 
       // create Projects
       this.projectService.addProject(newProject).subscribe(
-        data=>{
+        dataAddProj => {
 
           // delete from Opp
             this.salesService.deleteOppProject(window.localStorage.getItem('salesEditItemId')).subscribe(
-              data=>{
-                this.notifyService.showSuccess("Projects Launched", "Success");
+              dataDelOppProj => {
+                this.notifyService.showSuccess('Projects Launched', 'Success');
 
-                setTimeout(()=>{
-                  this.router.navigate(['/projects'])
-                },5000)
+                setTimeout(() => {
+                  this.router.navigate(['/projects']);
+                }, 5000);
               },
-              error=>{
-                this.notifyService.showError("Launching Failed", "Error");
+              error => {
+                this.notifyService.showError('Launching Failed', 'Error');
               }
 
-            )
+            );
         },
-        error=>{
+        error => {
 
         }
-      )
+      );
 
     },
-    error=>{
+    error => {
       console.log(error);
     }
-  )
+  );
 
 
- 
+
 }
 
 
@@ -542,21 +542,21 @@ lauchProject(){
 
 
 
-deleteProject(){
+deleteProject() {
 
   this.salesService.deleteOppProject(window.localStorage.getItem('salesEditItemId')).subscribe(
 
-    data =>{
-      this.notifyService.showSuccess("Projects Deleted", "Success");
-      setTimeout(()=>{
-                this.router.navigate(['/sales'])
-          },2000)
+    data => {
+      this.notifyService.showSuccess('Projects Deleted', 'Success');
+      setTimeout(() => {
+                this.router.navigate(['/sales']);
+          }, 2000);
     },
-    error =>{
-      this.notifyService.showError("Projects Not Deleted", "Failled");
+    error => {
+      this.notifyService.showError('Projects Not Deleted', 'Failled');
     }
 
-  )
+  );
 
 }
 
@@ -565,8 +565,8 @@ deleteProject(){
 
 
 
- 
-ngOnDestroy(){
+
+ngOnDestroy() {
   window.localStorage.removeItem('salesEditItemId');
 }
 

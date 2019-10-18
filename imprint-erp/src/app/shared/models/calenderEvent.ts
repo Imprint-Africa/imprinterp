@@ -1,18 +1,18 @@
+// tslint:disable-next-line: class-name
 export class calenderEvent {
-    title: String;
-    assignedUser: String;
+    title: string;
+    assignedUser: string;
     projectId: any;
     start: Date;
     end: Date;
     color: {
-      primary: String;
-      secondary: String;
+      primary: string;
+      secondary: string;
     };
-    allDay: Boolean;
-    draggable: Boolean;
+    allDay: boolean;
+    draggable: boolean;
     resizable: {
-      beforeStart: Boolean;
-      afterEnd: Boolean
-    }
+      beforeStart: boolean;
+      afterEnd: boolean
+    };
   }
-  
