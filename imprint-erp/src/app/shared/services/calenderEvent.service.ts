@@ -13,8 +13,8 @@ import { calenderEvent } from '../models/calenderEvent';
 export class CalenderEventService {
     // tslint:disable: variable-name
 
-// _url: string = "http://localhost:3000/api/calenderEvents/";
-// _urlGetEmit: string = "http://127.0.0.1:3000/";
+// _url = "http://localhost:3000/api/calenderEvents/";
+// _urlGetEmit = "http://127.0.0.1:3000/";
 _url = 'http://18.185.62.101:4201/api/calenderEvents/';
 _urlGetEmit = 'http://18.185.62.101:4201/';
 

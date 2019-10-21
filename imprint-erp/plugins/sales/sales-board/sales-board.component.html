@@ -90,40 +90,6 @@
 
 
 
-<div bsModal #addNewStageModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog addNewStageModal" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title">New Stage </h4>
-        <button type="button" class="btn close" (click)="addNewStageModal.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-                    
-              <form id="myNewStageForm" #myNewStageForm='ngForm' [formGroup]="newStageForm" class="form">
-                <div class="form-group">
-                  <div class="input-group input-group-sm mb-3">
-
-                        <div class="input-group-prepend">
-                          <span class="input-group-text" id="inputGroup-sizing-sm">New Stage</span>
-                        </div>
-
-                        <input #newStageInput type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-                        formControlName="name" [class.is-invalid]="formNewStage.name.invalid && formNewStage.name.touched">
-
-                  </div>
-                </div>
-            </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-cancel" (click)="addNewStageModal.hide()">Cancel</button>
-        <button type="button" [disabled]="!myNewStageForm.valid"class="btn btn-confirm" (click)="submitNewStageForm(); addNewStageModal.hide()">Save</button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
 
 
 

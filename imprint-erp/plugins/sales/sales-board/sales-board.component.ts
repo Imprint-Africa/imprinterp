@@ -313,85 +313,85 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
   }
 
 
-  getUserSalesStages() {
-    this.userSalesStageService.getUserStages(localStorage.getItem('loggedUserID')).subscribe(
-      data => {
+  // getUserSalesStages() {
+  //   this.userSalesStageService.getUserStages(localStorage.getItem('loggedUserID')).subscribe(
+  //     data => {
 
-        if (data.length === 0) {
+  //       if (data.length === 0) {
 
-          const stage1 = { name: 'new leads', totalLeads: null, totalRevenue: null, userId: localStorage.getItem('loggedUserID') };
-          const stage2 = { name: 'prospects', totalLeads: null, totalRevenue: null, userId: localStorage.getItem('loggedUserID') };
-          const stage3 = { name: 'qualified leads', totalLeads: null, totalRevenue: null, userId: localStorage.getItem('loggedUserID') };
-          const stage4 = { name: 'customers', totalLeads: null, totalRevenue: null, userId: localStorage.getItem('loggedUserID') };
+  //         const stage1 = { name: 'new leads', totalLeads: null, totalRevenue: null, userId: localStorage.getItem('loggedUserID') };
+  //         const stage2 = { name: 'prospects', totalLeads: null, totalRevenue: null, userId: localStorage.getItem('loggedUserID') };
+  //         const stage3 = { name: 'qualified leads', totalLeads: null, totalRevenue: null, userId: localStorage.getItem('loggedUserID') };
+  //         const stage4 = { name: 'customers', totalLeads: null, totalRevenue: null, userId: localStorage.getItem('loggedUserID') };
 
-          this.userSalesStageService.createStage(stage1).subscribe(
-            () => {
-              this.userSalesStageService.createStage(stage2).subscribe(
-                () => {
+  //         this.userSalesStageService.createStage(stage1).subscribe(
+  //           () => {
+  //             this.userSalesStageService.createStage(stage2).subscribe(
+  //               () => {
 
-                  this.userSalesStageService.createStage(stage3).subscribe(
-                    () => {
+  //                 this.userSalesStageService.createStage(stage3).subscribe(
+  //                   () => {
 
-                      this.userSalesStageService.createStage(stage4).subscribe(
-                        () => {
+  //                     this.userSalesStageService.createStage(stage4).subscribe(
+  //                       () => {
 
-                          this.notifyService.showInfo('Defaults stages has been created.', 'Info');
+  //                         this.notifyService.showInfo('Defaults stages has been created.', 'Info');
 
-                          this.getUserSalesStages();
+  //                         this.getUserSalesStages();
 
-                        },
-                        error => { console.log('Errror'); }
-                      );
-                    },
-                    error => { console.log('Errror'); }
-                  );
+  //                       },
+  //                       error => { console.log('Errror'); }
+  //                     );
+  //                   },
+  //                   error => { console.log('Errror'); }
+  //                 );
 
-                },
-                error => { console.log('Errror'); }
-              );
-            },
-            error => { console.log('Errror'); }
-          );
+  //               },
+  //               error => { console.log('Errror'); }
+  //             );
+  //           },
+  //           error => { console.log('Errror'); }
+  //         );
 
-        } else if (data.length !== 0) {
-          this.UserSalesStages = data;
-        }
+  //       } else if (data.length !== 0) {
+  //         this.UserSalesStages = data;
+  //       }
 
-      },
-      error => { console.log('Cannot get user sales stages'); }
+  //     },
+  //     error => { console.log('Cannot get user sales stages'); }
 
-    );
-  }
-
-
-  UpdateUsersSalesStages() {
-
-    this.userSalesStageService.getAllStages().subscribe(
-      data => {
-        data.forEach(stage => {
-
-          let OppInThisCategory = this.Opportunitys.filter((opp) => {
-            return opp.projectStatus === stage.name ? true : false;
-          }).map((e) =>  e);
-
-          let dataToBeUpdated = {
-            totalLeads: OppInThisCategory.length,
-            totalRevenue: OppInThisCategory.reduce((previous, current) => previous + current.cost, 0)
-          };
-
-          this.userSalesStageService.updateStage(stage._id, dataToBeUpdated).subscribe(
-            () => {
-              this.getUserSalesStages();
-            }
-          );
+  //   );
+  // }
 
 
-        });
-      }, error => { }
-    );
+  // UpdateUsersSalesStages() {
+
+  //   this.userSalesStageService.getAllStages().subscribe(
+  //     data => {
+  //       data.forEach(stage => {
+
+  //         let OppInThisCategory = this.Opportunitys.filter((opp) => {
+  //           return opp.projectStatus === stage.name ? true : false;
+  //         }).map((e) =>  e);
+
+  //         let dataToBeUpdated = {
+  //           totalLeads: OppInThisCategory.length,
+  //           totalRevenue: OppInThisCategory.reduce((previous, current) => previous + current.cost, 0)
+  //         };
+
+  //         this.userSalesStageService.updateStage(stage._id, dataToBeUpdated).subscribe(
+  //           () => {
+  //             this.getUserSalesStages();
+  //           }
+  //         );
 
 
-  }
+  //       });
+  //     }, error => { }
+  //   );
+
+
+  // }
 
 
   UpdateSalesCategories() {
@@ -660,77 +660,77 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
 
 
 
-  submitEditedStage() {
+  // submitEditedStage() {
 
-    this.userSalesStageService.getOneStage(this.idStageToBeEdited).subscribe(
-      prevStage => {
+  //   this.userSalesStageService.getOneStage(this.idStageToBeEdited).subscribe(
+  //     prevStage => {
 
-        let previouseName = prevStage.name;
+  //       let previouseName = prevStage.name;
 
-        let dataToSend = { name: this.changeStageNameForm.value.name.toLowerCase() };
-        this.userSalesStageService.updateStage(this.idStageToBeEdited, dataToSend).subscribe(
+  //       let dataToSend = { name: this.changeStageNameForm.value.name.toLowerCase() };
+  //       this.userSalesStageService.updateStage(this.idStageToBeEdited, dataToSend).subscribe(
 
-          data => {
+  //         data => {
 
-            this.salesService.getAllOppProject().subscribe(
-              oppData => {
+  //           this.salesService.getAllOppProject().subscribe(
+  //             oppData => {
 
-                oppData.forEach(opp => {
-                  if (opp.projectStatus === previouseName) {
+  //               oppData.forEach(opp => {
+  //                 if (opp.projectStatus === previouseName) {
 
-                    this.salesService.updateOppProject(opp._id, { projectStatus: this.changeStageNameForm.value.name.toLowerCase() })
-                    .subscribe(
-                      updatedData => { },
-                      error => { console.log('Error'); }
-                    );
-                  }
-                });
+  //                   this.salesService.updateOppProject(opp._id, { projectStatus: this.changeStageNameForm.value.name.toLowerCase() })
+  //                   .subscribe(
+  //                     updatedData => { },
+  //                     error => { console.log('Error'); }
+  //                   );
+  //                 }
+  //               });
 
-                this.notifyService.showSuccess('Stage Edited', 'Success'); this.getUserSalesStages();
+  //               this.notifyService.showSuccess('Stage Edited', 'Success'); this.getUserSalesStages();
 
-              },
-              error => { this.notifyService.showError('Not Edited', 'Error'); }
-            );
+  //             },
+  //             error => { this.notifyService.showError('Not Edited', 'Error'); }
+  //           );
 
-          }
+  //         }
 
-        );
-
-
-      }
-    );
-  }// submitEditedStage -end
+  //       );
 
 
-
-
-  submitNewStageForm() {
-
-    let dataToBeSent = {
-      name: this.newStageForm.value.name,
-      totalLeads: null,
-      totalRevenue: null,
-      userId: localStorage.getItem('loggedUserID')
-    };
-
-    this.userSalesStageService.createStage(dataToBeSent).subscribe(
-      data => { this.notifyService.showSuccess('Stage Added', 'Success'); this.getUserSalesStages(); },
-      error => { this.notifyService.showError('Stage Not Added', 'Error'); }
-    );
-
-  }
+  //     }
+  //   );
+  // }// submitEditedStage -end
 
 
 
 
+  // submitNewStageForm() {
 
-  deleteUserSalesStage(id) {
-    this.userSalesStageService.deleteStage(id).subscribe(
-      data => { this.notifyService.showSuccess('Stage Deleted', 'Success'); this.getUserSalesStages(); },
-      error => { this.notifyService.showError('NOT Deleted', 'Failed'); }
-    );
+  //   let dataToBeSent = {
+  //     name: this.newStageForm.value.name,
+  //     totalLeads: null,
+  //     totalRevenue: null,
+  //     userId: localStorage.getItem('loggedUserID')
+  //   };
 
-  }
+  //   this.userSalesStageService.createStage(dataToBeSent).subscribe(
+  //     data => { this.notifyService.showSuccess('Stage Added', 'Success'); this.getUserSalesStages(); },
+  //     error => { this.notifyService.showError('Stage Not Added', 'Error'); }
+  //   );
+
+  // }
+
+
+
+
+
+  // deleteUserSalesStage(id) {
+  //   this.userSalesStageService.deleteStage(id).subscribe(
+  //     data => { this.notifyService.showSuccess('Stage Deleted', 'Success'); this.getUserSalesStages(); },
+  //     error => { this.notifyService.showError('NOT Deleted', 'Failed'); }
+  //   );
+
+  // }
 
 
 

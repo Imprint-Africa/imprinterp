@@ -135,30 +135,27 @@ ngOnInit() {
               oppData => {this.Opportunitys = oppData;
 
                           this.customService.getAllServices().subscribe(
-                      servicesData => {this.CustomServices = servicesData;
+                      servicesData => {
+                        this.CustomServices = servicesData;
 
-                                       this.userSalesStageService.getUserStages(localStorage.getItem('loggedUserID')).subscribe(
-                            userSalesstagesData => {
-                                this.UserSalesStages = userSalesstagesData;
+                        this.TotalExpectedRevenue = this.Opportunitys.reduce((previous, current) => previous + current.cost, 0);
 
-                                this.TotalExpectedRevenue = this.Opportunitys.reduce((previous, current) => previous + current.cost, 0);
+                        this.areaColor = this.brandInfo;
+                        this.areaOpacity = 50;
+                        this.lineColor = this.brandLight;
+                        this.pointBorderColor = this.brandDark;
 
-                                this.areaColor = this.brandInfo;
-                                this.areaOpacity = 50;
-                                this.lineColor = this.brandLight;
-                                this.pointBorderColor = this.brandDark;
-
-                                this.settingData().then(() => {
+                        this.settingData().then(() => {
                                   this.chartTypeValue = 'line';
-                                  this.backgroundColor = this.brandLight;
+                                  this.backgroundColor = this.brandPrimary;
                                   this.chartLablesValue = this.labelCustomServices;
-                                  this.chartDatasetValue = [ ...this.chartDatasetValue, this.datasetOpportunitys ];
+                                  this.chartDatasetValue = [ ...this.chartDatasetValue, this.datasetRevenue ];
                                   this.displayX = true;
                                   this.stackedX = false;
                                   this.dispayGridLinesX = false;
                                   this.displayY = true;
                                   this.stackedY = false;
-                                  this.dispayGridLinesY = true;
+                                  this.dispayGridLinesY = false;
                                   this.displayLegend = false;
                                   this.legendPosition = 'top';
                                   this.legendColor = this.brandDark;
@@ -169,12 +166,7 @@ ngOnInit() {
                                   console.log('error in settingData function');
                                 });
 
-                            },
-                            error => {
-                                console.log('Error Getting User sales stages');
-                            }
 
-                        );
                       },
                       error => console.log('Error Getting CustomServices')
                     );
@@ -192,8 +184,7 @@ ngOnInit() {
   settingData() {
     return new Promise((resolve, reject) => {
     // Chart Lables
-    this.labelUserSalesStages = this.UserSalesStages.filter(() => true).map((e) => e.name);
-
+    this.labelGeneralsalesCategories = this.SalesCategorys.filter(() => true).map((e) => e.name);
 
     let getOurClients =  this.Opportunitys.filter(() => true).map(e => e.clientName);
     this.labelClients = Array.from(new Set(getOurClients));
@@ -216,7 +207,7 @@ ngOnInit() {
 
     this.datasetOpportunitys = {
         label: 'Opportunty',
-        data: this.UserSalesStages.filter(() => true).map((e) => e.totalLeads),
+        data: this.SalesCategorys.filter(() => true).map((e) => e.totalLeads),
         backgroundColor: hexToRgba(this.areaColor, this.areaOpacity),
         borderColor: this.lineColor,
         borderWidth: 1,
@@ -229,13 +220,14 @@ ngOnInit() {
 
 
     let serviceData = [];
-    this.labelUserSalesStages.forEach(service => {
+    this.labelCustomServices.forEach(service => {
       let getOpp = this.Opportunitys.filter(project => {
+
           return project.projectName === service ? true : false;
+
       }).map(e => e);
 
       let getTotalRevenue = getOpp.reduce((previous, current) => previous + current.cost, 0);
-
       serviceData.push(getTotalRevenue);
     });
 
@@ -341,38 +333,7 @@ ngOnInit() {
         this.chartTypeValue = chartType;
         this.chartFunction();
     }
-    // setLabelGeneralsalesCategories(){
-    //     this.chartLablesValue = this.labelGeneralsalesCategories;
-    //     this.chartFunction();
-    // }
-    // setLabelUserSalesStages(){
-    //     this.chartLablesValue = this.labelUserSalesStages;
-    //     this.chartFunction();
-    // }
-    // setLabelClients(){
-    //     this.chartLablesValue = this.labelClients;
-    //     this.chartFunction();
-    // }
-    // setLabelCustomServices(){
-    //     this.chartLablesValue = this.labelCustomServices;
-    //     this.chartFunction();
-    // }
 
-    // setDatasetTargetRevenue(){
-    //     this.chartDatasetValue = this.datasetTargetRevenue;
-    //     this.chartFunction();
-    // }
-
-    // setDatasetOpportunitys(){
-    //     this.chartDatasetValue = this.datasetOpportunitys;
-    //     this.chartFunction();
-    // }
-
-
-    // changeChartType(chartType){
-    //   this.chartTypeValue = chartType
-    //   this.chartFunction();
-  // }
 
   // Labels
   setLabelCustomServices() {
@@ -380,8 +341,8 @@ ngOnInit() {
       this.chartFunction();
   }
 
-  setLabelUserSalesStages() {
-    this.chartLablesValue = this.labelUserSalesStages;
+  setLabelSalesStages() {
+    this.chartLablesValue = this.labelGeneralsalesCategories;
     this.chartFunction();
   }
 

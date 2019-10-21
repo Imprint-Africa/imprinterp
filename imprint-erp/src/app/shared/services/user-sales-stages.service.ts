@@ -10,10 +10,10 @@ import { Observable } from 'rxjs';
 export class UserSalesStagesService {
  // tslint:disable: variable-name
 
-  _url = 'http://localhost:3000/api/userSalesStages/';
-  _urlGetEmit = 'http://127.0.0.1:3000/';
-  // _url = 'http://18.185.62.101:4201/api/userSalesStages/';
-  // _urlGetEmit = 'http://18.185.62.101:4201/';
+  // _url = 'http://localhost:3000/api/userSalesStages/';
+  // _urlGetEmit = 'http://127.0.0.1:3000/';
+  _url = 'http://18.185.62.101:4201/api/userSalesStages/';
+  _urlGetEmit = 'http://18.185.62.101:4201/';
 
 
   private socket;
