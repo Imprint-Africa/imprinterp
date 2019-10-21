@@ -6,9 +6,9 @@
     </div>
 
     <div class="col-8 btn-wrap">
-      <button class="btn btn-sm btn-deals btn-outline-info">Deals</button>
-      <button class="btn btn-sm btn-contacts btn-outline-info">Clients</button>
+      <button hidden class="btn btn-sm btn-deals btn-outline-info">Deals</button>
       <button class="btn btn-sm btn-companies btn-outline-info" (click)="listNoteModal.show()">Notes</button>
+      <button hidden class="btn btn-sm btn-contacts btn-outline-info">Clients</button>
       <button class="btn btn-sm btn-products btn-outline-info" (click)="toCalender()">Calender</button>
 
     </div>
@@ -185,50 +185,50 @@
 
 
   <!-- Sales Category Card-->
-  <article *ngFor='let UserSalesStage of UserSalesStages' [id]="UserSalesStage._id"
+  <article *ngFor='let SalesCategory of SalesCategorys' [id]="SalesCategory._id"
    (dragover)="allowDrop($event)" (drop)="drop($event)">
     
     <!-- Head Title -->
     <div id="head" class="clearfix d-flex">
-        <div class="info-div" *ngIf="!UserSalesStage._id2">
-            <h4 class="float-left">{{UserSalesStage.name}} <span>({{UserSalesStage.totalLeads}})</span></h4>
+        <div class="info-div" *ngIf="!SalesCategory._id2">
+            <h4 class="float-left">{{SalesCategory.name}} <span>({{SalesCategory.totalLeads}})</span></h4>
         </div>
 
-        <form class="form" *ngIf="UserSalesStage._id4">
+        <form class="form" *ngIf="SalesCategory._id4">
             <div class="form-group" [formGroup]="changeStageNameForm">
                 <input type="text" class="form-control"
                 formControlName="name" [class.is-invalid]="formChangeStageName.name.invalid && formChangeStageName.name.touched">
             </div>
         </form>
-
-        <button class="btn btn-sm ml-auto mr-2" *ngIf="!UserSalesStage._id2" (click)="stageToBeEdited(UserSalesStage._id); UserSalesStage._id2 = true; UserSalesStage._id4 = true">
+<!-- 
+        <button class="btn btn-sm ml-auto mr-2" *ngIf="!SalesCategory._id2" (click)="stageToBeEdited(SalesCategory._id); SalesCategory._id2 = true; SalesCategory._id4 = true">
           <fa name="pencil"></fa>
         </button>
 
-        <button class="btn btn-sm ml-auto" *ngIf="UserSalesStage._id4" (click)="submitEditedStage(); UserSalesStage._id2 = false; UserSalesStage._id4 = false">
+        <button class="btn btn-sm ml-auto" *ngIf="SalesCategory._id4" (click)="submitEditedStage(); SalesCategory._id2 = false; SalesCategory._id4 = false">
           <fa name="check"></fa>
         </button>
         
-        <button class="btn btn-sm ml-auto " *ngIf="UserSalesStage._id4" (click)="UserSalesStage._id2 = false; UserSalesStage._id4 = false">
+        <button class="btn btn-sm ml-auto " *ngIf="SalesCategory._id4" (click)="SalesCategory._id2 = false; SalesCategory._id4 = false">
           <fa name="times"></fa>
         </button>
 
-        <button class="btn btn-sm ml-auto" (click)="deleteUserSalesStage(UserSalesStage._id)" *ngIf="UserSalesStage._id4">
+        <button class="btn btn-sm ml-auto" (click)="deleteSalesCategory(SalesCategory._id)" *ngIf="SalesCategory._id4">
           <fa name="trash" ></fa>
         </button>
         
-        <button class="btn btn-sm ml-auto" *ngIf="!UserSalesStage._id2" (click)="addNewStageModal.show();">
+        <button class="btn btn-sm ml-auto" *ngIf="!SalesCategory._id2" (click)="addNewStageModal.show();">
             <fa name="plus"></fa>
-        </button>
+        </button> -->
         
     </div>
     
     <div id="totals" class="clearfix text-center">
-      <h4 class="">KSH:<span>{{UserSalesStage.totalRevenue}}</span></h4>
+      <h4 class="">KSH:<span>{{SalesCategory.totalRevenue}}</span></h4>
     </div>
 
     <div id="add_deal_div" class="clearfix text-center">
-      <button class="btn btn-sm" (click)="addNewOppModal.show(); setClickedStage(UserSalesStage.name)"><fa name="plus"></fa></button>
+      <button class="btn btn-sm" (click)="addNewOppModal.show(); setClickedStage(SalesCategory.name)"><fa name="plus"></fa></button>
     </div>
 
 
@@ -238,15 +238,15 @@
 
 
 
-   <div class="card-group" [id]="UserSalesStage._id" (dragenter)="highlightcategory($event)"
-   [ngClass]="salesCatHoveredOnDrag === UserSalesStage._id ? 'card-group hovered' : 'card-group'" >
+   <div class="card-group" [id]="SalesCategory._id" (dragenter)="highlightcategory($event)"
+   [ngClass]="salesCatHoveredOnDrag === SalesCategory._id ? 'card-group hovered' : 'card-group'" >
 
     <!-- Cards -->
     <!-- (click)="toSalesEdit(Opportunity._id)" -->
         <div draggable="true" *ngFor="let Opportunity of Opportunitys" [id]="Opportunity._id"  
         (drop)="drop($event)" (dragover)="allowDrop($event)" (dragstart)="drag($event)" (dragenter)="dragenter($event)" (dragleave)="dragleave($event)"
         [ngClass]="cardHoveredOnDrag === Opportunity._id && cardBeingDraged !=  Opportunity._id ? 'card hovered-on-drag' : cardBeingDraged ===  Opportunity._id ? 'card beingDragged' : 'card'"
-          [hidden]="Opportunity.projectStatus != UserSalesStage.name">
+          [hidden]="Opportunity.projectStatus != SalesCategory.name">
 
           <div class="card-body">
 
@@ -603,13 +603,15 @@
         <div class="head-div d-flex">
           <h4>Title</h4>
           <h4>Content</h4>
+          <h4>Project</h4>
           <h4>Written By</h4>
 
         </div>
 
         <div class="list-div d-flex" *ngFor="let note of SalesNotes" (click)="openNote(note._id);">
-          <h4 class="title">{{note.title}}</h4>
+          <h4 class="title">{{note.title}}</h4>     
           <h4 class="content">{{note.content}}</h4>
+          <h4 class="project">{{note.noteProjectName}}</h4>
           <h4 class="writtenBy">{{note.createdBy}}</h4>
         </div> 
       </div>
@@ -626,7 +628,7 @@
   <div class="modal-dialog detailNoteModal modal-lg" role="document" *ngIf="noteOpened">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Note Details</h4>
+        <h4 class="modal-title">Note Detail on <span class="text-warning">{{noteOpened.noteProjectName}}</span></h4>
         <button type="button" class="btn close" (click)="detailNoteModal.hide()" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -636,9 +638,7 @@
           <h4>{{noteOpened.title}}</h4>
         </div>
 
-        <div class="content-div">
-          {{noteOpened.content}}
-        </div>
+        <textarea name="" id="" class="content-div" readonly>{{noteOpened.content}}</textarea>
 
         <blockquote class="blockquote">
           <footer class="blockquote-footer">written by {{noteOpened.createdBy}} <span>{{noteOpened.createdAt | date:'medium' }}</span>  </footer>
@@ -649,7 +649,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-close" (click)="detailNoteModal.hide()">Close</button>
-        <button type="button" class="btn btn-edit" >Edit</button>
+        <!-- <button type="button" class="btn btn-edit" >Edit</button> -->
         <button type="button" class="btn btn-delete" (click)="deleteNote(noteOpened._id);">Delete</button>
       </div>
     </div>

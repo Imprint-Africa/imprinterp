@@ -116,8 +116,8 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
         this.SalesCategorys = data;
         setTimeout(() => {
           this.UpdateSalesCategories();
-          this.getUserSalesStages();
-          this.UpdateUsersSalesStages();
+          // this.getUserSalesStages();
+          // this.UpdateUsersSalesStages();
         }, 1000);
       },
       error => { console.log('Cannot get Sales Categories'); }
@@ -150,10 +150,17 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
     ); // getAllCalenderEvent
 
     this.salesNoteService.getAllNotes().subscribe(
-      data => {
-        this.SalesNotes = data;
+      noteData => {
+        noteData.forEach((note) => {
+          this.Opportunitys.forEach((opp) => {
+            if ( note.projectId === opp._id ) {
+            note = {...note, noteProjectName: `${opp.clientName} - ${opp.projectName}`};
+            this.SalesNotes.push(note);
+            }
+          });
+        });
       },
-      error => { console.log('cannot get calender Sales Notes on init'); }
+      error => { console.log('cannot list calender Sales Notes on init'); }
     ); // list Sales Note
 
 
@@ -256,8 +263,16 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
     ); // listCalenderEvent
 
     this.salesNoteService.listNotes().subscribe(
-      data => {
-        this.SalesNotes = data;
+      noteData => {
+        this.SalesNotes = [];
+        noteData.forEach((note) => {
+          this.Opportunitys.forEach((opp) => {
+            if ( note.projectId === opp._id ) {
+            note = {...note, noteProjectName: `${opp.clientName} - ${opp.projectName}`};
+            this.SalesNotes.push(note);
+            }
+          });
+        });
       },
       error => { console.log('cannot list calender Sales Notes on init'); }
     ); // list Sales Note
@@ -451,7 +466,7 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
 
         setTimeout(() => {
           this.UpdateSalesCategories();
-          this.UpdateUsersSalesStages();
+          // this.UpdateUsersSalesStages();
         }, 1000);
 
       },
@@ -797,7 +812,7 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
               this.notifyService.showSuccess('Card Moved', 'Success');
               setTimeout(() => {
                 this.UpdateSalesCategories();
-                this.UpdateUsersSalesStages();
+                // this.UpdateUsersSalesStages();
               }, 1000);
 
             },
@@ -895,9 +910,18 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
 
   openNote(id) {
     this.salesNoteService.getOneNote(id).subscribe(
-      data => {
-        this.noteOpened = data;
-        this.detailNoteModal.show();
+      noteData => {
+        this.salesService.getOppProject(noteData.projectId).subscribe(
+          noteProject => {
+            this.noteOpened = noteData;
+            this.noteOpened = {...this.noteOpened, noteProjectName: `${noteProject.clientName} - ${noteProject.projectName}`};
+            this.detailNoteModal.show();
+          },
+          error => {
+            this.notifyService.showError('Could Not get note project', 'Error');
+            console.log(error);
+          }
+        );
       },
       error => {
         this.notifyService.showError('Could Not Open', 'Error');

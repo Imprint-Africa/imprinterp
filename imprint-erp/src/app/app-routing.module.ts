@@ -15,6 +15,7 @@ import { ProjectsSharedModule } from 'plugins/projects/projects.module';
 import { EditorialSharedModule } from 'plugins/editorial/editorial.module';
 import { SalesSharedModule } from 'plugins/sales/sales.module';
 import { DashboardSharedModule } from 'plugins/dashboard/dashboard.module';
+import { DocumentSharedModule } from 'plugins/document/document.module';
 
 
 
@@ -49,6 +50,9 @@ const routes: Routes = [
    // Dashboard Module
   { path: 'dashboard', loadChildren: 'plugins/dashboard/dashboard.module#DashboardSharedModule'},
 
+  // Dashboard Module
+  { path: 'document', loadChildren: 'plugins/document/document.module#DocumentSharedModule'},
+
   { path: '**', component: NotFoundComponent}
 
 ];
@@ -59,7 +63,8 @@ const routes: Routes = [
             ProjectsSharedModule.forRoot(),
             EditorialSharedModule.forRoot(),
             SalesSharedModule.forRoot(),
-            DashboardSharedModule.forRoot()
+            DashboardSharedModule.forRoot(),
+            DocumentSharedModule.forRoot(),
             ],
   exports: [RouterModule]
 })

@@ -23,10 +23,11 @@ export class UsersComponent implements OnInit {
     private userService: UserService,
     private notifyService: NotificationService,
     private spinnerServcice: SpinnerService
-  ) { }
+  ) {}
 
   // tslint:disable: prefer-const
   // tslint:disable: object-literal-shorthand
+
 
   @ViewChild('editNameModal') public editNameModal: ModalDirective;
   @ViewChild('editRoleModal') public editRoleModal: ModalDirective;

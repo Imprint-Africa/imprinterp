@@ -18,12 +18,15 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FilterPipeModule } from 'ngx-filter-pipe';
+import { QuillModule } from 'ngx-quill';
 
 // Components
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
+import { NotFoundComponent } from './components/notFound/notFound.component';
+import { NgCalenderComponent } from './components/angularCalender/ngCalender.component';
 
 // Services
 import { UserService } from './shared/services/user.service';
@@ -40,14 +43,15 @@ import { ClientService } from './shared/services/client.service';
 import { SpinnerService } from './shared/services/spinner.service';
 import { CalenderEventService } from './shared/services/calenderEvent.service';
 import { SalesNoteService } from './shared/services/sales-note.service';
+import { DocPadService } from './shared/services/doc-pad.service';
 
 // Modules
 import { ProjectsSharedModule } from 'plugins/projects/projects.module';
 import { EditorialSharedModule } from 'plugins/editorial/editorial.module';
 import { SalesSharedModule } from 'plugins/sales/sales.module';
 import { DashboardSharedModule } from 'plugins/dashboard/dashboard.module';
-import { NotFoundComponent } from './components/notFound/notFound.component';
-import { NgCalenderComponent } from './components/angularCalender/ngCalender.component';
+import { DocumentSharedModule } from 'plugins/document/document.module';
+
 
 @NgModule({
   declarations: [
@@ -58,6 +62,7 @@ import { NgCalenderComponent } from './components/angularCalender/ngCalender.com
     UsersComponent,
     NotFoundComponent,
     NgCalenderComponent
+
   ],
   imports: [
     BrowserModule,
@@ -73,6 +78,7 @@ import { NgCalenderComponent } from './components/angularCalender/ngCalender.com
     ChartsModule,
     NgxSpinnerModule,
     FilterPipeModule,
+    QuillModule.forRoot(),
     ModalModule.forRoot(),
     ToastrModule.forRoot({
       timeOut: 5000,
@@ -90,12 +96,13 @@ import { NgCalenderComponent } from './components/angularCalender/ngCalender.com
     ProjectsSharedModule.forRoot(),
     EditorialSharedModule.forRoot(),
     SalesSharedModule.forRoot(),
-    DashboardSharedModule.forRoot()
+    DashboardSharedModule.forRoot(),
+    DocumentSharedModule.forRoot()
 
   ],
   providers: [NotificationService, AuthGuard, UserService, SalesService, TeamsService, CustomaryService,
               SalesCategoryService, ProjectsService, UserSalesStagesService, ClientService, SpinnerService,
-               CalenderEventService, SalesNoteService],
+               CalenderEventService, SalesNoteService, DocPadService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

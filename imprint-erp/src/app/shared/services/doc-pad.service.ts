@@ -6,12 +6,12 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class SalesNoteService {
+export class DocPadService {
  // tslint:disable: variable-name
 
-  _url = 'http://localhost:3000/api/salesNotes/';
+  _url = 'http://localhost:3000/api/docPad/';
   _urlGetEmit = 'http://127.0.0.1:3000/';
-  // _url = 'http://18.185.62.101:4201/api/salesNotes/';
+  // _url = 'http://18.185.62.101:4201/api/docPad/';
   // _urlGetEmit = 'http://18.185.62.101:4201/';
 
   private socket;
@@ -27,36 +27,36 @@ export class SalesNoteService {
 
 
 
-    createNote( notes: any ) {
-      return this.http.post<any>(this._url + 'create', notes, {headers : this.header});
+    createPad( doc: any ) {
+      return this.http.post<any>(this._url + 'create', doc, {headers : this.header});
     }
 
 
-    listNotes() {
+    listPad() {
       return Observable.create((observer) => {
-        this.socket.on('/listSalesNotes', data => {
+        this.socket.on('/listDocPad', data => {
           observer.next(data);
         });
       });
     }
 
 
-    getAllNotes() {
+    getAllPad() {
       return this.http.get<any>(this._url + 'getAll/', {headers : this.header});
     }
 
 
-    getOneNote(id) {
+    getOnePad(id) {
       return this.http.get<any>(this._url + 'getOne/' + id, {headers : this.header});
     }
 
 
-    updateNote(id, data: any) {
+    updatePad(id, data: any) {
       return this.http.put<any>(this._url + 'update/' + id, data, {headers : this.header});
     }
 
 
-    deleteNote(id) {
+    deletePad(id) {
       return this.http.delete<any>(this._url + 'delete/' + id, {headers : this.header});
     }
 

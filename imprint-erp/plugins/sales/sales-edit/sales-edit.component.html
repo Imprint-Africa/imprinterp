@@ -469,3 +469,26 @@
 
 
 </article>
+
+
+
+<div bsModal #deleteModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog deleteModal" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Delete</h4>
+            <button type="button" class="btn close" (click)="deleteModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body" *ngIf="OpennedProject">
+            <h4>Are You sure ?</h4>
+            <p>You are about to delete project <span>{{OpennedProject.clientName}}</span> for <span>{{OpennedProject.projectName}}</span>.</p>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-cancel" (click)="deleteModal.hide()">Cancel</button>
+            <button type="button" class="btn btn-confirm" (click)="submitDeleted(); deleteModal.hide()">Delete</button>
+        </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

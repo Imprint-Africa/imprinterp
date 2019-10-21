@@ -6,6 +6,7 @@ import { SalesService } from 'src/app/shared/services/sales.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { ProjectsService } from 'src/app/shared/services/projects.service';
 import { UserService } from 'src/app/shared/services/user.service';
+import { ModalDirective } from 'ngx-bootstrap';
 
 @Component({
   selector: 'app-sales-edit',
@@ -27,6 +28,10 @@ export class SalesEditComponent implements OnInit, OnDestroy {
   ) {}
 // tslint:disable: prefer-const
 // tslint:disable: object-literal-shorthand
+
+
+// Modals
+@ViewChild('deleteModal') public deleteModal: ModalDirective;
 
 // Variables
 public projectManagerForm: FormGroup;
@@ -535,14 +540,16 @@ lauchProject() {
 }
 
 
-
-
-
-
-
-
-
 deleteProject() {
+
+  this.deleteModal.show();
+
+}
+
+
+
+
+submitDeleted() {
 
   this.salesService.deleteOppProject(window.localStorage.getItem('salesEditItemId')).subscribe(
 
@@ -559,6 +566,8 @@ deleteProject() {
   );
 
 }
+
+
 
 
 
