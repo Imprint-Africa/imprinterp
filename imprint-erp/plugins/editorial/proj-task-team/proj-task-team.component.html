@@ -88,9 +88,9 @@
       <div class="form-group">
           <div class="input-group input-group-sm">
     
-              <input type="text" #customServiceInput class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+              <input type="text" #customServiceInput class="form-control"
               formControlName="customServiceName" [class.is-invalid]="formCustomService.customServiceName.invalid && formCustomService.customServiceName.touched"
-              required placeholder="Customize new Service">
+              required placeholder="Service Name">
             
           </div>
       </div>
@@ -100,9 +100,9 @@
 
         <div class="input-group input-group-sm">
   
-            <input type="number" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+            <input #serviceTargetRevInput type="number" class="form-control"
             formControlName="targetRevenue" min="1" [class.is-invalid]="formCustomService.targetRevenue.invalid && formCustomService.targetRevenue.touched"
-            required placeholder="Target Serveice Revenue">
+            required placeholder="Service Target Revenue">
         
           <div class="input-group-append">
             <button [disabled]="!customServiceForm.valid" class="btn btn-sm btm-warning input-group-text" (click)="moveToTaskForm()">Next</button>
@@ -133,12 +133,13 @@
       </div>
 
       <div class="form-group">
-          <input type="text" #taskDefineInput class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-          formControlName="taskName" [class.is-invalid]="formAddTask.taskName.invalid && formAddTask.taskName.touched" required placeholder="Task">
+          <input type="text" #taskDefineInput class="form-control"
+          formControlName="taskName" [class.is-invalid]="formAddTask.taskName.invalid && formAddTask.taskName.touched" 
+          required placeholder="Task" (focusout)="moveToRevenueInput()">
       </div>
   
       <div class="form-group">
-          <select type="" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+          <select type="text" class="form-control" #assignTeamToTask
           formControlName="assignedTeam" [class.is-invalid]="formAddTask.assignedTeam.invalid && formAddTask.assignedTeam.touched"
            required>
        

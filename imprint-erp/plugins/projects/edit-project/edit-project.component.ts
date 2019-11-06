@@ -42,8 +42,8 @@ public assignedUserForm: FormGroup;
 @ViewChild('taskDefineInput') taskDefineInputField: ElementRef;
 public addTaskForm: FormGroup;
 
-@ViewChild('myCostPriorForm') myCostPriorFormValues;
-public costPriorForm: FormGroup;
+@ViewChild('myRevenuePriorForm') myRevenuePriorFormValues;
+public revenuePriorForm: FormGroup;
 
 
 
@@ -125,8 +125,8 @@ public taskMaxDate;
 
 
                   // Pass form values
-    this.costPriorForm = this.formBuilder.group({
-            cost: [null, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],
+    this.revenuePriorForm = this.formBuilder.group({
+            revenue: [null, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],
             priority: null
           });
 
@@ -177,7 +177,7 @@ public taskMaxDate;
  get formProjectManager() {return this.projectManagerForm.controls; }
  get formAssignedUser() {return this.assignedUserForm.controls; }
  get formAddTask() { return this.addTaskForm.controls; }
- get formCostPrior() {return this.costPriorForm.controls; }
+ get formRevenuePrior() {return this.revenuePriorForm.controls; }
 
 
 
@@ -513,9 +513,9 @@ this.projPriority = num;
 saveRevenuePrioroty() {
 
 
-this.costPriorForm.value.priority = this.projPriority;
+this.revenuePriorForm.value.priority = this.projPriority;
 
-this.projectService.updateProject(window.localStorage.getItem('projectOnEditId'), this.costPriorForm.value).subscribe(
+this.projectService.updateProject(window.localStorage.getItem('projectOnEditId'), this.revenuePriorForm.value).subscribe(
   data => {
     this.notifyService.showSuccess('Changes Saved', 'Success');
   },

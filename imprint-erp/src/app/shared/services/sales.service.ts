@@ -28,7 +28,7 @@ header = new HttpHeaders().set(
   constructor( private http: HttpClient ) { this.socket = io(this._urlGetEmit);  }
 
 
-addOppProject( oppProjectsData: oppProject ) {
+addOppProject( oppProjectsData: any ) {
   return this.http.post<any>(this._url + 'create', oppProjectsData, {headers : this.header});
 }
 

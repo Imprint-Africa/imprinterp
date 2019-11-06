@@ -106,7 +106,7 @@ public targetsOptions: any;
                                           this.targetsChartFunction();
 
                                           this.TotalProjectsRevenue = this.Projects.reduce((previous, current) =>
-                                          previous + current.cost, 0);
+                                          previous + current.revenue, 0);
 
                             },
                             error => console.log('Error Getting Error')
@@ -322,7 +322,7 @@ revenueChartFunction() {
         return project.projectName === service ? true : false;
     }).map(e => e);
 
-    let getTotalRevenue = getProjects.reduce((previous, current) => previous + current.cost, 0);
+    let getTotalRevenue = getProjects.reduce((previous, current) => previous + current.revenue, 0);
 
     ourData.push(getTotalRevenue);
   });
@@ -416,7 +416,7 @@ clientsChartFunction() {
         return project.clientName === client ? true : false;
     }).map(e => e);
 
-    let getTotalRevenue = getProjects.reduce((previous, current) => previous + current.cost, 0);
+    let getTotalRevenue = getProjects.reduce((previous, current) => previous + current.revenue, 0);
 
     ourData.push(getTotalRevenue);
   });
@@ -521,7 +521,7 @@ targetsChartFunction() {
         return project.projectName === service ? true : false;
     }).map(e => e);
 
-    let getTotalRevenue = getProjects.reduce((previous, current) => previous + current.cost, 0);
+    let getTotalRevenue = getProjects.reduce((previous, current) => previous + current.revenue, 0);
 
     ourProjectRevenueData.push(getTotalRevenue);
   });

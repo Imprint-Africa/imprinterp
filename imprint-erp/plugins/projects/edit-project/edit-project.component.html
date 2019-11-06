@@ -365,7 +365,7 @@
 
 
 
-<!-- Define Tasks Section -->
+<!-- Add Tasks Section -->
 <section id="addTaskSection" *ngIf="addTaskSectionStatus">
 
   <!-- Define Tasks -->
@@ -491,18 +491,18 @@
 
 
 
- <!-- cost priority -->
+ <!-- revenue priority -->
 
-  <form id="costPriorForm" *ngIf="OpennedProject" #myCostPriorForm='ngForm' [formGroup]="costPriorForm" class="form">
+  <form id="revenuePriorForm" *ngIf="OpennedProject" #myRevenuePriorForm='ngForm' [formGroup]="revenuePriorForm" class="form">
 
   <div class="form-title">
-      <h4>Expected Reveneu and Priority</h4>
+      <h4>Expected Revenue and Priority</h4>
   </div>
 
-  <section id="costPrioritySection">
+  <section id="revenuePrioritySection">
 
 
-        <div id="costFormGroup" class="form-group">
+        <div id="revenueFormGroup" class="form-group">
 
             <div class="input-group input-group-sm" >
       
@@ -510,8 +510,8 @@
                       <span class="input-group-text" id="inputGroup-sizing-sm"><fa name="usd"></fa></span>
                     </div>
       
-                    <input id="costInput" type="number" min="1" data-type="currency" class="form-control text-success" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-                    formControlName="cost"  [class.is-invalid]="formCostPrior.cost.invalid && formCostPrior.cost.touched" value="{{OpennedProject.cost}}">
+                    <input id="revenueInput" type="number" min="1" data-type="currency" class="form-control text-success" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
+                    formControlName="revenue"  [class.is-invalid]="formRevenuePrior.revenue.invalid && formRevenuePrior.revenue.touched" value="{{OpennedProject.revenue}}">
       
             </div>
       

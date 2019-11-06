@@ -256,13 +256,23 @@
                     color: color(orangeTheme)
 
         input
-            font-size: 10px
+            font-size: 12px
             font-family: Montserrat
+            margin: .5em 0
+            cursor: pointer
+
+            &:hover
+                border: solid 1px brandColor(brandPrimary)
         
         select
             text-transform: capitalize
-            font-size: 10px
+            font-size: 12px
             font-family: Montserrat
+            margin: .5em 0
+            cursor: pointer
+            
+            &:hover
+                border: solid 1px brandColor(brandPrimary)
 
         .btn
             font-size: 10px
@@ -336,7 +346,7 @@
                 margin: auto 0 auto 0 
                 font-size: 10px
                 font-family: Montserrat
-                text-transform: capitalize
+
             .btn-wrap
                 margin: 0 0 0 auto
 
@@ -493,7 +503,7 @@
                 margin: auto 0 auto 0 
                 font-size: 10px
                 font-family: Montserrat
-                text-transform: capitalize
+
             .btn-wrap
                 margin: 0 0 0 auto
 
@@ -619,10 +629,10 @@
             font-family: Montserrat
 
     #custom_service_wrapper
-        border: solid 2px white
+        // border: solid 2px white
         padding: 5px
-        background: white
-        height: 400px
+        background: transparent
+        height: 450px
         overflow-y: scroll
 
         .list-group
@@ -638,7 +648,6 @@
                     margin: .5em
                     color: color(silk)
                     font-weight: bold
-                    text-transform: uppercase
                     font-size: 12px
                     font-family: Montserrat
 
@@ -663,8 +672,5 @@
                         margin: auto 0 auto 0
                         font-size: 10px
                         font-family: Montserrat
-
-                    h4:first-letter
-                        text-transform: capitalize
                         
 

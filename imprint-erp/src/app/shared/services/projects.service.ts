@@ -12,8 +12,8 @@ import { Observable } from 'rxjs';
 export class ProjectsService {
  // tslint:disable: variable-name
 
-  // _url: string = "http://localhost:3000/api/projects/";
-  // _urlGetEmit: string = "http://127.0.0.1:3000/";
+  // _url = 'http://localhost:3000/api/projects/';
+  // _urlGetEmit = 'http://127.0.0.1:3000/';
   _url = 'http://18.185.62.101:4201/api/projects/';
   _urlGetEmit = 'http://18.185.62.101:4201/';
 
@@ -31,7 +31,7 @@ export class ProjectsService {
 
 
 
-  addProject( ProjectsData: Project ) {
+  addProject( ProjectsData: any ) {
     return this.http.post<any>(this._url + 'create', ProjectsData, {headers : this.header});
   }
 

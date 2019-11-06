@@ -1,4 +1,6 @@
 import { Component, Input, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import {Observable} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -28,12 +30,11 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
     private salesService: SalesService,
     private notifyService: NotificationService,
     private salesCategoryService: SalesCategoryService,
-    private userSalesStageService: UserSalesStagesService,
     private customService: CustomaryService,
     private clientService: ClientService,
     private salesNoteService: SalesNoteService,
     private calenderEventService: CalenderEventService,
-    private spinnerServcice: SpinnerService,
+    private spinnerService: SpinnerService,
 
   ) { }
 // tslint:disable: prefer-const
@@ -83,6 +84,8 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
   public emailInput;
   public websiteInput;
 
+  public projPriority: string;
+
 
   // Binded Variables
   public SalesCategorys: any = [];
@@ -90,6 +93,7 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
   public Opportunitys: any = [];
   public Projects: any = [];
   public Events: any = [];
+  public OurClientNames: any = [];
   public ProjectStatusToNewOpp: string;
   public idStageToBeEdited: any;
   public Tasks: any = [];
@@ -116,8 +120,6 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
         this.SalesCategorys = data;
         setTimeout(() => {
           this.UpdateSalesCategories();
-          // this.getUserSalesStages();
-          // this.UpdateUsersSalesStages();
         }, 1000);
       },
       error => { console.log('Cannot get Sales Categories'); }
@@ -160,9 +162,16 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
           });
         });
       },
-      error => { console.log('cannot list calender Sales Notes on init'); }
+      error => { console.log('cannot get calender Sales Notes on init'); }
     ); // list Sales Note
 
+
+    this.clientService.getAllClients().subscribe(
+      data => {
+        this.OurClientNames = data.filter(() => true).map((e) => e.companyName);
+      },
+      error => { console.log('Cannot get all clients'); }
+    );
 
 
     // Pass form values
@@ -179,7 +188,7 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
         taskStartDate: null,
         taskEndDate: null
       }],
-      cost: null,
+      revenue: [null, Validators.required],
       priority: null,
       projectStatus: [''],
       projectDuration: null,
@@ -277,6 +286,12 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
       error => { console.log('cannot list calender Sales Notes on init'); }
     ); // list Sales Note
 
+    this.clientService.listClients().subscribe(
+      data => {
+        this.OurClientNames = data.filter(() => true).map((e) => e.companyName);
+      },
+      error => { console.log('Cannot list all clients'); }
+    );
 
 
     this.myInterval = setInterval(() => {
@@ -313,85 +328,6 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
   }
 
 
-  // getUserSalesStages() {
-  //   this.userSalesStageService.getUserStages(localStorage.getItem('loggedUserID')).subscribe(
-  //     data => {
-
-  //       if (data.length === 0) {
-
-  //         const stage1 = { name: 'new leads', totalLeads: null, totalRevenue: null, userId: localStorage.getItem('loggedUserID') };
-  //         const stage2 = { name: 'prospects', totalLeads: null, totalRevenue: null, userId: localStorage.getItem('loggedUserID') };
-  //         const stage3 = { name: 'qualified leads', totalLeads: null, totalRevenue: null, userId: localStorage.getItem('loggedUserID') };
-  //         const stage4 = { name: 'customers', totalLeads: null, totalRevenue: null, userId: localStorage.getItem('loggedUserID') };
-
-  //         this.userSalesStageService.createStage(stage1).subscribe(
-  //           () => {
-  //             this.userSalesStageService.createStage(stage2).subscribe(
-  //               () => {
-
-  //                 this.userSalesStageService.createStage(stage3).subscribe(
-  //                   () => {
-
-  //                     this.userSalesStageService.createStage(stage4).subscribe(
-  //                       () => {
-
-  //                         this.notifyService.showInfo('Defaults stages has been created.', 'Info');
-
-  //                         this.getUserSalesStages();
-
-  //                       },
-  //                       error => { console.log('Errror'); }
-  //                     );
-  //                   },
-  //                   error => { console.log('Errror'); }
-  //                 );
-
-  //               },
-  //               error => { console.log('Errror'); }
-  //             );
-  //           },
-  //           error => { console.log('Errror'); }
-  //         );
-
-  //       } else if (data.length !== 0) {
-  //         this.UserSalesStages = data;
-  //       }
-
-  //     },
-  //     error => { console.log('Cannot get user sales stages'); }
-
-  //   );
-  // }
-
-
-  // UpdateUsersSalesStages() {
-
-  //   this.userSalesStageService.getAllStages().subscribe(
-  //     data => {
-  //       data.forEach(stage => {
-
-  //         let OppInThisCategory = this.Opportunitys.filter((opp) => {
-  //           return opp.projectStatus === stage.name ? true : false;
-  //         }).map((e) =>  e);
-
-  //         let dataToBeUpdated = {
-  //           totalLeads: OppInThisCategory.length,
-  //           totalRevenue: OppInThisCategory.reduce((previous, current) => previous + current.cost, 0)
-  //         };
-
-  //         this.userSalesStageService.updateStage(stage._id, dataToBeUpdated).subscribe(
-  //           () => {
-  //             this.getUserSalesStages();
-  //           }
-  //         );
-
-
-  //       });
-  //     }, error => { }
-  //   );
-
-
-  // }
 
 
   UpdateSalesCategories() {
@@ -407,7 +343,7 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
 
           let dataToBeUpdated = {
             totalLeads: OppInThisCategory.length,
-            totalRevenue: OppInThisCategory.reduce( (previous, current) => previous + current.cost, 0)
+            totalRevenue: OppInThisCategory.reduce( (previous, current) => previous + current.revenue, 0)
           };
 
           this.salesCategoryService.updateSaleCategory(category._id, dataToBeUpdated).subscribe(
@@ -422,6 +358,13 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
     );
 
   }
+
+
+
+  // Set priority
+selectPriority(num) {
+  this.projPriority = num;
+}
 
 
 
@@ -449,12 +392,13 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
       clientName: this.newOppForm.value.clientName,
       projectManager: '',
       task: this.Tasks,
-      cost: null,
-      priority: 1,
+      revenue: this.newOppForm.value.revenue,
+      priority: this.projPriority,
       projectStatus: this.ProjectStatusToNewOpp,
       projectDuration: null,
       projectStartDate: null,
-      projectEndDate: null
+      projectEndDate: null,
+      createdOn: new Date()
     };
 
     this.salesService.addOppProject(structuredData).subscribe(
@@ -478,6 +422,18 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
 
 
 
+
+  clientAutoComplete = (text$: Observable<string>) =>
+    text$.pipe(
+      debounceTime(200),
+      distinctUntilChanged(),
+      map(term => term.length < 2 ? []
+        : this.OurClientNames.filter(v => v.toLowerCase().indexOf(term.toLowerCase()) > -1).slice(0, 10))
+    )
+
+
+
+
   createNewClient(client) {
     let newClient = {
       companyName: client.clientName,
@@ -488,17 +444,17 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
       website: '',
       twitter: '',
       facebook: '',
-      instagram: ''
+      instagram: '',
+      createdOn: new Date()
     };
 
     this.clientService.createClient(newClient).subscribe(
 
       data => {
-        this.notifyService.showSuccess('New Cilent Adedd', 'Success');
+        this.notifyService.showSuccess(data.message, 'Success');
       },
       error => {
-
-        this.notifyService.showInfo('New Deal to existing client', 'Info');
+        this.notifyService.showWarning('Something is wrong, Client was not captured', 'Warning');
       }
 
     );
@@ -611,7 +567,7 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
 
 
   sendMailToClient() {
-    this.spinnerServcice.spinStart();
+    this.spinnerService.spinStart();
     let dataToBeSent = {
       sender: this.mailData.sender,
       reciever: this.mailData.reciever,
@@ -621,12 +577,12 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
 
     this.clientService.sendMail(dataToBeSent).subscribe(
       data => {
-        this.spinnerServcice.spinStop();
+        this.spinnerService.spinStop();
         this.notifyService.showSuccess('Mail Sent', 'Success');
         this.mailToClientModal.hide();
       },
       error => {
-        this.spinnerServcice.spinStop();
+        this.spinnerService.spinStop();
         this.notifyService.showError('Mail not sent', 'Error');
       }
     );
@@ -639,10 +595,10 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
 
   spinToggle() {
 
-    this.spinnerServcice.spinStart();
+    this.spinnerService.spinStart();
 
     setTimeout(() => {
-      this.spinnerServcice.spinStop();
+      this.spinnerService.spinStop();
     }, 3000);
 
   }
@@ -659,78 +615,6 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
   }
 
 
-
-  // submitEditedStage() {
-
-  //   this.userSalesStageService.getOneStage(this.idStageToBeEdited).subscribe(
-  //     prevStage => {
-
-  //       let previouseName = prevStage.name;
-
-  //       let dataToSend = { name: this.changeStageNameForm.value.name.toLowerCase() };
-  //       this.userSalesStageService.updateStage(this.idStageToBeEdited, dataToSend).subscribe(
-
-  //         data => {
-
-  //           this.salesService.getAllOppProject().subscribe(
-  //             oppData => {
-
-  //               oppData.forEach(opp => {
-  //                 if (opp.projectStatus === previouseName) {
-
-  //                   this.salesService.updateOppProject(opp._id, { projectStatus: this.changeStageNameForm.value.name.toLowerCase() })
-  //                   .subscribe(
-  //                     updatedData => { },
-  //                     error => { console.log('Error'); }
-  //                   );
-  //                 }
-  //               });
-
-  //               this.notifyService.showSuccess('Stage Edited', 'Success'); this.getUserSalesStages();
-
-  //             },
-  //             error => { this.notifyService.showError('Not Edited', 'Error'); }
-  //           );
-
-  //         }
-
-  //       );
-
-
-  //     }
-  //   );
-  // }// submitEditedStage -end
-
-
-
-
-  // submitNewStageForm() {
-
-  //   let dataToBeSent = {
-  //     name: this.newStageForm.value.name,
-  //     totalLeads: null,
-  //     totalRevenue: null,
-  //     userId: localStorage.getItem('loggedUserID')
-  //   };
-
-  //   this.userSalesStageService.createStage(dataToBeSent).subscribe(
-  //     data => { this.notifyService.showSuccess('Stage Added', 'Success'); this.getUserSalesStages(); },
-  //     error => { this.notifyService.showError('Stage Not Added', 'Error'); }
-  //   );
-
-  // }
-
-
-
-
-
-  // deleteUserSalesStage(id) {
-  //   this.userSalesStageService.deleteStage(id).subscribe(
-  //     data => { this.notifyService.showSuccess('Stage Deleted', 'Success'); this.getUserSalesStages(); },
-  //     error => { this.notifyService.showError('NOT Deleted', 'Failed'); }
-  //   );
-
-  // }
 
 
 
@@ -836,9 +720,8 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
 
   async eventReminder() {
 
+    this.spinnerService.spinStart();
     this.Events.forEach((eventElement, index) => {
-
-
 
       setTimeout(() => {
 
@@ -854,14 +737,17 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
             let diffInHours = Math.ceil(diffInMS / (1000 * 3600));
 
             if (diffInHours === 1) {
+              this.spinnerService.spinStop();
               this.notifyService.showWarning(eventElement.title + ' : ' + oppElement.clientName, 'This Hour Event');
             }
 
             if (diffInHours === 2) {
+              this.spinnerService.spinStop();
               this.notifyService.showWarning(eventElement.title + ' : ' + oppElement.clientName, 'Next Hour Event');
             }
 
             if (13 > diffInHours && diffInHours > 2) {
+              this.spinnerService.spinStop();
               this.notifyService.showInfo(eventElement.title + ' : ' + oppElement.clientName, 'Up coming Event');
             }
           }

@@ -37,13 +37,6 @@ export class ProjectBoardsComponent implements OnInit {
     this.projectsService.getAllProject().subscribe(
       data => {
         this.Projects = data;
-        this.Projects.forEach(project => {
-          let convertingToNgbDate = new Date(project.projectStartDate);
-          project.projectStartDate = new NgbDate(convertingToNgbDate.getUTCFullYear(),
-           convertingToNgbDate.getUTCMonth() + 1, convertingToNgbDate.getUTCDate());
-          project.projectEndDate = this.calendar.getNext(project.projectStartDate, 'd', project.projectDuration);
-        });
-
       },
       error => {
         console.log('Could get all Projects');
@@ -54,13 +47,6 @@ export class ProjectBoardsComponent implements OnInit {
     this.projectsService.listProject().subscribe(
       data => {
         this.Projects = data;
-        this.Projects.forEach(project => {
-          let convertingToNgbDate = new Date(project.projectStartDate);
-          project.projectStartDate = new NgbDate(convertingToNgbDate.getUTCFullYear(),
-           convertingToNgbDate.getUTCMonth() + 1, convertingToNgbDate.getUTCDate());
-          project.projectEndDate = this.calendar.getNext(project.projectStartDate, 'd', project.projectDuration);
-        });
-
       },
       error => {
         console.log('could not list projects');

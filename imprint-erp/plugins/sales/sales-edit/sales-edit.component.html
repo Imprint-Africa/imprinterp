@@ -10,6 +10,7 @@
 
 <!-- // article wrapper -->
 <article id="main_wrapper">
+<ngx-spinner></ngx-spinner>
 
   <!-- ------ ------- -->
   <section id="projectClientSection" *ngIf="OpennedProject">
@@ -360,18 +361,18 @@
 
 
 
- <!-- cost priority -->
+ <!-- revenue priority -->
 
-  <form id="costPriorForm" *ngIf="OpennedProject" #myCostPriorForm='ngForm' [formGroup]="costPriorForm" class="form">
+  <form id="revenuePriorForm" *ngIf="OpennedProject" #myRevenuePriorForm='ngForm' [formGroup]="revenuePriorForm" class="form">
 
   <div class="form-title">
-      <h4>Expected Reveneu and Priority</h4>
+      <h4>Expected Revenue and Priority</h4>
   </div>
 
-  <section id="costPrioritySection">
+  <section id="revenuePrioritySection">
 
 
-        <div id="costFormGroup" class="form-group">
+        <div id="revenueFormGroup" class="form-group">
 
             <div class="input-group input-group-sm" >
       
@@ -379,8 +380,8 @@
                       <span class="input-group-text" id="inputGroup-sizing-sm">KSH</span>
                     </div>
       
-                    <input id="costInput" type="number" min="1" data-type="currency" class="form-control text-success" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-                    formControlName="cost"  [class.is-invalid]="formCostPrior.cost.invalid && formCostPrior.cost.touched" value="{{OpennedProject.cost}}">
+                    <input id="revenueInput" type="number" min="1" class="form-control text-success"
+                    formControlName="revenue"  [class.is-invalid]="formRevenuePrior.revenue.invalid && formRevenuePrior.revenue.touched" value="{{OpennedProject.revenue}}">
       
             </div>
       
@@ -476,14 +477,13 @@
     <div class="modal-dialog deleteModal" role="document">
         <div class="modal-content">
         <div class="modal-header">
-            <h4 class="modal-title">Delete</h4>
+            <h4 class="modal-title">Are You Sure ?</h4>
             <button type="button" class="btn close" (click)="deleteModal.hide()" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
         </div>
         <div class="modal-body" *ngIf="OpennedProject">
-            <h4>Are You sure ?</h4>
-            <p>You are about to delete project <span>{{OpennedProject.clientName}}</span> for <span>{{OpennedProject.projectName}}</span>.</p>
+            <p>You are about to delete <span>{{OpennedProject.projectName}}</span> project for <span>{{OpennedProject.clientName}}</span>.</p>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-cancel" (click)="deleteModal.hide()">Cancel</button>

@@ -20,7 +20,7 @@
 
 <!-- Body Section -->
 <section class="body_section">
-<ngx-spinner> <p>Loading...</p> </ngx-spinner>
+<ngx-spinner></ngx-spinner>
 
 
 
@@ -49,7 +49,8 @@
                         </div>
 
                         <input #clientInput type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-                        formControlName="clientName" [class.is-invalid]="formNewOpp.clientName.invalid && formNewOpp.clientName.touched" required>
+                        formControlName="clientName" [class.is-invalid]="formNewOpp.clientName.invalid && formNewOpp.clientName.touched"
+                        [ngbTypeahead]="clientAutoComplete" required>
 
                   </div>
 
@@ -73,6 +74,47 @@
 
                   </div>
                 </div>
+
+                <!-- Client Name -->
+                <div class="form-group">
+                  <div class="input-group input-group-sm mb-3">
+
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Exp. Revenue</span>
+                      </div>
+
+                      <input type="number" min="1" class="form-control" 
+                      formControlName="revenue" [class.is-invalid]="formNewOpp.revenue.invalid && formNewOpp.revenue.touched"
+                      [ngbTypeahead]="clientAutoComplete" required>
+
+                </div>
+
+                </div>
+
+                <div class="form-group">
+                  <div class="input-group input-group-sm mb-3">
+
+                      <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Priority</span>
+                      </div>
+                  
+                  <div id="radio_wrap" >
+                      <!-- <label>Low</label> -->
+                      <fa name="star"  [ngClass]="projPriority >= '1' ? 'text-primary' : 'text-secondary'" (click)="selectPriority(1)" ></fa> 
+                  </div>
+  
+                  <div id="radio_wrap">
+                      <!-- <label>Medium</label> -->
+                      <fa name="star"  [ngClass]="projPriority >= '2' ? 'text-primary' : 'text-secondary'" (click)="selectPriority(2)" ></fa>
+                  </div>
+  
+                  <div id="radio_wrap" >
+                      <!-- <label>High</label> -->
+                      <fa name="star"  [ngClass]="projPriority >= '3' ? 'text-primary' : 'text-secondary'" (click)="selectPriority(3)" ></fa> 
+                  </div>         
+  
+                </div>
+              </div>
 
 
             </form>
@@ -107,13 +149,13 @@
 
   <div class="search-div">
       <div class="input-group input-group-sm">
-          <input type="text" class="form-control" placeholder="Search">
+          <!-- <input type="text" class="form-control" placeholder="Search">
 
           <div class="input-group-append">
               <button class="input-group-text">
                 <fa name="search"></fa>
               </button>
-          </div>
+          </div> -->
       </div>
       
   </div>
@@ -166,31 +208,11 @@
                 formControlName="name" [class.is-invalid]="formChangeStageName.name.invalid && formChangeStageName.name.touched">
             </div>
         </form>
-<!-- 
-        <button class="btn btn-sm ml-auto mr-2" *ngIf="!SalesCategory._id2" (click)="stageToBeEdited(SalesCategory._id); SalesCategory._id2 = true; SalesCategory._id4 = true">
-          <fa name="pencil"></fa>
-        </button>
-
-        <button class="btn btn-sm ml-auto" *ngIf="SalesCategory._id4" (click)="submitEditedStage(); SalesCategory._id2 = false; SalesCategory._id4 = false">
-          <fa name="check"></fa>
-        </button>
-        
-        <button class="btn btn-sm ml-auto " *ngIf="SalesCategory._id4" (click)="SalesCategory._id2 = false; SalesCategory._id4 = false">
-          <fa name="times"></fa>
-        </button>
-
-        <button class="btn btn-sm ml-auto" (click)="deleteSalesCategory(SalesCategory._id)" *ngIf="SalesCategory._id4">
-          <fa name="trash" ></fa>
-        </button>
-        
-        <button class="btn btn-sm ml-auto" *ngIf="!SalesCategory._id2" (click)="addNewStageModal.show();">
-            <fa name="plus"></fa>
-        </button> -->
         
     </div>
     
     <div id="totals" class="clearfix text-center">
-      <h4 class="">KSH:<span>{{SalesCategory.totalRevenue}}</span></h4>
+      <h4 class=""><span>{{SalesCategory.totalRevenue | currency:'KSH ':'symbol-narrow':'4.0-0'}}</span></h4>
     </div>
 
     <div id="add_deal_div" class="clearfix text-center">
@@ -219,7 +241,7 @@
             <div class="card-info-div">
               <h4  class="clientN" (click)="seeClient(Opportunity.clientName); clientDetailModal.show()">{{ Opportunity.clientName}}</h4>
               <h4  class="projectN">{{ Opportunity.projectName}}</h4>
-              <h4  class="cost">KSH: {{ Opportunity.cost}}</h4>
+              <h4  class="revenue">{{Opportunity.revenue | currency:'KSH ':'symbol-narrow':'4.0-0'}}</h4>
 
               <div  class="rateWarp clearfix">
                   <fa class="rate1" name="star" [ngClass]="Opportunity.priority >= '1' ? 'rateColor' : ''"></fa>
@@ -294,7 +316,7 @@
 
   <div class="list-item-wrap"><h4>{{Opportunity.projectStatus}}</h4></div>
 
-  <div class="list-item-wrap"><h4>{{Opportunity.cost}}</h4></div>
+  <div class="list-item-wrap"><h4>{{Opportunity.revenue | currency:'KSH ':'symbol-narrow':'4.0-0'}}</h4></div>
 
  </div>
 
@@ -496,23 +518,6 @@
   </div><!-- /.modal -->
   
 
-
-
-<!-- 
-<section [ngClass]="cardBeingDraged ? 'generate-sales-categories' : 'generate-sales-categories hide'">
-
-<div class="" *ngFor="let SalesCategory of SalesCategorys" [id]="SalesCategory._id"
-(dragover)="allowDrop($event)" (drop)="drop($event)"
-(dragenter)="highlightcategory($event)"
-[ngClass]="salesCatHoveredOnDrag === SalesCategory._id ? 'gen-category-div bg-success' : 'gen-category-div'" >
-
-  <h4 [id]="SalesCategory._id">{{SalesCategory.name}}</h4>
-
-</div>
-
-
-
-</section> -->
 
 
 

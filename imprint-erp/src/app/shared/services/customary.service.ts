@@ -13,8 +13,8 @@ export class CustomaryService {
 
 // _url = 'http://localhost:3000/api/services/';
 // _urlGetEmit = 'http://127.0.0.1:3000/';
-_url = 'http://18.185.62.101:4201/api/services/';
-_urlGetEmit = 'http://18.185.62.101:4201/';
+  _url = 'http://18.185.62.101:4201/api/services/';
+  _urlGetEmit = 'http://18.185.62.101:4201/';
 
 private socket;
 

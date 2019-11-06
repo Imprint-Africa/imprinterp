@@ -30,6 +30,9 @@ export class CustomServiceEditComponent implements OnInit {
 
 // Modal
 @ViewChild('dangerModal') public dangerModal: ModalDirective;
+@ViewChild('addTaskModal') public addTaskModal: ModalDirective;
+
+public addTaskForm: FormGroup;
 
 // permisions
 public toAdmin = false;
@@ -99,6 +102,11 @@ public assignedTeamInputValue: string;
         assignedTeam: ['', Validators.required]
       });
 
+      // Add new Team
+      this.addTaskForm = this.formBuilder.group({
+        taskName: ['', Validators.required],
+        assignedTeam: ['', Validators.required]
+      });
 
 
     }
@@ -111,7 +119,7 @@ public assignedTeamInputValue: string;
 get formChangeServiceName() {return this.serviceNameForm.controls; }
 get formChangeTargetRevenue() {return this.targetRevenueForm.controls; }
 get formChangeTasks() {return this.taskForm.controls; }
-
+get formAddTask() {return this.addTaskForm.controls; }
 
 
 
@@ -120,7 +128,7 @@ get formChangeTasks() {return this.taskForm.controls; }
 submitServiceNameChange() {
 
   this.customService.updateServices(window.localStorage.getItem('IdServiceTobeEdited'),
-   {serviceName: this.serviceNameForm.value.serviceName.toLowerCase()}).subscribe(
+   {serviceName: this.serviceNameForm.value.serviceName}).subscribe(
     data => {
       this.serviceTobeEdited = data;
       this.notifyService.showSuccess('Servcce Name Changed', 'Success');
@@ -160,7 +168,7 @@ submitTaskNameChange(id) {
 
   this.serviceTobeEdited.task.forEach((task) => {
     if (task._id === id) {
-      task.taskName = this.taskForm.value.taskName.toLowerCase();
+      task.taskName = this.taskForm.value.taskName;
     }
     let structuredDate = {
       taskName: task.taskName,
@@ -215,6 +223,20 @@ submitAssignedTeamChange(id) {
 
 
 
+
+
+addTask() {
+  this.serviceTobeEdited.task.push(this.addTaskForm.value);
+  this.customService.updateServices(window.localStorage.getItem('IdServiceTobeEdited'), {task: this.serviceTobeEdited.task}).subscribe(
+    data => {
+      this.serviceTobeEdited = data;
+      this.notifyService.showSuccess('Task Added', 'Success');
+    },
+    error => {
+      this.notifyService.showError('Could Not Add Task', 'Error !!');
+    }
+  );
+}
 
 
 

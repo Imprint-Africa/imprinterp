@@ -53,6 +53,8 @@ public listStatus: boolean;
 @ViewChild('mydefineTaskForm') mydefineTaskFormValues;
 @ViewChild('customServiceInput') customServiceInputField: ElementRef;
 @ViewChild('taskDefineInput') taskField: ElementRef;
+@ViewChild('assignTeamToTask') assignTeamToTask: ElementRef;
+
 
 public addNewTeamForm: FormGroup;
 public addSalesCategoryForm: FormGroup;
@@ -270,7 +272,7 @@ addTeam() {
   setTimeout(() => { this.listStatus = true; }, 1000);
 
   let convertedData = {
-                      name: this.addNewTeamForm.value.teamName.toLowerCase()
+                      name: this.addNewTeamForm.value.teamName
                     };
 
   this.teamsService.createTeam(convertedData).subscribe(
@@ -331,7 +333,7 @@ addSalesCategory() {
   setTimeout(() => { this.listStatus = true; }, 1000);
 
   let convertedData = {
-                      name: this.addSalesCategoryForm.value.name.toLowerCase(),
+                      name: this.addSalesCategoryForm.value.name,
                       totalLeads: 0,
                       totalRevenue: 0
                     };
@@ -390,7 +392,7 @@ moveToTaskForm() {
   this.listAddSalesCategoryStatus = false;
   this.listStatus = false;
 
-  this.namedCustomService = this.customServiceForm.value.customServiceName.toLowerCase();
+  this.namedCustomService = this.customServiceForm.value.customServiceName;
   this.namedTargetRevenue = this.customServiceForm.value.targetRevenue;
   this.myCustomServiceFormValues.resetForm();
   this.taskField.nativeElement.focus();
@@ -425,6 +427,12 @@ addAnotherTask() {
 }
 
 
+moveToRevenueInput() {
+  this.assignTeamToTask.nativeElement.focus();
+}
+
+
+
 
 // Save and close Project Form
 saveAndClose() {
@@ -453,6 +461,7 @@ saveAndClose() {
   this.customService.createService(convertedData).subscribe(
     data => {
       this.notifyService.showSuccess(`Service ${data.serviceName} has been added`, 'Success');
+      this.Tasks = [];
     },
     error => {
       this.notifyService.showError(error.error.message, 'Failed...');
@@ -485,7 +494,7 @@ identifyTeamToBeEdited(team) {
 
 editTeam() {
 
-  let data = this.editTeamForm.value.name.toLowerCase();
+  let data = this.editTeamForm.value.name;
 
   this.teamsService.updateTeam(this.teamToBeEdited._id, {name: data}).subscribe(
     dataUpdatedTem => {
@@ -530,7 +539,7 @@ identifySalesCatBeEdited(salesCat) {
 
 editSalesCategory() {
 
-  let data = this.editSalesCatForm.value.name.toLowerCase();
+  let data = this.editSalesCatForm.value.name;
 
   this.salesCategoryService.updateSaleCategory(this.salesCategoryToBeEdited._id, {name: data}).subscribe(
     dataUpdatedSalCat => {

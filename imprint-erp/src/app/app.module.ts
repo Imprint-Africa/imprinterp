@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ModalModule } from 'ngx-bootstrap';
+import { CurrencyPipe } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
@@ -53,6 +54,7 @@ import { DashboardSharedModule } from 'plugins/dashboard/dashboard.module';
 import { DocumentSharedModule } from 'plugins/document/document.module';
 
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -102,7 +104,7 @@ import { DocumentSharedModule } from 'plugins/document/document.module';
   ],
   providers: [NotificationService, AuthGuard, UserService, SalesService, TeamsService, CustomaryService,
               SalesCategoryService, ProjectsService, UserSalesStagesService, ClientService, SpinnerService,
-               CalenderEventService, SalesNoteService, DocPadService],
+               CalenderEventService, SalesNoteService, DocPadService, CurrencyPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

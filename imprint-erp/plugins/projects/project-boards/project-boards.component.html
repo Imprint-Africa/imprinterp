@@ -21,9 +21,10 @@
 <!-- Search Section -->
 <section id="search_section">
   <form class="form form-inline mr-auto">
+
     <input type="text" class="form-control form-control-sm">
-    
     <fa name="search"></fa>
+
   </form>
   <button class="btn btn-sm btn-primary ml-auto">Add Local Project</button>
 </section>
@@ -38,7 +39,7 @@
 
     <div class="card mx-auto" *ngFor="let Project of Projects" (click)="toModifyCard(Project._id)">
       
-        <div class="card-body">    
+        <div class="card-body" >    
 
             <fa name="comment" class="float-right text-secondary mr-2"></fa>
 
@@ -51,7 +52,7 @@
             
             <div id="clientName" class="card-text">{{Project.clientName}}</div>
             <div id="projectName" class="card-text">{{Project.projectName}}</div>
-            <div id="cost" class="card-text">$: {{Project.cost}}</div>
+            <div id="revenue" class="card-text">{{Project.revenue | currency:'KSH ':'symbol-narrow':'4.0-0'}}</div>
             <div id="rateWarp" class="clearfix">
                     <fa id="rate1" name="star" [ngClass]="Project.priority >= '1' ? 'rateColor' : ''"></fa>
                     <fa id="rate2" name="star" [ngClass]="Project.priority >= '2' ? 'rateColor' : ''"></fa>
@@ -70,16 +71,8 @@
            </div>
 
            <div id="timeLineDiv" class="clearfix d-flex">
-                <h4 class="mr-auto" *ngIf="Project.projectStartDate">Start: <span>
-                    {{Project.projectStartDate.day}}/
-                    {{Project.projectStartDate.month}}/
-                  {{Project.projectStartDate.year}}
-                </span> </h4>
-                <h4 class="ml-auto" *ngIf="Project.projectEndDate">End: <span>
-                    {{Project.projectEndDate.day}}/
-                    {{Project.projectEndDate.month}}/
-                  {{Project.projectEndDate.year}}
-                </span> </h4>
+                <h4 class="mr-auto" *ngIf="Project.projectStartDate">Start: <span>{{Project.projectStartDate | date: 'mediumDate'}}</span> </h4>
+                <h4 class="ml-auto" *ngIf="Project.projectEndDate">End: <span>{{Project.projectEndDate | date: 'mediumDate'}}</span> </h4>
            </div>
      
            

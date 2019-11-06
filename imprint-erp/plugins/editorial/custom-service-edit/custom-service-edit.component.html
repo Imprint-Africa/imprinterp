@@ -171,39 +171,94 @@
 
 
 <!-- // Modals -->
-<section class="modal_section" *ngIf="toAdmin">
+<section class="more_section">
 
-  <div class="delete_btn_div">
+  <div class="add_task_btn_div">
+      <button type="button" class="btn" (click)="addTaskModal.show()">
+          Add Task
+      </button>
+    </div>
+  
+
+  <div class="delete_btn_div" *ngIf="toAdmin">
     <button type="button" class="btn" data-toggle="modal" (click)="dangerModal.show()">
         Delete Service
     </button>
-
   </div>
-
-  <div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-danger" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Are you sure ?</h4>
-            <button type="button" class="btn close" (click)="dangerModal.hide()" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body" *ngIf="serviceTobeEdited">
-            <p>You are about to delete<span>{{serviceTobeEdited.serviceName}}</span>Service</p>
-            <p>This action is IRREVERSIBLE.</p>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-cancel" (click)="dangerModal.hide()">No</button>
-            <button type="button" class="btn btn-confirm" (click)="deleteService(); dangerModal.hide()">YES</button>
-          </div>
-        </div><!-- /.modal-content -->
-      </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
 
 
 </section>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div bsModal #addTaskModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog addTaskModal" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Add Task</h4>
+          <button type="button" class="btn close" (click)="addTaskModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="serviceTobeEdited">
+          <form [formGroup]="addTaskForm" >
+            <input class="form-control form-control-sm"
+            formControlName="taskName" [class.is-invalid]="formAddTask.taskName.invalid && formAddTask.taskName.touched">
+            <select class="form-control form-control-sm"
+            formControlName="assignedTeam" [class.is-invalid]="formAddTask.assignedTeam.invalid && formAddTask.assignedTeam.touched">
+
+              <option *ngFor="let Team of Teams" value='{{Team.name}}'>{{Team.name}}</option>
+            </select>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" (click)="addTaskModal.hide()">No</button>
+          <button type="button" class="btn btn-confirm" (click)="addTask(); addTaskModal.hide()">YES</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<div bsModal #dangerModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-danger" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Are you sure ?</h4>
+          <button type="button" class="btn close" (click)="dangerModal.hide()" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body" *ngIf="serviceTobeEdited">
+          <p>You are about to delete<span>{{serviceTobeEdited.serviceName}}</span>Service</p>
+          <p>This action is IRREVERSIBLE.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" (click)="dangerModal.hide()">No</button>
+          <button type="button" class="btn btn-confirm" (click)="deleteService(); dangerModal.hide()">YES</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 
 

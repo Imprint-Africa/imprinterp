@@ -6,7 +6,10 @@ import { SalesService } from 'src/app/shared/services/sales.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { ProjectsService } from 'src/app/shared/services/projects.service';
 import { UserService } from 'src/app/shared/services/user.service';
+import { ClientService } from 'src/app/shared/services/client.service';
+import { SpinnerService } from 'src/app/shared/services/spinner.service';
 import { ModalDirective } from 'ngx-bootstrap';
+
 
 @Component({
   selector: 'app-sales-edit',
@@ -24,7 +27,9 @@ export class SalesEditComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private salesService: SalesService,
     private projectService: ProjectsService,
-    private notifyService: NotificationService
+    private notifyService: NotificationService,
+    private clientService: ClientService,
+    private spinnerService: SpinnerService,
   ) {}
 // tslint:disable: prefer-const
 // tslint:disable: object-literal-shorthand
@@ -36,8 +41,8 @@ export class SalesEditComponent implements OnInit, OnDestroy {
 // Variables
 public projectManagerForm: FormGroup;
 public assignedUserForm: FormGroup;
-@ViewChild('myCostPriorForm') myCostPriorFormValues;
-public costPriorForm: FormGroup;
+@ViewChild('myRevenuePriorForm') myRevenuePriorFormValues;
+public revenuePriorForm: FormGroup;
 
 
 
@@ -60,7 +65,6 @@ public totalTeams: number;
 public totalSelectedTeams: number;
 public Users: any = [];
 public totalProjectAssignedUsers: number;
-
 
 // Calender Variable
 public projectDuration: number;
@@ -136,8 +140,8 @@ public taskMaxDate;
 
 
       // Pass form values
-    this.costPriorForm = this.formBuilder.group({
-        cost: [null, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],
+    this.revenuePriorForm = this.formBuilder.group({
+        revenue: [null, Validators.pattern(/^-?(0|[1-9]\d*)?$/)],
         priority: null
       });
 
@@ -171,7 +175,7 @@ public taskMaxDate;
  // conveniently get the values from the form fields
  get formProjectManager() {return this.projectManagerForm.controls; }
  get formAssignedUser() {return this.assignedUserForm.controls; }
- get formCostPrior() {return this.costPriorForm.controls; }
+ get formRevenuePrior() {return this.revenuePriorForm.controls; }
 
 
 
@@ -441,10 +445,6 @@ changeAssignedUser() {
 
 
 
-
-
-
-
 // Set priority
 selectPriority(num) {
   this.projPriority = num;
@@ -459,9 +459,9 @@ selectPriority(num) {
 saveRevenuePrioroty() {
 
 
-  this.costPriorForm.value.priority = this.projPriority;
+  this.revenuePriorForm.value.priority = this.projPriority;
 
-  this.salesService.updateOppProject(window.localStorage.getItem('salesEditItemId'), this.costPriorForm.value).subscribe(
+  this.salesService.updateOppProject(window.localStorage.getItem('salesEditItemId'), this.revenuePriorForm.value).subscribe(
     data => {
       this.notifyService.showSuccess('Changes Saved', 'Success');
     },
@@ -495,13 +495,14 @@ lauchProject() {
         task : data.task.filter((task) => {
                           return task.taskStatus === 'checked';
                       }).map(task => task),
-        cost: data.cost,
+        revenue: data.revenue,
         priority: data.priority,
         projectStatus : 'active',
         progress: 0,
         projectDuration: data.projectDuration,
         projectStartDate: data.projectStartDate,
         projectEndDate: data.projectEndDate,
+        createdOn: new Date(),
       };
 
 
@@ -509,20 +510,25 @@ lauchProject() {
       this.projectService.addProject(newProject).subscribe(
         dataAddProj => {
 
-          // delete from Opp
-            this.salesService.deleteOppProject(window.localStorage.getItem('salesEditItemId')).subscribe(
-              dataDelOppProj => {
-                this.notifyService.showSuccess('Projects Launched', 'Success');
-
-                setTimeout(() => {
+            this.notifyService.showSuccess('Projects Launched', 'Success');
+            setTimeout(() => {
                   this.router.navigate(['/projects']);
-                }, 5000);
-              },
-              error => {
-                this.notifyService.showError('Launching Failed', 'Error');
-              }
+                }, 3000);
 
-            );
+          // delete from Opp
+            // this.salesService.deleteOppProject(window.localStorage.getItem('salesEditItemId')).subscribe(
+            //   dataDelOppProj => {
+            //     this.notifyService.showSuccess('Projects Launched', 'Success');
+
+            //     setTimeout(() => {
+            //       this.router.navigate(['/projects']);
+            //     }, 3000);
+            //   },
+            //   error => {
+            //     this.notifyService.showError('Launching Failed', 'Error');
+            //   }
+
+            // );
         },
         error => {
 
@@ -550,14 +556,12 @@ deleteProject() {
 
 
 submitDeleted() {
-
+  this.spinnerService.spinStart();
+  let clientChecked = this.OpennedProject.clientName;
   this.salesService.deleteOppProject(window.localStorage.getItem('salesEditItemId')).subscribe(
-
     data => {
-      this.notifyService.showSuccess('Projects Deleted', 'Success');
-      setTimeout(() => {
-                this.router.navigate(['/sales']);
-          }, 2000);
+      this.cleanUpTheClient(clientChecked);
+
     },
     error => {
       this.notifyService.showError('Projects Not Deleted', 'Failled');
@@ -566,6 +570,51 @@ submitDeleted() {
   );
 
 }
+
+cleanUpTheClient(clientChecked) {
+
+  this.salesService.getAllOppProject().subscribe(
+    data => {
+      let notThere = true;
+      data.forEach((opp) => {
+        if (opp.clientName === clientChecked) { notThere = false; }
+      });
+      if (notThere) {
+        this.clientService.getAllClients().subscribe(
+          cliData => {
+            cliData.forEach((cli) => {
+              if (cli.companyName === clientChecked ) {
+                this.clientService.deleteClient(cli._id).subscribe(
+                  resData => {
+                    this.spinnerService.spinStop();
+                    this.notifyService.showSuccess('Projects Deleted', 'Success');
+                    this.notifyService.showInfo('Client Removed From Your Database', 'Info');
+                    setTimeout(() => {
+                      this.router.navigate(['/sales']);
+                    }, 2000);
+                  },
+                  error => {
+                    console.log('Error');
+                  }
+                );
+              }
+            });
+          },
+          error => {console.log('Error'); }
+        );
+      }
+      if (!notThere) {
+        this.notifyService.showSuccess('Projects Deleted', 'Success');
+        this.spinnerService.spinStop();
+        setTimeout(() => {
+                this.router.navigate(['/sales']);
+          }, 2000);
+      }
+    }
+  );
+
+}
+
 
 
 

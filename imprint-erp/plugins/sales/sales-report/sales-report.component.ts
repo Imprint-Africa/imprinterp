@@ -138,7 +138,7 @@ ngOnInit() {
                       servicesData => {
                         this.CustomServices = servicesData;
 
-                        this.TotalExpectedRevenue = this.Opportunitys.reduce((previous, current) => previous + current.cost, 0);
+                        this.TotalExpectedRevenue = this.Opportunitys.reduce((previous, current) => previous + current.revenue, 0);
 
                         this.areaColor = this.brandInfo;
                         this.areaOpacity = 50;
@@ -227,7 +227,7 @@ ngOnInit() {
 
       }).map(e => e);
 
-      let getTotalRevenue = getOpp.reduce((previous, current) => previous + current.cost, 0);
+      let getTotalRevenue = getOpp.reduce((previous, current) => previous + current.revenue, 0);
       serviceData.push(getTotalRevenue);
     });
 
