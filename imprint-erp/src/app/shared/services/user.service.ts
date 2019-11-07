@@ -33,12 +33,12 @@ registrationHeader = new HttpHeaders().set(
   constructor( private http: HttpClient ) { this.socket = io(this._urlGetEmit);  }
 
 
-loginUser( loginData: User ) {
+loginUser( loginData: any ) {
   return this.http.post<any>(this._url + 'login', loginData);
 }
 
 
-registerUser( registrationData: User ) {
+registerUser( registrationData: any ) {
   return this.http.post<any>(this._url + 'register', registrationData, {headers : this.registrationHeader});
 }
 

@@ -55,9 +55,11 @@ export class LoginComponent implements OnInit {
       password: ['', Validators.required],
     });
 
-
     // return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
+
+    // Comment this after set Up
+    // this.createSuperUser();
   }
 
 
@@ -120,4 +122,26 @@ hidePassword() {
 }
 
 
-}
+
+// Comment this after set Up
+// createSuperUser() {
+//   let superUser = {
+//     name: 'Kimutai',
+//     email: 'kimutai@imprintaf.com',
+//     role: 'admin',
+//     department: 'Dev Team',
+//     password: '1234',
+//   };
+//   this.userService.registerUser(superUser).subscribe(
+//     data => {
+//       this.notifyService.showSuccess('SuperUserCreated', 'Success');
+//     },
+//     error => {
+//       this.notifyService.showError('Did not create Super User', 'Failed');
+//     }
+//   );
+// }
+
+
+
+}// End of Class

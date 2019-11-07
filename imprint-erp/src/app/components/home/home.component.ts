@@ -1,6 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { faProjectDiagram, faUsers, faEdit, faShoppingCart, faDollarSign, faChartLine, faBook } from '@fortawesome/free-solid-svg-icons';
+import { faProjectDiagram, faUsers, faEdit, faShoppingCart, faDollarSign, faChartLine, faBook,
+  faCalendar } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home',
@@ -27,6 +28,7 @@ public faShoppingCart = faShoppingCart;
 public faDollarSign = faDollarSign;
 public faChartLine = faChartLine;
 public faBook = faBook;
+public faCalendar = faCalendar;
 
 
 // Variables
@@ -45,6 +47,7 @@ public salesNavBarActive: boolean;
 public editorialNavBarActive: boolean;
 public usersNavBarActive: boolean;
 public documentNavBarActive: boolean;
+public calenderNavBarActive: boolean;
 
 public myInterval: any;
 
@@ -85,6 +88,7 @@ CheckActiveNavBar() {
   if (window.localStorage.getItem('ActiveNav') === 'editorial') {this.editorialNavBarActive = true; }
   if (window.localStorage.getItem('ActiveNav') === 'users') {this.usersNavBarActive = true; }
   if (window.localStorage.getItem('ActiveNav') === 'document') {this.documentNavBarActive = true; }
+  if (window.localStorage.getItem('ActiveNav') === 'ngcalender') {this.calenderNavBarActive = true; }
 }
 
 
@@ -110,15 +114,15 @@ CheckActiveNavBar() {
  navToUsers() {
   this.router.navigate(['/users']);
  }
-
  navToProjTaskTeam() {
   this.router.navigate(['/editorial']);
  }
-
  navToDocument() {
   this.router.navigate(['/document']);
  }
-
+ navToCalender() {
+  this.router.navigate(['/ngCalender']);
+ }
 
 // Log out
   logout() {

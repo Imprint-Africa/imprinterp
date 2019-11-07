@@ -6,10 +6,21 @@
     </div>
 
     <div class="col-8 btn-wrap">
-      <button hidden class="btn btn-sm btn-deals btn-outline-info">Deals</button>
+      <!-- <button hidden class="btn btn-sm btn-deals btn-outline-info">Deals</button> -->
       <button class="btn btn-sm btn-companies btn-outline-info" (click)="listNoteModal.show()">Notes</button>
-      <button hidden class="btn btn-sm btn-contacts btn-outline-info">Clients</button>
-      <button class="btn btn-sm btn-products btn-outline-info" (click)="toCalender()">Calender</button>
+      <!-- <button hidden class="btn btn-sm btn-contacts btn-outline-info">Clients</button> -->
+      <!-- <button class="btn btn-sm btn-products btn-outline-info" (click)="toCalender()">Calender</button> -->
+
+      <button [ngClass]="kanbanSectionStatus ? 'btn btn-sm btn-warning' : 'btn btn-sm btn-outline-info'" 
+      (click)="kanbanSectionStatus=true; listSectionStatus=false; reportSectionStatus=false">Kanban</button>
+  
+      <button [ngClass]="listSectionStatus ? 'btn btn-sm btn-warning' : 'btn btn-sm btn-outline-info'"
+      (click)="kanbanSectionStatus=false; listSectionStatus=true; reportSectionStatus=false">List</button>
+  
+      <button [ngClass]="reportSectionStatus ? 'btn btn-sm btn-warning' : 'btn btn-sm btn-outline-info'"
+      (click)="kanbanSectionStatus=false; listSectionStatus=false; reportSectionStatus=true">Reports</button>
+  
+      <button class="btn btn-sm btn-outline-info" (click)="eventReminder()">Events Reminder</button>
 
     </div>
     
@@ -139,7 +150,7 @@
 
 
 
-
+<!-- 
 <section class="navigation-section d-flex">
 
 
@@ -149,13 +160,13 @@
 
   <div class="search-div">
       <div class="input-group input-group-sm">
-          <!-- <input type="text" class="form-control" placeholder="Search">
+          <input type="text" class="form-control" placeholder="Search">
 
           <div class="input-group-append">
               <button class="input-group-text">
                 <fa name="search"></fa>
               </button>
-          </div> -->
+          </div>
       </div>
       
   </div>
@@ -174,7 +185,7 @@
     
   </div>
 
-</section>
+</section> -->
 
 
 

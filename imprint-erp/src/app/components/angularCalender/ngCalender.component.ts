@@ -50,6 +50,7 @@ export class NgCalenderComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
 
+      window.localStorage.setItem('ActiveNav', 'ngcalender');
       this.activeDayIsOpen = false;
       this.calenderSectionStatus = true;
 

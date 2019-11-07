@@ -57,8 +57,19 @@ $desktop_xl: 1200px
     
     
 #mainBody
-  background-color: grayColor(g200)
-  font-family: Montserrat
+    background-color: grayColor(g200)
+    font-family: Montserrat
+
+    -ms-overflow-style: none
+    scrollbar-width: none
+
+::-webkit-scrollbar
+    width: 0px
+    background: transparent
+
+::-webkit-scrollbar-thumb 
+    background-color: brandColor(brandPrimary)
+    width: 1px
 
 
 // TOASTR BUG FIX 
