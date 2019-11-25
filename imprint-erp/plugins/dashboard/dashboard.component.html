@@ -1,15 +1,29 @@
-<!-- Title Section -->
-<section id="title_section" class="">
-  <h4>Dashboard</h4>
-  <p>View various Reports and Stats</p>
+<!-- Title -->
+<section id="title_section" class="d-flex">
+  <div class="col-4 head-wrap">
+      <h4>Dashboard</h4>
+      <p>View, Create Reports and Stats</p>
+  </div>
+
+  <div class="col-8 btn-wrap">
+
+    <button [ngClass]="mainDashboard ? 'current' : 'notCurrent'" (click)="toMainDashboard()">Main DashBoard</button>
+
+    <button [ngClass]="salesDashboard ? 'current' : 'notCurrent'" (click)="toSalesDashboard()">Sales Dashboard</button>
+
+    <button [ngClass]="projectsDashboard ? 'current' : 'notCurrent'" (click)="toProjectsDashboard()">Projects Dashboard</button>
+
+  </div>
+  
 </section>
-  
-  
-   
-  
+
+
+
 <!-- Body Section -->
 <section class="body-section">
 
+
+<article  *ngIf="mainDashboard"  class="main-dashboard">
 
 <section id="cards_section" class="card-group">
 
@@ -124,25 +138,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <section id="graph_section">
 
     <div id="graph_wrap" class="">
@@ -158,13 +153,23 @@
 </section>
 
 
+</article><!-- Main Dashboard -->
 
 
 
+<article *ngIf="salesDashboard" class="sales-dashboard">
+
+  <app-sales-dashboard></app-sales-dashboard>
+
+</article><!-- sales Dashboard -->
 
 
 
+<article *ngIf="projectsDashboard"  class="projects-dashboard">
 
+  <app-projects-dashboard></app-projects-dashboard>
+
+</article><!-- projects Dashboard -->
 
 
 

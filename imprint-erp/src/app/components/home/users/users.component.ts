@@ -54,6 +54,9 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
 
+    if (window.localStorage.getItem('permissionStatus') !== 'isAdmin') {
+      this.router.navigate(['/projects']);
+    }
 
     window.localStorage.setItem('ActiveNav', 'users');
 

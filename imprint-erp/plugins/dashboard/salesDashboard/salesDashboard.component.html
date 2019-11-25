@@ -1,0 +1,612 @@
+
+<section id="cards_section" class="card-group">
+
+    <div class="card first">
+      <div id="first-card-carousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+
+
+        <div [hidden]="Opportunitys.length === 0" *ngFor="let Opportunity of Opportunitys; let first = first;" [ngClass]=" first ? 'carousel-item active' : 'carousel-item'">
+          <div class="card-title">
+              <h4>{{Opportunity.clientName}} - {{Opportunity.projectName}}</h4>
+              <fa-icon [icon]="faChartLine" class="dropdown-toggle" data-toggle="dropdown"></fa-icon>
+              <div class="dropdown-menu dropdown-menu-right">
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" (click)="showOppDetail(Opportunity._id)">Details</a>
+              </div>
+          </div>
+          <div class="card-info"><h4>Opportunity</h4></div>
+          <div class="card-body">
+             <div class="card-item">
+               <h4>{{Opportunity.revenue | currency:'Ksh ':'symbol-narrow':'1.0-0'}}</h4>
+             </div>
+             <hr>
+          </div>
+          </div> <!-- carousel-item -->
+  
+        </div><!-- carousel-inner -->
+  
+        <a class="carousel-control-prev" href="#first-card-carousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#first-card-carousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+  
+        </div>  <!-- carousel -->
+      </div> <!-- card first -->
+  
+  
+  
+  
+    <div class="card second">
+      <div id="second-card-carousel" class="carousel slide" data-ride="carousel">
+
+        <div class="carousel-inner">
+  
+        <div [hidden]="SalesCategory.length === 0" *ngFor="let SalesCategory of SalesCategorys; let first = first;" [ngClass]=" first ? 'carousel-item active' : 'carousel-item'">
+            <div class="card-title">
+                <h4>{{SalesCategory.name}}</h4>
+                <fa-icon [icon]="faChartLine" class="dropdown-toggle" data-toggle="dropdown"></fa-icon>
+                <div class="dropdown-menu dropdown-menu-right">
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" (click)="showCategoryDetail(SalesCategory._id)">Details</a>
+                </div>
+            </div>
+            <div class="card-info"><h4>Sales Pipeline</h4></div>
+            <div class="card-body">
+               <div class="card-item">
+                 <h4>{{SalesCategory.totalLeads}} Deal(s)</h4>
+                 <h4>{{SalesCategory.totalRevenue | currency:'Ksh ':'symbol-narrow':'1.0-0'}}</h4>
+               </div>
+               <hr>
+            </div>
+            </div> <!-- carousel-item -->
+  
+        </div><!-- carousel-inner -->
+  
+        <a class="carousel-control-prev" href="#second-card-carousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#second-card-carousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+  
+        </div>  <!-- carousel -->
+      </div> <!-- card second -->
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <div class="card third">
+      <div id="third-card-carousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+
+            <div [hidden]="Service.length === 0" *ngFor="let Service of MyCustomServices; let first = first;" [ngClass]=" first ? 'carousel-item active' : 'carousel-item'">
+                <div class="card-title">
+                    <h4>{{Service.serviceName}}</h4>
+                    <fa-icon [icon]="faChartLine" class="dropdown-toggle" data-toggle="dropdown"></fa-icon>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" (click)="showServiceDetail(Service._id)">Details</a>
+                    </div>
+                </div>
+                <div class="card-info"><h4>Service</h4></div>
+                <div class="card-body">
+                    <div class="card-item">
+                      <h4>{{Service.totalDeals}} Deal(s)</h4>
+                      <h4>{{Service.totalRevenue | currency:'Ksh ':'symbol-narrow':'1.0-0'}}</h4>
+                    </div>
+                    <hr>
+                </div>
+          </div> <!-- carousel-item -->
+  
+  
+        </div><!-- carousel-inner -->
+  
+        <a class="carousel-control-prev" href="#third-card-carousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#third-card-carousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+  
+        </div>  <!-- carousel -->
+      </div> <!-- card third -->
+  
+  
+  
+  
+  
+  
+    <div class="card forth">
+      <div id="forth-card-carousel" class="carousel slide" data-ride="carousel">
+        <div class="carousel-inner">
+
+            <div [hidden]="Client.length === 0" *ngFor="let Client of MyClients; let first = first;" [ngClass]=" first ? 'carousel-item active' : 'carousel-item'">
+                <div class="card-title">
+                    <h4>{{Client.companyName}}</h4>
+                    <fa-icon [icon]="faChartLine" class="dropdown-toggle" data-toggle="dropdown"></fa-icon>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" (click)="showClientDetail(Client._id)">Details</a>
+                    </div>
+                </div>
+                <div class="card-info"><h4>Client</h4></div>
+                <div class="card-body">
+                    <div class="card-item">
+                      <h4>{{Client.totalDeals}} Deal(s)</h4>
+                      <h4>{{Client.totalRevenue | currency:'Ksh ':'symbol-narrow':'1.0-0'}}</h4>
+                    </div>
+                    <hr>
+                </div>
+          </div> <!-- carousel-item -->
+  
+
+        </div><!-- carousel-inner -->
+  
+        <a class="carousel-control-prev" href="#forth-card-carousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#forth-card-carousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+          </a>
+  
+        </div>  <!-- carousel -->
+      </div> <!-- card forth -->
+  
+  
+  </section>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <article class="graph-article-wrap">
+        <div class="style-section d-flex" [ngClass]="styleSectionStatus ? 'style-section d-flex' : 'style-section hide d-flex'">
+          <!-- <div class="style-section d-flex" class="style-section d-flex"> -->
+      
+            <div class="col-2 style-div">
+                <div class="style-head">
+                    <h4>Background Color</h4>
+                </div>
+                <div class="style-options">
+                  <div class="w-100">
+                    <span class="badge bg-primary" (click)="bgToPrimary()">.</span>
+                    <span class="badge bg-info" (click)="bgToInfo()">.</span>
+                    <span class="badge bg-warning" (click)="bgToWarning()">.</span>
+                    <span class="badge bg-danger" (click)="bgToDanger()">.</span>
+                    <span class="badge bg-success" (click)="bgToSuccess()">.</span>
+                    <span class="badge border border-info bg-light" (click)="bgToLight()">.</span>
+                    <span class="badge border border-info bg-secondary" (click)="bgToSecondary()">.</span>
+                  </div>
+                </div>
+            </div>
+      
+            <div class="col-2 style-div">
+                <div class="style-head">
+                    <h4>Area Color/Opacity</h4>
+                </div>
+                <div class="style-options">
+                    <div class="w-100">
+                      <span class="badge bg-primary" (click)="areaToPrimary()">.</span>
+                      <span class="badge bg-info" (click)="areaToInfo()">.</span>
+                      <span class="badge bg-warning" (click)="areaToWarning()">.</span>
+                      <span class="badge bg-danger" (click)="areaToDanger()">.</span>
+                      <span class="badge bg-success" (click)="areaToSuccess()">.</span>
+                      <span class="badge border border-info bg-light" (click)="areaToLight()">.</span>
+                      <span class="badge border border-info bg-secondary" (click)="areaToSecondary()">.</span>
+                    </div>
+      
+                    <div>
+                        <div class="input-group d-flex">
+      
+                            <label for="">Opacity</label>
+                            <input type="number" [(ngModel)]="areaOpacity" (change)="areaOpacityChanged()" min="0" max="100" step="10" class="form-control form-control-sm" placeholder="">
+      
+                        </div>
+      
+                    </div>
+      
+                </div>
+            </div>
+      
+            <div class="col-2 style-div">
+                <div class="style-head">
+                    <h4>Line/Point</h4>
+                </div>
+                <div class="style-options">
+                  <div class="w-100">
+                      <span class="badge bg-primary" (click)="lineToPrimary()">.</span>
+                      <span class="badge bg-info" (click)="lineToInfo()">.</span>
+                      <span class="badge bg-warning" (click)="lineToWarning()">.</span>
+                      <span class="badge bg-danger" (click)="lineToDanger()">.</span>
+                      <span class="badge bg-success" (click)="lineToSuccess()">.</span>
+                      <span class="badge border border-info bg-light" (click)="lineToLight()">.</span>
+                      <span class="badge border border-info bg-secondary" (click)="lineToSecondary()">.</span>
+                  </div>
+      
+                  <div class="w-100 ">
+                    <span class="badge bg-primary" (click)="pointToPrimary()">.</span>
+                    <span class="badge bg-info" (click)="pointToInfo()">.</span>
+                    <span class="badge bg-warning" (click)="pointToWarning()">.</span>
+                    <span class="badge bg-danger" (click)="pointToDanger()">.</span>
+                    <span class="badge bg-success" (click)="pointToSuccess()">.</span>
+                    <span class="badge border border-info bg-light" (click)="pointToLight()">.</span>
+                    <span class="badge border border-info bg-secondary" (click)="pointToSecondary()">.</span>
+                  </div>
+                </div>
+            </div>
+      
+            <div class="col-2 style-div">
+                <div class="style-head">
+                    <h4>Y-axis</h4>
+                </div>
+                <div class="style-options">
+                    <button class="btn btn-sm btn-outline-primary" (click)="displayYaxis()">Display</button>
+                    <button class="btn btn-sm btn-outline-warning" (click)="stackedYaxis()">Stacked</button>
+                    <button class="btn btn-sm btn-outline-success" (click)="linegridYaxis()">LineGrid</button>
+                </div>
+            </div>
+            <div class="col-2 style-div">
+                <div class="style-head">
+                    <h4>X-axis</h4>
+                </div>
+                <div class="style-options">
+                    <button class="btn btn-sm btn-outline-primary"(click)="displayXaxis()">Display</button>
+                    <button class="btn btn-sm btn-outline-warning"(click)="stackedXaxis()">Stacked</button>
+                    <button class="btn btn-sm btn-outline-success"(click)="linegridXaxis()">LineGrid</button>
+                </div>
+            </div>
+      
+            <div class="col-2 style-div">
+                <div class="style-head">
+                    <h4>Legend</h4>
+                </div>
+                <div class="style-options">
+                  <button class="btn btn-sm btn-outline-primary" (click)="displayLegendFunction()">Display</button>
+                  <div class="w-100">
+                    <span class="badge text-info" (click)="displayLegendTop()">T</span>
+                    <span class="badge text-info"(click)="displayLegendRight()">R</span>
+                    <span class="badge text-info"(click)="displayLegendBottom()">B</span>
+                    <span class="badge text-info"(click)="displayLegendLeft()">L</span>
+                  </div>
+                  <div class="w-100">
+                    <span class="badge bg-primary" (click)="legendToPrimary()">.</span>
+                    <span class="badge bg-info" (click)="legendToInfo()">.</span>
+                    <span class="badge bg-warning" (click)="legendToWarning()">.</span>
+                    <span class="badge bg-danger" (click)="legendToDanger()">.</span>
+                    <span class="badge bg-success" (click)="legendToSuccess()">.</span>
+                    <span class="badge border border-info bg-light" (click)="legendToLight()">.</span>
+                    <span class="badge border border-info bg-secondary" (click)="legendToSecondary()">.</span>
+                  </div>
+                </div>
+            </div>
+      
+      
+        </div>
+      
+      
+        <section class="graph-section d-flex">
+      
+      
+        <div class="dataset-div col-2" >
+      
+      
+      
+      
+            <!-- Datasets -->
+            <button class="btn btn-sm" (click)="setLabelServices()"><fa-icon class="faDiceD6" [icon]="faDiceD6"></fa-icon>&nbsp;&nbsp;Services</button>
+            <button class="btn btn-sm" (click)="setLabelClients()"><fa-icon class="faDiceD6" [icon]="faDiceD6"></fa-icon>&nbsp;&nbsp;Clients</button>
+            <button class="btn btn-sm" (click)="setLabelSalesStages()"><fa-icon class="faDiceD6" [icon]="faDiceD6"></fa-icon>&nbsp;&nbsp;Sales Stages</button>
+            <button class="btn btn-sm" (click)="setLabelOpportunities()"><fa-icon class="faDiceD6" [icon]="faDiceD6"></fa-icon>&nbsp;&nbsp;Opportunities</button>
+            <button class="btn btn-sm" (click)="setLabelSalesUsers()"><fa-icon class="faDiceD6" [icon]="faDiceD6"></fa-icon>&nbsp;&nbsp;Sales Users</button>
+      
+            <!-- Metrics -->
+      
+            <div class="d-flex w-100">
+              <button class="btn btn-sm" (click)="setDatasetExpectedRevenue()"><fa-icon class="faNetworkWired" [icon]="faNetworkWired"></fa-icon>&nbsp;&nbsp;Expected Revenue</button>
+              <!-- <fa class="ml-4 mt-auto mb-auto mr-auto " name="eraser" (click)="removeDatasetExpectedRevenue()"></fa> -->
+              </div>
+      
+              <div class="d-flex w-100">
+                <button class="btn btn-sm" (click)="setDatasetRevenue()"><fa-icon class="faNetworkWired" [icon]="faNetworkWired"></fa-icon>&nbsp;&nbsp;Revenue</button>
+                <!-- <fa class="ml-4 mt-auto mb-auto mr-auto " name="eraser" (click)="removeDatasetRevenue()"></fa> -->
+                </div>
+      
+      
+            <div class="d-flex w-100">
+              <button class="btn btn-sm" (click)="setDatasetOpportunities()"><fa-icon class="faNetworkWired" [icon]="faNetworkWired"></fa-icon>&nbsp;&nbsp;Opportunities</button>
+              <!-- <fa class="ml-4 mt-auto mb-auto mr-auto " name="eraser" (click)="removeDatasetGeneralPipeline()"></fa> -->
+              </div>
+
+      
+        </div>
+      
+        <div class="visualize-div col-2">
+      
+          <div class="set-div-wrap"> 
+              <fa class="m-auto" name="eraser" (click)="removeAllDataSets()"></fa>
+          </div>
+      
+          <button [ngClass]="definedDataSet === 1 ? 'set-div-wrap current' : 'set-div-wrap'" (click)="set_services_vs_targetR_and_revenue()">
+            Services <span>vs</span> Opp & Revenue
+          </button>
+
+          <button  [ngClass]="definedDataSet === 2 ? 'set-div-wrap current' : 'set-div-wrap'" (click)="set_salesStages_vs_opportunities_and_revenue()">
+              Sales Stages <span>vs</span> Opp & Revenue
+          </button>
+      
+          <button [ngClass]="definedDataSet === 3 ? 'set-div-wrap current' : 'set-div-wrap'" (click)="set_clients_vs_revenue()">
+            Clients <span>vs</span> Opp & Revenue
+
+          </button>
+      
+          <button [ngClass]="definedDataSet === 4 ? 'set-div-wrap current' : 'set-div-wrap'" (click)="set_opportunities_vs__revenue()">
+            Opportunities <span>vs</span> Revenue
+          </button>
+      
+          <button [ngClass]="definedDataSet === 5 ? 'set-div-wrap current' : 'set-div-wrap'" (click)="set_salesUser_vs_opportunities_and_revenue()">
+            SalesUser <span>vs</span> Opp No & Revenue
+          </button>
+      
+          <button [ngClass]="definedDataSet === 6 ? 'set-div-wrap current' : 'set-div-wrap'" (click)="set_totalRevenue_vs_TargetRevenue()">
+            Total Revenue <span>vs</span>  Target Revenue
+          </button>
+    
+      
+        </div>
+      
+      
+        <div class="display-div col-6" [style.backgroundColor]="backgroundColor">
+      
+            <canvas id="chart_canvas" *ngIf="chartType" baseChart class="chart"
+            [chartType]="chartType"
+            [labels]="chartLabels"
+            [datasets]="chartDatasets"
+            [options]="chartOptions"
+            ></canvas>
+      
+        </div>
+      
+      
+        <div class="gallary-div col-2">
+      
+      
+            <div class="choose-color-div">
+                <button class="btn btn-sm btn-outline-info" (click)="styleSectionStatus=!styleSectionStatus">Styling</button>
+            </div>
+      
+            <div class="head-div">
+                <h4>Gallary</h4>
+            </div>
+      
+            <div class="choose-chartType-div">
+      
+      
+                <button class="btn btn-sm" (click)="changeChartType('line')"><fa name="area-chart"></fa></button>
+                <button class="btn btn-sm" (click)="changeChartType('bar')"><fa name="bar-chart"></fa></button>
+                <button class="btn btn-sm" (click)="changeChartType('horizontalBar')">H-Bar</button>
+                <button class="btn btn-sm" (click)="changeChartType('pie')"><fa name="pie-chart"></fa></button>
+                <button class="btn btn-sm" (click)="changeChartType('doughnut')">Doughnut</button>
+                <button class="btn btn-sm" (click)="changeChartType('radar')">Radar</button>
+                <button class="btn btn-sm" (click)="changeChartType('polarArea')">PolarChart</button>
+      
+      
+            </div>
+      
+      
+        </div>
+      
+        </section>
+      
+      
+</article>
+      
+
+
+
+  
+
+
+<div bsModal #OppDetailModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog OppDetailModal modal-md" role="document">
+    <div class="modal-content" *ngIf="OppOpenned">
+      <div class="modal-header">
+        <h4 class="modal-title">Opportunity Details </h4>
+      </div>
+      <div class="modal-body">
+
+        <div class="item">
+          <h5>Client Name</h5>
+          <h4>{{OppOpenned.clientName}}</h4>
+        </div>
+        <div class="item">
+            <h5>Project Name</h5>
+            <h4>{{OppOpenned.projectName}}</h4>
+        </div>
+        <div class="item">
+            <h5>Revenue</h5>
+            <h4>{{OppOpenned.revenue | currency:'Ksh ':'symbol-narrow':'1.0-0'}}</h4>
+        </div>
+
+        <div class="item">
+            <h5>Project Name</h5>
+            <h4 class="stars">
+                <fa class="rate1" name="star" [ngClass]="OppOpenned.priority >= '1' ? 'rateColor' : ''"></fa>
+                <fa class="rate2" name="star" [ngClass]="OppOpenned.priority >= '2' ? 'rateColor' : ''"></fa>
+                <fa class="rate3" name="star" [ngClass]="OppOpenned.priority >= '3' ? 'rateColor' : ''"></fa>
+            </h4>
+        </div>
+
+        <div class="item">
+            <h5>Created By</h5>
+            <h4>{{OppOpenned.createdByUsername}}</h4>
+        </div>
+
+        <div class="item">
+            <h5>Created On</h5>
+            <h4>{{OppOpenned.createdOn | date: 'fullDate'}}</h4>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-cancel" (click)="OppDetailModal.hide()">Cancel</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+
+<div bsModal #PipeLineDetailModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog PipeLineDetailModal modal-md" role="document">
+      <div class="modal-content" *ngIf="PipeLineOppenned">
+        <div class="modal-header">
+          <h4 class="modal-title">Pipe Line Details </h4>
+        </div>
+        <div class="modal-body">
+  
+          <div class="item">
+            <h5>Stage Name</h5>
+            <h4>{{PipeLineOppenned.name}}</h4>
+          </div>
+          <div class="item">
+              <h5>Number of Deals</h5>
+              <h4>{{PipeLineOppenned.totalDeals}}</h4>
+          </div>
+          <div class="item">
+              <h5>Total Revenue</h5>
+              <h4>{{PipeLineOppenned.totalRevenue | currency:'Ksh ':'symbol-narrow':'1.0-0'}}</h4>
+          </div>
+  
+          <div class="item-deals">
+              <h5>Deals In This Stage Name</h5>
+              <div class="deals">
+                <h4 [hidden]="PipeLineOppenned.deals === 0" *ngFor="let deal of PipeLineOppenned.deals">{{deal}}</h4>
+              </div>
+          </div>
+ 
+  
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-cancel" (click)="PipeLineDetailModal.hide()">Cancel</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+
+
+
+
+
+
+  <div bsModal #ServiceDetailModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog ServiceDetailModal modal-md" role="document">
+        <div class="modal-content" *ngIf="ServiceOppenned">
+          <div class="modal-header">
+            <h4 class="modal-title">Service Details </h4>
+          </div>
+          <div class="modal-body">
+    
+            <div class="item">
+              <h5>Service Name</h5>
+              <h4>{{ServiceOppenned.serviceName}}</h4>
+            </div>
+            <div class="item">
+                <h5>Target Revenue</h5>
+                <h4>{{ServiceOppenned.targetRevenue | currency:'Ksh ':'symbol-narrow':'1.0-0'}}</h4>
+            </div>
+            
+            <div class="item">
+                <h5>Number of Deals</h5>
+                <h4>{{ServiceOppenned.totalDeals}}</h4>
+            </div>
+            <div class="item">
+                <h5>Total Revenue</h5>
+                <h4>{{ServiceOppenned.totalRevenue | currency:'Ksh ':'symbol-narrow':'1.0-0'}}</h4>
+            </div>
+    
+            <div class="item-deals">
+                <h5>Deals for this Service</h5>
+                <div class="deals">
+                  <h4 [hidden]="ServiceOppenned.deals === 0" *ngFor="let deal of ServiceOppenned.deals">{{deal}}</h4>
+                </div>
+            </div>
+    
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-cancel" (click)="ServiceDetailModal.hide()">Cancel</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+
+
+
+    <div bsModal #ClientDetailModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog ClientDetailModal modal-md" role="document">
+          <div class="modal-content" *ngIf="ClientOppenned">
+            <div class="modal-header">
+              <h4 class="modal-title">Client Details </h4>
+            </div>
+            <div class="modal-body">
+      
+              <div class="item">
+                <h5>Client Name</h5>
+                <h4>{{ClientOppenned.companyName}}</h4>
+              </div>
+              <div class="item">
+                  <h5>Number of Deals</h5>
+                  <h4>{{ClientOppenned.totalDeals}}</h4>
+              </div>
+              <div class="item">
+                  <h5>Total Revenue</h5>
+                  <h4>{{ClientOppenned.totalRevenue | currency:'Ksh ':'symbol-narrow':'1.0-0'}}</h4>
+              </div>
+      
+              <div class="item-deals">
+                  <h5>Deals with this Client</h5>
+                  <div class="deals">
+                    <h4 [hidden]="ClientOppenned.deals === 0" *ngFor="let deal of ClientOppenned.deals">{{deal}}</h4>
+                  </div>
+              </div>
+      
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-cancel" (click)="ClientDetailModal.hide()">Cancel</button>
+            </div>
+          </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+      </div><!-- /.modal -->
+
+
+
+
+

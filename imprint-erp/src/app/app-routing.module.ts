@@ -16,6 +16,7 @@ import { EditorialSharedModule } from 'plugins/editorial/editorial.module';
 import { SalesSharedModule } from 'plugins/sales/sales.module';
 import { DashboardSharedModule } from 'plugins/dashboard/dashboard.module';
 import { DocumentSharedModule } from 'plugins/document/document.module';
+import { InvoiceSharedModule } from 'plugins/invoice/invoice.module';
 
 
 
@@ -33,7 +34,7 @@ const routes: Routes = [
      children: [{ path: '', component: UsersComponent}]
   },
 
-  // Users
+  // Calender
   { path: 'ngCalender', component: HomeComponent, canActivate: [AuthGuard],
      children: [{ path: '', component: NgCalenderComponent}]
   },
@@ -50,8 +51,11 @@ const routes: Routes = [
    // Dashboard Module
   { path: 'dashboard', loadChildren: 'plugins/dashboard/dashboard.module#DashboardSharedModule'},
 
-  // Dashboard Module
+  // Documents Module
   { path: 'document', loadChildren: 'plugins/document/document.module#DocumentSharedModule'},
+
+  // Invoice Module
+  { path: 'invoice', loadChildren: 'plugins/invoice/invoice.module#InvoiceSharedModule'},
 
   { path: '**', component: NotFoundComponent}
 
@@ -65,6 +69,7 @@ const routes: Routes = [
             SalesSharedModule.forRoot(),
             DashboardSharedModule.forRoot(),
             DocumentSharedModule.forRoot(),
+            InvoiceSharedModule.forRoot()
             ],
   exports: [RouterModule]
 })

@@ -140,7 +140,7 @@
   
       <div class="form-group">
           <select type="text" class="form-control" #assignTeamToTask
-          formControlName="assignedTeam" [class.is-invalid]="formAddTask.assignedTeam.invalid && formAddTask.assignedTeam.touched"
+          formControlName="assignedTeam"
            required>
        
             <option value="" disabled selected hidden >Asign Team</option>
@@ -201,7 +201,7 @@
             <button class="btn btn-sm" data-toggle="modal" (click)="editTeamModal.show(); identifyTeamToBeEdited(Team)">
                 <fa name="pencil"></fa>
             </button>
-            <button class="btn btn-sm" data-toggle="modal" (click)="deleteTeamModal.show(); identifyTeamToBeDeleted(Team)">
+            <button [disabled]="!toAdmin" class="btn btn-sm" data-toggle="modal" (click)="deleteTeamModal.show(); identifyTeamToBeDeleted(Team)">
                 <fa name="trash"></fa>
             </button>
         </div>
@@ -306,7 +306,7 @@
               <button class="btn btn-sm" data-toggle="modal" (click)="editSalesCatModal.show(); identifySalesCatBeEdited(SalesCategory)">
                   <fa name="pencil"></fa>
               </button>
-              <button class="btn btn-sm" data-toggle="modal" (click)="deleteSalesCatModal.show(); identifySalesCatToBeDeleted(SalesCategory)">
+              <button [disabled]="!toAdmin" class="btn btn-sm" data-toggle="modal" (click)="deleteSalesCatModal.show(); identifySalesCatToBeDeleted(SalesCategory)">
                   <fa name="trash"></fa>
               </button>
           </div>

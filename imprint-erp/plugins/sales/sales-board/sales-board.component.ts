@@ -1,14 +1,14 @@
 import { Component, Input, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
-import {Observable} from 'rxjs';
-import {debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map} from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { SalesService } from 'src/app/shared/services/sales.service';
+import { UserService } from 'src/app/shared/services/user.service';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { SalesCategoryService } from 'src/app/shared/services/sales-category.service';
 import { CustomaryService } from 'src/app/shared/services/customary.service';
-import { UserSalesStagesService } from 'src/app/shared/services/user-sales-stages.service';
 import { ClientService } from 'src/app/shared/services/client.service';
 import { SpinnerService } from 'src/app/shared/services/spinner.service';
 import { CalenderEventService } from 'src/app/shared/services/calenderEvent.service';
@@ -28,6 +28,7 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder,
     private router: Router,
     private salesService: SalesService,
+    private userService: UserService,
     private notifyService: NotificationService,
     private salesCategoryService: SalesCategoryService,
     private customService: CustomaryService,
@@ -39,6 +40,7 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
   ) { }
 // tslint:disable: prefer-const
 // tslint:disable: object-literal-shorthand
+// tslint:disable: max-line-length
 
 
   // Modal
@@ -89,8 +91,14 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
 
   // Binded Variables
   public SalesCategorys: any = [];
-  public UserSalesStages: any = [];
+  public MySalesCategorys: any = [];
   public Opportunitys: any = [];
+  public MyOpportunitys: any = [];
+  public OpportunitysToDisplay: any = [];
+  public SalesCategorysToDisplay: any = [];
+  public genaralPipelineActive;
+  public pipelineAction;
+  public myPipelineActive;
   public Projects: any = [];
   public Events: any = [];
   public OurClientNames: any = [];
@@ -98,6 +106,7 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
   public idStageToBeEdited: any;
   public Tasks: any = [];
   public SalesNotes: any = [];
+  public Users: any = [];
 
   public ClientOppened: any = [];
   public mailData: any = [];
@@ -120,6 +129,7 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
         this.SalesCategorys = data;
         setTimeout(() => {
           this.UpdateSalesCategories();
+          this.UpdateMyPipeLineSalesCategories();
         }, 1000);
       },
       error => { console.log('Cannot get Sales Categories'); }
@@ -127,7 +137,9 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
 
     this.salesService.getAllOppProject().subscribe(
       data => {
-        this.Opportunitys = data;
+        this.Opportunitys = data.reverse();
+        this.MyOpportunitys = data.filter((e) => e.createdBy === localStorage.getItem('loggedUserEmail') ? true : false).map(r => r);
+        this.switchPipeline();
       },
       error => {
         console.log('Cannot get all Opp projects');
@@ -144,6 +156,16 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
     ); // get Custom Service Cat -end
 
 
+
+    this.userService.getAllUsers().subscribe(
+      data => {
+        this.Users = data;
+      },
+      error => {
+        console.log('Error In getting all Users');
+      }
+    ); // get all users
+
     this.calenderEventService.getAllCalenderEvent().subscribe(
       data => {
         this.Events = data;
@@ -157,13 +179,37 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
           this.Opportunitys.forEach((opp) => {
             if ( note.projectId === opp._id ) {
             note = {...note, noteProjectName: `${opp.clientName} - ${opp.projectName}`};
-            this.SalesNotes.push(note);
+
+            if ( localStorage.getItem('permissionStatus') === 'isAdmin') {
+              this.Users.forEach((user) => {
+                if ( note.createdBy === user.email) {
+                  note = {...note, createdByUsername: user.name};
+                  this.SalesNotes.unshift(note);
+                }
+              });
+            }
+
+            if ( localStorage.getItem('permissionStatus') !== 'isAdmin') {
+
+              this.Users.forEach((user) => {
+                if ( note.createdBy === user.email) {
+                  if (user.role === 'admin') {
+                    // Dont push
+                  }
+                  if (user.role !== 'admin') {
+                    note = {...note, createdByUsername: user.name};
+                    this.SalesNotes.unshift(note);
+                  }
+                }
+              });
+            }
+
             }
           });
         });
       },
       error => { console.log('cannot get calender Sales Notes on init'); }
-    ); // list Sales Note
+    ); // Get all Sales Note
 
 
     this.clientService.getAllClients().subscribe(
@@ -232,7 +278,7 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
       title: ['', Validators.required],
       content: ['', Validators.required],
       createdAt: [null],
-      createdBy: [localStorage.getItem('loggedUserName')],
+      createdBy: [localStorage.getItem('loggedUserEmail')],
 
     });
 
@@ -248,7 +294,9 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
 
     this.salesService.listOppProject().subscribe(
       data => {
-        this.Opportunitys = data;
+        this.Opportunitys = data.reverse();
+        this.MyOpportunitys = data.filter((e) => e.createdBy === localStorage.getItem('loggedUserEmail') ? true : false).map(r => r);
+        this.switchPipeline();
       },
       error => {
         console.log('Cannot list Opp projects');
@@ -264,6 +312,15 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
       }
     ); // list Custom Service Cat -end
 
+    this.userService.listUsers().subscribe(
+      data => {
+        this.Users = data;
+      },
+      error => {
+        console.log('Error In listing Users');
+      }
+    ); // listUsers()
+
     this.calenderEventService.listCalenderEvent().subscribe(
       data => {
         this.Events = data;
@@ -278,7 +335,31 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
           this.Opportunitys.forEach((opp) => {
             if ( note.projectId === opp._id ) {
             note = {...note, noteProjectName: `${opp.clientName} - ${opp.projectName}`};
-            this.SalesNotes.push(note);
+
+            if ( localStorage.getItem('permissionStatus') === 'isAdmin') {
+              this.Users.forEach((user) => {
+                if ( note.createdBy === user.email) {
+                  note = {...note, createdByUsername: user.name};
+                  this.SalesNotes.unshift(note);
+                }
+              });
+            }
+
+            if ( localStorage.getItem('permissionStatus') !== 'isAdmin') {
+
+              this.Users.forEach((user) => {
+                if ( note.createdBy === user.email) {
+                  if (user.role === 'admin') {
+                    // Dont push
+                  }
+                  if (user.role !== 'admin') {
+                    note = {...note, createdByUsername: user.name};
+                    this.SalesNotes.unshift(note);
+                  }
+                }
+              });
+            }
+
             }
           });
         });
@@ -316,6 +397,55 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
   get formWebsite() { return this.websiteForm.controls; }
   get formSendMail() { return this.sendMailForm.controls; }
   get formWriteNote() { return this.writeNoteForm.controls; }
+
+
+  switchPipelineToGen() {
+    this.spinnerService.spinStart();
+    this.pipelineAction = 'Gen';
+    this.switchPipeline();
+  }
+
+  switchPipelineToMine() {
+    this.spinnerService.spinStart();
+    this.pipelineAction = 'Mine';
+    this.switchPipeline();
+  }
+
+
+  switchPipeline() {
+
+    setTimeout(() => {
+      switch (this.pipelineAction) {
+        case 'Gen': this.OpportunitysToDisplay = this.Opportunitys; this.SalesCategorysToDisplay = this.SalesCategorys; this.genaralPipelineActive = true;  this.myPipelineActive = false; this.spinnerService.spinStop(); break;
+        case 'Mine': this.OpportunitysToDisplay = this.MyOpportunitys;  this.SalesCategorysToDisplay = this.MySalesCategorys; this.myPipelineActive = true;  this.genaralPipelineActive = false; this.spinnerService.spinStop();  break;
+        default: this.OpportunitysToDisplay = this.MyOpportunitys; this.SalesCategorysToDisplay = this.MySalesCategorys; this.myPipelineActive = true;  this.genaralPipelineActive = false; this.spinnerService.spinStop(); break;
+      }
+    }, 2000);
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -359,6 +489,21 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
 
   }
 
+  UpdateMyPipeLineSalesCategories() {
+
+    this.MySalesCategorys = this.SalesCategorys.filter((category) => {
+      let OppInThisCategory = this.Opportunitys.filter((opp) => {
+        return opp.projectStatus === category.name && opp.createdBy === localStorage.getItem('loggedUserEmail') ? true : false;
+      }).map((e) => e );
+
+      category.totalLeads = OppInThisCategory.length;
+      category.totalRevenue = OppInThisCategory.reduce( (previous, current) => previous + current.revenue, 0);
+
+      return true;
+    }).map((e) => e );
+
+  }
+
 
 
   // Set priority
@@ -398,6 +543,7 @@ selectPriority(num) {
       projectDuration: null,
       projectStartDate: null,
       projectEndDate: null,
+      createdBy: localStorage.getItem('loggedUserEmail'),
       createdOn: new Date()
     };
 
@@ -410,7 +556,7 @@ selectPriority(num) {
 
         setTimeout(() => {
           this.UpdateSalesCategories();
-          // this.UpdateUsersSalesStages();
+          this.UpdateMyPipeLineSalesCategories();
         }, 1000);
 
       },
@@ -665,10 +811,6 @@ selectPriority(num) {
     let CardId = e.dataTransfer.getData('text');
     let TargetId = e.target.id;
 
-    this.UserSalesStages.forEach((stage) => {
-      return stage._id === TargetId ? this.switchStage(CardId, stage) : '';
-    });
-
     this.SalesCategorys.forEach((stage) => {
       return stage._id === TargetId ? this.switchStage(CardId, stage) : '';
     });
@@ -696,7 +838,8 @@ selectPriority(num) {
               this.notifyService.showSuccess('Card Moved', 'Success');
               setTimeout(() => {
                 this.UpdateSalesCategories();
-                // this.UpdateUsersSalesStages();
+                this.UpdateMyPipeLineSalesCategories();
+
               }, 1000);
 
             },
@@ -746,9 +889,13 @@ selectPriority(num) {
               this.notifyService.showWarning(eventElement.title + ' : ' + oppElement.clientName, 'Next Hour Event');
             }
 
-            if (13 > diffInHours && diffInHours > 2) {
+            if (24 > diffInHours && diffInHours > 2) {
               this.spinnerService.spinStop();
               this.notifyService.showInfo(eventElement.title + ' : ' + oppElement.clientName, 'Up coming Event');
+            }
+            if (diffInHours > 24) {
+              this.spinnerService.spinStop();
+              this.notifyService.showInfo(eventElement.title + ' : ' + oppElement.clientName, 'Future Event');
             }
           }
 
@@ -758,6 +905,10 @@ selectPriority(num) {
 
     });
 
+    if (this.Events.length === 0 ) {
+      this.spinnerService.spinStop();
+      this.notifyService.showInfo('You do not have any event with any of your clients', 'No Event');
+    }
   }
 
 
@@ -795,25 +946,12 @@ selectPriority(num) {
 
 
   openNote(id) {
-    this.salesNoteService.getOneNote(id).subscribe(
-      noteData => {
-        this.salesService.getOppProject(noteData.projectId).subscribe(
-          noteProject => {
-            this.noteOpened = noteData;
-            this.noteOpened = {...this.noteOpened, noteProjectName: `${noteProject.clientName} - ${noteProject.projectName}`};
-            this.detailNoteModal.show();
-          },
-          error => {
-            this.notifyService.showError('Could Not get note project', 'Error');
-            console.log(error);
-          }
-        );
-      },
-      error => {
-        this.notifyService.showError('Could Not Open', 'Error');
-        console.log(error);
+    this.SalesNotes.forEach((noteData) => {
+      if (noteData._id === id) {
+        this.noteOpened = noteData;
+        this.detailNoteModal.show();
       }
-    );
+    });
   }
 
   deleteNote(id) {

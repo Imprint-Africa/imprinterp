@@ -25,6 +25,12 @@ export class DashboardComponent implements OnInit, OnDestroy {
 // tslint:disable: prefer-const
 // tslint:disable: object-literal-shorthand
 
+public mainDashboard;
+public salesDashboard;
+public projectsDashboard;
+
+
+
   // Icons
 public faProjectDiagram = faProjectDiagram;
 public faUsers = faUsers;
@@ -83,6 +89,7 @@ public targetsOptions: any;
   ngOnInit() {
 
     window.localStorage.setItem('ActiveNav', 'dashboard');
+    this.toSalesDashboard();
 
     this.salesCategoryService.getAllSalesCategories().subscribe(
           categoryData => {this.SalesCategorys = categoryData;
@@ -126,10 +133,24 @@ public targetsOptions: any;
           error => console.log('Error Getting SalesCategories')
           );
 
+  }// ngOnInit
+
+
+  toMainDashboard() {
+    this.mainDashboard = true;
+    this.salesDashboard = false;
+    this.projectsDashboard = false;
   }
-
-
-
+  toSalesDashboard() {
+    this.mainDashboard = false;
+    this.salesDashboard = true;
+    this.projectsDashboard = false;
+  }
+  toProjectsDashboard() {
+    this.mainDashboard = false;
+    this.salesDashboard = false;
+    this.projectsDashboard = true;
+  }
 
 
 

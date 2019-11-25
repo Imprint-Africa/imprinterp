@@ -28,6 +28,9 @@ export class ProjTaskTeamComponent implements OnInit {
 // tslint:disable: prefer-const
 // tslint:disable: object-literal-shorthand
 
+// permisions
+public toAdmin = false;
+
 // Modal
 @ViewChild('editTeamModal') public editTeamModal: ModalDirective;
 @ViewChild('deleteTeamModal') public deleteTeamModal: ModalDirective;
@@ -90,6 +93,13 @@ public salesCategoryToBeDeleted;
 
 
   ngOnInit() {
+
+          if (window.localStorage.getItem('permissionStatus') === 'isUser') {
+            this.router.navigate(['/projects']);
+          }
+          if (window.localStorage.getItem('permissionStatus') === 'isAdmin') {
+            this.toAdmin = true;
+          }
 
           window.localStorage.setItem('ActiveNav', 'editorial');
 

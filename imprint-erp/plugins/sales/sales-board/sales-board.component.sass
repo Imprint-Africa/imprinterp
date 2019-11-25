@@ -30,12 +30,9 @@
 
         .btn
             margin: auto
-            // color:  brandColor(brandPrimary)
             width: 10em
-            // border: solid 1px brandColor(brandPrimary)
             font-size: 10px
             
-
             &:hover
                 border: none
                 box-shadow: 0 0 10px #6969694d
@@ -127,52 +124,46 @@
 
 
 
-.navigation-section
+.pipeline-section
     border: solid 1px grayColor(g200)
     border-radius: 5px
-    background-color: brandColor(brandSecondary)
+    background-color: transparent
     margin: 0
     padding: 0 1em 0 1em
 
-    .currentTitle-div
-        width: 25%
-        display: flex
+    .gen-pipeline
+        width: 10em
+        font-size: 12px
+        font-family: Montserrat
+        margin: 0 1em 0 0
+        border: none
+        border-radius: 2px
+        background-color: grayColor(g300)
+        outline: none
+        
+        &.notCurrent
+            border-bottom: none
 
-        h4
-            font-family: Montserrat
-            font-size: 14px
-            margin: auto 0
+        &.current
+            border-bottom: solid 2px color(warning)
+            
 
-    .search-div
-        width: 35%
-        display: flex
+    .my-pipeline
+        width: 10em
+        font-size: 12px
+        font-family: Montserrat
+        margin: 0 1em 0 0
+        border: 0
+        border-radius: 2px
+        background-color: grayColor(g300)
+        border-bottom: solid 2px color(warning)
+        outline: none
 
-        .input-group
-            margin: auto 0 
+        &.notCurrent
+            border-bottom: none
 
-            input
-                background-color: white
-                border: none
-    
-            .input-group-append
-                background-color: white
-                border: none
-                border-radius: 5px
-
-                .input-group-text
-                    border: none
-                    background-color: white
-                    font-size: 10px
-                    border: none
-
-    .nav-button-div
-        width: 40%
-        display: flex
-
-        .btn
-            width: 7em
-            margin: auto
-            font-size: 10px
+        &.current
+            border-bottom: solid 2px color(warning)
 
 
 

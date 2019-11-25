@@ -56,7 +56,7 @@
 
     <ul class="navbar-nav nav-pills">
 
-      <li class="nav-item active" *ngIf="toAdminManager">
+      <li class="nav-item active" *ngIf="toAdmin">
           <a (click)="navToDashboard()" [ngClass]="dashboardNavBarActive ? 'nav-link active' : 'nav-link'">
             <fa name="dashboard"></fa>DashBoard
           </a>
@@ -84,12 +84,17 @@
 
       <li class="nav-item" *ngIf="toAdminManager">
         <a (click)="navToDocument()" [ngClass]=" documentNavBarActive ? 'nav-link active' : 'nav-link'">
-            <fa name='book'></fa>Document
+            <fa name='book'></fa>Documents
         </a>
       </li>
 
-      
       <li class="nav-item" *ngIf="toAdminManager">
+        <a (click)="navToInvoice()" [ngClass]="invoiceNavBarActive ? 'nav-link active' : 'nav-link'">
+          <fa-icon [icon]="faFileInvoice"></fa-icon> Invoicing
+        </a>
+      </li>
+
+      <li class="nav-item" *ngIf="toAdminManagerUser">
         <a (click)="navToCalender()" [ngClass]="calenderNavBarActive ? 'nav-link active' : 'nav-link'">
           <fa-icon [icon]="faCalendar"></fa-icon> Calender
         </a>

@@ -96,14 +96,14 @@ ngOnInit() {
 
   this.docPadService.getAllPad().subscribe(
     data => {
-      this.PadDocuments = data;
+      this.PadDocuments = data.reverse();
     },
     error => { console.log('Error getting All Documents'); }
   );
 
   this.docPadService.listPad().subscribe(
     data => {
-      this.PadDocuments = data;
+      this.PadDocuments = data.reverse();
     },
     error => { console.log('Error Listing All Documents'); }
   );
@@ -203,9 +203,7 @@ viewDocument(id) {
 }
 
 
-loaded() {
-  console.log('Loaded');
-}
+
 
 editDocument(id) {
 
@@ -215,8 +213,7 @@ editDocument(id) {
       this.listSectionStatus = false;
       this.viewSectionStatus = false;
       this.editorSectionStatus = true;
-      console.log('you')
-
+      this.notifyService.showInfo('You are Editing a document', 'Document Open');
     }
   });
 

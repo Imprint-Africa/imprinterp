@@ -49,8 +49,8 @@
                         </div>
 
                         <select aria-label="Small" aria-describedby="inputGroup-sizing-sm"
-                        formControlName="department" class="form-control" [class.is-invalid]="form.department.invalid && form.department.touched" required>
-                        <option value="0" disabled selected hidden >Choose Project</option>
+                        formControlName="department" class="form-control" required>
+                        <option value="" disabled selected hidden >Choose Department</option>
                         <option *ngFor="let Team of Teams" value='{{Team.name}}'>{{Team.name}}</option>
                         
                         </select>   

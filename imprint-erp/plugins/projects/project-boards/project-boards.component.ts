@@ -36,7 +36,7 @@ export class ProjectBoardsComponent implements OnInit {
 
     this.projectsService.getAllProject().subscribe(
       data => {
-        this.Projects = data;
+        this.Projects = data.reverse();
       },
       error => {
         console.log('Could get all Projects');
@@ -46,7 +46,7 @@ export class ProjectBoardsComponent implements OnInit {
     // Project Lists
     this.projectsService.listProject().subscribe(
       data => {
-        this.Projects = data;
+        this.Projects = data.reverse();
       },
       error => {
         console.log('could not list projects');

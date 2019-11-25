@@ -52,7 +52,7 @@
             
             <div id="clientName" class="card-text">{{Project.clientName}}</div>
             <div id="projectName" class="card-text">{{Project.projectName}}</div>
-            <div id="revenue" class="card-text">{{Project.revenue | currency:'KSH ':'symbol-narrow':'4.0-0'}}</div>
+            <div id="revenue" class="card-text">{{Project.revenue | currency:'KSH ':'symbol-narrow':'1.0-0'}}</div>
             <div id="rateWarp" class="clearfix">
                     <fa id="rate1" name="star" [ngClass]="Project.priority >= '1' ? 'rateColor' : ''"></fa>
                     <fa id="rate2" name="star" [ngClass]="Project.priority >= '2' ? 'rateColor' : ''"></fa>

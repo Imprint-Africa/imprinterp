@@ -45,7 +45,6 @@ export class LoginComponent implements OnInit {
   // tslint:disable: object-literal-shorthand
 
   ngOnInit() {
-
     this.showPasswordIcon = false;
     this.hidePasswordIcon = true;
     this.togglePassword = 'password';
@@ -59,8 +58,10 @@ export class LoginComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
 
     // Comment this after set Up
-    // this.createSuperUser();
-  }
+    // this.createSuperUserOne();
+    // this.createSuperUserTwo();
+
+  }// ngOnnit
 
 
   // conveniently get the values from the form fields
@@ -72,7 +73,6 @@ export class LoginComponent implements OnInit {
   // On submit
 
   onSubmit() {
-
     this.submitted = true;
     // stop here if the form is invalid
     if (this.loginForm.invalid) {
@@ -94,7 +94,7 @@ export class LoginComponent implements OnInit {
                     (window.localStorage.setItem('permissionStatus', 'isAdmin') , this.router.navigate(['/dashboard'])) :
 
                 data.role === 'manager' ?
-                    (window.localStorage.setItem('permissionStatus', 'isManager') , this.router.navigate(['/dashboard'])) :
+                    (window.localStorage.setItem('permissionStatus', 'isManager') , this.router.navigate(['/projects'])) :
 
                     (window.localStorage.setItem('permissionStatus', 'isUser') , this.router.navigate(['/projects']));
 
@@ -106,6 +106,7 @@ export class LoginComponent implements OnInit {
     );
 
  }
+
 
 
 // Password Toogle Functions
@@ -123,18 +124,41 @@ hidePassword() {
 
 
 
+
+
+
 // Comment this after set Up
-// createSuperUser() {
+// createSuperUserOne() {
 //   let superUser = {
 //     name: 'Kimutai',
 //     email: 'kimutai@imprintaf.com',
 //     role: 'admin',
 //     department: 'Dev Team',
-//     password: '1234',
+//     password: 'kimutai',
 //   };
 //   this.userService.registerUser(superUser).subscribe(
 //     data => {
-//       this.notifyService.showSuccess('SuperUserCreated', 'Success');
+//       this.notifyService.showSuccess('SuperUser Kimutai Created', 'Success');
+//     },
+//     error => {
+//       this.notifyService.showError('Did not create Super User', 'Failed');
+//     }
+//   );
+
+// }
+
+
+// createSuperUserTwo() {
+//   let superUser = {
+//     name: 'Geofrey',
+//     email: 'geofrey@imprintaf.com',
+//     role: 'admin',
+//     department: 'Dev Team',
+//     password: 'geofrey',
+//   };
+//   this.userService.registerUser(superUser).subscribe(
+//     data => {
+//       this.notifyService.showSuccess('SuperUser Geofrey Created', 'Success');
 //     },
 //     error => {
 //       this.notifyService.showError('Did not create Super User', 'Failed');
@@ -142,6 +166,4 @@ hidePassword() {
 //   );
 // }
 
-
-
-}// End of Class
+}// End of Main Class

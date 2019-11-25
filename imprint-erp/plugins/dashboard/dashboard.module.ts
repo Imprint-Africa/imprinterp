@@ -15,12 +15,16 @@ import { DashboardRoutingModule } from './dashboard.routing.module';
 
 // components
 import { DashboardComponent } from './dashboard.component';
+import { SalesDashboardComponent } from './salesDashboard/salesDashboard.component';
+import { ProjectsDashboardComponent } from './projectsDashboard/projectsDashboard.component';
 
 
 @NgModule({
 
 declarations: [
-    DashboardComponent
+    DashboardComponent,
+    SalesDashboardComponent,
+    ProjectsDashboardComponent
         ],
 
   imports: [
@@ -42,7 +46,7 @@ declarations: [
       preventDuplicates: false,
     })
   ],
-  entryComponents: [DashboardComponent]
+  entryComponents: [DashboardComponent, SalesDashboardComponent, ProjectsDashboardComponent]
 })
 export class DashboardModule {}
 

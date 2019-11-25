@@ -1,7 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { ModalModule } from 'ngx-bootstrap';
-import { CurrencyPipe } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
@@ -20,6 +19,8 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FilterPipeModule } from 'ngx-filter-pipe';
 import { QuillModule } from 'ngx-quill';
+import { DatepickerModule, BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { AmazingTimePickerModule } from 'amazing-time-picker';
 
 // Components
 import { AppComponent } from './app.component';
@@ -45,6 +46,7 @@ import { SpinnerService } from './shared/services/spinner.service';
 import { CalenderEventService } from './shared/services/calenderEvent.service';
 import { SalesNoteService } from './shared/services/sales-note.service';
 import { DocPadService } from './shared/services/doc-pad.service';
+import { InvoiceService } from './shared/services/invoice.service';
 
 // Modules
 import { ProjectsSharedModule } from 'plugins/projects/projects.module';
@@ -52,6 +54,7 @@ import { EditorialSharedModule } from 'plugins/editorial/editorial.module';
 import { SalesSharedModule } from 'plugins/sales/sales.module';
 import { DashboardSharedModule } from 'plugins/dashboard/dashboard.module';
 import { DocumentSharedModule } from 'plugins/document/document.module';
+import { InvoiceSharedModule } from 'plugins/invoice/invoice.module';
 
 
 
@@ -93,18 +96,22 @@ import { DocumentSharedModule } from 'plugins/document/document.module';
       provide: DateAdapter,
       useFactory: adapterFactory
     }),
+    BsDatepickerModule.forRoot(),
+    DatepickerModule.forRoot(),
+    AmazingTimePickerModule,
 
     // import modules
     ProjectsSharedModule.forRoot(),
     EditorialSharedModule.forRoot(),
     SalesSharedModule.forRoot(),
     DashboardSharedModule.forRoot(),
-    DocumentSharedModule.forRoot()
+    DocumentSharedModule.forRoot(),
+    InvoiceSharedModule.forRoot()
 
   ],
   providers: [NotificationService, AuthGuard, UserService, SalesService, TeamsService, CustomaryService,
               SalesCategoryService, ProjectsService, UserSalesStagesService, ClientService, SpinnerService,
-               CalenderEventService, SalesNoteService, DocPadService, CurrencyPipe],
+               CalenderEventService, SalesNoteService, DocPadService, InvoiceService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

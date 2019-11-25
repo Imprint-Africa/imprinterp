@@ -6,10 +6,8 @@
     </div>
 
     <div class="col-8 btn-wrap">
-      <!-- <button hidden class="btn btn-sm btn-deals btn-outline-info">Deals</button> -->
+  
       <button class="btn btn-sm btn-companies btn-outline-info" (click)="listNoteModal.show()">Notes</button>
-      <!-- <button hidden class="btn btn-sm btn-contacts btn-outline-info">Clients</button> -->
-      <!-- <button class="btn btn-sm btn-products btn-outline-info" (click)="toCalender()">Calender</button> -->
 
       <button [ngClass]="kanbanSectionStatus ? 'btn btn-sm btn-warning' : 'btn btn-sm btn-outline-info'" 
       (click)="kanbanSectionStatus=true; listSectionStatus=false; reportSectionStatus=false">Kanban</button>
@@ -17,8 +15,8 @@
       <button [ngClass]="listSectionStatus ? 'btn btn-sm btn-warning' : 'btn btn-sm btn-outline-info'"
       (click)="kanbanSectionStatus=false; listSectionStatus=true; reportSectionStatus=false">List</button>
   
-      <button [ngClass]="reportSectionStatus ? 'btn btn-sm btn-warning' : 'btn btn-sm btn-outline-info'"
-      (click)="kanbanSectionStatus=false; listSectionStatus=false; reportSectionStatus=true">Reports</button>
+      <!-- <button [ngClass]="reportSectionStatus ? 'btn btn-sm btn-warning' : 'btn btn-sm btn-outline-info'"
+      (click)="kanbanSectionStatus=false; listSectionStatus=false; reportSectionStatus=true">Reports</button> -->
   
       <button class="btn btn-sm btn-outline-info" (click)="eventReminder()">Events Reminder</button>
 
@@ -150,42 +148,13 @@
 
 
 
-<!-- 
-<section class="navigation-section d-flex">
 
+<section class="pipeline-section d-flex">
 
-  <div class="currentTitle-div">
-    <h4>Deals</h4>
-  </div>
+  <button [ngClass]="genaralPipelineActive ? 'gen-pipeline current' : 'gen-pipeline notCurrent' " (click)="switchPipelineToGen()">General Pipeline</button>
+  <button [ngClass]="myPipelineActive ? 'my-pipeline current' : 'my-pipeline notCurrent' " (click)="switchPipelineToMine()">My Pipeline</button>
 
-  <div class="search-div">
-      <div class="input-group input-group-sm">
-          <input type="text" class="form-control" placeholder="Search">
-
-          <div class="input-group-append">
-              <button class="input-group-text">
-                <fa name="search"></fa>
-              </button>
-          </div>
-      </div>
-      
-  </div>
-
-  <div class="nav-button-div">
-    <button [ngClass]="kanbanSectionStatus ? 'btn btn-sm btn-warning' : 'btn btn-sm btn-outline-info'" 
-    (click)="kanbanSectionStatus=true; listSectionStatus=false; reportSectionStatus=false">Kanban</button>
-
-    <button [ngClass]="listSectionStatus ? 'btn btn-sm btn-warning' : 'btn btn-sm btn-outline-info'"
-    (click)="kanbanSectionStatus=false; listSectionStatus=true; reportSectionStatus=false">List</button>
-
-    <button [ngClass]="reportSectionStatus ? 'btn btn-sm btn-warning' : 'btn btn-sm btn-outline-info'"
-    (click)="kanbanSectionStatus=false; listSectionStatus=false; reportSectionStatus=true">Reports</button>
-
-    <button class="btn btn-sm btn-outline-info" (click)="eventReminder()">Events Reminder</button>
-    
-  </div>
-
-</section> -->
+</section> 
 
 
 
@@ -204,7 +173,7 @@
 
 
   <!-- Sales Category Card-->
-  <article *ngFor='let SalesCategory of SalesCategorys' [id]="SalesCategory._id"
+  <article *ngFor='let SalesCategory of SalesCategorysToDisplay' [id]="SalesCategory._id"
    (dragover)="allowDrop($event)" (drop)="drop($event)">
     
     <!-- Head Title -->
@@ -223,7 +192,7 @@
     </div>
     
     <div id="totals" class="clearfix text-center">
-      <h4 class=""><span>{{SalesCategory.totalRevenue | currency:'KSH ':'symbol-narrow':'4.0-0'}}</span></h4>
+      <h4 class=""><span>{{SalesCategory.totalRevenue | currency:'KSH ':'symbol-narrow':'1.0-0'}}</span></h4>
     </div>
 
     <div id="add_deal_div" class="clearfix text-center">
@@ -240,9 +209,8 @@
    <div class="card-group" [id]="SalesCategory._id" (dragenter)="highlightcategory($event)"
    [ngClass]="salesCatHoveredOnDrag === SalesCategory._id ? 'card-group hovered' : 'card-group'" >
 
-    <!-- Cards -->
-    <!-- (click)="toSalesEdit(Opportunity._id)" -->
-        <div draggable="true" *ngFor="let Opportunity of Opportunitys" [id]="Opportunity._id"  
+
+        <div draggable="true" *ngFor="let Opportunity of OpportunitysToDisplay" [id]="Opportunity._id"  
         (drop)="drop($event)" (dragover)="allowDrop($event)" (dragstart)="drag($event)" (dragenter)="dragenter($event)" (dragleave)="dragleave($event)"
         [ngClass]="cardHoveredOnDrag === Opportunity._id && cardBeingDraged !=  Opportunity._id ? 'card hovered-on-drag' : cardBeingDraged ===  Opportunity._id ? 'card beingDragged' : 'card'"
           [hidden]="Opportunity.projectStatus != SalesCategory.name">
@@ -252,7 +220,7 @@
             <div class="card-info-div">
               <h4  class="clientN" (click)="seeClient(Opportunity.clientName); clientDetailModal.show()">{{ Opportunity.clientName}}</h4>
               <h4  class="projectN">{{ Opportunity.projectName}}</h4>
-              <h4  class="revenue">{{Opportunity.revenue | currency:'KSH ':'symbol-narrow':'4.0-0'}}</h4>
+              <h4  class="revenue">{{Opportunity.revenue | currency:'KSH ':'symbol-narrow':'1.0-0'}}</h4>
 
               <div  class="rateWarp clearfix">
                   <fa class="rate1" name="star" [ngClass]="Opportunity.priority >= '1' ? 'rateColor' : ''"></fa>
@@ -319,7 +287,7 @@
  </div>
 
 
- <div class="list-item" *ngFor="let Opportunity of Opportunitys" [id]="Opportunity._id">
+ <div class="list-item" *ngFor="let Opportunity of OpportunitysToDisplay" [id]="Opportunity._id">
 
   <div class="list-item-wrap"><h4>{{Opportunity.clientName}}</h4></div>
 
@@ -327,7 +295,7 @@
 
   <div class="list-item-wrap"><h4>{{Opportunity.projectStatus}}</h4></div>
 
-  <div class="list-item-wrap"><h4>{{Opportunity.revenue | currency:'KSH ':'symbol-narrow':'4.0-0'}}</h4></div>
+  <div class="list-item-wrap"><h4>{{Opportunity.revenue | currency:'KSH ':'symbol-narrow':'1.0-0'}}</h4></div>
 
  </div>
 
@@ -594,7 +562,7 @@
           <h4 class="title">{{note.title}}</h4>     
           <h4 class="content">{{note.content}}</h4>
           <h4 class="project">{{note.noteProjectName}}</h4>
-          <h4 class="writtenBy">{{note.createdBy}}</h4>
+          <h4 class="writtenBy">{{note.createdByUsername}}</h4>
         </div> 
       </div>
       <div class="modal-footer">
@@ -623,7 +591,7 @@
         <textarea name="" id="" class="content-div" readonly>{{noteOpened.content}}</textarea>
 
         <blockquote class="blockquote">
-          <footer class="blockquote-footer">written by {{noteOpened.createdBy}} <span>{{noteOpened.createdAt | date:'medium' }}</span>  </footer>
+          <footer class="blockquote-footer">written by {{noteOpened.createdByUsername}} <span>{{noteOpened.createdAt | date:'medium' }}</span>  </footer>
         </blockquote>
 
 
