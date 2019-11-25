@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import * as io from 'socket.io-client';
 import { Observable } from 'rxjs';
 import { calenderEvent } from '../models/calenderEvent';
+import { dev } from '../dev/dev';
 
 
 @Injectable({
@@ -13,10 +14,8 @@ import { calenderEvent } from '../models/calenderEvent';
 export class CalenderEventService {
     // tslint:disable: variable-name
 
-// _url = 'http://localhost:3000/api/calenderEvents/';
-// _urlGetEmit = 'http://127.0.0.1:3000/';
-_url = 'http://18.185.62.101:4201/api/calenderEvents/';
-_urlGetEmit = 'http://18.185.62.101:4201/';
+_url = `${dev.connect}api/calenderEvents/`;
+_urlGetEmit = dev.connect;
 
 private socket;
 

@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CustomService } from '../models/customary';
 import * as io from 'socket.io-client';
 import { Observable } from 'rxjs';
-
+import { dev } from '../dev/dev';
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +11,9 @@ import { Observable } from 'rxjs';
 export class CustomaryService {
  // tslint:disable: variable-name
 
-// _url = 'http://localhost:3000/api/services/';
-// _urlGetEmit = 'http://127.0.0.1:3000/';
-  _url = 'http://18.185.62.101:4201/api/services/';
-  _urlGetEmit = 'http://18.185.62.101:4201/';
+ _url = `${dev.connect}api/services/`;
+ _urlGetEmit = dev.connect;
+
 
 private socket;
 

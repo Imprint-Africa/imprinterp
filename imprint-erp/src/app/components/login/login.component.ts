@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import { NotificationService } from 'src/app/shared/services/notification.service';
 import { UserService } from 'src/app/shared/services/user.service';
+import { SpinnerService } from 'src/app/shared/services/spinner.service';
 
 
 @Component({
@@ -37,7 +38,8 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private userService: UserService,
-    private notifyService: NotificationService
+    private notifyService: NotificationService,
+    private spinnerService: SpinnerService
 
   ) {}
 
@@ -73,17 +75,13 @@ export class LoginComponent implements OnInit {
   // On submit
 
   onSubmit() {
-    this.submitted = true;
-    // stop here if the form is invalid
-    if (this.loginForm.invalid) {
-      return;
-    }
-    this.loading = true;
 
+    this.spinnerService.spinStart();
 
     this.userService.loginUser(this.loginForm.value).subscribe(
       data => {
 
+        this.spinnerService.spinStop();
         window.localStorage.setItem('loggedUserToken', data.token);
         window.localStorage.setItem('loggedUserName', data.name);
         window.localStorage.setItem('loggedUserEmail', data.email);
@@ -100,8 +98,9 @@ export class LoginComponent implements OnInit {
 
       },
       error => {
+        this.spinnerService.spinStop();
         this.notifyService.showError(error.error.message, 'Access Restricted..');
-        this.loading = false;
+
       }
     );
 

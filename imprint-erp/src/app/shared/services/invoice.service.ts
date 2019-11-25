@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import * as io from 'socket.io-client';
 import { Observable } from 'rxjs';
+import { dev } from '../dev/dev';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +10,9 @@ import { Observable } from 'rxjs';
 export class InvoiceService {
  // tslint:disable: variable-name
 
-  // _url = 'http://localhost:3000/api/invoice/';
-  // _urlGetEmit = 'http://127.0.0.1:3000/';
-  _url = 'http://18.185.62.101:4201/api/invoice/';
-  _urlGetEmit = 'http://18.185.62.101:4201/';
+ _url = `${dev.connect}api/invoice/`;
+ _urlGetEmit = dev.connect;
+
 
   private socket;
 

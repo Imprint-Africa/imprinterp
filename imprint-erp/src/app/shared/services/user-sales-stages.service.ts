@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { Stage } from '../models/userSalesStages';
 import * as io from 'socket.io-client';
 import { Observable } from 'rxjs';
+import { dev } from '../dev/dev';
 
 @Injectable({
   providedIn: 'root'
@@ -10,10 +11,10 @@ import { Observable } from 'rxjs';
 export class UserSalesStagesService {
  // tslint:disable: variable-name
 
-  // _url = 'http://localhost:3000/api/userSalesStages/';
-  // _urlGetEmit = 'http://127.0.0.1:3000/';
-  _url = 'http://18.185.62.101:4201/api/userSalesStages/';
-  _urlGetEmit = 'http://18.185.62.101:4201/';
+
+_url = `${dev.connect}api/userSalesStages/`;
+_urlGetEmit = dev.connect;
+
 
 
   private socket;

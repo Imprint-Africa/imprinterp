@@ -28,7 +28,7 @@
 
 .title
     h4
-        color: brandColor(brandPrimary)
+        color: color(info)
         font-weight: bold
         font-size: 14px
         font-family: Montserrat
@@ -54,24 +54,27 @@
 
     
 
-.btn-button-theme
-    font-size: 10px
-    font-family: Montserrat
-    color: color(nevyBlueTheme)
-    margin-top: 30px
-    border: none
-    padding: 10px
-    background-color: transparent
-    font-weight: bold
-    border: solid 2px color(info)
-    border-radius: 5px
-    width: 100%
-    text-align: center
-    text-transform: uppercase
-
-    &:hover
+    .btn-button-theme
+        font-size: 10px
+        font-family: Montserrat
+        color: white
+        margin-top: 30px
+        border: none
+        padding: 10px
         background-color: color(info)
-        color: color(orangeTheme)
+        font-weight: bold
+        border: none
+        border-radius: 5px
+        width: 100%
+        text-align: center
+        text-transform: uppercase
+
+        &.active
+            background-color: teal
+            color: white
+            box-shadow: 2px 3px 4px rgba(0,0,0,.3)
+
+
 
 
 
