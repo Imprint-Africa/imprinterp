@@ -36,8 +36,6 @@ public addTaskForm: FormGroup;
 
 // permisions
 public toAdmin = false;
-public toAdminManager = false;
-public toAdminManagerUser = false;
 
 public serviceNameForm: FormGroup;
 public targetRevenueForm: FormGroup;

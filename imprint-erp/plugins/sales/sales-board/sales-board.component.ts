@@ -119,7 +119,7 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-
+    this.spinnerService.spinStart();
     window.localStorage.setItem('ActiveNav', 'sales');
 
     this.kanbanSectionStatus = true;
@@ -377,7 +377,9 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
 
     this.myInterval = setInterval(() => {
       this.eventReminder();
-    }, 3600000); // On Hour
+    }, 100000); // On Hour
+
+    // 3600000 On hour seconds
 
 
   }// ngOnInit -end
@@ -812,7 +814,7 @@ selectPriority(num) {
     let TargetId = e.target.id;
 
     this.SalesCategorys.forEach((stage) => {
-      return stage._id === TargetId ? this.switchStage(CardId, stage) : '';
+      return stage._id === TargetId ? (this.spinnerService.spinStart(), this.switchStage(CardId, stage)) : '';
     });
 
   }
@@ -834,11 +836,17 @@ selectPriority(num) {
           this.salesService.updateOppProject(CardId, updateData).subscribe(
             updatedOppdata => {
 
+
               this.cardBeingDraged = null;
-              this.notifyService.showSuccess('Card Moved', 'Success');
+
               setTimeout(() => {
                 this.UpdateSalesCategories();
                 this.UpdateMyPipeLineSalesCategories();
+
+                setTimeout(() => {
+                  this.spinnerService.spinStop();
+                  this.notifyService.showSuccess('Card Moved', 'Success');
+                }, 1500);
 
               }, 1000);
 
@@ -889,11 +897,20 @@ selectPriority(num) {
               this.notifyService.showWarning(eventElement.title + ' : ' + oppElement.clientName, 'Next Hour Event');
             }
 
-            if (24 > diffInHours && diffInHours > 2) {
+            if (diffInHours === 3) {
+              this.spinnerService.spinStop();
+              this.notifyService.showWarning(eventElement.title + ' : ' + oppElement.clientName, '3 Hours To Event');
+            }
+
+            if (19 > diffInHours && diffInHours > 3) {
               this.spinnerService.spinStop();
               this.notifyService.showInfo(eventElement.title + ' : ' + oppElement.clientName, 'Up coming Event');
             }
-            if (diffInHours > 24) {
+            if (41 > diffInHours && diffInHours > 18) {
+              this.spinnerService.spinStop();
+              this.notifyService.showInfo(eventElement.title + ' : ' + oppElement.clientName, '1 Day To Event');
+            }
+            if (diffInHours > 40) {
               this.spinnerService.spinStop();
               this.notifyService.showInfo(eventElement.title + ' : ' + oppElement.clientName, 'Future Event');
             }
@@ -944,7 +961,6 @@ selectPriority(num) {
     );
   }
 
-
   openNote(id) {
     this.SalesNotes.forEach((noteData) => {
       if (noteData._id === id) {
@@ -953,6 +969,7 @@ selectPriority(num) {
       }
     });
   }
+
 
   deleteNote(id) {
     this.salesNoteService.deleteNote(id).subscribe(

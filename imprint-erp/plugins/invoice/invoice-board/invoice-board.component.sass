@@ -325,6 +325,13 @@
                     h4
                         font-family: Montserrat
                         font-size: 13px
+                    fa
+                        color: color(secondary)
+                        font-size: 12px
+                        cursor: pointer
+                        &:hover
+                            color: color(danger)
+                            font-size: 15px
 
 
 
@@ -333,6 +340,10 @@
         border-radius: 5px
         padding: 1em
         margin: 1em .5em 2em .5em
+        transition: 1s
+
+        &.shrink
+            display: none
 
         .title
             width: 100%
@@ -408,8 +419,22 @@
         
         ul
             li
-                font-size: 12px
-                font-family: Montserrat
+                display: flex
+                align-items: stretch
+
+                h4
+                    margin-right: auto
+                    font-size: 12px
+                    font-family: Montserrat
+                
+                fa
+                    margin-left: auto
+                    color: color(secondary)
+                    font-size: 12px
+                    cursor: pointer
+                    &:hover
+                        color: color(danger)
+                        font-size: 15px
 
 
     .exclusion-input-wrap

@@ -12,6 +12,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ChartsModule } from 'ng2-charts';
 import { ModalModule } from 'ngx-bootstrap';
 import { EditorialRoutingModule } from './editorial.routing.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 
 
@@ -37,6 +38,7 @@ declarations: [
     NgbModule,
     HttpClientModule,
     BrowserAnimationsModule,
+    NgxSpinnerModule,
     ChartsModule,
     ModalModule.forRoot(),
     ToastrModule.forRoot({

@@ -6,6 +6,7 @@ import { NotificationService } from 'src/app/shared/services/notification.servic
 import { TeamsService } from 'src/app/shared/services/teams.service';
 import { CustomaryService } from 'src/app/shared/services/customary.service';
 import { SalesCategoryService } from 'src/app/shared/services/sales-category.service';
+import { SpinnerService } from 'src/app/shared/services/spinner.service';
 
 @Component({
   selector: 'app-proj-task-team',
@@ -23,13 +24,15 @@ export class ProjTaskTeamComponent implements OnInit {
     private notifyService: NotificationService,
     private teamsService: TeamsService,
     private customService: CustomaryService,
-    private salesCategoryService: SalesCategoryService
+    private salesCategoryService: SalesCategoryService,
+    private spinnerService: SpinnerService
   ) { }
 // tslint:disable: prefer-const
 // tslint:disable: object-literal-shorthand
 
 // permisions
 public toAdmin = false;
+
 
 // Modal
 @ViewChild('editTeamModal') public editTeamModal: ModalDirective;
@@ -95,12 +98,11 @@ public salesCategoryToBeDeleted;
   ngOnInit() {
 
           if (window.localStorage.getItem('permissionStatus') === 'isUser') {
-            this.router.navigate(['/projects']);
+            this.router.navigate(['/sales']);
           }
           if (window.localStorage.getItem('permissionStatus') === 'isAdmin') {
             this.toAdmin = true;
           }
-
           window.localStorage.setItem('ActiveNav', 'editorial');
 
             // status
@@ -284,14 +286,20 @@ addTeam() {
   let convertedData = {
                       name: this.addNewTeamForm.value.teamName
                     };
-
+  this.spinnerService.spinStart();
   this.teamsService.createTeam(convertedData).subscribe(
     data => {
+      setTimeout(() => {
+      this.spinnerService.spinStop();
       this.notifyService.showSuccess(`Team ${data.name} has been added`, 'Success');
       this.myAddTeamFormValues.resetForm();
+      }, 1500);
     },
     error => {
+      setTimeout(() => {
+      this.spinnerService.spinStop();
       this.notifyService.showError(error.error.message, 'Failed...');
+      }, 1500);
     }
   );
 
@@ -347,14 +355,20 @@ addSalesCategory() {
                       totalLeads: 0,
                       totalRevenue: 0
                     };
-
+  this.spinnerService.spinStart();
   this.salesCategoryService.addSalesCategory(convertedData).subscribe(
     data => {
+      setTimeout(() => {
+      this.spinnerService.spinStop();
       this.notifyService.showSuccess(`Category ${data.name} has been added`, 'Success');
       this.myAddSalesCategoryFormValues.resetForm();
+    }, 1500);
     },
     error => {
+      setTimeout(() => {
+      this.spinnerService.spinStop();
       this.notifyService.showError(error.error.message, 'Failed...');
+      }, 1500);
     }
   );
 
@@ -467,14 +481,20 @@ saveAndClose() {
   };
 
   this.mydefineTaskFormValues.resetForm();
-
+  this.spinnerService.spinStart();
   this.customService.createService(convertedData).subscribe(
     data => {
+      setTimeout(() => {
+      this.spinnerService.spinStop();
       this.notifyService.showSuccess(`Service ${data.serviceName} has been added`, 'Success');
       this.Tasks = [];
+      }, 1500);
     },
     error => {
+      setTimeout(() => {
+      this.spinnerService.spinStop();
       this.notifyService.showError(error.error.message, 'Failed...');
+      }, 1500);
     }
 
   );

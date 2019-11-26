@@ -101,8 +101,9 @@ public myDateValue;
 
 
 ngOnInit() {
+
   if (window.localStorage.getItem('permissionStatus') === 'isUser') {
-    this.router.navigate(['/projects']);
+    this.router.navigate(['/sales']);
   }
 
   window.localStorage.setItem('ActiveNav', 'invoice');
@@ -254,7 +255,7 @@ toNewInvoice() {
   this.TotalAmount = 0;
 
 
-  this.AccomodationInputArrayFields = true;
+  this.AccomodationInputArrayFields = false;
   this.AccItems = [];
 
   this.InclutionInputField = true;
@@ -263,6 +264,7 @@ toNewInvoice() {
   this.ExclutionInputField = true;
   this.ExclutionItems = [];
 
+  this.inputArrayFields = false;
 
   this.spinnerService.spinStop();
 
@@ -308,7 +310,7 @@ addItem() {
     };
 
   if (myItem.flight === '' || myItem.from === '' || myItem.to === '' || myItem.date === '' || myItem.departure === '' || myItem.arrival === '' || myItem.class === '') {
-    this.notifyService.showWarning('Input All Fields of the product', 'Field Blank!');
+    this.notifyService.showWarning('Input All Fields of the flights form', 'Field Blank!');
 
   }
 
@@ -351,7 +353,7 @@ saveItemProceed() {
       this.inputArrayFields = true;
     }
     if (this.Items.length === 0) {
-      this.notifyService.showWarning('Add atleast one item', 'No item!');
+      this.notifyService.showWarning('Add atleast one flight', 'No flight!');
     }
   }
 
@@ -384,6 +386,10 @@ saveItemProceed() {
 }
 
 
+deleteFromFlight(i) {
+  this.Items.splice(i, 1);
+  this.notifyService.showSuccess('You have deleted a flight', 'Success');
+}
 
 
 
@@ -407,7 +413,7 @@ addAccomodationItem() {
 
   if (myAccItem.hotel === '' || myAccItem.roomType === '' || myAccItem.mealPlan === '' || myAccItem.city === ''
   || myAccItem.nights === null || myAccItem.single === null || myAccItem.double === null || myAccItem.childWithBed === null) {
-    this.notifyService.showWarning('Input All Fields of the product', 'Field Blank!');
+    this.notifyService.showWarning('Input All Fields of the Details Form', 'Field Blank!');
 
   }
 
@@ -445,7 +451,7 @@ saveAccomodationItemProceed() {
       this.AccomodationInputArrayFields = true;
     }
     if (this.AccItems.length === 0) {
-      this.notifyService.showWarning('Add atleast one item', 'No item!');
+      this.notifyService.showWarning('Add atleast one Detail', 'No Detail!');
     }
 
   }
@@ -464,6 +470,7 @@ saveAccomodationItemProceed() {
       double: null,
       childWithBed: null
     };
+    this.InclutionInputField = false;
     this.AccomodationInputArrayFields = true;
 
   }
@@ -471,7 +478,10 @@ saveAccomodationItemProceed() {
 }
 
 
-
+deleteFromDetails(x) {
+  this.AccItems.splice(x, 1);
+  this.notifyService.showSuccess('You have deleted a Detail', 'Success');
+}
 
 
 
@@ -513,6 +523,10 @@ saveInclusionItemProceed() {
   }
 }
 
+deleteFromInclusion(y) {
+  this.InclutionItems.splice(y, 1);
+  this.notifyService.showSuccess('You have deleted an Inclusion', 'Success');
+}
 
 
 
@@ -555,7 +569,10 @@ saveExclusionItemProceed() {
   }
 }
 
-
+deleteFromExclusion(z) {
+  this.ExclutionItems.splice(z, 1);
+  this.notifyService.showSuccess('You have deleted an Exclusion', 'Success');
+}
 
 
 
@@ -579,7 +596,7 @@ generateInvoice() {
         invoiceType: this.invoiceForm.invoiceType,
         customerName: this.invoiceForm.customerName,
         paymentTerms: this.invoiceForm.paymentTerms,
-        invoiceNumber: `Inv_${Math.round(Math.random() * 1000000)}_${this.invoiceForm.customerName}`,
+        invoiceNumber: `Q_${Math.round(Math.random() * 1000000)}_${this.invoiceForm.customerName}`,
         invoiceDate: this.invoiceForm.invoiceDate,
         dueDate: this.invoiceForm.dueDate,
         salesPerson:  localStorage.getItem('loggedUserName'),
@@ -684,7 +701,7 @@ generateInvoice() {
     }
 
     if ( dataToBeSent.invoiceDate === '' ) {
-      this.notifyService.showWarning('Please Input Invoice Date', 'Blank Field!');
+      this.notifyService.showWarning('Please Input Quotation Date', 'Blank Field!');
       this.invoiceDateField.nativeElement.focus();
       return;
     }
@@ -702,7 +719,7 @@ generateInvoice() {
     }
 
     if (this.invoiceForm.invoiceType !== 'ticket' && this.AccItems.length === 0) {
-      this.notifyService.showWarning('Please Input atleast one Detail for accomodations ', 'Blank Details!');
+      this.notifyService.showWarning('Please Input atleast one Detail ', 'Blank Details!');
       return;
     }
     if (this.InclutionItems.length === 0) {
@@ -714,10 +731,15 @@ generateInvoice() {
       return;
     } else {
       if (this.invoiceForm.invoiceType === 'ticket') { dataToBeSent.accomodation = []; }
+      this.spinnerService.spinStart();
       this.invoiceService.updateInvoice(this.invoiceOnEditId, dataToBeSent).subscribe(
         upDateData => {
           this.invoiceOnEditId = upDateData._id;
           this.invoiceForm = upDateData;
+          let convertInvoiceDate = new Date(this.invoiceForm.invoiceDate);
+          let convertDueDate = new Date(this.invoiceForm.dueDate);
+          this.invoiceForm.invoiceDate = `${convertInvoiceDate.getUTCMonth() + 1}/${convertInvoiceDate.getUTCDate() + 1}/${convertInvoiceDate.getUTCFullYear()}`;
+          this.invoiceForm.dueDate = `${convertDueDate.getUTCMonth() + 1}/${convertDueDate.getUTCDate() + 1}/${convertDueDate.getUTCFullYear()}`;
           this.invoiceFormItems = {
             flight: '',
             from: '',
@@ -759,10 +781,18 @@ generateInvoice() {
           this.InclutionItems = upDateData.airlineInclusion;
           this.ExclutionItems = upDateData.airlineExclusion;
           this.getTotals();
-          this.notifyService.showSuccess('Invoice Updated', 'Success');
+          setTimeout(() => {
+            this.spinnerService.spinStop();
+            this.notifyService.showSuccess('Quotation Updated', 'Success');
+          }, 2000);
+
         },
         error => {
-          this.notifyService.showError('Could Not Updated Invoice', 'Failed');
+          setTimeout(() => {
+            this.spinnerService.spinStop();
+            this.notifyService.showError('Could Not Updated Quotation', 'Failed');
+
+          }, 2000);
         }
       ); // request
 
@@ -778,10 +808,14 @@ generateInvoice() {
 
 editInvoice(id) {
   this.spinnerService.spinStart();
-  this.Invoices.forEach((inv) => {
-    if (inv._id === id) {
-
+  this.invoiceService.getOneInvoice(id).subscribe(
+    inv => {
+      setTimeout(() => {
       this.invoiceForm = inv;
+      let convertInvoiceDate = new Date(this.invoiceForm.invoiceDate);
+      let convertDueDate = new Date(this.invoiceForm.dueDate);
+      this.invoiceForm.invoiceDate = `${convertInvoiceDate.getUTCMonth() + 1}/${convertInvoiceDate.getUTCDate() + 1}/${convertInvoiceDate.getUTCFullYear()}`;
+      this.invoiceForm.dueDate = `${convertDueDate.getUTCMonth() + 1}/${convertDueDate.getUTCDate() + 1}/${convertDueDate.getUTCFullYear()}`;
       this.invoiceFormItems = {
         flight: '',
         from: '',
@@ -834,12 +868,18 @@ editInvoice(id) {
       this.ExclutionItems = inv.airlineExclusion;
       this.getTotals();
 
+
       this.spinnerService.spinStop();
-      this.notifyService.showInfo(`You are editing invoice to ${inv.customerName}`, 'Invoice Open');
+      this.notifyService.showInfo(`You are editing quotation to ${inv.customerName}`, 'Quotation Open');
+      }, 2000);
 
-
+    },
+    error => {
+      setTimeout(() => {
+      this.notifyService.showError('Could not open Quotation', 'Failesd');
+      }, 2000);
     }
-  });
+  );
 
 }
 
@@ -878,12 +918,12 @@ submitDeleteInvoice() {
     this.invoiceService.deleteInvoice(this.InvoiceToBeDeleted._id).subscribe(
       data => {
         this.spinnerService.spinStop();
-        this.notifyService.showSuccess('Invoice Deleted', 'Success');
+        this.notifyService.showSuccess('Quotation Deleted', 'Success');
         this.toListInvoice();
       },
       error => {
         this.spinnerService.spinStop();
-        this.notifyService.showSuccess('Could Not Delete Invoice', 'Failed');
+        this.notifyService.showSuccess('Could Not Delete Quotation', 'Failed');
       }
     );
   }, 1000);
@@ -910,11 +950,11 @@ submitDeleteInvoice() {
       this.invoiceService.sendInvoice(dataToBeSent).subscribe(
         data => {
           this.spinnerService.spinStop();
-          this.notifyService.showSuccess('The document was sent successfully', 'Success');
+          this.notifyService.showSuccess('Quotation sent successfully', 'Success');
         },
         error => {
           this.spinnerService.spinStop();
-          this.notifyService.showError('Document as not sent', 'Failed!');
+          this.notifyService.showError('Quotation not sent', 'Failed!');
         }
       );
 
