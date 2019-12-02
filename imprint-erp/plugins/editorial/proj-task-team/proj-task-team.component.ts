@@ -563,7 +563,9 @@ deleteTeam() {
 
 
 identifySalesCatBeEdited(salesCat) {
-  this.salesCategoryToBeEdited = salesCat;
+  return Number(salesCat.totalLeads) > 0 ?
+    this.notifyService.showWarning('Ensure this stage has no cards for you to edit', `${salesCat.totalLeads} card(s) in this Stage`) :
+      (this.salesCategoryToBeEdited = salesCat, this.editSalesCatModal.show());
 }
 
 
@@ -585,7 +587,9 @@ editSalesCategory() {
 
 
 identifySalesCatToBeDeleted(salesCat) {
-  this.salesCategoryToBeDeleted = salesCat;
+  return Number(salesCat.totalLeads) > 0 ?
+  this.notifyService.showWarning('Ensure this stage has no cards for you to Delete', `${salesCat.totalLeads} card(s) in this Stage`) :
+    (  this.salesCategoryToBeDeleted = salesCat, this.deleteSalesCatModal.show());
 }
 
 

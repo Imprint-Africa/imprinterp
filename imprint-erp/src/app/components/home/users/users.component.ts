@@ -55,10 +55,11 @@ export class UsersComponent implements OnInit {
   ngOnInit() {
 
     if (window.localStorage.getItem('permissionStatus') !== 'isAdmin') {
-      this.router.navigate(['/projects']);
+      this.router.navigate(['/sales']);
     }
-
     window.localStorage.setItem('ActiveNav', 'users');
+
+
 
     this.userService.getAllUsers().subscribe(
       data => {

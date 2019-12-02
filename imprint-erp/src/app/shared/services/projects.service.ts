@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Project } from '../models/project';
-import * as io from 'socket.io-client';
 import { Observable } from 'rxjs';
 import { dev } from '../dev/dev';
 
@@ -13,7 +11,6 @@ export class ProjectsService {
  // tslint:disable: variable-name
 
  _url = `${dev.connect}api/projects/`;
- _urlGetEmit = dev.connect;
 
 
   private socket;
@@ -25,8 +22,7 @@ export class ProjectsService {
   );
 
 
-
-    constructor( private http: HttpClient ) { this.socket = io(this._urlGetEmit);  }
+  constructor( private http: HttpClient ) { this.socket = dev.connectToSocket; }
 
 
 

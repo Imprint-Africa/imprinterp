@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CustomService } from '../models/customary';
-import * as io from 'socket.io-client';
 import { Observable } from 'rxjs';
 import { dev } from '../dev/dev';
 
@@ -12,14 +11,13 @@ export class CustomaryService {
  // tslint:disable: variable-name
 
  _url = `${dev.connect}api/services/`;
- _urlGetEmit = dev.connect;
 
 
 private socket;
 
 
 
-constructor( private http: HttpClient ) { this.socket = io(this._urlGetEmit);  }
+constructor( private http: HttpClient ) { this.socket = dev.connectToSocket; }
 
 
 header = new HttpHeaders().set(

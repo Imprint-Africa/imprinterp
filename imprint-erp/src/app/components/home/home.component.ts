@@ -47,7 +47,7 @@ public salesNavBarActive: boolean;
 public editorialNavBarActive: boolean;
 public usersNavBarActive: boolean;
 public documentNavBarActive: boolean;
-public calenderNavBarActive: boolean;
+public calendarNavBarActive: boolean;
 public invoiceNavBarActive: boolean;
 
 public myInterval: any;
@@ -89,7 +89,7 @@ CheckActiveNavBar() {
   if (window.localStorage.getItem('ActiveNav') === 'editorial') {this.editorialNavBarActive = true; }
   if (window.localStorage.getItem('ActiveNav') === 'users') {this.usersNavBarActive = true; }
   if (window.localStorage.getItem('ActiveNav') === 'document') {this.documentNavBarActive = true; }
-  if (window.localStorage.getItem('ActiveNav') === 'ngcalender') {this.calenderNavBarActive = true; }
+  if (window.localStorage.getItem('ActiveNav') === 'ngcalender') {this.calendarNavBarActive = true; }
   if (window.localStorage.getItem('ActiveNav') === 'invoice') {this.invoiceNavBarActive = true; }
 }
 
@@ -125,8 +125,8 @@ CheckActiveNavBar() {
  navToInvoice() {
   this.router.navigate(['/invoice']);
  }
- navToCalender() {
-  this.router.navigate(['/ngCalender']);
+ navToCalendar() {
+  this.router.navigate(['/ngCalendar']);
  }
 
 // Log out

@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
-import { oppProject} from '../models/opportunity';
-import * as io from 'socket.io-client';
 import { Observable } from 'rxjs';
 import { dev } from '../dev/dev';
 
@@ -14,7 +12,6 @@ export class SalesService {
  // tslint:disable: variable-name
 
  _url = `${dev.connect}api/opps/`;
- _urlGetEmit = dev.connect;
 
 
 private socket;
@@ -24,7 +21,7 @@ header = new HttpHeaders().set(
   'Authorization', `Bearer ${window.localStorage.getItem('loggedUserToken')}`
 );
 
-  constructor( private http: HttpClient ) { this.socket = io(this._urlGetEmit);  }
+constructor( private http: HttpClient ) { this.socket = dev.connectToSocket; }
 
 
 addOppProject( oppProjectsData: any ) {

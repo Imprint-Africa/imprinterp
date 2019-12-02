@@ -29,13 +29,64 @@
         width: 100%
 
         .btn
+            color: black
             margin: auto
             width: 10em
             font-size: 10px
+            font-size: 10px
+            font-family: Montserrat
+            // box-shadow: 0 0 10px rgba(0,0,0,.3)
+            text-transform: uppercase
+                
+
+            &.btn-note
+                // background-color: brandColor(brandPrimary)
+                border: solid 1px brandColor(brandPrimary)
+                &:hover
+                    background-color: brandColor(brandPrimary)
+                    border: none
+                    color: white
+                    box-shadow: 0 0 10px rgba(0,0,0,.3)
+                    
+            &.btn-email
+             
+                // background-color: brandColor(brandWarning)
+                border: solid 1px brandColor(brandWarning)
+                &:hover
+                    background-color: brandColor(brandWarning)
+                    border: none
+                    color: black
+                    box-shadow: 0 0 10px rgba(0,0,0,.3)
+
+            &.btn-kanban
+                // background-color: brandColor(brandSuccess)
+                border: solid 1px brandColor(brandSuccess)
+
+                &:hover
+                    background-color: brandColor(brandSuccess)
+                    border: none
+                    color: white
+                    box-shadow: 0 0 10px rgba(0,0,0,.3)
+
+            &.btn-list
+                // background-color: color(info)
+                border: solid 1px color(info)
+
+                &:hover
+                    background-color: color(info)
+                    border: none
+                    color: white
+                    box-shadow: 0 0 10px rgba(0,0,0,.3)
             
-            &:hover
-                border: none
-                box-shadow: 0 0 10px #6969694d
+            &.btn-event
+                // background-color: orange
+                border: solid 1px orange
+
+                &:hover
+                    background-color: orange
+                    border: none
+                    color: white
+                    box-shadow: 0 0 10px rgba(0,0,0,.3)
 
 
 
@@ -131,7 +182,7 @@
     margin: 0
     padding: 0 1em 0 1em
 
-    .gen-pipeline
+    .gen-pipeline, .my-pipeline
         width: 10em
         font-size: 12px
         font-family: Montserrat
@@ -140,25 +191,10 @@
         border-radius: 2px
         background-color: grayColor(g300)
         outline: none
+
+        &:hover
+            background-color: grayColor(g400)
         
-        &.notCurrent
-            border-bottom: none
-
-        &.current
-            border-bottom: solid 2px color(warning)
-            
-
-    .my-pipeline
-        width: 10em
-        font-size: 12px
-        font-family: Montserrat
-        margin: 0 1em 0 0
-        border: 0
-        border-radius: 2px
-        background-color: grayColor(g300)
-        border-bottom: solid 2px color(warning)
-        outline: none
-
         &.notCurrent
             border-bottom: none
 
@@ -445,6 +481,7 @@
 .list-section
     background-color: white
     border-radius: 5px
+    margin: 1em 0 0 0
 
 
     .list-title
@@ -794,12 +831,6 @@
                 font-family: Montserrat
                 color: brandColor(brandPrimary)
                 width: 100%
-
-            .project
-                font-size: 12px
-                font-family: Montserrat
-                color: brandColor(brandPrimary)
-                width: 100%
             
             .content
                 font-size: 10px
@@ -809,6 +840,12 @@
                 white-space: nowrap
                 overflow: hidden !important
                 text-overflow: ellipsis
+
+            .project
+                font-size: 12px
+                font-family: Montserrat
+                color: brandColor(brandPrimary)
+                width: 100%
 
             .writtenBy
                 font-size: 10px
@@ -891,6 +928,158 @@
             background-color: brandColor(brandDanger)
             font-size: 10px
             font-family: Montserrat
+
+
+
+.listSentEmailModal
+    .modal-header
+        background-color: orange
+        .modal-title
+            font-size: 15px
+            font-family: Montserrat
+
+            span
+                margin: 0 .5em 0 .5em
+                color: white
+                text-transform: uppercase
+            
+
+    .modal-body
+        font-size: 12px
+        font-family: Montserrat
+        
+        .head-div
+            background-color: brandColor(brandSecondary)
+            font-size: 14px
+            font-family: Montserrat
+            color: color(Primary)
+            padding: 1em .5em 1em .5em
+
+            h4
+                font-size: 12px
+                font-family: Montserrat
+                margin: auto 0
+                width: 100%
+
+        .list-div  
+            margin: .2em 0 .2em 0        
+            padding: 1em .5em 1em .5em
+            cursor: pointer
+
+            &:hover
+                border: solid 1px brandColor(brandInfo)
+            .sender
+                padding-left: .5em
+                font-size: 12px
+                font-family: Montserrat
+                color: brandColor(brandPrimary)
+                width: 100%
+
+            .reciever
+                padding-left: .5em
+                font-size: 12px
+                font-family: Montserrat
+                color: brandColor(brandPrimary)
+                width: 100%
+            
+            .subject
+                font-size: 10px
+                font-family: Montserrat
+                margin: auto 2em auto 0
+                padding-left: .5em
+                width: 100%
+                white-space: nowrap
+                overflow: hidden !important
+                text-overflow: ellipsis
+
+            .sentOn
+                padding-left: .5em
+                font-size: 10px
+                font-family: Montserrat
+                // color: brandColor(brandSecondary)
+                font-style: italic
+                width: 100%
+
+    .modal-footer
+        .btn-close
+            background-color: orange
+            font-size: 10px
+            font-family: Montserrat
+
+
+
+.detailSentEmailModal
+    .modal-header
+        background-color: orange
+        .modal-title
+            font-size: 15px
+            font-family: Montserrat
+            text-align: center
+
+            span
+                text-shadow: 1px 2px 3px rgba(0,0,0,.2)
+                color: teal
+
+    .modal-body
+        font-size: 12px
+        font-family: Montserrat
+        
+        .head-div
+            text-align: center            
+            padding: 1em .5em 1em .5em
+
+            h4
+                font-size: 12px
+                font-family: Montserrat
+                color: color(primary)
+                margin: auto 0
+            h5
+                font-size: 12px
+                font-family: Montserrat
+                margin: auto 0
+        .content-div
+            margin: 0 1em 0 1em
+            padding: 1em
+            border-radius: 5px
+            font-size: 12px
+            font-family: Montserrat
+            background-color: grayColor(g100)
+            width: 96%
+            height: 350px
+            
+        
+        .blockquote
+            margin: 0 1em 0 1em
+            padding: 1em
+
+            .blockquote-footer
+                font-size: 10px
+                font-family: Montserrat
+                color: color(info)
+                font-style: italic
+
+                span
+                    font-size: 10px
+                    font-family: Montserrat
+                    color: color(warning)
+                    font-style: italic
+
+    .modal-footer
+        .btn-close
+            background-color: brandColor(brandSecondary)
+            font-size: 10px
+            font-family: Montserrat
+
+        .btn-edit
+            background-color: brandColor(brandPrimary)
+            font-size: 10px
+            font-family: Montserrat
+
+        .btn-delete
+            background-color: brandColor(brandDanger)
+            font-size: 10px
+            font-family: Montserrat
+
 
 
 

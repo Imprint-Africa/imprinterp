@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
-import * as io from 'socket.io-client';
 import { Observable } from 'rxjs';
-import { User } from '../models/user';
 import { dev } from '../dev/dev';
 
 @Injectable({
@@ -14,7 +12,6 @@ export class UserService {
  // tslint:disable: variable-name
 
 _url = `${dev.connect}api/user/`;
-_urlGetEmit = dev.connect;
 
 private socket;
 
@@ -28,7 +25,7 @@ registrationHeader = new HttpHeaders().set(
 );
 
 
-  constructor( private http: HttpClient ) { this.socket = io(this._urlGetEmit);  }
+constructor( private http: HttpClient ) { this.socket = dev.connectToSocket; }
 
 
 loginUser( loginData: any ) {

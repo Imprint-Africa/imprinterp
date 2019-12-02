@@ -7,11 +7,13 @@
 
   <div class="col-8 btn-wrap">
 
-    <button [ngClass]="mainDashboard ? 'current' : 'notCurrent'" (click)="toMainDashboard()">Main DashBoard</button>
+    <button disabled [ngClass]="mainDashboard ? 'current' : 'notCurrent'">Main DashBoard</button>
+    <!-- (click)="toMainDashboard()" -->
 
     <button [ngClass]="salesDashboard ? 'current' : 'notCurrent'" (click)="toSalesDashboard()">Sales Dashboard</button>
 
-    <button [ngClass]="projectsDashboard ? 'current' : 'notCurrent'" (click)="toProjectsDashboard()">Projects Dashboard</button>
+    <button disabled [ngClass]="projectsDashboard ? 'current' : 'notCurrent'" >Projects Dashboard</button>
+    <!-- (click)="toProjectsDashboard()" -->
 
   </div>
   

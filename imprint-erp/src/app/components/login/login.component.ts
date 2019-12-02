@@ -78,9 +78,9 @@ export class LoginComponent implements OnInit {
 
     this.spinnerService.spinStart();
 
+
     this.userService.loginUser(this.loginForm.value).subscribe(
       data => {
-
         this.spinnerService.spinStop();
         window.localStorage.setItem('loggedUserToken', data.token);
         window.localStorage.setItem('loggedUserName', data.name);
@@ -92,15 +92,14 @@ export class LoginComponent implements OnInit {
                     (window.localStorage.setItem('permissionStatus', 'isAdmin') , this.router.navigate(['/dashboard'])) :
 
                 data.role === 'manager' ?
-                    (window.localStorage.setItem('permissionStatus', 'isManager') , this.router.navigate(['/projects'])) :
+                    (window.localStorage.setItem('permissionStatus', 'isManager') , this.router.navigate(['/sales'])) :
 
-                    (window.localStorage.setItem('permissionStatus', 'isUser') , this.router.navigate(['/projects']));
+                    (window.localStorage.setItem('permissionStatus', 'isUser') , this.router.navigate(['/sales']));
 
       },
       error => {
         this.spinnerService.spinStop();
         this.notifyService.showError(error.error.message, 'Access Restricted..');
-
       }
     );
 

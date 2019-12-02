@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router } from '@angular/router';
 import { faProjectDiagram, faUsers, faEdit, faShoppingCart, faDollarSign, faCloudDownloadAlt } from '@fortawesome/free-solid-svg-icons';
 import { getStyle, hexToRgba } from '@coreui/coreui/dist/js/coreui-utilities';
 import { CustomTooltips } from '@coreui/coreui-plugin-chartjs-custom-tooltips';
@@ -16,6 +17,7 @@ import { CustomaryService } from 'src/app/shared/services/customary.service';
 export class DashboardComponent implements OnInit, OnDestroy {
 
   constructor(
+    private router: Router,
     private salesService: SalesService,
     private projectsService: ProjectsService,
     private salesCategoryService: SalesCategoryService,
@@ -87,6 +89,10 @@ public targetsOptions: any;
 
 
   ngOnInit() {
+
+    if (window.localStorage.getItem('permissionStatus') !== 'isAdmin') {
+      this.router.navigate(['/sales']);
+    }
 
     window.localStorage.setItem('ActiveNav', 'dashboard');
     this.toSalesDashboard();

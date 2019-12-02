@@ -8,7 +8,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
 import { UsersComponent } from './components/home/users/users.component';
 import { NotFoundComponent } from './components/notFound/notFound.component';
-import { NgCalenderComponent } from './components/angularCalender/ngCalender.component';
+import { NgCalendarComponent } from './components/angularCalendar/ngCalendar.component';
 
 // Modules
 import { ProjectsSharedModule } from 'plugins/projects/projects.module';
@@ -35,8 +35,8 @@ const routes: Routes = [
   },
 
   // Calender
-  { path: 'ngCalender', component: HomeComponent, canActivate: [AuthGuard],
-     children: [{ path: '', component: NgCalenderComponent}]
+  { path: 'ngCalendar', component: HomeComponent, canActivate: [AuthGuard],
+     children: [{ path: '', component: NgCalendarComponent}]
   },
 
     // Project Module

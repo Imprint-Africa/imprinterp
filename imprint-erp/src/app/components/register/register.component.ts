@@ -143,9 +143,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
                           (window.localStorage.setItem('permissionStatus', 'isAdmin') , this.router.navigate(['/dashboard'])) :
 
                       data.role === 'manager' ?
-                          (window.localStorage.setItem('permissionStatus', 'isManager') , this.router.navigate(['/projects'])) :
+                          (window.localStorage.setItem('permissionStatus', 'isManager') , this.router.navigate(['/sales'])) :
 
-                          (window.localStorage.setItem('permissionStatus', 'isUser') , this.router.navigate(['/projects']));
+                          (window.localStorage.setItem('permissionStatus', 'isUser') , this.router.navigate(['/sales']));
 
             }, 2000);
 

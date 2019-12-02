@@ -304,10 +304,10 @@
         <li class="list-group-item d-flex" *ngFor="let SalesCategory of SalesCategorys">
           <h4>{{SalesCategory.name}}</h4>
           <div class="btn-wrap">
-              <button class="btn btn-sm" data-toggle="modal" (click)="editSalesCatModal.show(); identifySalesCatBeEdited(SalesCategory)">
+              <button class="btn btn-sm" data-toggle="modal" (click)="identifySalesCatBeEdited(SalesCategory)">
                   <fa name="pencil"></fa>
               </button>
-              <button [disabled]="!toAdmin" class="btn btn-sm" data-toggle="modal" (click)="deleteSalesCatModal.show(); identifySalesCatToBeDeleted(SalesCategory)">
+              <button [disabled]="!toAdmin" class="btn btn-sm" data-toggle="modal" (click)="identifySalesCatToBeDeleted(SalesCategory)">
                   <fa name="trash"></fa>
               </button>
           </div>

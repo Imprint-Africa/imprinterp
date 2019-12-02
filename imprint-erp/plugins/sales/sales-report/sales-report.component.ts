@@ -13,7 +13,7 @@ import { UserSalesStagesService } from 'src/app/shared/services/user-sales-stage
 import { ClientService } from 'src/app/shared/services/client.service';
 import { UserService } from 'src/app/shared/services/user.service';
 import { SpinnerService } from 'src/app/shared/services/spinner.service';
-import { CalenderEventService } from 'src/app/shared/services/calenderEvent.service';
+import { CalendarEventService } from 'src/app/shared/services/calendarEvent.service';
 
 
 
@@ -35,7 +35,7 @@ export class SalesReportComponent implements OnInit {
     private customService: CustomaryService,
     private clientService: ClientService,
     private userService: UserService,
-    private calenderEventService: CalenderEventService,
+    private calenderEventService: CalendarEventService,
     private spinnerServcice: SpinnerService
   ) { }
 

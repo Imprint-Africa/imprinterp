@@ -663,8 +663,6 @@ this.dataSetOpportunityNumberForSalesUser = {
 
 
 
-
-
 // Totals
 
 this.dataSetTotalTargetBgColor = [];
@@ -701,7 +699,6 @@ this.dataSetTotalRevenue = {
   pointBorderColor: this.pointBorderColor,
   pointHoverBorderColor: getStyle('--dark')
 };
-
 
 
 
@@ -744,7 +741,10 @@ this.chartOptions = {
     padding: 10
   },
   tooltips: {
-      enabled: true
+      enabled: true,
+      callbacks: {
+        label: (tooltipItem, data) => {
+            return tooltipItem.yLabel.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }, },
   },
   scales: {
     yAxes: [{
@@ -756,7 +756,10 @@ this.chartOptions = {
         },
 
         ticks: {
-            beginAtZero: true
+            beginAtZero: true,
+            callback: (value, index, values) => {
+              return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            }
         }
     }],
     xAxes: [{
@@ -1042,7 +1045,6 @@ set_totalRevenue_vs_TargetRevenue() {
   this.chartFunction();
   this.definedDataSet = 6;
 }
-
 
 
 

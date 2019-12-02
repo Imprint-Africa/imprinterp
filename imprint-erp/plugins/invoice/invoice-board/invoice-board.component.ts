@@ -351,6 +351,7 @@ saveItemProceed() {
   if (myItem.flight === '' || myItem.from === '' || myItem.to === '' || myItem.date === '' || myItem.departure === '' || myItem.arrival === '' || myItem.class === '') {
     if (this.Items.length > 0) {
       this.inputArrayFields = true;
+      this.InclutionInputField = false;
     }
     if (this.Items.length === 0) {
       this.notifyService.showWarning('Add atleast one flight', 'No flight!');
@@ -449,6 +450,7 @@ saveAccomodationItemProceed() {
   || myAccItem.nights === null || myAccItem.single === null || myAccItem.double === null || myAccItem.childWithBed === null) {
     if (this.AccItems.length > 0) {
       this.AccomodationInputArrayFields = true;
+      this.InclutionInputField = false;
     }
     if (this.AccItems.length === 0) {
       this.notifyService.showWarning('Add atleast one Detail', 'No Detail!');
@@ -508,6 +510,7 @@ saveInclusionItemProceed() {
   if ( myInclusionItem.content === '') {
     if (this.InclutionItems.length > 0) {
       this.InclutionInputField = true;
+      this.ExclutionInputField = false;
     }
     if (this.InclutionItems.length === 0) {
       this.notifyService.showWarning('Add atleast one item', 'No item!');
@@ -1003,7 +1006,7 @@ submitDeleteInvoice() {
         pdf.text(160, 270, 'Signature: ');
         pdf.text(180, 270, '...................');
         pdf.line(0, 275, 275, 275);
-        pdf.text(80, 285, 'Imprint Africa');
+        pdf.text(80, 285, 'crystaltours.com');
         pdf.text(190, 285, 'page ' + pdf.page);
 
         let data = btoa(pdf.output());
@@ -1314,7 +1317,7 @@ min-width: 576px; overflow-y: scroll;">
 
 
     <hr>
-    <div style="text-align: center; width: 100%; font-size: 12px; font-weight: bold; color: teal; font-family: Georgia">Imprint Africa</div>
+    <div style="text-align: center; width: 100%; font-size: 12px; font-weight: bold; color: teal; font-family: Georgia">Crystal Tours</div>
 
 </div>
 

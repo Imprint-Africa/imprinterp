@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Team } from '../models/teams';
-import * as io from 'socket.io-client';
 import { Observable } from 'rxjs';
 import { dev } from '../dev/dev';
 
@@ -12,7 +11,6 @@ export class TeamsService {
  // tslint:disable: variable-name
 
  _url = `${dev.connect}api/teams/`;
-_urlGetEmit = dev.connect;
 
 
 private socket;
@@ -25,7 +23,7 @@ header = new HttpHeaders().set(
 
 
 
-  constructor( private http: HttpClient ) { this.socket = io(this._urlGetEmit);  }
+constructor( private http: HttpClient ) { this.socket = dev.connectToSocket; }
 
 
 

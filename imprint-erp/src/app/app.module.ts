@@ -28,7 +28,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { HomeComponent } from './components/home/home.component';
 import { NotFoundComponent } from './components/notFound/notFound.component';
-import { NgCalenderComponent } from './components/angularCalender/ngCalender.component';
+import { NgCalendarComponent } from './components/angularCalendar/ngCalendar.component';
 
 // Services
 import { UserService } from './shared/services/user.service';
@@ -43,7 +43,7 @@ import { UsersComponent } from './components/home/users/users.component';
 import { UserSalesStagesService } from './shared/services/user-sales-stages.service';
 import { ClientService } from './shared/services/client.service';
 import { SpinnerService } from './shared/services/spinner.service';
-import { CalenderEventService } from './shared/services/calenderEvent.service';
+import { CalendarEventService } from './shared/services/calendarEvent.service';
 import { SalesNoteService } from './shared/services/sales-note.service';
 import { DocPadService } from './shared/services/doc-pad.service';
 import { InvoiceService } from './shared/services/invoice.service';
@@ -66,7 +66,7 @@ import { InvoiceSharedModule } from 'plugins/invoice/invoice.module';
     HomeComponent,
     UsersComponent,
     NotFoundComponent,
-    NgCalenderComponent
+    NgCalendarComponent
 
   ],
   imports: [
@@ -111,7 +111,7 @@ import { InvoiceSharedModule } from 'plugins/invoice/invoice.module';
   ],
   providers: [NotificationService, AuthGuard, UserService, SalesService, TeamsService, CustomaryService,
               SalesCategoryService, ProjectsService, UserSalesStagesService, ClientService, SpinnerService,
-               CalenderEventService, SalesNoteService, DocPadService, InvoiceService ],
+              CalendarEventService, SalesNoteService, DocPadService, InvoiceService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

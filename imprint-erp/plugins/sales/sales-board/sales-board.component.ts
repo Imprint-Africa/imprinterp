@@ -11,8 +11,9 @@ import { SalesCategoryService } from 'src/app/shared/services/sales-category.ser
 import { CustomaryService } from 'src/app/shared/services/customary.service';
 import { ClientService } from 'src/app/shared/services/client.service';
 import { SpinnerService } from 'src/app/shared/services/spinner.service';
-import { CalenderEventService } from 'src/app/shared/services/calenderEvent.service';
+import { CalendarEventService } from 'src/app/shared/services/calendarEvent.service';
 import { SalesNoteService } from 'src/app/shared/services/sales-note.service';
+import { SalesSentEmailService } from 'src/app/shared/services/sales-sent-email.service';
 
 
 
@@ -34,8 +35,9 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
     private customService: CustomaryService,
     private clientService: ClientService,
     private salesNoteService: SalesNoteService,
-    private calenderEventService: CalenderEventService,
+    private calendarEventService: CalendarEventService,
     private spinnerService: SpinnerService,
+    private salesSentEmailService: SalesSentEmailService
 
   ) { }
 // tslint:disable: prefer-const
@@ -48,6 +50,7 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
   @ViewChild('mailToClientModal') public mailToClientModal: ModalDirective;
   @ViewChild('writeNoteModal') public writeNoteModal: ModalDirective;
   @ViewChild('detailNoteModal') public detailNoteModal: ModalDirective;
+  @ViewChild('detailSentEmailModal') public detailSentEmailModal: ModalDirective;
 
 
   // Variables
@@ -107,6 +110,7 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
   public Tasks: any = [];
   public SalesNotes: any = [];
   public Users: any = [];
+  public SentEmails: any = [];
 
   public ClientOppened: any = [];
   public mailData: any = [];
@@ -114,8 +118,8 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
   public kanbanSectionStatus: boolean;
   public noteWriten: any;
   public noteOpened: any;
+  public sentEmailOpened: any;
   public files;
-
 
 
   ngOnInit() {
@@ -166,7 +170,7 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
       }
     ); // get all users
 
-    this.calenderEventService.getAllCalenderEvent().subscribe(
+    this.calendarEventService.getAllCalenderEvent().subscribe(
       data => {
         this.Events = data;
       },
@@ -217,6 +221,31 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
         this.OurClientNames = data.filter(() => true).map((e) => e.companyName);
       },
       error => { console.log('Cannot get all clients'); }
+    );
+
+    this.salesSentEmailService.getAll().subscribe(
+      data => {
+        if ( localStorage.getItem('permissionStatus') === 'isAdmin') {
+          this.SentEmails = data.reverse();
+        }
+        if ( localStorage.getItem('permissionStatus') !== 'isAdmin') {
+
+          data.forEach((sentMail) => {
+          this.Users.forEach((user) => {
+            if (sentMail.sender === user.email) {
+              if (user.role === 'admin') {
+                // Dont push
+              }
+              if (user.role !== 'admin') {
+
+                this.SentEmails.unshift(sentMail);
+              }
+            }
+          });
+        });
+        }
+      },
+      error => { console.log('Cannot get all sent emails'); }
     );
 
 
@@ -321,7 +350,7 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
       }
     ); // listUsers()
 
-    this.calenderEventService.listCalenderEvent().subscribe(
+    this.calendarEventService.listCalenderEvent().subscribe(
       data => {
         this.Events = data;
       },
@@ -374,12 +403,40 @@ export class SalesBoardComponent implements OnInit, OnDestroy {
       error => { console.log('Cannot list all clients'); }
     );
 
+    this.salesSentEmailService.listEmail().subscribe(
+      data => {
+        if ( localStorage.getItem('permissionStatus') === 'isAdmin') {
+          this.SentEmails = data.reverse();
+        }
+        if ( localStorage.getItem('permissionStatus') !== 'isAdmin') {
+
+          data.forEach((sentMail) => {
+          this.Users.forEach((user) => {
+            if (sentMail.sender === user.email) {
+              if (user.role === 'admin') {
+                // Dont push
+              }
+              if (user.role !== 'admin') {
+
+                this.SentEmails.unshift(sentMail);
+              }
+            }
+          });
+        });
+        }
+      },
+      error => { console.log('Cannot list all sent emails'); }
+    );
+
 
     this.myInterval = setInterval(() => {
       this.eventReminder();
-    }, 100000); // On Hour
+    }, 300000); // 5 minutes
 
     // 3600000 On hour seconds
+    setTimeout(() => {
+      this.removePastEvent();
+    }, 10000);
 
 
   }// ngOnInit -end
@@ -725,9 +782,7 @@ selectPriority(num) {
 
     this.clientService.sendMail(dataToBeSent).subscribe(
       data => {
-        this.spinnerService.spinStop();
-        this.notifyService.showSuccess('Mail Sent', 'Success');
-        this.mailToClientModal.hide();
+        this.saveSentEmail(dataToBeSent);
       },
       error => {
         this.spinnerService.spinStop();
@@ -738,16 +793,52 @@ selectPriority(num) {
   }
 
 
+  saveSentEmail(dataToBeSent) {
+    dataToBeSent = {...dataToBeSent, sentOn: new Date()};
+
+
+    this.salesSentEmailService.createEmail(dataToBeSent).subscribe(
+      data => {
+        this.spinnerService.spinStop();
+        this.notifyService.showSuccess('Mail Sent', 'Success');
+        this.mailToClientModal.hide();
+      },
+      error => {
+        console.log('Error saving email');
+      }
+    );
+  }
 
 
 
-  spinToggle() {
+  openSentEmail(id) {
+    this.SentEmails.forEach((SentEmailData) => {
+      if (SentEmailData._id === id) {
+        this.sentEmailOpened = SentEmailData;
+        this.detailSentEmailModal.show();
+      }
+    });
+  }
 
-    this.spinnerService.spinStart();
+  deleteSentMail(id) {
+    this.salesSentEmailService.deleteEmail(id).subscribe(
+      data => {
+        this.detailSentEmailModal.hide();
+        this.notifyService.showSuccess('Email Deleted', 'Success');
+      },
+      error => {
+        this.notifyService.showError('could not delete email', 'Failed');
+      }
+    );
 
-    setTimeout(() => {
-      this.spinnerService.spinStop();
-    }, 3000);
+  }
+
+
+  phoneCall() {
+
+    this.notifyService.showSuccess(`it's coming soon.`, 'And');
+    this.notifyService.showInfo('a phone calling function', 'Is');
+    this.notifyService.showWarning('function icon you just clicked', 'That');
 
   }
 
@@ -759,7 +850,7 @@ selectPriority(num) {
 
   toScheduleActivity(id) {
     localStorage.setItem('eventProjectId', id);
-    this.router.navigate(['/ngCalender']);
+    this.router.navigate(['/ngCalendar']);
   }
 
 
@@ -872,6 +963,7 @@ selectPriority(num) {
   async eventReminder() {
 
     this.spinnerService.spinStart();
+    let noFutureEvents = true;
     this.Events.forEach((eventElement, index) => {
 
       setTimeout(() => {
@@ -890,29 +982,35 @@ selectPriority(num) {
             if (diffInHours === 1) {
               this.spinnerService.spinStop();
               this.notifyService.showWarning(eventElement.title + ' : ' + oppElement.clientName, 'This Hour Event');
+              noFutureEvents = false;
             }
 
             if (diffInHours === 2) {
               this.spinnerService.spinStop();
               this.notifyService.showWarning(eventElement.title + ' : ' + oppElement.clientName, 'Next Hour Event');
+              noFutureEvents = false;
             }
 
             if (diffInHours === 3) {
               this.spinnerService.spinStop();
               this.notifyService.showWarning(eventElement.title + ' : ' + oppElement.clientName, '3 Hours To Event');
+              noFutureEvents = false;
             }
 
             if (19 > diffInHours && diffInHours > 3) {
               this.spinnerService.spinStop();
               this.notifyService.showInfo(eventElement.title + ' : ' + oppElement.clientName, 'Up coming Event');
+              noFutureEvents = false;
             }
             if (41 > diffInHours && diffInHours > 18) {
               this.spinnerService.spinStop();
               this.notifyService.showInfo(eventElement.title + ' : ' + oppElement.clientName, '1 Day To Event');
+              noFutureEvents = false;
             }
             if (diffInHours > 40) {
               this.spinnerService.spinStop();
               this.notifyService.showInfo(eventElement.title + ' : ' + oppElement.clientName, 'Future Event');
+              noFutureEvents = false;
             }
           }
 
@@ -922,9 +1020,18 @@ selectPriority(num) {
 
     });
 
-    if (this.Events.length === 0 ) {
+
+    if ( this.Events.length > 0) {
+    setTimeout(() => {
+        if (noFutureEvents) {
+          this.spinnerService.spinStop();
+          this.notifyService.showInfo('None of your clients have a scheduled activity on the calender', 'No Events');
+        }
+      }, 7000 * this.Events.length);
+    }
+    if ( this.Events.length === 0) {
       this.spinnerService.spinStop();
-      this.notifyService.showInfo('You do not have any event with any of your clients', 'No Event');
+      this.notifyService.showInfo('None of your clients have a scheduled activity on the calender', 'No Events');
     }
   }
 
@@ -983,6 +1090,41 @@ selectPriority(num) {
     );
 
   }
+
+
+
+
+  removePastEvent() {
+
+    this.Events.forEach(eventElement => {
+      let now = new Date();
+      let then = new Date(eventElement.end);
+
+      let diffInMS = (now.getTime() - then.getTime());
+
+      let diffInHours = Math.ceil(diffInMS / (1000 * 3600));
+
+      if (diffInHours > 24) {
+        this.deleteEvent(eventElement);
+      }
+
+    });
+
+  }
+
+  deleteEvent(eventToDelete) {
+    this.Events = this.Events.filter(event => event !== eventToDelete);
+    this.calendarEventService.deleteCalenderEvent(eventToDelete._id).subscribe(
+      data => {},
+      error => {}
+    );
+  }
+
+
+
+
+
+
 
   ngOnDestroy() {
     clearInterval(this.myInterval);

@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
-import * as io from 'socket.io-client';
 import { Observable } from 'rxjs';
 import { dev } from '../dev/dev';
 
@@ -11,7 +10,6 @@ export class DocPadService {
  // tslint:disable: variable-name
 
  _url = `${dev.connect}api/docPad/`;
- _urlGetEmit = dev.connect;
 
 
   private socket;
@@ -23,7 +21,7 @@ export class DocPadService {
   );
 
 
-    constructor( private http: HttpClient ) { this.socket = io(this._urlGetEmit);  }
+  constructor( private http: HttpClient ) { this.socket = dev.connectToSocket; }
 
 
 

@@ -7,18 +7,20 @@
 
     <div class="col-8 btn-wrap">
   
-      <button class="btn btn-sm btn-companies btn-outline-info" (click)="listNoteModal.show()">Notes</button>
+      <button class="btn btn-sm btn-note" (click)="listNoteModal.show()">Notes</button>
 
-      <button [ngClass]="kanbanSectionStatus ? 'btn btn-sm btn-warning' : 'btn btn-sm btn-outline-info'" 
+      <button class="btn btn-sm btn-email" (click)="listSentEmailModal.show()">Emails</button>
+
+      <button [ngClass]="kanbanSectionStatus ? 'btn btn-sm btn-kanban' : 'btn btn-sm btn-kanban'" 
       (click)="kanbanSectionStatus=true; listSectionStatus=false; reportSectionStatus=false">Kanban</button>
   
-      <button [ngClass]="listSectionStatus ? 'btn btn-sm btn-warning' : 'btn btn-sm btn-outline-info'"
+      <button [ngClass]="listSectionStatus ? 'btn btn-sm btn-list' : 'btn btn-sm btn-list'"
       (click)="kanbanSectionStatus=false; listSectionStatus=true; reportSectionStatus=false">List</button>
   
       <!-- <button [ngClass]="reportSectionStatus ? 'btn btn-sm btn-warning' : 'btn btn-sm btn-outline-info'"
       (click)="kanbanSectionStatus=false; listSectionStatus=false; reportSectionStatus=true">Reports</button> -->
   
-      <button class="btn btn-sm btn-outline-info" (click)="eventReminder()">Events Reminder</button>
+      <button class="btn btn-sm btn-event" (click)="eventReminder()">Events</button>
 
     </div>
     
@@ -232,7 +234,7 @@
 
             <div class="card-icon-div">
               <button class="btn btn-sm" (click)="mailFunction(Opportunity.clientName)"><fa name="envelope"></fa></button>
-              <button class="btn btn-sm" (click)="spinToggle()"><fa name="phone"></fa></button>
+              <button class="btn btn-sm" (click)="phoneCall()"><fa name="phone"></fa></button>
               <button class="btn btn-sm" (click)="writeAnote(Opportunity._id, Opportunity.clientName)"><fa name="book"></fa></button>
               <button class="btn btn-sm" (click)="toSalesEdit(Opportunity._id)"><fa name="pencil"></fa></button>
 
@@ -579,9 +581,6 @@
     <div class="modal-content">
       <div class="modal-header">
         <h4 class="modal-title">Note Detail on <span class="text-warning">{{noteOpened.noteProjectName}}</span></h4>
-        <button type="button" class="btn close" (click)="detailNoteModal.hide()" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
       <div class="modal-body">
         <div class="head-div">
@@ -591,16 +590,13 @@
         <textarea name="" id="" class="content-div" readonly>{{noteOpened.content}}</textarea>
 
         <blockquote class="blockquote">
-          <footer class="blockquote-footer">written by {{noteOpened.createdByUsername}} <span>{{noteOpened.createdAt | date:'medium' }}</span>  </footer>
+          <footer class="blockquote-footer">written by {{noteOpened.createdByUsername}} <span>{{noteOpened.createdAt | date:'fullDate' }}</span>  </footer>
         </blockquote>
 
-
-
       </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-close" (click)="detailNoteModal.hide()">Close</button>
-        <!-- <button type="button" class="btn btn-edit" >Edit</button> -->
-        <button type="button" class="btn btn-delete" (click)="deleteNote(noteOpened._id);">Delete</button>
+      <div class="modal-footer d-flex">
+        <button type="button" class="btn btn-close mr-auto" (click)="detailNoteModal.hide()">Close</button>
+        <button type="button" class="btn btn-delete ml-auto" (click)="deleteNote(noteOpened._id);">Delete</button>
       </div>
     </div>
   </div>
@@ -608,8 +604,66 @@
 
 
 
+<div bsModal #listSentEmailModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog listSentEmailModal modal-lg" role="document" *ngIf="SentEmails">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">List of Sent Emails</h4>
+        <button type="button" class="btn close" (click)="listSentEmailModal.hide()" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="head-div d-flex">
+          <h4>Sender</h4>
+          <h4>Reciever</h4>
+          <h4>Subject</h4>
+          <h4>Sent On</h4>
+
+        </div>
+
+        <div class="list-div d-flex" *ngFor="let mail of SentEmails" (click)="openSentEmail(mail._id);">
+          <h4 class="sender">{{mail.sender}}</h4>     
+          <h4 class="reciever">{{mail.reciever}}</h4>
+          <h4 class="subject">{{mail.subject}}</h4>
+          <h4 class="sentOn">{{mail.sentOn | date: 'fullDate'}}</h4>
+        </div> 
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-close" (click)="listSentEmailModal.hide()">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div>
 
 
+
+
+<div bsModal #detailSentEmailModal="bs-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog detailSentEmailModal modal-lg" role="document" *ngIf="sentEmailOpened">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Email Detail From <span class="">{{sentEmailOpened.sender}}</span> to <span class="">{{sentEmailOpened.reciever}}</span></h4>
+      </div>
+      <div class="modal-body">
+        <div class="head-div">
+          <h4>{{sentEmailOpened.subject}}</h4>
+        </div>
+
+        <textarea name="" id="" class="content-div" readonly>{{sentEmailOpened.message}}</textarea>
+
+        <blockquote class="blockquote">
+          <footer class="blockquote-footer">sent on <span>{{sentEmailOpened.sentOn | date:'fullDate' }}</span>  </footer>
+        </blockquote>
+
+      </div>
+      <div class="modal-footer d-flex">
+        <button type="button" class="btn btn-close mr-auto" (click)="detailSentEmailModal.hide()">Close</button>
+        <button type="button" class="btn btn-delete ml-auto" (click)="deleteSentMail(sentEmailOpened._id);">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 

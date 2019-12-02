@@ -374,9 +374,8 @@
           </button>
       
           <button [ngClass]="definedDataSet === 6 ? 'set-div-wrap current' : 'set-div-wrap'" (click)="set_totalRevenue_vs_TargetRevenue()">
-            Total Revenue <span>vs</span>  Target Revenue
+              Total Revenue <span>vs</span>  Target Revenue
           </button>
-    
       
         </div>
       
@@ -505,7 +504,7 @@
           </div>
   
           <div class="item-deals">
-              <h5>Deals In This Stage Name</h5>
+              <h5>Deals In This Stage</h5>
               <div class="deals">
                 <h4 [hidden]="PipeLineOppenned.deals === 0" *ngFor="let deal of PipeLineOppenned.deals">{{deal}}</h4>
               </div>
